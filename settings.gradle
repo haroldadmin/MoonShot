@@ -1,2 +1,3 @@
+include ":spacex-api-wrapper"
 include ":app"
 rootProject.name="MoonShot"
