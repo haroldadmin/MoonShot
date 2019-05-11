@@ -9,7 +9,7 @@ import retrofit2.http.Query
 import java.util.Date
 
 interface CapsuleService {
-    @GET("/capsules")
+    @GET("capsules")
     fun getAllCapsules(
         @Query("status") status: String? = null,
         @Query("original_launch") originalLaunch: Date? = null,

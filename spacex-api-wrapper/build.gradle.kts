@@ -4,16 +4,28 @@ plugins {
     kotlin("kapt")
 }
 
+val test by tasks.getting(Test::class) {
+    useJUnitPlatform { }
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Libs.kotlinStdLib)
     implementation(Libs.coroutines)
 
+    implementation(Libs.koinCore)
+
     implementation(Libs.retrofit)
     implementation(Libs.loggingInterceptor)
     implementation(Libs.networkResponseAdapter)
     implementation(Libs.moshi)
+    implementation(Libs.moshiConverter)
+    implementation (Libs.moshiAdapters)
     kapt(Libs.moshiCodegen)
+
+    testImplementation(Libs.mockWebServer)
+    testImplementation(Libs.junit)
+    testImplementation(Libs.koinTest)
 }
 
 java {

@@ -1,0 +1,20 @@
+
+
+{
+  "capsule_serial": "C112",
+  "capsule_id": "dragon1",
+  "status": "active",
+  "original_launch": "2017-02-19T14:39:00.000Z",
+  "original_launch_unix": 1487515140,
+  "missions": [
+    {
+      "name": "CRS-10",
+      "flight": 36
+    }
+  ],
+  "landings": 1,
+  "type": "Dragon 1.1",
+  "details": null,
+  "reuse_count": 0
+}
+

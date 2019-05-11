@@ -84,3 +84,5 @@ app/release
 
 # IntelliJ Idea
 .idea
+
+.kotlintest

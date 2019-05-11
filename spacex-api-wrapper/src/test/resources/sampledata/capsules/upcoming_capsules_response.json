@@ -1,0 +1,65 @@
+
+
+[
+  {
+    "capsule_serial": "C201",
+    "capsule_id": "dragon2",
+    "status": "active",
+    "original_launch": null,
+    "original_launch_unix": null,
+    "missions": [],
+    "landings": 0,
+    "type": "Dragon 2.0",
+    "details": "Pressure vessel used for Dragon 2 structural testing. Rumored to be repurposed for first Red Dragon Mission",
+    "reuse_count": 0
+  },
+  {
+    "capsule_serial": "C202",
+    "capsule_id": "dragon2",
+    "status": "active",
+    "original_launch": null,
+    "original_launch_unix": null,
+    "missions": [],
+    "landings": 0,
+    "type": "Dragon 2.0",
+    "details": "Capsule used to qualify Dragon 2's environmental control and life support systems.",
+    "reuse_count": 0
+  },
+  {
+    "capsule_serial": "C203",
+    "capsule_id": "dragon2",
+    "status": "active",
+    "original_launch": null,
+    "original_launch_unix": null,
+    "missions": [],
+    "landings": 0,
+    "type": "Dragon 2.0",
+    "details": "Rumored to be used for Inflight Abort Test after DM-1",
+    "reuse_count": 0
+  },
+  {
+    "capsule_serial": "C204",
+    "capsule_id": "dragon2",
+    "status": "active",
+    "original_launch": null,
+    "original_launch_unix": null,
+    "missions": [],
+    "landings": 0,
+    "type": "Dragon 2.0",
+    "details": "Currently in construction for use in DM-2",
+    "reuse_count": 0
+  },
+  {
+    "capsule_serial": "C205",
+    "capsule_id": "dragon2",
+    "status": "active",
+    "original_launch": null,
+    "original_launch_unix": null,
+    "missions": [],
+    "landings": 0,
+    "type": "Dragon 2.0",
+    "details": "In construction for use in first mission in contract under the CCtCap contract",
+    "reuse_count": 0
+  }
+]
+
