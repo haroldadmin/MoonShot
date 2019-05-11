@@ -6,6 +6,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Trunk(
-    @field:Json(name = "trunk_volume") val trunkVolume: Volume,
-    @field:Json(name = "cargo") val cargo: Cargo
+    @Json(name = "trunk_volume") val trunkVolume: Volume,
+    @Json(name = "cargo") val cargo: Cargo
 )

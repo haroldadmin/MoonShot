@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Thrust(
-    @field:Json(name = "kN") val kN: Double,
-    @field:Json(name = "lbf") val lbf: Double
+    @Json(name = "kN") val kN: Double,
+    @Json(name = "lbf") val lbf: Double
 )

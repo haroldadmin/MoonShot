@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Cargo(
-    @field:Json(name = "solar_array") val solarArray: Int,
-    @field:Json(name = "unpressurized_cargo") val unpressurizedCargo: Boolean
+    @Json(name = "solar_array") val solarArray: Int,
+    @Json(name = "unpressurized_cargo") val unpressurizedCargo: Boolean
 )

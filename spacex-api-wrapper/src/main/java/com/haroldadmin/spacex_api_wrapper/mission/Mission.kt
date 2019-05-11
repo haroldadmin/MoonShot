@@ -5,12 +5,12 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Mission (
-    @field:Json(name = "mission_name") val name: String,
-    @field:Json(name = "mission_id") val id: String,
-    @field:Json(name = "manufacturers") val manufacturers: List<String>,
-    @field:Json(name = "payload_ids") val payloadIds: List<String>,
-    @field:Json(name = "wikipedia") val wikipedia: String,
-    @field:Json(name = "website") val website: String,
-    @field:Json(name = "twitter") val twitter: String,
-    @field:Json(name = "description") val description: String
+    @Json(name = "mission_name") val name: String,
+    @Json(name = "mission_id") val id: String,
+    @Json(name = "manufacturers") val manufacturers: List<String>,
+    @Json(name = "payload_ids") val payloadIds: List<String>,
+    @Json(name = "wikipedia") val wikipedia: String,
+    @Json(name = "website") val website: String,
+    @Json(name = "twitter") val twitter: String,
+    @Json(name = "description") val description: String
 )

@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PressurizedCapsule(
-    @field:Json(name = "payload_volume") val payloadVol: Volume
+    @Json(name = "payload_volume") val payloadVol: Volume
 )

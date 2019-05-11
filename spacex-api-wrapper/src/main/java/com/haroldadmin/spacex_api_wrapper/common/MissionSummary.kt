@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class MissionSummary(
-    @field:Json(name = "name") val name: String,
-    @field:Json(name = "flight") val flight: Int
+    @Json(name = "name") val name: String,
+    @Json(name = "flight") val flight: Int
 )

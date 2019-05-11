@@ -5,16 +5,16 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Links(
-    @field:Json(name = "mission_patch") val missionPatch: String,
-    @field:Json(name = "mission_patch_small") val missionPatchSmall: String,
-    @field:Json(name = "reddit_campaign") val redditCampaign: String,
-    @field:Json(name = "reddit_launch") val redditLaunch: String,
-    @field:Json(name = "reddit_recovery") val redditRecovery: String?,
-    @field:Json(name = "reddit_media") val redditMedia: String,
-    @field:Json(name = "presskit") val pressKit: String,
-    @field:Json(name = "article_link") val article: String,
-    @field:Json(name = "wikipedia") val wikipedia: String,
-    @field:Json(name = "video_link") val video: String,
-    @field:Json(name = "youtube_id") val youtubeKey: String,
-    @field:Json(name = "flickr_images") val flickrImages: List<String>
+    @Json(name = "mission_patch") val missionPatch: String,
+    @Json(name = "mission_patch_small") val missionPatchSmall: String,
+    @Json(name = "reddit_campaign") val redditCampaign: String,
+    @Json(name = "reddit_launch") val redditLaunch: String,
+    @Json(name = "reddit_recovery") val redditRecovery: String?,
+    @Json(name = "reddit_media") val redditMedia: String,
+    @Json(name = "presskit") val pressKit: String,
+    @Json(name = "article_link") val article: String,
+    @Json(name = "wikipedia") val wikipedia: String,
+    @Json(name = "video_link") val video: String,
+    @Json(name = "youtube_id") val youtubeKey: String,
+    @Json(name = "flickr_images") val flickrImages: List<String>
 )

@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PayloadWeight(
-    @field:Json(name = "id") val id: String,
-    @field:Json(name = "name") val name: String,
-    @field:Json(name = "kg") val weightKg: Double,
-    @field:Json(name = "lb") val weightLb: Double
+    @Json(name = "id") val id: String,
+    @Json(name = "name") val name: String,
+    @Json(name = "kg") val weightKg: Double,
+    @Json(name = "lb") val weightLb: Double
 )

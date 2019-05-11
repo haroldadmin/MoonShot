@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class HeatShield(
-    @field:Json(name = "material") val material: String,
-    @field:Json(name = "size_meters") val sizeMeters: Int,
-    @field:Json(name = "temp_degrees") val tempDegrees: Int,
-    @field:Json(name = "dev_partner") val devPartner: String
+    @Json(name = "material") val material: String,
+    @Json(name = "size_meters") val sizeMeters: Int,
+    @Json(name = "temp_degrees") val tempDegrees: Int,
+    @Json(name = "dev_partner") val devPartner: String
 )

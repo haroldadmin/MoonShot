@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Headquarters(
-    @field:Json(name = "address") val address: String,
-    @field:Json(name = "city") val city: String,
-    @field:Json(name = "state") val state: String
+    @Json(name = "address") val address: String,
+    @Json(name = "city") val city: String,
+    @Json(name = "state") val state: String
 )

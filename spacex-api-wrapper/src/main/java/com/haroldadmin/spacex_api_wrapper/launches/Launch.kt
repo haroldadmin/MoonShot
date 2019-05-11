@@ -7,24 +7,24 @@ import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class Launch (
-    @field:Json(name = "flight_number") val flightNumber: Int,
-    @field:Json(name = "mission_name") val missionName: String,
-    @field:Json(name = "mission_id") val missionId: List<String>,
-    @field:Json(name = "launch_year") val launchYear: String,
-    @field:Json(name = "launch_date_utc") val launchDate: Date,
-    @field:Json(name = "is_tentative") val isTentative: Boolean,
-    @field:Json(name = "tentative_max_precision") val tentativeMaxPrecision: String,
-    @field:Json(name = "tbd") val tbd: Boolean,
-    @field:Json(name = "launch_window") val launchWindow: Int,
-    @field:Json(name = "rocket") val rocket: RocketSummary,
-    @field:Json(name = "ships") val ships: List<String>,
-    @field:Json(name = "telemetry") val telemetry: Telemetry,
-    @field:Json(name = "launch_site") val launchSite: LaunchSite,
-    @field:Json(name = "launch_success") val launchSuccess: Boolean,
-    @field:Json(name = "links") val links: Links,
-    @field:Json(name = "details") val details: String,
-    @field:Json(name = "upcoming") val upcoming: Boolean,
-    @field:Json(name = "static_fire_date_utc") val staticFireDate: Date,
-    @field:Json(name = "timeline") val timeline: Timeline
+    @Json(name = "flight_number") val flightNumber: Int,
+    @Json(name = "mission_name") val missionName: String,
+    @Json(name = "mission_id") val missionId: List<String>,
+    @Json(name = "launch_year") val launchYear: String,
+    @Json(name = "launch_date_utc") val launchDate: Date,
+    @Json(name = "is_tentative") val isTentative: Boolean,
+    @Json(name = "tentative_max_precision") val tentativeMaxPrecision: String,
+    @Json(name = "tbd") val tbd: Boolean,
+    @Json(name = "launch_window") val launchWindow: Int,
+    @Json(name = "rocket") val rocket: RocketSummary,
+    @Json(name = "ships") val ships: List<String>,
+    @Json(name = "telemetry") val telemetry: Telemetry,
+    @Json(name = "launch_site") val launchSite: LaunchSite,
+    @Json(name = "launch_success") val launchSuccess: Boolean,
+    @Json(name = "links") val links: Links,
+    @Json(name = "details") val details: String,
+    @Json(name = "upcoming") val upcoming: Boolean,
+    @Json(name = "static_fire_date_utc") val staticFireDate: Date,
+    @Json(name = "timeline") val timeline: Timeline
 )
 

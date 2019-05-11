@@ -6,6 +6,6 @@ import sun.security.util.Length
 
 @JsonClass(generateAdapter = true)
 data class CompositeFairing(
-    @field:Json(name = "height") val height: Length,
-    @field:Json(name = "diameter") val diameter: Length
+    @Json(name = "height") val height: Length,
+    @Json(name = "diameter") val diameter: Length
 )
