@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class FirstStageSummary(
-    @field:Json(name = "cores") val cores: List<Core>
+    @field:Json(name = "cores") val cores: List<CoreSummary>
 )

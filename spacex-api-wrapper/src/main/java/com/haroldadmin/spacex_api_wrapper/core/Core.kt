@@ -10,7 +10,7 @@ data class Core (
     @field:Json(name = "core_serial") val serial: String,
     @field:Json(name = "block") val block: Int?,
     @field:Json(name = "status") val status: String,
-    @field:Json(name = "original_launch") val originalLaunch: Date,
+    @field:Json(name = "original_launch") val originalLaunch: Date?,
     @field:Json(name = "missions") val missions: List<MissionSummary>,
     @field:Json(name = "reuse_count") val reuseCount: Int,
     @field:Json(name = "rtls_attempts") val rtlsAttempts : Int,

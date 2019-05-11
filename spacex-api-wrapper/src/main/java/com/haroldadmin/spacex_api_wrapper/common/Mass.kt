@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Mass(
-    @field:Json(name = "kg") val kg: Int,
-    @field:Json(name = "lb") val lb: Int
+    @field:Json(name = "kg") val kg: Double,
+    @field:Json(name = "lb") val lb: Double
 )

@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Core(
+data class CoreSummary(
     @field:Json(name = "core_serial") val serial: String,
     @field:Json(name = "flight") val flight: Int,
     @field:Json(name = "block") val block: Int?,

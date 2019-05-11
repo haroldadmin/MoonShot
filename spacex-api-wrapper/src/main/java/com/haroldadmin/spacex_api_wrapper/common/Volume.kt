@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Volume(
-    @field:Json(name = "cubic_meters") val cubicMeters: Int,
-    @field:Json(name = "cubic_feet") val cubicFeet: Int
+    @field:Json(name = "cubic_meters") val cubicMeters: Double,
+    @field:Json(name = "cubic_feet") val cubicFeet: Double
 )

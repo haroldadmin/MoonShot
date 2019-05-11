@@ -13,8 +13,8 @@ data class Payload(
     @field:Json(name = "nationality") val nationality: String,
     @field:Json(name = "manufacturer") val manufacturer: String,
     @field:Json(name = "payload_type") val payloadType: String,
-    @field:Json(name = "payload_mass_kg") val payloadMassKg: Int,
-    @field:Json(name = "payload_mass_lbs") val payloadMassLbs: Int,
+    @field:Json(name = "payload_mass_kg") val payloadMassKg: Double,
+    @field:Json(name = "payload_mass_lbs") val payloadMassLbs: Double,
     @field:Json(name = "orbit") val orbit: String,
     @field:Json(name = "orbit_params") val orbitParams: OrbitParams
 )

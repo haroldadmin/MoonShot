@@ -21,7 +21,7 @@ data class Timeline(
     @field:Json(name = "stage_sep") val stageSeparation : Int,
     @field:Json(name = "second_stage_ignition") val secondStateIgnition: Int,
     @field:Json(name = "fairing_deploy") val fairingDeploy: Int,
-    @field:Json(name = "first_stage_entry_burn") val firstStateEntryBurn: Int,
+    @field:Json(name = "first_stage_entry_burn") val firstStageEntryBurn: Int,
     @field:Json(name = "seco-1") val seco1: Int,
     @field:Json(name = "first_stage_landing") val fistStageLanding: Int,
     @field:Json(name = "second_stage_restart") val secondStageRestart: Int,
