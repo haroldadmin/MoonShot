@@ -1,6 +1,7 @@
-package com.haroldadmin.spacex_api_wrapper.capsule
+package com.haroldadmin.spacex_api_wrapper.cores
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.spacex_api_wrapper.core.CoresService
 import com.haroldadmin.spacex_api_wrapper.getResource
 import com.haroldadmin.spacex_api_wrapper.testModule
 import kotlinx.coroutines.runBlocking
@@ -17,51 +18,52 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Retrofit
 
-internal class CapsuleTest : KoinTest {
+class CoresTest: KoinTest {
 
     lateinit var server: MockWebServer
-    lateinit var service: CapsuleService
+    lateinit var service: CoresService
 
     @Before
     fun setup() {
         startKoin { modules(testModule) }
         server = MockWebServer()
         server.start()
-        service = get<Retrofit> { parametersOf(server) }.create(CapsuleService::class.java)
+        service = get<Retrofit> { parametersOf(server) }.create(CoresService::class.java)
+    }
+
+    @Test
+    fun `Get all cores should return a list of cores`() = runBlocking {
+        val responseBody = getResource("/sampledata/cores/all_cores.json").readText()
+        server.enqueue(
+            MockResponse().apply {
+                setBody(responseBody)
+                setResponseCode(200)
+            }
+        )
+        val response = service.getAllCores().await()
+        assertTrue(response is NetworkResponse.Success)
+        assertTrue((response as NetworkResponse.Success).body.isNotEmpty())
+    }
+
+    @Test
+    fun `Get core by serial should return core with that serial`() = runBlocking {
+        val responseBody = getResource("/sampledata/cores/one_core.json").readText()
+        server.enqueue(
+            MockResponse().apply {
+                setBody(responseBody)
+                setResponseCode(200)
+            }
+        )
+        val serial = "B1042"
+        val response = service.getCore(serial).await()
+        assertTrue(response is NetworkResponse.Success)
+        assertTrue((response as NetworkResponse.Success).body.serial == serial)
+
     }
 
     @After
     fun teardown() {
         stopKoin()
         server.close()
-    }
-
-    @Test
-    fun `Get all capsules should be return a list of capsules`() = runBlocking {
-        val responseBody: String = getResource("/sampledata/capsules/all_capsules_response.json").readText()
-        server.enqueue(
-            MockResponse().apply {
-                setBody(responseBody)
-                setResponseCode(200)
-            }
-        )
-        val response = service.getAllCapsules().await()
-        assertTrue(response is NetworkResponse.Success)
-        assertTrue((response as NetworkResponse.Success).body.isNotEmpty())
-    }
-
-    @Test
-    fun `Get one capsule should return the capsule with the requested ID`() = runBlocking {
-        val responseBody = getResource("/sampledata/capsules/one_capsule_response.json").readText()
-        server.enqueue(
-            MockResponse().apply {
-                setBody(responseBody)
-                setResponseCode(200)
-            }
-        )
-        val serial = "C112"
-        val response = service.getCapsule(serial).await()
-        assertTrue(response is NetworkResponse.Success)
-        assertTrue((response as NetworkResponse.Success<Capsule>).body.serial == serial)
     }
 }

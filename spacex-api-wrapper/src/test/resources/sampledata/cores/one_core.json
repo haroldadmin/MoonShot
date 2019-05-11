@@ -1,0 +1,21 @@
+{
+  "core_serial": "B1042",
+  "block": 4,
+  "status": "retired",
+  "original_launch": "2017-10-30T19:34:00.000Z",
+  "original_launch_unix": 1509392040,
+  "missions": [
+    {
+      "name": "KoreaSat 5A",
+      "flight": 50
+    }
+  ],
+  "reuse_count": 0,
+  "rtls_attempts": 0,
+  "rtls_landings": 0,
+  "asds_attempts": 1,
+  "asds_landings": 1,
+  "water_landing": false,
+  "details": "The Octaweb caught on fire right after Landing due to an RP-1 fuel leak."
+}
+

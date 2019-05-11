@@ -18,5 +18,5 @@ data class Core (
     @Json(name = "asds_attempts") val asdsAttempts: Int,
     @Json(name = "asds_landings") val asdsLandings: Int,
     @Json(name = "water_landing") val waterLanding: Boolean,
-    @Json(name = "details") val details: String
+    @Json(name = "details") val details: String?
 )
