@@ -8,6 +8,9 @@ import androidx.room.PrimaryKey
 data class Headquarters(
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "city") val city: String,
-    @ColumnInfo(name = "state") val state: String,
-    @PrimaryKey(autoGenerate = true) val id: Int = -1
-)
+    @ColumnInfo(name = "state") val state: String
+) {
+
+    @PrimaryKey(autoGenerate = true) var id: Int? = null
+
+}

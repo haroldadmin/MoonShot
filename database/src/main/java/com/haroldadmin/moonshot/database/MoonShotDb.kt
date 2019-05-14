@@ -4,13 +4,16 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.haroldadmin.moonshot.database.capsule.Capsule
+import com.haroldadmin.moonshot.database.capsule.CapsuleDao
 import com.haroldadmin.moonshot.database.common.Length
 import com.haroldadmin.moonshot.database.common.Location
 import com.haroldadmin.moonshot.database.common.Mass
 import com.haroldadmin.moonshot.database.common.MissionSummary
+import com.haroldadmin.moonshot.database.common.MissionSummaryDao
 import com.haroldadmin.moonshot.database.common.Thrust
 import com.haroldadmin.moonshot.database.common.Volume
 import com.haroldadmin.moonshot.database.core.Core
+import com.haroldadmin.moonshot.database.core.CoreDao
 import com.haroldadmin.moonshot.database.dragon.Cargo
 import com.haroldadmin.moonshot.database.dragon.Dragon
 import com.haroldadmin.moonshot.database.dragon.HeatShield
@@ -71,4 +74,10 @@ import com.haroldadmin.moonshot.database.launch.Links as LaunchLinks
     ), version = 1, exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class MoonShotDb : RoomDatabase()
+abstract class MoonShotDb : RoomDatabase() {
+
+    abstract fun capsuleDao(): CapsuleDao
+    abstract fun missionSummaryDao(): MissionSummaryDao
+    abstract fun coreDao(): CoreDao
+
+}

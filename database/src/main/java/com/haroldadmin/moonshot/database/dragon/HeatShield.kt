@@ -13,8 +13,11 @@ data class HeatShield(
     @ColumnInfo(name = "temp_degrees")
     val tempDegrees: Int,
     @ColumnInfo(name = "dev_partner")
-    val devPartner: String,
+    val devPartner: String
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "heat_shield_id")
-    val heatShieldId: Int = -1
-)
+    var heatShieldId: Int = -1
+
+}

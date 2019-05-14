@@ -49,8 +49,11 @@ data class Timeline(
     @ColumnInfo(name = "seco-2")
     val seco2: Int,
     @ColumnInfo(name = "payload_deploy")
-    val payloadDeploy: Int,
+    val payloadDeploy: Int
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "timeline_id")
-    val id: Int = -1
-)
+    var id: Int? = null
+
+}

@@ -35,7 +35,14 @@ data class MissionSummary(
     @ColumnInfo(name = "capsule_serial")
     val capsuleSerial: String?,
     @ColumnInfo(name = "core_serial")
-    val coreSerial: String?,
+    val coreSerial: String?
+) {
+
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1
-)
+    var id: Int? = null
+
+    companion object {
+        fun getSampleMissionSummary(capsuleSerial: String = "", coreSerial: String = "") = MissionSummary("", 0, capsuleSerial, coreSerial)
+    }
+
+}

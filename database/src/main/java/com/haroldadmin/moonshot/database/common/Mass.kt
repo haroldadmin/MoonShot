@@ -9,8 +9,9 @@ data class Mass(
     @ColumnInfo(name = "kg")
     val kg: Double,
     @ColumnInfo(name = "lb")
-    val lb: Double,
+    val lb: Double
+) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "mass_id")
-    val massId: Int = -1
-)
+    var massId: Int = -1
+}

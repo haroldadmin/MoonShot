@@ -9,8 +9,11 @@ data class Cargo(
     @ColumnInfo(name = "solar_array")
     val solarArray: Int,
     @ColumnInfo(name = "unpressurized_cargo")
-    val unpressurizedCargo: Boolean,
+    val unpressurizedCargo: Boolean
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "cargo_id")
-    val cargoId: Int = -1
-)
+    var cargoId: Int = -1
+
+}

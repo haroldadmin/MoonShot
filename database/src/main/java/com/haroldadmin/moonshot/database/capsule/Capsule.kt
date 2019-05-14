@@ -24,5 +24,17 @@ data class Capsule(
     val details: String?,
     @ColumnInfo(name = "reuse_count")
     val reuseCount: Int
-)
-
+) {
+    companion object {
+        fun getSampleCapsule() = Capsule(
+            serial = "C112",
+            id = "dragon1",
+            status = "active",
+            originalLaunch = Date(1487515140L),
+            landings = 1,
+            type = "Dragon 1.1",
+            details = null,
+            reuseCount = 0
+        )
+    }
+}

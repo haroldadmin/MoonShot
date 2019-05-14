@@ -11,8 +11,11 @@ data class Trunk (
     @Embedded
     val trunkVolume: Volume,
     @Embedded
-    val cargo: Cargo,
+    val cargo: Cargo
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "trunk_id")
-    val trunkId: Int = -1
-)
+    var trunkId: Int? = null
+
+}

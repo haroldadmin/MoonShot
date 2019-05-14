@@ -9,8 +9,9 @@ data class Volume(
     @ColumnInfo(name = "cubic_meters")
     val cubicMeters: Double,
     @ColumnInfo(name = "cubic_feet")
-    val cubicFeet: Double,
+    val cubicFeet: Double
+) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "volume_id")
-    val volumeId: Int = -1
-)
+    var volumeId: Int? = null
+}

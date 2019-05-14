@@ -13,8 +13,11 @@ data class Location(
     @ColumnInfo(name = "latitude")
     val latitude: Double,
     @ColumnInfo(name = "longitude")
-    val longitude: Double,
+    val longitude: Double
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "location_id")
-    val id: Int = -1
-)
+    var id: Int? = null
+
+}

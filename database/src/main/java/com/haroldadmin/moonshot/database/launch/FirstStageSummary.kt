@@ -6,8 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "first_stage_summary", indices = [Index("first_stage_summary_id")])
-data class FirstStageSummary(
+class FirstStageSummary {
     @ColumnInfo(name = "first_stage_summary_id")
-    @PrimaryKey(autoGenerate = true) val id: Int = -1
-)
-
+    @PrimaryKey(autoGenerate = true) var id: Int? = null
+}

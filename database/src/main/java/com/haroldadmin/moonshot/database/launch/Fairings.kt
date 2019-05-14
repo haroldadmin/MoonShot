@@ -22,6 +22,9 @@ data class Fairings(
     @ColumnInfo(name = "recovery_attempt") val recoveryAttempt: Boolean,
     @ColumnInfo(name = "recovered") val recovered: Boolean,
     @ColumnInfo(name = "ship") val ship: String?,
-    @PrimaryKey(autoGenerate = true) val id: Int = -1,
     @ColumnInfo(name = "rocket_summary_id") val rocketSummaryId: String
-)
+) {
+
+    @PrimaryKey(autoGenerate = true) var id: Int? = null
+
+}

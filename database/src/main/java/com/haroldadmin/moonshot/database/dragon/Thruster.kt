@@ -33,8 +33,11 @@ data class Thruster(
     @Embedded
     val thrust: Thrust,
     @ColumnInfo(name = "dragon_id")
-    val dragonId: String,
+    val dragonId: String
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "thruster_id")
-    val thrusterId: Int = -1
-)
+    var thrusterId: Int? = null
+
+}

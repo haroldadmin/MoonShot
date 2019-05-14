@@ -29,8 +29,11 @@ data class Links(
     @ColumnInfo(name = "youtube_id")
     val youtubeKey: String,
     @ColumnInfo(name = "flickr_images")
-    val flickrImages: List<String>,
+    val flickrImages: List<String>
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "launch_links_id")
-    val id: Int = -1
-)
+    var id: Int? = null
+
+}

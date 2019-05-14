@@ -7,9 +7,12 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "second_stage_summary")
 data class SecondStageSummary(
     @ColumnInfo(name = "block")
-    val block: Int,
+    val block: Int
+) {
+
     @ColumnInfo(name = "second_stage_summary_id")
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1
-)
+    var id: Int? = null
+
+}
 

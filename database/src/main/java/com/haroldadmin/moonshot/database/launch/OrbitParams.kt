@@ -38,8 +38,11 @@ data class OrbitParams(
     @ColumnInfo(name = "arg_of_pericenter")
     val argOfPericenter: Double?,
     @ColumnInfo(name = "mean_anomaly")
-    val meanAnomaly: Double?,
+    val meanAnomaly: Double?
+) {
+
     @ColumnInfo(name = "orbit_params_id")
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1
-)
+    var id: Int? = null
+
+}

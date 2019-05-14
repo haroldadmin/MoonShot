@@ -9,8 +9,9 @@ import com.haroldadmin.moonshot.database.common.Volume
 @Entity(tableName = "pressurized_capsules")
 data class PressurizedCapsule(
     @Embedded
-    val payloadVol: Volume,
+    val payloadVol: Volume
+) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "pressurized_capsule_id")
-    val pressurizedCapsuleId: Int = -1
-)
+    var pressurizedCapsuleId: Int? = null
+}

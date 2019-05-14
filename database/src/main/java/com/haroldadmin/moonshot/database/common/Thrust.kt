@@ -9,8 +9,9 @@ data class Thrust(
     @ColumnInfo(name = "kN")
     val kN: Double,
     @ColumnInfo(name = "lbf")
-    val lbf: Double,
+    val lbf: Double
+) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "thrust_id")
-    val thrustId: Int = -1
-)
+    var thrustId: Int? = null
+}

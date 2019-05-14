@@ -11,8 +11,11 @@ data class Links(
     @ColumnInfo(name = "article")
     val article: String?,
     @ColumnInfo(name = "wikipedia")
-    val wikipedia: String?,
+    val wikipedia: String?
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "links_id")
-    val linksId: Int = -1
-)
+    var linksId: Int? = null
+
+}

@@ -9,8 +9,11 @@ data class Length(
     @ColumnInfo(name = "meters")
     val meters: Double,
     @ColumnInfo(name = "feet")
-    val feet: Double,
+    val feet: Double
+) {
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "length_id")
-    val lengthId: Int = -1
-)
+    var lengthId: Int? = null
+
+}
