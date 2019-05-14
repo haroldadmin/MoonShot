@@ -25,4 +25,5 @@ object Versions {
     const val androidxJunitExt = "1.1.0"
     const val espressoCore = "3.1.1"
     const val kotlinTest = "3.3.2"
+    const val androidxTestCore = "2.0.0-rc01"
 }

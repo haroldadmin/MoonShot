@@ -26,11 +26,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Libs.kotlinStdLib)
+
+    implementation(Libs.koinAndroid)
 
     implementation(Libs.room)
     kapt(Libs.roomCompiler)
@@ -38,6 +41,8 @@ dependencies {
     implementation(Libs.roomRxJava)
 
     testImplementation(Libs.junit)
+    androidTestImplementation(Libs.koinTest)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)
+    androidTestImplementation(Libs.androidxTestCore)
 }

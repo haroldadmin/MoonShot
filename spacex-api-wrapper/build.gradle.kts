@@ -26,6 +26,7 @@ dependencies {
     testImplementation(Libs.mockWebServer)
     testImplementation(Libs.junit)
     testImplementation(Libs.koinTest)
+    testImplementation(Libs.kotlinTest)
 }
 
 java {

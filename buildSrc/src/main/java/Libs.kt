@@ -35,4 +35,5 @@ object Libs {
     const val androidxJunitExt = "androidx.test.ext:junit:${Versions.androidxJunitExt}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val kotlinTest = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlinTest}"
+    const val androidxTestCore = "androidx.arch.core:core-testing:${Versions.androidxTestCore}"
 }
