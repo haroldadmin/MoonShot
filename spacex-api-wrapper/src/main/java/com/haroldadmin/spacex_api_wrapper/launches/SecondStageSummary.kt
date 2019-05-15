@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class SecondStageSummary(
-    @Json(name = "block") val block: Int,
+    @Json(name = "block") val block: Int?,
     @Json(name = "payloads") val payloads: List<Payload>
 )

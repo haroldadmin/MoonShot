@@ -10,5 +10,5 @@ data class RocketSummary(
     @Json(name = "rocket_type") val type: String,
     @Json(name = "first_stage") val firstStage: FirstStageSummary,
     @Json(name = "second_stage") val secondState: SecondStageSummary,
-    @Json(name = "fairings") val fairing: Fairing
+    @Json(name = "fairings") val fairing: Fairing?
 )

@@ -5,7 +5,7 @@ import java.net.URL
 
 fun Any.getResource(path: String): URL = this::class.java.getResource(path)
 
-fun MockResponse.success(path: String, responseCode: Int = 200) = this.apply {
+fun MockResponse.fromFile(path: String, responseCode: Int = 200) = this.apply {
     setBody(getResource(path).readText())
     setResponseCode(responseCode)
 }
