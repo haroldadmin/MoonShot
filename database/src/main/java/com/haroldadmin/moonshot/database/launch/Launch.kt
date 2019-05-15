@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
 import java.util.Date
 
 @Entity(tableName = "launches")
@@ -23,10 +24,31 @@ data class Launch(
     @ColumnInfo(name = "details") val details: String,
     @ColumnInfo(name = "upcoming") val upcoming: Boolean,
     @ColumnInfo(name = "static_fire_date_utc") val staticFireDate: Date,
-    @Embedded val rocket: RocketSummary,
     @Embedded val telemetry: Telemetry,
     @Embedded val launchSite: LaunchSite,
     @Embedded val links: Links,
     @Embedded val timeline: Timeline
-)
-
+) {
+    companion object {
+        internal fun getSampleLaunch() = Launch(
+            65,
+            "Telstar 19V",
+            listOf("F4F83DE"),
+            "2018",
+            Date(),
+            false,
+            "hour",
+            false,
+            7200,
+            listOf(),
+            true,
+            "",
+            false,
+            Date(),
+            Telemetry.getSampleTelemetry(),
+            LaunchSite.getSampleLaunchSite(),
+            Links.getSampleLinks(),
+            Timeline.getSampleTimeline()
+        )
+    }
+}

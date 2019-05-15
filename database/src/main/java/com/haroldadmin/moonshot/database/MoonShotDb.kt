@@ -25,15 +25,19 @@ import com.haroldadmin.moonshot.database.history.Links
 import com.haroldadmin.moonshot.database.info.CompanyInfo
 import com.haroldadmin.moonshot.database.info.Headquarters
 import com.haroldadmin.moonshot.database.landingpad.LandingPad
-import com.haroldadmin.moonshot.database.launch.CoreSummary
-import com.haroldadmin.moonshot.database.launch.Fairings
-import com.haroldadmin.moonshot.database.launch.FirstStageSummary
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.CoreSummary
+import com.haroldadmin.moonshot.database.launch.rocket.Fairings
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
 import com.haroldadmin.moonshot.database.launch.Launch
+import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.LaunchSite
-import com.haroldadmin.moonshot.database.launch.OrbitParams
-import com.haroldadmin.moonshot.database.launch.Payload
-import com.haroldadmin.moonshot.database.launch.RocketSummary
-import com.haroldadmin.moonshot.database.launch.SecondStageSummary
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload.OrbitParams
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload.Payload
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.launch.Telemetry
 import com.haroldadmin.moonshot.database.launch.Timeline
 import com.haroldadmin.moonshot.database.launch.Links as LaunchLinks
@@ -60,17 +64,11 @@ import com.haroldadmin.moonshot.database.launch.Links as LaunchLinks
         Headquarters::class,
         LandingPad::class,
         CoreSummary::class,
-        Fairings::class,
         FirstStageSummary::class,
         Launch::class,
-        LaunchSite::class,
-        LaunchLinks::class,
-        OrbitParams::class,
         Payload::class,
         RocketSummary::class,
-        SecondStageSummary::class,
-        Telemetry::class,
-        Timeline::class
+        SecondStageSummary::class
     ), version = 1, exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -79,5 +77,10 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun capsuleDao(): CapsuleDao
     abstract fun missionSummaryDao(): MissionSummaryDao
     abstract fun coreDao(): CoreDao
+
+    abstract fun firstStageSummaryDao(): FirstStageSummaryDao
+    abstract fun secondStageSummaryDao(): SecondStageSummaryDao
+    abstract fun rocketSummaryDao(): RocketSummaryDao
+    abstract fun launchDao(): LaunchDao
 
 }

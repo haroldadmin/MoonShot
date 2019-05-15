@@ -18,17 +18,17 @@ class Converters {
 
     // List<String> Converter
     @TypeConverter
-    fun stringToListOfString(value: String?): List<String>? {
+    fun stringToListOfString(value: String?): List<String> {
         return value.takeIf { !it.isNullOrBlank() }
             ?.split(",")
             ?.fold(listOf()) { list, s ->
                 list + s
-            }
+            } ?: listOf()
     }
 
     @TypeConverter
-    fun listOfStringToString(value: List<String>?): String? {
-        return value?.joinToString(separator = ",")
+    fun listOfStringToString(value: List<String>?): String {
+        return value?.joinToString(separator = ",") ?: ""
     }
 
     // List<Int> Converter for IDs

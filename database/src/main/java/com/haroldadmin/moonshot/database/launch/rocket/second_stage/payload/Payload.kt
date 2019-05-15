@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot.database.launch
+package com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
 
 @Entity(
     tableName = "payloads",

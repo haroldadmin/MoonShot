@@ -1,9 +1,11 @@
-package com.haroldadmin.moonshot.database.launch
+package com.haroldadmin.moonshot.database.launch.rocket.first_stage
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.CoreSummary
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
 
-data class FirstStageSummaryWithCoreSummaries(
+data class FirstStageWithCoreSummaries(
     @Embedded val firstStageSummary: FirstStageSummary,
     @Relation(
         entity = CoreSummary::class,

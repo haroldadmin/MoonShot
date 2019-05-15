@@ -1,13 +1,14 @@
-package com.haroldadmin.moonshot.database.launch
+package com.haroldadmin.moonshot.database.launch.rocket.first_stage
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.database.core.Core
 
 @Entity(
-    tableName = "core_summary",
+    tableName = "core_summaries",
     foreignKeys = [
         ForeignKey(
             entity = FirstStageSummary::class,
@@ -30,4 +31,23 @@ data class CoreSummary(
     @ColumnInfo(name = "landing_type") val landingType: String?,
     @ColumnInfo(name = "landing_vehicle") val landingVehicle: String?,
     @ColumnInfo(name = "first_stage_summary_id") val firstStageSummaryId: Int
-)
+) {
+
+    companion object {
+        internal fun getSampleCoreSummary(firstStageSummaryId: Int): CoreSummary =
+            CoreSummary(
+                "B1042",
+                0,
+                4,
+                true,
+                true,
+                true,
+                true,
+                true,
+                "",
+                "",
+                firstStageSummaryId
+            )
+    }
+
+}

@@ -1,7 +1,9 @@
-package com.haroldadmin.moonshot.database.launch
+package com.haroldadmin.moonshot.database.launch.rocket.second_stage
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload.Payload
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
 
 data class SecondStageSummaryWithPayloads(
     @Embedded
