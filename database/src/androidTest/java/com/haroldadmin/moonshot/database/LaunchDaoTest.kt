@@ -4,6 +4,9 @@ import com.haroldadmin.moonshot.database.launch.Launch
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
 import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -19,105 +22,73 @@ class LaunchDaoTest : BaseDbTest() {
     private val firstStageSummary = FirstStageSummary.getSampleFirstStageSummary(rocketSummary.rocketId)
 
     @Before
-    fun writeSampleData() {
-        launchDao.saveLaunch(launch).blockingAwait()
-        rocketSummaryDao.saveRocketSummary(rocketSummary).blockingAwait()
-        secondStageSummaryDao.saveSecondStageSummary(secondStageSummary).blockingAwait()
-        firstStageSummaryDao.saveFirstStageSummary(firstStageSummary).blockingAwait()
+    fun writeSampleData() = runBlocking {
+        launchDao.saveLaunch(launch)
+        rocketSummaryDao.saveRocketSummary(rocketSummary)
+        secondStageSummaryDao.saveSecondStageSummary(secondStageSummary)
+        firstStageSummaryDao.saveFirstStageSummary(firstStageSummary)
     }
 
     @Test
-    fun launchReadTest() {
-        launchDao
-            .getLaunch(launch.flightNumber)
-            .test()
-            .assertValue(launch)
+    fun launchReadTest() = runBlocking {
+        val launch = launchDao.getLaunch(launch.flightNumber)
+        assertEquals(launch,launchDao.getLaunch(launch.flightNumber))
     }
 
     @Test
-    fun rocketReadTest() {
-        rocketSummaryDao
-            .getRocketSummary(rocketSummary.rocketId)
-            .test()
-            .assertValue(rocketSummary)
+    fun rocketReadTest() = runBlocking {
+        val summary = rocketSummaryDao.getRocketSummary(rocketSummary.rocketId)
+        assertEquals(rocketSummary, summary)
     }
 
     @Test
-    fun secondStageSummaryReadTest() {
-        secondStageSummaryDao
-            .getAllSecondStageSummaries()
-            .take(1)
-            .test()
-            .await()
-            .assertValue { list ->
-                list.first() == secondStageSummary
-            }
+    fun secondStageSummaryReadTest() = runBlocking {
+        val summaries = secondStageSummaryDao.getAllSecondStageSummaries()
+        assertEquals(summaries.size, 1)
+        assertEquals(summaries.first(), secondStageSummary)
     }
 
     @Test
-    fun firstStageSummaryReadTest() {
-        firstStageSummaryDao
-            .getAllFirstStageSummaries()
-            .take(1)
-            .test()
-            .await()
-            .assertValue { list ->
-                list.first() == firstStageSummary
-            }
+    fun firstStageSummaryReadTest() = runBlocking {
+        val summaries = firstStageSummaryDao.getAllFirstStageSummaries()
+        assertEquals(summaries.size, 1)
+        assertEquals(summaries.first(), firstStageSummary)
     }
 
     @Test
-    fun firstStageSummaryWithCores() {
-        rocketSummaryDao
-            .getFirstStage(rocketSummary.rocketId)
-            .test()
-            .assertValue { firstStageWithCores ->
-                firstStageWithCores.firstStageSummary == firstStageSummary &&
-                        firstStageWithCores.cores.isEmpty()
-            }
+    fun firstStageSummaryWithCores() = runBlocking {
+        val summary = rocketSummaryDao.getFirstStage(rocketSummary.rocketId)
+        assertEquals(summary.firstStageSummary, firstStageSummary)
+        assertTrue(summary.cores.isEmpty())
     }
 
     @Test
-    fun secondStageSummaryWithPayloads() {
-        rocketSummaryDao
-            .getSecondStage(rocketSummary.rocketId)
-            .test()
-            .assertValue { secondStageWithPayloads ->
-                secondStageWithPayloads.secondStageSummary == secondStageSummary &&
-                        secondStageWithPayloads.payloads.isEmpty()
-            }
+    fun secondStageSummaryWithPayloads() = runBlocking {
+        val summary = rocketSummaryDao.getSecondStage(rocketSummary.rocketId)
+        assertEquals(summary.secondStageSummary, secondStageSummary)
+        assertTrue(summary.payloads.isEmpty())
     }
 
     @Test
-    fun launchCascadedDeleteTest() {
-        launchDao.deleteLaunch(launch).blockingAwait()
+    fun launchCascadedDeleteTest() = runBlocking {
+        launchDao.deleteLaunch(launch)
 
-        launchDao
-            .getAllLaunches()
-            .test()
-            .assertValue {
-                it.isEmpty()
-            }
+        launchDao.getAllLaunches().let {
+            assertTrue(it.isEmpty())
+        }
 
-        rocketSummaryDao
-            .getAllRocketSummaries()
-            .test()
-            .assertValue {
-                it.isEmpty()
-            }
+        rocketSummaryDao.getAllRocketSummaries().let {
+            assertTrue(it.isEmpty())
+        }
 
         secondStageSummaryDao
-            .getAllSecondStageSummaries()
-            .test()
-            .assertValue {
-                it.isEmpty()
+            .getAllSecondStageSummaries().let {
+                assertTrue(it.isEmpty())
             }
 
         firstStageSummaryDao
-            .getAllFirstStageSummaries()
-            .test()
-            .assertValue {
-                it.isEmpty()
+            .getAllFirstStageSummaries().let {
+                assertTrue(it.isEmpty())
             }
     }
 }

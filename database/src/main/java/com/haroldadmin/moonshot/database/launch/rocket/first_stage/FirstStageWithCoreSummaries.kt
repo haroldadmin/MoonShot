@@ -3,7 +3,6 @@ package com.haroldadmin.moonshot.database.launch.rocket.first_stage
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.haroldadmin.moonshot.database.launch.rocket.first_stage.CoreSummary
-import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
 
 data class FirstStageWithCoreSummaries(
     @Embedded val firstStageSummary: FirstStageSummary,

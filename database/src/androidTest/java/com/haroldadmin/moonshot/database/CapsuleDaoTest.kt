@@ -7,7 +7,9 @@ import com.haroldadmin.moonshot.database.capsule.Capsule
 import com.haroldadmin.moonshot.database.capsule.CapsuleDao
 import com.haroldadmin.moonshot.database.common.MissionSummary
 import com.haroldadmin.moonshot.database.common.MissionSummaryDao
+import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,38 +23,18 @@ import java.io.IOException
 import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
-class CapsuleDaoTest: KoinTest {
+class CapsuleDaoTest: BaseDbTest() {
 
-    @get:Rule val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    private val db: MoonShotDb by inject()
     private val capsuleDao: CapsuleDao by lazy { db.capsuleDao() }
     private val missionSummaryDao: MissionSummaryDao by lazy { db.missionSummaryDao() }
 
-    @Before
-    fun setup() {
-        startKoin {
-            androidContext(ApplicationProvider.getApplicationContext())
-            modules(androidTestModule)
-        }
-    }
-
-    @After
-    @Throws(IOException::class)
-    fun closeDb() {
-        db.close()
-        stopKoin()
-    }
-
     @Test
     @Throws(Exception::class)
-    fun capsuleWriteTest() {
+    fun capsuleWriteTest() = runBlocking {
         val capsule = Capsule.getSampleCapsule()
         with(capsuleDao) {
-            saveCapsule(capsule).blockingAwait()
-            getCapsule(capsule.serial)
-                .test()
-                .assertValue(capsule)
+            saveCapsule(capsule)
+            assertEquals(capsule, getCapsule(capsule.serial))
         }
     }
 }

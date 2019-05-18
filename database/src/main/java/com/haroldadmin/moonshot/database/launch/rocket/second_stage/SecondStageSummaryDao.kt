@@ -6,33 +6,31 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload.Payload
-import io.reactivex.Completable
-import io.reactivex.Flowable
 
 @Dao
 interface SecondStageSummaryDao {
 
     @Query("SELECT * FROM second_stage_summaries")
-    fun getAllSecondStageSummaries(): Flowable<List<SecondStageSummary>>
+    suspend fun getAllSecondStageSummaries(): List<SecondStageSummary>
 
     @Query("SELECT * FROM second_stage_summaries WHERE second_stage_summary_id = :id")
-    fun getSecondStageSummary(id: Int): Flowable<SecondStageSummary>
+    suspend fun getSecondStageSummary(id: Int): SecondStageSummary
 
     @Query("SELECT * FROM payloads WHERE payload_id = :id")
-    fun getPayload(id: String): Flowable<Payload>
+    suspend fun getPayload(id: String): Payload
 
     @Query("SELECT * FROM second_stage_summaries WHERE second_stage_summary_id = :id")
-    fun getSecondStageWithPayloads(id: Int): Flowable<SecondStageSummaryWithPayloads>
+    suspend fun getSecondStageWithPayloads(id: Int): SecondStageSummaryWithPayloads
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveSecondStageSummary(secondStageSummary: SecondStageSummary): Completable
+    suspend fun saveSecondStageSummary(secondStageSummary: SecondStageSummary)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun savePayload(payload: Payload): Completable
+    suspend fun savePayload(payload: Payload)
 
     @Delete
-    fun deleteSecondStageSummary(secondStageSummary: SecondStageSummary): Completable
+    suspend fun deleteSecondStageSummary(secondStageSummary: SecondStageSummary)
 
     @Delete
-    fun deletePayload(payload: Payload): Completable
+    suspend fun deletePayload(payload: Payload)
 }

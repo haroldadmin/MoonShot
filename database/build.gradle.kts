@@ -38,7 +38,6 @@ dependencies {
     implementation(Libs.room)
     kapt(Libs.roomCompiler)
     implementation(Libs.roomKtx)
-    implementation(Libs.roomRxJava)
 
     testImplementation(Libs.junit)
     androidTestImplementation(Libs.koinTest)

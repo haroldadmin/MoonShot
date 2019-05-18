@@ -1,10 +1,5 @@
 package com.haroldadmin.moonshot.database.launch.rocket.second_stage.payload
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
 import java.util.*
 
 data class OrbitParams(

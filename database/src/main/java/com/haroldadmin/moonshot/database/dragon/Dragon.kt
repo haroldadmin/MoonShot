@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.database.common.Length
 import com.haroldadmin.moonshot.database.common.Mass
 import com.haroldadmin.moonshot.database.common.Volume
-import java.util.Date
+import java.util.*
 
 @Entity(tableName = "dragons")
 data class Dragon(

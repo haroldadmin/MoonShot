@@ -4,8 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
-import java.util.Date
+import java.util.*
 
 @Entity(tableName = "launches")
 data class Launch(
@@ -18,16 +17,16 @@ data class Launch(
     @ColumnInfo(name = "is_tentative") val isTentative: Boolean,
     @ColumnInfo(name = "tentative_max_precision") val tentativeMaxPrecision: String,
     @ColumnInfo(name = "tbd") val tbd: Boolean,
-    @ColumnInfo(name = "launch_window") val launchWindow: Int,
+    @ColumnInfo(name = "launch_window") val launchWindow: Int?,
     @ColumnInfo(name = "ships") val ships: List<String>,
-    @ColumnInfo(name = "launch_success") val launchSuccess: Boolean,
-    @ColumnInfo(name = "details") val details: String,
-    @ColumnInfo(name = "upcoming") val upcoming: Boolean,
-    @ColumnInfo(name = "static_fire_date_utc") val staticFireDate: Date,
-    @Embedded val telemetry: Telemetry,
-    @Embedded val launchSite: LaunchSite,
-    @Embedded val links: Links,
-    @Embedded val timeline: Timeline
+    @ColumnInfo(name = "launch_success") val launchSuccess: Boolean?,
+    @ColumnInfo(name = "details") val details: String?,
+    @ColumnInfo(name = "upcoming") val upcoming: Boolean?,
+    @ColumnInfo(name = "static_fire_date_utc") val staticFireDate: Date?,
+    @Embedded val telemetry: Telemetry?,
+    @Embedded val launchSite: LaunchSite?,
+    @Embedded val links: Links?,
+    @Embedded val timeline: Timeline?
 ) {
     companion object {
         internal fun getSampleLaunch() = Launch(

@@ -1,7 +1,7 @@
 package com.haroldadmin.moonshot.database
 
 import androidx.room.TypeConverter
-import java.util.Date
+import java.util.*
 
 class Converters {
 

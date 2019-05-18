@@ -7,8 +7,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.database.launch.Launch
-import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
-import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
 
 @Entity(
     tableName = "rocket_summaries",

@@ -5,36 +5,34 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Completable
-import io.reactivex.Flowable
 
 @Dao
 interface FirstStageSummaryDao {
 
     @Query("SELECT * FROM first_stage_summaries")
-    fun getAllFirstStageSummaries(): Flowable<List<FirstStageSummary>>
+    suspend fun getAllFirstStageSummaries(): List<FirstStageSummary>
 
     @Query("SELECT * FROM first_stage_summaries WHERE first_stage_summary_id = :id")
-    fun getFirstStageSummary(id: Int): Flowable<FirstStageSummary>
+    suspend fun getFirstStageSummary(id: Int): FirstStageSummary
 
     @Query("SELECT * FROM core_summaries WHERE core_serial = :serial")
-    fun getCoreSummary(serial: String): Flowable<CoreSummary>
+    suspend fun getCoreSummary(serial: String): CoreSummary
 
     @Query("SELECT * FROM first_stage_summaries WHERE first_stage_summary_id = :id")
-    fun getFirstStageWithCoreSummaries(id: Int): Flowable<FirstStageWithCoreSummaries>
+    suspend fun getFirstStageWithCoreSummaries(id: Int): FirstStageWithCoreSummaries
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveFirstStageSummary(firstStageSummary: FirstStageSummary): Completable
+    suspend fun saveFirstStageSummary(firstStageSummary: FirstStageSummary)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveCoreSummary(coreSummary: CoreSummary): Completable
+    suspend fun saveCoreSummary(coreSummary: CoreSummary)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveCoreSummaries(vararg coreSummary: CoreSummary): Completable
+    suspend fun saveCoreSummaries(vararg coreSummary: CoreSummary)
 
     @Delete
-    fun deleteFirstStageSummary(firstStageSummary: FirstStageSummary): Completable
+    suspend fun deleteFirstStageSummary(firstStageSummary: FirstStageSummary)
 
     @Delete
-    fun deleteCoreSummary(coreSummary: CoreSummary): Completable
+    suspend fun deleteCoreSummary(coreSummary: CoreSummary)
 }

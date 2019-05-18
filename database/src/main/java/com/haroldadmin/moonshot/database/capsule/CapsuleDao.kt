@@ -5,24 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Completable
-import io.reactivex.Flowable
 
 @Dao
 interface CapsuleDao {
 
     @Query("SELECT * FROM capsules")
-    fun getAllCapsules(): Flowable<List<Capsule>>
+    suspend fun getAllCapsules(): List<Capsule>
 
     @Query("SELECT * FROM capsules WHERE capsule_serial = :serial")
-    fun getCapsule(serial: String): Flowable<Capsule>
+    suspend fun getCapsule(serial: String): Capsule
 
     @Query("SELECT * FROM capsules WHERE capsule_serial = :serial")
-    fun getCapsuleWithMissionSummaries(serial: String): Flowable<CapsulesWithMissionSummaries>
+    suspend fun getCapsuleWithMissionSummaries(serial: String): CapsulesWithMissionSummaries
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveCapsule(capsule: Capsule): Completable
+    suspend fun saveCapsule(capsule: Capsule)
 
     @Delete
-    fun deleteCapsule(capsule: Capsule): Completable
+    suspend fun deleteCapsule(capsule: Capsule)
 }

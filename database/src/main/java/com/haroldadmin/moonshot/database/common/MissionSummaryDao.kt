@@ -4,25 +4,23 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import io.reactivex.Completable
-import io.reactivex.Flowable
 
 @Dao
 interface MissionSummaryDao {
 
     @Query("SELECT * FROM mission_summaries")
-    fun getAllMissionSummaries(): Flowable<List<MissionSummary>>
+    suspend fun getAllMissionSummaries(): List<MissionSummary>
 
     @Insert
-    fun saveMissionSummary(missionSummary: MissionSummary): Completable
+    suspend fun saveMissionSummary(missionSummary: MissionSummary)
 
     @Insert
-    fun saveMissionSummaries(vararg missionSummary: MissionSummary): Completable
+    suspend fun saveMissionSummaries(vararg missionSummary: MissionSummary)
 
     @Delete
-    fun deleteMissionSummary(missionSummary: MissionSummary): Completable
+    suspend fun deleteMissionSummary(missionSummary: MissionSummary)
 
     @Delete
-    fun deleteMissionSummaries(vararg missionSummaries: MissionSummary): Completable
+    suspend fun deleteMissionSummaries(vararg missionSummaries: MissionSummary)
 
 }
