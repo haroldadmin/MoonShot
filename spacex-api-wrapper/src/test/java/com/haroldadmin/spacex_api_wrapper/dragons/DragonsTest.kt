@@ -1,40 +1,16 @@
 package com.haroldadmin.spacex_api_wrapper.dragons
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.spacex_api_wrapper.BaseApiTest
 import com.haroldadmin.spacex_api_wrapper.dragon.DragonsService
 import com.haroldadmin.spacex_api_wrapper.enqueue
 import com.haroldadmin.spacex_api_wrapper.fromFile
-import com.haroldadmin.spacex_api_wrapper.testModule
-import io.kotlintest.Spec
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.core.parameter.parametersOf
-import org.koin.test.KoinTest
-import org.koin.test.inject
-import retrofit2.Retrofit
 
-class DragonsTest : KoinTest, DescribeSpec() {
+class DragonsTest : BaseApiTest() {
 
-    private val server by lazy { MockWebServer() }
-    private val retrofit by inject<Retrofit> { parametersOf(server) }
     private val service by lazy { retrofit.create(DragonsService::class.java) }
-
-    override fun beforeSpec(spec: Spec) {
-        super.beforeSpec(spec)
-        startKoin {
-            modules(testModule)
-        }
-    }
-
-    override fun afterSpec(spec: Spec) {
-        super.afterSpec(spec)
-        stopKoin()
-    }
 
     init {
 

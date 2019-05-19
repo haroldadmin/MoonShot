@@ -1,6 +1,7 @@
 package com.haroldadmin.spacex_api_wrapper.launch
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.spacex_api_wrapper.BaseApiTest
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.fromFile
 import com.haroldadmin.spacex_api_wrapper.testModule
@@ -16,25 +17,9 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Retrofit
 
-class LaunchTest : KoinTest, DescribeSpec() {
+class LaunchTest : BaseApiTest() {
 
-    private val server: MockWebServer by lazy { MockWebServer() }
-    private val service: LaunchesService by lazy {
-        get<Retrofit> { parametersOf(server) }.create(LaunchesService::class.java)
-    }
-
-    override fun beforeSpec(spec: Spec) {
-        super.beforeSpec(spec)
-        startKoin {
-            modules(testModule)
-        }
-    }
-
-    override fun afterSpec(spec: Spec) {
-        super.afterSpec(spec)
-        stopKoin()
-        server.close()
-    }
+    private val service: LaunchesService by lazy { retrofit.create(LaunchesService::class.java) }
 
     init {
         describe("Launch service") {
@@ -63,11 +48,11 @@ class LaunchTest : KoinTest, DescribeSpec() {
                 val flightNumber = 65
                 val response = service.getLaunch(flightNumber).await()
 
-                it ("Should return the requested launch successfully") {
+                it("Should return the requested launch successfully") {
                     (response is NetworkResponse.Success) shouldBe true
                 }
 
-                it ("Should return the same launch as the sample data") {
+                it("Should return the same launch as the sample data") {
                     (response as NetworkResponse.Success).body.flightNumber shouldBe flightNumber
                 }
             }
@@ -79,7 +64,7 @@ class LaunchTest : KoinTest, DescribeSpec() {
 
                 val response = service.getAllLaunches().await()
 
-                it ("Should return a list of launches") {
+                it("Should return a list of launches") {
                     (response is NetworkResponse.Success) shouldBe true
                     (response as NetworkResponse.Success).body.size shouldBe 92
                 }
@@ -92,7 +77,7 @@ class LaunchTest : KoinTest, DescribeSpec() {
 
                 val response = service.getUpcomingLaunches().await()
 
-                it ("Should return a list of launches") {
+                it("Should return a list of launches") {
                     (response is NetworkResponse.Success) shouldBe true
                     (response as NetworkResponse.Success).body.size shouldBe 18
                 }
@@ -118,7 +103,7 @@ class LaunchTest : KoinTest, DescribeSpec() {
 
                 val response = service.getPastLaunches().await()
 
-                it ("Should return a list of launches") {
+                it("Should return a list of launches") {
                     (response is NetworkResponse.Success) shouldBe true
                     (response as NetworkResponse.Success).body.size shouldBe 74
                 }
