@@ -9,7 +9,7 @@ data class HistoricalEvent(
     @Json(name = "id") val id: Int,
     @Json(name = "title") val title: String,
     @Json(name = "event_date_utc") val date: Date,
-    @Json(name = "flight_number") val flightNumber: Int,
+    @Json(name = "flight_number") val flightNumber: Int?,
     @Json(name = "details") val details: String,
     @Json(name = "links") val links: Links
 )
