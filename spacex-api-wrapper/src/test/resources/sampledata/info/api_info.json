@@ -1,0 +1,9 @@
+{
+  "project_name": "SpaceX-API",
+  "version": "2.8.0",
+  "project_link": "https://github.com/r-spacex/SpaceX-API",
+  "organization": "r/SpaceX",
+  "organization_link": "https://github.com/r-spacex",
+  "description": "Open Source REST API for rocket, core, capsule, pad, and launch data, created and maintained by the developers of the r/SpaceX organization"
+}
+

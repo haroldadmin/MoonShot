@@ -86,3 +86,5 @@ app/release
 .idea
 
 .kotlintest
+.DS_Store
+

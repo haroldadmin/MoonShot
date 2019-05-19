@@ -17,7 +17,7 @@ dependencies {
 
     implementation(Libs.retrofit)
     implementation(Libs.loggingInterceptor)
-    implementation(Libs.networkResponseAdapter)
+    api(Libs.networkResponseAdapter)
     implementation(Libs.moshi)
     implementation(Libs.moshiConverter)
     implementation (Libs.moshiAdapters)

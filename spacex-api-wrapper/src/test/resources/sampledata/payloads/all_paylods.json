@@ -1,0 +1,2509 @@
+
+
+[
+  {
+    "payload_id": "FalconSAT-2",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "DARPA"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SSTL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 20,
+    "payload_mass_lbs": 43,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": 400,
+      "apoapsis_km": 500,
+      "inclination_deg": 39,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "DemoSAT",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "DARPA"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "Trailblazer",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "NASA"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Space Dev",
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "PRESat",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "ORS"
+    ],
+    "nationality": "United States",
+    "manufacturer": null,
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "RatSat",
+    "norad_id": [
+      33393
+    ],
+    "reused": false,
+    "customers": [
+      "SpaceX"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 165,
+    "payload_mass_lbs": 363,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "lifespan_years": null,
+      "epoch": "2008-09-28T22:51:02.000Z",
+      "mean_motion": 14.79249332,
+      "raan": 63.3956,
+      "semi_major_axis_km": 7009.836,
+      "eccentricity": 0.0009194,
+      "periapsis_km": 625.256,
+      "apoapsis_km": 638.145,
+      "inclination_deg": 9.3329,
+      "period_min": 97.346
+    }
+  },
+  {
+    "payload_id": "RazakSAT",
+    "norad_id": [
+      35578
+    ],
+    "reused": false,
+    "customers": [
+      "ATSB"
+    ],
+    "nationality": "Malaysia",
+    "manufacturer": "Satrec",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 200,
+    "payload_mass_lbs": 440,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 7055.497,
+      "eccentricity": 0.0016216,
+      "periapsis_km": 665.921,
+      "apoapsis_km": 688.803,
+      "inclination_deg": 8.9873,
+      "period_min": 98.299,
+      "lifespan_years": null,
+      "epoch": "2009-07-14T04:50:46.000Z",
+      "mean_motion": 14.64912653,
+      "raan": 63.14
+    }
+  },
+  {
+    "payload_id": "Dragon Qualification Unit",
+    "norad_id": [
+      36595
+    ],
+    "reused": false,
+    "customers": [
+      "SpaceX"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon Boilerplate",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6634.458,
+      "eccentricity": 0.0030715,
+      "periapsis_km": 235.945,
+      "apoapsis_km": 276.701,
+      "inclination_deg": 34.5005,
+      "period_min": 89.632,
+      "lifespan_years": null,
+      "epoch": "2010-06-04T20:04:51.000Z",
+      "mean_motion": 16.06552645,
+      "raan": 41.2862
+    }
+  },
+  {
+    "payload_id": "COTS Demo Flight 1",
+    "norad_id": [
+      37244
+    ],
+    "cap_serial": "C101",
+    "reused": false,
+    "customers": [
+      "NASA(COTS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.0",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6672.063,
+      "eccentricity": 0.0021812,
+      "periapsis_km": 279.375,
+      "apoapsis_km": 308.481,
+      "inclination_deg": 34.5447,
+      "period_min": 90.396,
+      "lifespan_years": null,
+      "epoch": "2010-12-08T15:34:03.000Z",
+      "mean_motion": 15.9298967,
+      "raan": 180.7668
+    }
+  },
+  {
+    "payload_id": "Cubesats",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "NRO"
+    ],
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 0
+    }
+  },
+  {
+    "payload_id": "COTS Demo Flight 2",
+    "norad_id": [
+      38348
+    ],
+    "cap_serial": "C102",
+    "reused": false,
+    "customers": [
+      "NASA(COTS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.0",
+    "payload_mass_kg": 525,
+    "payload_mass_lbs": 1157,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6711.684,
+      "eccentricity": 0.0057963,
+      "periapsis_km": 294.646,
+      "apoapsis_km": 372.452,
+      "inclination_deg": 51.6726,
+      "period_min": 91.202,
+      "lifespan_years": null,
+      "epoch": "2012-05-22T09:12:31.000Z",
+      "mean_motion": 15.78904505,
+      "raan": 251.5418
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-1",
+    "norad_id": [
+      38846
+    ],
+    "cap_serial": "C103",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.0",
+    "payload_mass_kg": 400,
+    "payload_mass_lbs": 881,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6643.164,
+      "eccentricity": 0.0092222,
+      "periapsis_km": 203.764,
+      "apoapsis_km": 326.293,
+      "inclination_deg": 51.6539,
+      "period_min": 89.809,
+      "lifespan_years": null,
+      "epoch": "2012-10-08T00:31:33.000Z",
+      "mean_motion": 16.03395683,
+      "raan": 281.4248
+    },
+    "mass_returned_kg": 905,
+    "mass_returned_lbs": 1995,
+    "flight_time_sec": 1728000,
+    "cargo_manifest": "https://en.wikipedia.org/wiki/SpaceX_CRS-1#Payload"
+  },
+  {
+    "payload_id": "Orbcomm-OG2",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Orbcomm"
+    ],
+    "payload_type": "Dragon 1.0",
+    "payload_mass_kg": 400,
+    "payload_mass_lbs": 881,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 45,
+      "period_min": null,
+      "lifespan_years": 5
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-2",
+    "norad_id": [
+      39115
+    ],
+    "cap_serial": "C104",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.0",
+    "payload_mass_kg": 677,
+    "payload_mass_lbs": 1492,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6640.79,
+      "eccentricity": 0.0089419,
+      "periapsis_km": 203.274,
+      "apoapsis_km": 322.036,
+      "inclination_deg": 51.6797,
+      "period_min": 89.761,
+      "lifespan_years": null,
+      "epoch": "2013-03-01T20:19:32.000Z",
+      "mean_motion": 16.04255447,
+      "raan": 281.5076
+    },
+    "mass_returned_kg": 1370,
+    "mass_returned_lbs": 3020,
+    "flight_time_sec": 2160000,
+    "cargo_manifest": "https://en.wikipedia.org/wiki/SpaceX_CRS-2#Payload"
+  },
+  {
+    "payload_id": "CASSIOPE",
+    "norad_id": [
+      39265
+    ],
+    "reused": false,
+    "customers": [
+      "MDA"
+    ],
+    "nationality": "Canada",
+    "manufacturer": "MDA",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 500,
+    "payload_mass_lbs": 1100,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 7179.036,
+      "eccentricity": 0.075092,
+      "periapsis_km": 261.813,
+      "apoapsis_km": 1339.989,
+      "inclination_deg": 80.9622,
+      "period_min": 100.892,
+      "lifespan_years": 2,
+      "epoch": "2013-09-29T17:40:44.000Z",
+      "mean_motion": 14.27262824,
+      "raan": 315.4765
+    }
+  },
+  {
+    "payload_id": "SES-8",
+    "norad_id": [
+      39460
+    ],
+    "reused": false,
+    "customers": [
+      "SES"
+    ],
+    "nationality": "Luxembourg",
+    "manufacturer": "Orbital ATK",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3170,
+    "payload_mass_lbs": 6990,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 95,
+      "semi_major_axis_km": 46135.726,
+      "eccentricity": 0.8533928,
+      "periapsis_km": 385.694,
+      "apoapsis_km": 79129.487,
+      "inclination_deg": 20.5387,
+      "period_min": 1643.672,
+      "lifespan_years": 15,
+      "epoch": "2013-12-03T06:29:52.000Z",
+      "mean_motion": 0.8760868,
+      "raan": 242.8672
+    }
+  },
+  {
+    "payload_id": "Thaicom 6",
+    "norad_id": [
+      39500
+    ],
+    "reused": false,
+    "customers": [
+      "Thaicom"
+    ],
+    "nationality": "Thailand",
+    "manufacturer": "Orbital ATK",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3325,
+    "payload_mass_lbs": 7330,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 78.5,
+      "semi_major_axis_km": 53191.47,
+      "eccentricity": 0.8705122,
+      "periapsis_km": 509.511,
+      "apoapsis_km": 93117.159,
+      "inclination_deg": 22.462,
+      "period_min": 2034.802,
+      "lifespan_years": 15,
+      "epoch": "2014-01-06T23:43:44.000Z",
+      "mean_motion": 0.70768531,
+      "raan": 267.5087
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-3",
+    "norad_id": [
+      39680
+    ],
+    "cap_serial": "C105",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2296,
+    "payload_mass_lbs": 5062,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6700.881,
+      "eccentricity": 0.0013819,
+      "periapsis_km": 313.486,
+      "apoapsis_km": 332.006,
+      "inclination_deg": 51.6429,
+      "period_min": 90.982,
+      "lifespan_years": null,
+      "epoch": "2014-04-18T19:40:03.000Z",
+      "mean_motion": 15.82724147,
+      "raan": 34.0918
+    },
+    "mass_returned_kg": 1600,
+    "mass_returned_lbs": 3500,
+    "flight_time_sec": 2592000,
+    "cargo_manifest": "https://en.wikipedia.org/wiki/SpaceX_CRS-3#Primary_payload_and_downmass"
+  },
+  {
+    "payload_id": "Orbcomm-OG2-M1",
+    "norad_id": [
+      38847
+    ],
+    "reused": false,
+    "customers": [
+      "Orbcomm"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1316,
+    "payload_mass_lbs": 2901,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6641.01,
+      "eccentricity": 0.0090712,
+      "periapsis_km": 202.633,
+      "apoapsis_km": 323.117,
+      "inclination_deg": 51.6528,
+      "period_min": 89.765,
+      "lifespan_years": 5,
+      "epoch": "2012-10-08T03:42:59.000Z",
+      "mean_motion": 16.04175555,
+      "raan": 280.7278
+    }
+  },
+  {
+    "payload_id": "AsiaSat 8",
+    "norad_id": [
+      40107
+    ],
+    "reused": false,
+    "customers": [
+      "AsiaSat"
+    ],
+    "nationality": "Hong Kong",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4535,
+    "payload_mass_lbs": 9998,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 105.5,
+      "semi_major_axis_km": 24385.457,
+      "eccentricity": 0.7302953,
+      "periapsis_km": 198.737,
+      "apoapsis_km": 35815.907,
+      "inclination_deg": 24.3518,
+      "period_min": 631.619,
+      "lifespan_years": 15,
+      "epoch": "2014-08-05T03:06:42.000Z",
+      "mean_motion": 2.27985284,
+      "raan": 263.7991
+    }
+  },
+  {
+    "payload_id": "AsiaSat 6",
+    "norad_id": [
+      40141
+    ],
+    "reused": false,
+    "customers": [
+      "AsiaSat"
+    ],
+    "nationality": "Hong Kong",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4428,
+    "payload_mass_lbs": 9762,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 120,
+      "semi_major_axis_km": 24331.331,
+      "eccentricity": 0.7315243,
+      "periapsis_km": 154.236,
+      "apoapsis_km": 35752.157,
+      "inclination_deg": 25.389,
+      "period_min": 629.517,
+      "lifespan_years": 15,
+      "epoch": "2014-09-07T00:11:58.000Z",
+      "mean_motion": 2.28746447,
+      "raan": 252.2797
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-4",
+    "norad_id": [
+      40210
+    ],
+    "cap_serial": "C106",
+    "reused": true,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2216,
+    "payload_mass_lbs": 4885,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6657.288,
+      "eccentricity": 0.0113888,
+      "periapsis_km": 203.334,
+      "apoapsis_km": 354.971,
+      "inclination_deg": 51.6518,
+      "period_min": 90.095,
+      "lifespan_years": null,
+      "epoch": "2014-09-21T05:48:51.000Z",
+      "mean_motion": 15.98295763,
+      "raan": 344.0345
+    },
+    "mass_returned_kg": 1486,
+    "mass_returned_lbs": 3276,
+    "flight_time_sec": 2987160,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/files/SpaceX_CRS-4_Mission_Overview-1.pdf"
+  },
+  {
+    "payload_id": "SpaceX CRS-5",
+    "norad_id": [
+      40370
+    ],
+    "cap_serial": "C107",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2395,
+    "payload_mass_lbs": 5280,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6656.902,
+      "eccentricity": 0.0109236,
+      "periapsis_km": 206.049,
+      "apoapsis_km": 351.484,
+      "inclination_deg": 51.6369,
+      "period_min": 90.088,
+      "lifespan_years": null,
+      "epoch": "2015-01-10T09:44:04.000Z",
+      "mean_motion": 15.98433248,
+      "raan": 152.0013
+    },
+    "mass_returned_kg": 1633,
+    "mass_returned_lbs": 3600,
+    "flight_time_sec": 2764800,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/files/SpaceX_CRS-5_factsheet.pdf"
+  },
+  {
+    "payload_id": "DSCOVR",
+    "norad_id": [
+      40390
+    ],
+    "reused": false,
+    "customers": [
+      "NASA",
+      "NOAA",
+      "USAF"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Sierra Nevada",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 570,
+    "payload_mass_lbs": 1260,
+    "orbit": "ES-L1",
+    "orbit_params": {
+      "reference_system": "heliocentric",
+      "regime": "L1-point",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 5
+    }
+  },
+  {
+    "payload_id": "ABS-3A",
+    "norad_id": [
+      40424
+    ],
+    "reused": false,
+    "customers": [
+      "ABS"
+    ],
+    "nationality": "Hong Kong",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1954,
+    "payload_mass_lbs": 4307,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -3,
+      "semi_major_axis_km": 38300.398,
+      "eccentricity": 0.823237,
+      "periapsis_km": 391.958,
+      "apoapsis_km": 63452.568,
+      "inclination_deg": 24.8225,
+      "period_min": 1243.267,
+      "lifespan_years": 15,
+      "epoch": "2015-03-02T23:19:45.000Z",
+      "mean_motion": 1.15823802,
+      "raan": 49.0886
+    }
+  },
+  {
+    "payload_id": "Eutelsat 115 West B",
+    "norad_id": [
+      40425
+    ],
+    "reused": false,
+    "customers": [
+      "Eutelsat"
+    ],
+    "nationality": "France",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 2205,
+    "payload_mass_lbs": 4861,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -114.9,
+      "semi_major_axis_km": 38229.726,
+      "eccentricity": 0.8237676,
+      "periapsis_km": 359.181,
+      "apoapsis_km": 63344.002,
+      "inclination_deg": 24.9783,
+      "period_min": 1239.828,
+      "lifespan_years": 15,
+      "epoch": "2015-03-02T23:19:47.000Z",
+      "mean_motion": 1.16145119,
+      "raan": 49.3345
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-6",
+    "norad_id": [
+      40588
+    ],
+    "reused": false,
+    "cap_serial": "C108",
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 1898,
+    "payload_mass_lbs": 4184,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6661.265,
+      "eccentricity": 0.0116467,
+      "periapsis_km": 205.548,
+      "apoapsis_km": 360.711,
+      "inclination_deg": 51.6488,
+      "period_min": 90.176,
+      "lifespan_years": null,
+      "epoch": "2015-04-14T20:35:14.000Z",
+      "mean_motion": 15.96863068,
+      "raan": 40.8878
+    },
+    "mass_returned_kg": 1361,
+    "mass_returned_lbs": 3000,
+    "flight_time_sec": 3110400,
+    "cargo_manifest": "https://blogs.nasa.gov/spacex/wp-content/uploads/sites/227/2015/04/SpaceX_CRS-6_Mission_Overview.pdf"
+  },
+  {
+    "payload_id": "TürkmenÄlem 52°E / MonacoSAT",
+    "norad_id": [
+      40617
+    ],
+    "reused": false,
+    "customers": [
+      "Turkmenistan National Space Agency"
+    ],
+    "nationality": "Turkmenistan",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4707,
+    "payload_mass_lbs": 10377,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 52,
+      "semi_major_axis_km": 24185.892,
+      "eccentricity": 0.7275387,
+      "periapsis_km": 211.584,
+      "apoapsis_km": 35403.929,
+      "inclination_deg": 25.4792,
+      "period_min": 623.882,
+      "lifespan_years": 15,
+      "epoch": "2015-04-27T18:26:45.000Z",
+      "mean_motion": 2.30812637,
+      "raan": 31.8949
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-7",
+    "norad_id": [],
+    "reused": false,
+    "cap_serial": "C109",
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2477,
+    "payload_mass_lbs": 5460.9,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 51.6,
+      "period_min": null,
+      "lifespan_years": null
+    },
+    "mass_returned_kg": null,
+    "mass_returned_lbs": null,
+    "flight_time_sec": 139,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-7_mission_overview.pdf"
+  },
+  {
+    "payload_id": "Orbcomm-OG2-M2",
+    "norad_id": [
+      38847
+    ],
+    "reused": true,
+    "customers": [
+      "Orbcomm"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 2034,
+    "payload_mass_lbs": 4484,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 45,
+      "period_min": null,
+      "lifespan_years": 5
+    }
+  },
+  {
+    "payload_id": "Jason-3",
+    "norad_id": [
+      41240
+    ],
+    "reused": false,
+    "customers": [
+      "NASA",
+      "NOAA"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 553,
+    "payload_mass_lbs": 1219,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 7685.87,
+      "eccentricity": 0.0016419,
+      "periapsis_km": 1295.115,
+      "apoapsis_km": 1320.354,
+      "inclination_deg": 66.0451,
+      "period_min": 111.763,
+      "lifespan_years": 5,
+      "epoch": "2016-01-17T20:22:02.000Z",
+      "mean_motion": 12.88437011,
+      "raan": 114.8369
+    }
+  },
+  {
+    "payload_id": "SES-9",
+    "norad_id": [
+      41380
+    ],
+    "reused": false,
+    "customers": [
+      "SES"
+    ],
+    "nationality": "Luxembourg",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5271,
+    "payload_mass_lbs": 11621,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 108.2,
+      "semi_major_axis_km": 26869.358,
+      "eccentricity": 0.7501818,
+      "periapsis_km": 334.319,
+      "apoapsis_km": 40648.127,
+      "inclination_deg": 27.9629,
+      "period_min": 730.542,
+      "lifespan_years": 15,
+      "epoch": "2016-03-04T18:15:53.000Z",
+      "mean_motion": 1.97113701,
+      "raan": 347.8159
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-8",
+    "norad_id": [
+      41452
+    ],
+    "cap_serial": "C110",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 3136,
+    "payload_mass_lbs": 6914,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6659.721,
+      "eccentricity": 0.0108437,
+      "periapsis_km": 209.37,
+      "apoapsis_km": 353.802,
+      "inclination_deg": 51.6569,
+      "period_min": 90.145,
+      "lifespan_years": null,
+      "epoch": "2016-04-08T21:07:36.000Z",
+      "mean_motion": 15.9741849,
+      "raan": 43.9641
+    },
+    "mass_returned_kg": 1678,
+    "mass_returned_lbs": 3700,
+    "flight_time_sec": 2843280,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-8_mission_overview.pdf"
+  },
+  {
+    "payload_id": "JCSAT-2B",
+    "norad_id": [
+      41471
+    ],
+    "reused": false,
+    "customers": [
+      "SKY Perfect JSAT Group"
+    ],
+    "nationality": "Japan",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4696,
+    "payload_mass_lbs": 10353,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 154,
+      "semi_major_axis_km": 24450.844,
+      "eccentricity": 0.7314262,
+      "periapsis_km": 188.721,
+      "apoapsis_km": 35956.698,
+      "inclination_deg": 23.6988,
+      "period_min": 634.162,
+      "lifespan_years": 15,
+      "epoch": "2016-05-06T00:43:04.000Z",
+      "mean_motion": 2.2707115,
+      "raan": 134.5081
+    }
+  },
+  {
+    "payload_id": "Thaicom 8",
+    "norad_id": [
+      41552
+    ],
+    "reused": false,
+    "customers": [
+      "Thaicom"
+    ],
+    "nationality": "Thailand",
+    "manufacturer": "Orbital ATK",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3100,
+    "payload_mass_lbs": 6800,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 78.5,
+      "semi_major_axis_km": 51666.207,
+      "eccentricity": 0.8697803,
+      "periapsis_km": 349.823,
+      "apoapsis_km": 90226.322,
+      "inclination_deg": 21.2202,
+      "period_min": 1947.913,
+      "lifespan_years": 15,
+      "epoch": "2016-05-27T23:23:41.000Z",
+      "mean_motion": 0.73925264,
+      "raan": 41.9275
+    }
+  },
+  {
+    "payload_id": "ABS-2A",
+    "norad_id": [
+      41588
+    ],
+    "reused": false,
+    "customers": [
+      "ABS"
+    ],
+    "nationality": "Hong Kong",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1800,
+    "payload_mass_lbs": 3950,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 75,
+      "semi_major_axis_km": 37871.464,
+      "eccentricity": 0.821147,
+      "periapsis_km": 395.29,
+      "apoapsis_km": 62591.369,
+      "inclination_deg": 24.6797,
+      "period_min": 1222.44,
+      "lifespan_years": 15,
+      "epoch": "2016-06-15T18:18:08.000Z",
+      "mean_motion": 1.17797102,
+      "raan": 312.669
+    }
+  },
+  {
+    "payload_id": "Eutelsat 117 West B",
+    "norad_id": [
+      40425
+    ],
+    "reused": false,
+    "customers": [
+      "Eutelsat"
+    ],
+    "nationality": "France",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1800,
+    "payload_mass_lbs": 3950,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -116.8,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 15
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-9",
+    "norad_id": [
+      41672
+    ],
+    "cap_serial": "C111",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2257,
+    "payload_mass_lbs": 4976,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6657.994,
+      "eccentricity": 0.0113615,
+      "periapsis_km": 204.214,
+      "apoapsis_km": 355.504,
+      "inclination_deg": 51.6593,
+      "period_min": 90.11,
+      "lifespan_years": null,
+      "epoch": "2016-07-18T05:09:49.000Z",
+      "mean_motion": 15.98039801,
+      "raan": 263.3429
+    },
+    "mass_returned_kg": 1550,
+    "mass_returned_lbs": 3410,
+    "flight_time_sec": 3409380,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-9_mission_overview2.pdf"
+  },
+  {
+    "payload_id": "JCSAT-16",
+    "norad_id": [
+      41729
+    ],
+    "reused": false,
+    "customers": [
+      "SKY Perfect JCSAT Group"
+    ],
+    "nationality": "Japan",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4600,
+    "payload_mass_lbs": 10100,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 162,
+      "semi_major_axis_km": 24545.758,
+      "eccentricity": 0.7339711,
+      "periapsis_km": 151.746,
+      "apoapsis_km": 36183.501,
+      "inclination_deg": 20.9339,
+      "period_min": 637.858,
+      "lifespan_years": 15,
+      "epoch": "2016-08-14T17:00:12.000Z",
+      "mean_motion": 2.25755358,
+      "raan": 232.6746
+    }
+  },
+  {
+    "payload_id": "Amos-6",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Spacecom"
+    ],
+    "nationality": "Israel",
+    "manufacturer": "Israel Aerospace Industries",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5500,
+    "payload_mass_lbs": 12100,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -4,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": 35785,
+      "apoapsis_km": 35800,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 15
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 1",
+    "norad_id": [
+      41917,
+      41918,
+      41919,
+      41920,
+      41921,
+      41922,
+      41923,
+      41924,
+      41925,
+      41926
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21200,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 7000.328,
+      "eccentricity": 0.00065,
+      "periapsis_km": 617.643,
+      "apoapsis_km": 626.743,
+      "inclination_deg": 86.66,
+      "period_min": 97.148,
+      "lifespan_years": 15,
+      "epoch": "2017-01-14T18:47:09.000Z",
+      "mean_motion": 14.82262465,
+      "raan": 86.1194
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-10",
+    "norad_id": [
+      42053
+    ],
+    "cap_serial": "C112",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2490,
+    "payload_mass_lbs": 5490,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6657.603,
+      "eccentricity": 0.0115859,
+      "periapsis_km": 202.334,
+      "apoapsis_km": 356.602,
+      "inclination_deg": 51.632,
+      "period_min": 90.102,
+      "lifespan_years": null,
+      "epoch": "2017-02-19T15:02:32.000Z",
+      "mean_motion": 15.98180622,
+      "raan": 264.9784
+    },
+    "mass_returned_kg": 1652,
+    "mass_returned_lbs": 3642,
+    "flight_time_sec": 2419620,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-10_mission_overview.pdf"
+  },
+  {
+    "payload_id": "EchoStar 23",
+    "norad_id": [
+      42070
+    ],
+    "reused": false,
+    "customers": [
+      "EchoStar"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Airbus Defence and Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5600,
+    "payload_mass_lbs": 12399,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -44.9,
+      "semi_major_axis_km": 24415.416,
+      "eccentricity": 0.7316014,
+      "periapsis_km": 174.928,
+      "apoapsis_km": 35899.633,
+      "inclination_deg": 22.4358,
+      "period_min": 632.784,
+      "lifespan_years": 15,
+      "epoch": "2017-03-16T11:49:24.000Z",
+      "mean_motion": 2.27565574,
+      "raan": 94.7626
+    }
+  },
+  {
+    "payload_id": "SES-10",
+    "norad_id": [
+      42432
+    ],
+    "reused": false,
+    "customers": [
+      "SES"
+    ],
+    "nationality": "Luxembourg",
+    "manufacturer": "Airbus Defence and Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5300,
+    "payload_mass_lbs": 11700,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -67,
+      "semi_major_axis_km": 24338.06,
+      "eccentricity": 0.7277995,
+      "periapsis_km": 246.697,
+      "apoapsis_km": 35673.154,
+      "inclination_deg": 26.1778,
+      "period_min": 629.779,
+      "lifespan_years": 15,
+      "epoch": "2017-03-31T18:57:30.000Z",
+      "mean_motion": 2.28651368,
+      "raan": 355.8821
+    }
+  },
+  {
+    "payload_id": "NROL-76",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "NRO"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 50,
+      "period_min": null,
+      "lifespan_years": 10
+    }
+  },
+  {
+    "payload_id": "Inmarsat-5 F4",
+    "norad_id": [
+      42698
+    ],
+    "reused": false,
+    "customers": [
+      "Inmarsat"
+    ],
+    "nationality": "United Kingdom",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 6070,
+    "payload_mass_lbs": 13380,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 117,
+      "semi_major_axis_km": 41490.535,
+      "eccentricity": 0.8370913,
+      "periapsis_km": 381.034,
+      "apoapsis_km": 69843.766,
+      "inclination_deg": 24.4943,
+      "period_min": 1401.791,
+      "lifespan_years": 15,
+      "epoch": "2017-05-15T11:56:39.000Z",
+      "mean_motion": 1.02725723,
+      "raan": 54.3609
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-11",
+    "norad_id": [
+      42744
+    ],
+    "cap_serial": "C106",
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2708,
+    "payload_mass_lbs": 5970,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6657.963,
+      "eccentricity": 0.0113366,
+      "periapsis_km": 204.35,
+      "apoapsis_km": 355.307,
+      "inclination_deg": 51.639,
+      "period_min": 90.109,
+      "lifespan_years": null,
+      "epoch": "2017-06-03T23:01:19.000Z",
+      "mean_motion": 15.9805087,
+      "raan": 104.5218
+    },
+    "mass_returned_kg": 1900,
+    "mass_returned_lbs": 4100,
+    "flight_time_sec": 2559840,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-11_mission_overview.pdf"
+  },
+  {
+    "payload_id": "BulgariaSat-1",
+    "norad_id": [
+      42801
+    ],
+    "reused": false,
+    "customers": [
+      "Bulgaria Sat"
+    ],
+    "nationality": "Bulgaria",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3669,
+    "payload_mass_lbs": 8089,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 1.9,
+      "semi_major_axis_km": 39240.194,
+      "eccentricity": 0.8320634,
+      "periapsis_km": 211.729,
+      "apoapsis_km": 65512.389,
+      "inclination_deg": 24.0585,
+      "period_min": 1289.307,
+      "lifespan_years": 15,
+      "epoch": "2017-06-23T21:14:42.000Z",
+      "mean_motion": 1.11687875,
+      "raan": 30.3062
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 2",
+    "norad_id": [
+      42803,
+      42804,
+      42805,
+      42806,
+      42807,
+      42808,
+      42809,
+      42805,
+      42810,
+      42811
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6996.605,
+      "eccentricity": 0.0009461,
+      "periapsis_km": 611.851,
+      "apoapsis_km": 625.09,
+      "inclination_deg": 86.6738,
+      "period_min": 97.071,
+      "lifespan_years": 15,
+      "epoch": "2017-06-26T02:39:56.000Z",
+      "mean_motion": 14.83445717,
+      "raan": 283.4606
+    }
+  },
+  {
+    "payload_id": "Intelsat 35e",
+    "norad_id": [
+      42818
+    ],
+    "reused": false,
+    "customers": [
+      "Intelsat"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Boeing",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 6761,
+    "payload_mass_lbs": 14905.45,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geosynchronous",
+      "longitude": -34.5,
+      "semi_major_axis_km": 27955.151,
+      "eccentricity": 0.7613464,
+      "periapsis_km": 293.462,
+      "apoapsis_km": 42860.569,
+      "inclination_deg": 25.8417,
+      "period_min": 775.269,
+      "lifespan_years": 15,
+      "epoch": "2017-07-06T01:38:03.000Z",
+      "mean_motion": 1.85741948,
+      "raan": 109.6958
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-12",
+    "norad_id": [
+      42904
+    ],
+    "reused": false,
+    "cap_serial": "C113",
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2910,
+    "payload_mass_lbs": 6415.5,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6658.399,
+      "eccentricity": 0.0116656,
+      "periapsis_km": 202.59,
+      "apoapsis_km": 357.938,
+      "inclination_deg": 51.6336,
+      "period_min": 90.118,
+      "lifespan_years": null,
+      "epoch": "2017-08-14T16:54:33.000Z",
+      "mean_motion": 15.97894031,
+      "raan": 106.677
+    },
+    "mass_returned_kg": 1724,
+    "mass_returned_lbs": 3800,
+    "flight_time_sec": 2842920,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-12_missionoverview.pdf"
+  },
+  {
+    "payload_id": "FormoSat-5",
+    "norad_id": [
+      42920
+    ],
+    "reused": false,
+    "customers": [
+      "NSPO (Taiwan)"
+    ],
+    "nationality": "Taiwan",
+    "manufacturer": "NSPO",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 475,
+    "payload_mass_lbs": 1047,
+    "orbit": "SSO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "sun-synchronous",
+      "longitude": null,
+      "semi_major_axis_km": 7097.533,
+      "eccentricity": 0.0014191,
+      "periapsis_km": 709.326,
+      "apoapsis_km": 729.47,
+      "inclination_deg": 98.2937,
+      "period_min": 99.179,
+      "lifespan_years": 5,
+      "epoch": "2017-08-24T20:23:42.000Z",
+      "mean_motion": 14.51916431,
+      "raan": 311.2602
+    }
+  },
+  {
+    "payload_id": "X-37B OTV-5",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "USAF"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Boeing Defense",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4990,
+    "payload_mass_lbs": 11001,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 54,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 3",
+    "norad_id": [
+      42955,
+      42956,
+      42957,
+      42958,
+      42959,
+      42960,
+      42961,
+      42962,
+      42963,
+      42964
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164.4,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6995.297,
+      "eccentricity": 0.0013243,
+      "periapsis_km": 607.898,
+      "apoapsis_km": 626.426,
+      "inclination_deg": 86.6843,
+      "period_min": 97.044,
+      "lifespan_years": 15,
+      "epoch": "2017-10-09T15:42:55.000Z",
+      "mean_motion": 14.83861798,
+      "raan": 270.9142
+    }
+  },
+  {
+    "payload_id": "SES-11 / Echostar 105",
+    "norad_id": [
+      42967
+    ],
+    "reused": false,
+    "customers": [
+      "SES",
+      "Echostar"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Airbus Defence and Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5200,
+    "payload_mass_lbs": 11464,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -105,
+      "semi_major_axis_km": 26792.29,
+      "eccentricity": 0.7503995,
+      "periapsis_km": 309.234,
+      "apoapsis_km": 40519.076,
+      "inclination_deg": 27.889,
+      "period_min": 727.401,
+      "lifespan_years": 15,
+      "epoch": "2017-10-12T00:59:44.000Z",
+      "mean_motion": 1.97964813,
+      "raan": 195.6799
+    }
+  },
+  {
+    "payload_id": "KoreaSat 5A",
+    "norad_id": [
+      42984
+    ],
+    "reused": false,
+    "customers": [
+      "KT Corporation"
+    ],
+    "nationality": "South Korea",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3700,
+    "payload_mass_lbs": 8157.104,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 113,
+      "semi_major_axis_km": 31613.233,
+      "eccentricity": 0.7892258,
+      "periapsis_km": 285.119,
+      "apoapsis_km": 50185.078,
+      "inclination_deg": 22.0428,
+      "period_min": 932.315,
+      "lifespan_years": 15,
+      "epoch": "2017-10-30T21:17:23.000Z",
+      "mean_motion": 1.54454079,
+      "raan": 163.1455
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-13",
+    "norad_id": [
+      43060
+    ],
+    "cap_serial": "C108",
+    "reused": true,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2205,
+    "payload_mass_lbs": 4861.2,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6657.799,
+      "eccentricity": 0.0114283,
+      "periapsis_km": 203.576,
+      "apoapsis_km": 355.751,
+      "inclination_deg": 51.6387,
+      "period_min": 90.106,
+      "lifespan_years": null,
+      "epoch": "2017-12-15T16:01:04.000Z",
+      "mean_motion": 15.98110186,
+      "raan": 213.9231
+    },
+    "mass_returned_kg": 1859.7,
+    "mass_returned_lbs": 4100,
+    "flight_time_sec": 2375340,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-13_mision_overview_low_res8.pdf"
+  },
+  {
+    "payload_id": "Iridium NEXT 4",
+    "norad_id": [
+      43070,
+      43071,
+      43072,
+      43073,
+      43074,
+      43075,
+      43076,
+      43077,
+      43078,
+      43079
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164.38,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6997.252,
+      "eccentricity": 0.0011082,
+      "periapsis_km": 611.363,
+      "apoapsis_km": 626.872,
+      "inclination_deg": 86.7012,
+      "period_min": 97.084,
+      "lifespan_years": 15,
+      "epoch": "2017-12-23T05:57:04.000Z",
+      "mean_motion": 14.83239912,
+      "raan": 176.6316
+    }
+  },
+  {
+    "payload_id": "ZUMA",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Northrop Grumman"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Northrop Grumman",
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "LEO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": 51,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "GovSat-1",
+    "norad_id": [
+      43178
+    ],
+    "reused": false,
+    "customers": [
+      "GovSat"
+    ],
+    "nationality": "Luxembourg",
+    "manufacturer": "Orbital ATK",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4230,
+    "payload_mass_lbs": 9325.6,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 21.5,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 15
+    }
+  },
+  {
+    "payload_id": "Tesla Roadster",
+    "norad_id": [
+      43205
+    ],
+    "reused": false,
+    "customers": [
+      "SpaceX"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Tesla",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1350,
+    "payload_mass_lbs": 2976.2,
+    "orbit": "HCO",
+    "orbit_params": {
+      "reference_system": "heliocentric",
+      "regime": null,
+      "longitude": null,
+      "semi_major_axis_km": 9943.766,
+      "eccentricity": 0.3404246,
+      "periapsis_km": 180.528,
+      "apoapsis_km": 6950.733,
+      "inclination_deg": 29.0185,
+      "period_min": 164.469,
+      "lifespan_years": 3500000,
+      "epoch": "2018-02-06T22:36:19.000Z",
+      "mean_motion": 8.75540848,
+      "raan": 287.358
+    }
+  },
+  {
+    "payload_id": "Paz",
+    "norad_id": [
+      43215
+    ],
+    "reused": false,
+    "customers": [
+      "HisdeSAT"
+    ],
+    "nationality": "Spain",
+    "manufacturer": "Airbus Defence and Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1350,
+    "payload_mass_lbs": 2976.2,
+    "orbit": "SSO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "sun-synchronous",
+      "longitude": null,
+      "semi_major_axis_km": 6886.22,
+      "eccentricity": 0.0013705,
+      "periapsis_km": 498.647,
+      "apoapsis_km": 517.522,
+      "inclination_deg": 97.4622,
+      "period_min": 94.783,
+      "lifespan_years": 15,
+      "epoch": "2018-02-22T15:45:36.000Z",
+      "mean_motion": 15.19257532,
+      "raan": 62.5094
+    }
+  },
+  {
+    "payload_id": "Tintin A & B",
+    "norad_id": [
+      43216,
+      43217
+    ],
+    "reused": false,
+    "customers": [
+      "SpaceX"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 800,
+    "payload_mass_lbs": 1763.7,
+    "orbit": "SSO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6883.927,
+      "eccentricity": 0.0015118,
+      "periapsis_km": 495.385,
+      "apoapsis_km": 516.2,
+      "inclination_deg": 97.4595,
+      "period_min": 94.735,
+      "lifespan_years": 1,
+      "epoch": "2018-02-22T15:41:15.000Z",
+      "mean_motion": 15.2001646,
+      "raan": 62.4965
+    }
+  },
+  {
+    "payload_id": "Hispasat 30W-6",
+    "norad_id": [
+      43228
+    ],
+    "reused": false,
+    "customers": [
+      "Hispasat"
+    ],
+    "nationality": "Spain",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 6092,
+    "payload_mass_lbs": 13430.6,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -30,
+      "semi_major_axis_km": 17600.66,
+      "eccentricity": 0.6271591,
+      "periapsis_km": 184.111,
+      "apoapsis_km": 22260.939,
+      "inclination_deg": 26.9686,
+      "period_min": 387.305,
+      "lifespan_years": 15,
+      "epoch": "2018-03-06T11:09:19.000Z",
+      "mean_motion": 3.71799939,
+      "raan": 80.183
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 5",
+    "norad_id": [
+      43249,
+      43250,
+      43251,
+      43252,
+      43253,
+      43254,
+      43255,
+      43256,
+      43257,
+      43258
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164.38,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6994.929,
+      "eccentricity": 0.0016569,
+      "periapsis_km": 605.204,
+      "apoapsis_km": 628.384,
+      "inclination_deg": 86.685,
+      "period_min": 97.036,
+      "lifespan_years": 15,
+      "epoch": "2018-03-30T15:49:47.000Z",
+      "mean_motion": 14.83978964,
+      "raan": 104.3315
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-14",
+    "norad_id": [
+      43267
+    ],
+    "cap_serial": "C110",
+    "reused": true,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2760,
+    "payload_mass_lbs": 6084.7,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6658.324,
+      "eccentricity": 0.011476,
+      "periapsis_km": 203.778,
+      "apoapsis_km": 356.6,
+      "inclination_deg": 51.6437,
+      "period_min": 90.117,
+      "lifespan_years": null,
+      "epoch": "2018-04-02T20:54:48.000Z",
+      "mean_motion": 15.97921108,
+      "raan": 34.3281
+    },
+    "mass_returned_kg": 1743,
+    "mass_returned_lbs": 3843,
+    "flight_time_sec": 3862140,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-14_mision_overview_high_res.pdf"
+  },
+  {
+    "payload_id": "TESS",
+    "norad_id": [
+      43435
+    ],
+    "reused": false,
+    "customers": [
+      "NASA"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Orbital ATK",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 350,
+    "payload_mass_lbs": 772,
+    "orbit": "HEO",
+    "orbit_params": {
+      "reference_system": "highly-elliptical",
+      "regime": "high-earth",
+      "longitude": null,
+      "semi_major_axis_km": 143549.447,
+      "eccentricity": 0.943685,
+      "periapsis_km": 1705.852,
+      "apoapsis_km": 272636.772,
+      "inclination_deg": 28.6882,
+      "period_min": 9021.152,
+      "lifespan_years": 10,
+      "epoch": "2018-04-25T05:40:13.000Z",
+      "mean_motion": 0.15962484,
+      "raan": 36.536
+    }
+  },
+  {
+    "payload_id": "Bangabandhu-1",
+    "norad_id": [
+      43463
+    ],
+    "reused": false,
+    "customers": [
+      "Bangladesh Gov"
+    ],
+    "nationality": "Bangladesh",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 3750,
+    "payload_mass_lbs": 8270,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 119.1,
+      "semi_major_axis_km": 24306.957,
+      "eccentricity": 0.7249088,
+      "periapsis_km": 308.495,
+      "apoapsis_km": 35549.15,
+      "inclination_deg": 19.3139,
+      "period_min": 628.572,
+      "lifespan_years": 15,
+      "epoch": "2018-05-11T21:52:04.000Z",
+      "mean_motion": 2.2909038,
+      "raan": 5.9439
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 6",
+    "norad_id": [
+      43478,
+      43479,
+      43480,
+      43481,
+      43482
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 4300,
+    "payload_mass_lbs": 9479.9,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6978.9,
+      "eccentricity": 0.0153544,
+      "periapsis_km": 493.608,
+      "apoapsis_km": 707.921,
+      "inclination_deg": 86.7101,
+      "period_min": 96.703,
+      "lifespan_years": 15,
+      "epoch": "2018-05-22T22:51:42.000Z",
+      "mean_motion": 14.89094608,
+      "raan": 239.925
+    }
+  },
+  {
+    "payload_id": "GRACE-FO 1-2",
+    "norad_id": [
+      43476,
+      43477
+    ],
+    "reused": false,
+    "customers": [
+      "NASA",
+      "DLR"
+    ],
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1160,
+    "payload_mass_lbs": 2557.4,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "sun-synchronous",
+      "longitude": null,
+      "semi_major_axis_km": 6872.352,
+      "eccentricity": 0.0015589,
+      "periapsis_km": 483.503,
+      "apoapsis_km": 504.93,
+      "inclination_deg": 88.9948,
+      "period_min": 94.496,
+      "lifespan_years": 5,
+      "epoch": "2018-05-22T21:20:29.000Z",
+      "mean_motion": 15.2385857,
+      "raan": 239.1029
+    }
+  },
+  {
+    "payload_id": "SES-12",
+    "norad_id": [
+      43488
+    ],
+    "reused": false,
+    "customers": [
+      "SES"
+    ],
+    "nationality": "Luxembourg",
+    "manufacturer": "Airbus Defence and Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5383.85,
+    "payload_mass_lbs": 11869.4,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 95,
+      "semi_major_axis_km": 35621.11,
+      "eccentricity": 0.8150421,
+      "periapsis_km": 210.27,
+      "apoapsis_km": 58275.679,
+      "inclination_deg": 25.9437,
+      "period_min": 1115.118,
+      "lifespan_years": 15,
+      "epoch": "2018-06-03T23:07:46.000Z",
+      "mean_motion": 1.29134293,
+      "raan": 162.9782
+    }
+  },
+  {
+    "payload_id": "SpaceX CRS-15",
+    "norad_id": [
+      43522
+    ],
+    "cap_serial": "C111",
+    "reused": true,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Dragon 1.1",
+    "payload_mass_kg": 2410,
+    "payload_mass_lbs": 5313,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6685.069,
+      "eccentricity": 0.0119429,
+      "periapsis_km": 227.094,
+      "apoapsis_km": 386.773,
+      "inclination_deg": 51.6352,
+      "period_min": 90.66,
+      "lifespan_years": null,
+      "epoch": "2018-06-29T11:28:11.000Z",
+      "mean_motion": 15.88341598,
+      "raan": 317.9412
+    },
+    "mass_returned_kg": 1700,
+    "mass_returned_lbs": 3747.9,
+    "flight_time_sec": 3069300,
+    "cargo_manifest": "https://www.nasa.gov/sites/default/files/atoms/files/spacex_crs-15_mision_overview_rev2_high_res7.pdf"
+  },
+  {
+    "payload_id": "Telstar 19V",
+    "norad_id": [
+      43562
+    ],
+    "reused": false,
+    "customers": [
+      "Telesat"
+    ],
+    "nationality": "Canada",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 7076,
+    "payload_mass_lbs": 15600,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -65,
+      "semi_major_axis_km": 15431.311,
+      "eccentricity": 0.5708998,
+      "periapsis_km": 243.444,
+      "apoapsis_km": 17862.909,
+      "inclination_deg": 27.0038,
+      "period_min": 317.953,
+      "lifespan_years": 15,
+      "epoch": "2018-07-22T07:51:05.000Z",
+      "mean_motion": 4.52895999,
+      "raan": 220.7033
+    }
+  },
+  {
+    "payload_id": "Iridium NEXT 7",
+    "norad_id": [
+      43569,
+      43570,
+      43571,
+      43572,
+      43573,
+      43574,
+      43575,
+      43576,
+      43577,
+      43578
+    ],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164.38,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6994.843,
+      "eccentricity": 0.001022,
+      "periapsis_km": 609.559,
+      "apoapsis_km": 623.856,
+      "inclination_deg": 86.6763,
+      "period_min": 97.034,
+      "lifespan_years": 15,
+      "epoch": "2018-07-25T19:08:38.000Z",
+      "mean_motion": 14.840065,
+      "raan": 181.7071
+    }
+  },
+  {
+    "payload_id": "Telkom-4",
+    "norad_id": [
+      43587
+    ],
+    "reused": false,
+    "customers": [
+      "Telkom"
+    ],
+    "nationality": "Indonesia",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 5800,
+    "payload_mass_lbs": 12786.81,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": -108,
+      "semi_major_axis_km": 21226.178,
+      "eccentricity": 0.6904141,
+      "periapsis_km": 193.19,
+      "apoapsis_km": 29502.896,
+      "inclination_deg": 27.0648,
+      "period_min": 512.941,
+      "lifespan_years": 15,
+      "epoch": "2018-08-07T06:57:16.000Z",
+      "mean_motion": 2.80734018,
+      "raan": 227.0228
+    }
+  },
+  {
+    "payload_id": "Telstar 18V",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Telesat"
+    ],
+    "nationality": "Canada",
+    "manufacturer": "SSL",
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "GTO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "geostationary",
+      "longitude": 138,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": 15
+    }
+  },
+  {
+    "payload_id": "SAOCOM 1A",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "CONAE"
+    ],
+    "nationality": null,
+    "manufacturer": null,
+    "payload_type": "Satellite",
+    "payload_mass_kg": 1600,
+    "payload_mass_lbs": 3527.4,
+    "orbit": "SSO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "sun-synchronous",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  },
+  {
+    "payload_id": "CCtCap",
+    "norad_id": [],
+    "cap_serial": null,
+    "reused": false,
+    "customers": [
+      "NASA (CRS)"
+    ],
+    "nationality": "United States",
+    "manufacturer": "SpaceX",
+    "payload_type": "Crew Dragon",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "ISS",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null,
+      "epoch": null,
+      "mean_motion": null,
+      "raan": null
+    },
+    "mass_returned_kg": null,
+    "mass_returned_lbs": null,
+    "flight_time_sec": null,
+    "cargo_manifest": null
+  },
+  {
+    "payload_id": "Iridium NEXT 8",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Iridium Communications"
+    ],
+    "nationality": "United States",
+    "manufacturer": "Thales Alenia Space",
+    "payload_type": "Satellite",
+    "payload_mass_kg": 9600,
+    "payload_mass_lbs": 21164.38,
+    "orbit": "PO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "low-earth",
+      "longitude": null,
+      "semi_major_axis_km": 6994.843,
+      "eccentricity": 0.001022,
+      "periapsis_km": 609.559,
+      "apoapsis_km": 623.856,
+      "inclination_deg": 86.6763,
+      "period_min": 97.034,
+      "lifespan_years": 15,
+      "epoch": "2018-07-25T19:08:38.000Z",
+      "mean_motion": 14.840065,
+      "raan": 181.7071
+    }
+  },
+  {
+    "payload_id": "SSO-A",
+    "norad_id": [],
+    "reused": false,
+    "customers": [
+      "Spaceflight Industries, Inc"
+    ],
+    "nationality": null,
+    "manufacturer": null,
+    "payload_type": "Satellite",
+    "payload_mass_kg": null,
+    "payload_mass_lbs": null,
+    "orbit": "SSO",
+    "orbit_params": {
+      "reference_system": "geocentric",
+      "regime": "sun-synchronous",
+      "longitude": null,
+      "semi_major_axis_km": null,
+      "eccentricity": null,
+      "periapsis_km": null,
+      "apoapsis_km": null,
+      "inclination_deg": null,
+      "period_min": null,
+      "lifespan_years": null
+    }
+  }
+]
+
