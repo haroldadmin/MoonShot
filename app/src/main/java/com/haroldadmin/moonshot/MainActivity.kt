@@ -1,9 +1,9 @@
 package com.haroldadmin.moonshot
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.haroldadmin.moonshot.base.MoonShotActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MoonShotActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

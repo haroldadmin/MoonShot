@@ -8,6 +8,8 @@ object Versions {
     const val ktxCore = "1.0.2"
     const val constraintLayout = "1.1.3"
 
+    const val mvrx = "1.0.1"
+
     const val rxJava = "2.2.8"
     const val rxAndroid = "2.1.1"
 

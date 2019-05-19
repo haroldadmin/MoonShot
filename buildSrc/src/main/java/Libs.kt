@@ -14,6 +14,8 @@ object Libs {
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktxCore}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
+    const val mvrx = "com.airbnb.android:mvrx:${Versions.mvrx}"
+
     const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
     const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
 
