@@ -5,6 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageWithCoreSummaries
 
 @Dao
 interface FirstStageSummaryDao {

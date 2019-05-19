@@ -1,24 +1,12 @@
 package com.haroldadmin.moonshot.database
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.haroldadmin.moonshot.database.capsule.Capsule
-import com.haroldadmin.moonshot.database.common.MissionSummary
-import com.haroldadmin.moonshot.database.core.Core
+import com.haroldadmin.moonshot.models.common.MissionSummary
+import com.haroldadmin.moonshot.models.core.Core
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
-import org.koin.test.inject
-import java.io.IOException
 import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)

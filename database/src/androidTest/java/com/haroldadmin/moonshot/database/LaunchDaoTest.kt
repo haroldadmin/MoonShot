@@ -1,9 +1,9 @@
 package com.haroldadmin.moonshot.database
 
-import com.haroldadmin.moonshot.database.launch.Launch
-import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
-import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummary
-import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

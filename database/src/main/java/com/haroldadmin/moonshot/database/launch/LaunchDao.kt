@@ -4,7 +4,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.haroldadmin.moonshot.database.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.models.launch.Launch
 import java.util.*
 
 @Dao

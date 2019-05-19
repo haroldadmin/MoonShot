@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.haroldadmin.moonshot.models.capsule.Capsule
+import com.haroldadmin.moonshot.models.capsule.CapsulesWithMissionSummaries
 
 @Dao
 interface CapsuleDao {

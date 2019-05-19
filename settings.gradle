@@ -1,4 +1,7 @@
+include ":moonshot-repository"
 include ":database"
 include ":spacex-api-wrapper"
 include ":app"
+include ":core"
+include ":models"
 rootProject.name="MoonShot"

@@ -31,19 +31,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(":models"))
-
     implementation(Libs.kotlinStdLib)
-
-    implementation(Libs.koinAndroid)
-
     implementation(Libs.room)
     kapt(Libs.roomCompiler)
     implementation(Libs.roomKtx)
-
-    testImplementation(Libs.junit)
-    androidTestImplementation(Libs.koinTest)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
-    androidTestImplementation(Libs.androidxTestCore)
 }
