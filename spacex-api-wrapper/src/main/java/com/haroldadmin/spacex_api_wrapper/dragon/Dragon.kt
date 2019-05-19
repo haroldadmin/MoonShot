@@ -18,7 +18,7 @@ data class Dragon (
     @Json(name = "orbit_duration_yr") val orbitDurationYear: Double,
     @Json(name = "dry_mass_kg") val dryMassKg: Double,
     @Json(name = "dry_mass_lb") val dryMassLb: Double,
-    @Json(name = "first_flight") val firstFlight: Date,
+    @Json(name = "first_flight") val firstFlight: String?,
     @Json(name = "heat_shield") val heatShield: HeatShield,
     @Json(name = "thrusters") val thrusters: List<Thruster>,
     @Json(name = "launch_payload_mass") val launchPayloadMass: Mass,
