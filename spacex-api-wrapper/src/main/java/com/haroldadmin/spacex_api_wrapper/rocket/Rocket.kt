@@ -1,9 +1,9 @@
 package com.haroldadmin.spacex_api_wrapper.rocket
 
+import com.haroldadmin.spacex_api_wrapper.common.Length
 import com.haroldadmin.spacex_api_wrapper.common.Mass
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import sun.security.util.Length
 
 @JsonClass(generateAdapter = true)
 data class Rocket (

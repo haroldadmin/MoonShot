@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class LandingLegs(
     @Json(name = "number") val number: Int,
-    @Json(name = "material") val material: String
+    @Json(name = "material") val material: String?
 )

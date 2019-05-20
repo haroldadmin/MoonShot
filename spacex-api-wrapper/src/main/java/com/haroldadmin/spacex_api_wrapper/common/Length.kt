@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Length(
-    @Json(name = "meters") val meters: Double,
-    @Json(name = "feet") val feet: Double
+    @Json(name = "meters") val meters: Double?,
+    @Json(name = "feet") val feet: Double?
 )
