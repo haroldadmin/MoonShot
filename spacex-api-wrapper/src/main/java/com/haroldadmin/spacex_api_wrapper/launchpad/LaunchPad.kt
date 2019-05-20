@@ -14,6 +14,6 @@ data class LaunchPad (
     @Json(name = "successful_launches") val successfulLaunches: Int,
     @Json(name = "wikipedia") val wikipedia: String,
     @Json(name = "details") val details: String,
-    @Json(name = "site_id") val sitId: String,
+    @Json(name = "site_id") val siteId: String,
     @Json(name = "site_name_long") val siteNameLong: String
 )
