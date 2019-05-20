@@ -10,7 +10,7 @@ data class Payload (
     @Json(name = "norad_id") val noraidId: List<Int>,
     @Json(name = "reused") val reused: Boolean,
     @Json(name = "customers") val customers: List<String>,
-    @Json(name = "nationality") val nationality: String,
+    @Json(name = "nationality") val nationality: String?,
     @Json(name = "manufacturer") val manufacturer: String?,
     @Json(name = "payload_type") val payloadType: String,
     @Json(name = "payload_mass_kg") val payloadMassKg: Double?,
