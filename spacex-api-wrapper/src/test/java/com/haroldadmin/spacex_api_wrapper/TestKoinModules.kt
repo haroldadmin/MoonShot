@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.Date
 
-val testModule = module {
+internal val testModule = module {
     single<Moshi> {
         Moshi.Builder()
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())

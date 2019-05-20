@@ -18,7 +18,7 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Retrofit
 
-class CoresTest: KoinTest {
+internal class CoresTest: KoinTest {
 
     lateinit var server: MockWebServer
     lateinit var service: CoresService

@@ -10,7 +10,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class LaunchDaoTest : BaseDbTest() {
+internal class LaunchDaoTest : BaseDbTest() {
 
     private val launchDao by lazy { db.launchDao() }
     private val rocketSummaryDao by lazy { db.rocketSummaryDao() }

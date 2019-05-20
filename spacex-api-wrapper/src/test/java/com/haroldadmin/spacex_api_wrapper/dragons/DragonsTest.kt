@@ -8,7 +8,7 @@ import com.haroldadmin.spacex_api_wrapper.fromFile
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class DragonsTest : BaseApiTest() {
+internal class DragonsTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(DragonsService::class.java) }
 

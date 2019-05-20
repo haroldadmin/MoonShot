@@ -7,7 +7,7 @@ import com.haroldadmin.spacex_api_wrapper.fromFile
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class LaunchPadTest: BaseApiTest() {
+internal class LaunchPadTest: BaseApiTest() {
 
     private val service by lazy { retrofit.create(LaunchPadService::class.java) }
 

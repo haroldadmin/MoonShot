@@ -12,7 +12,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import java.io.IOException
 
-abstract class BaseDbTest : KoinTest {
+internal abstract class BaseDbTest : KoinTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()

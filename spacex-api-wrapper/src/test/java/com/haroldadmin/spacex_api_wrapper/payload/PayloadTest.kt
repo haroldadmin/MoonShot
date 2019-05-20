@@ -7,7 +7,7 @@ import com.haroldadmin.spacex_api_wrapper.fromFile
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class PayloadTest : BaseApiTest() {
+internal class PayloadTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(PayloadsService::class.java) }
 

@@ -10,7 +10,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 import retrofit2.Retrofit
 
-abstract class BaseApiTest: KoinTest, DescribeSpec() {
+internal abstract class BaseApiTest: KoinTest, DescribeSpec() {
 
     protected val server by lazy { MockWebServer() }
     protected val retrofit by inject<Retrofit> { parametersOf(server) }

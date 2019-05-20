@@ -8,7 +8,7 @@ import com.haroldadmin.spacex_api_wrapper.mission.MissionService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class MissionsTest : BaseApiTest() {
+internal class MissionsTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(MissionService::class.java) }
 

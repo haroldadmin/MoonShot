@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshot.database
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.haroldadmin.moonshot.models.capsule.Capsule
 import com.haroldadmin.moonshot.models.common.MissionSummary
 import com.haroldadmin.moonshot.models.core.Core
 import kotlinx.coroutines.runBlocking
@@ -10,7 +11,7 @@ import org.junit.runner.RunWith
 import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
-class MissionSummaryDaoTest: BaseDbTest() {
+internal class MissionSummaryDaoTest : BaseDbTest() {
 
     private val capsuleDao by lazy { db.capsuleDao() }
     private val coreDao by lazy { db.coreDao() }

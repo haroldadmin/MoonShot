@@ -8,7 +8,7 @@ import com.haroldadmin.spacex_api_wrapper.history.HistoryService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class HistoricalEventsTest : BaseApiTest() {
+internal class HistoricalEventsTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(HistoryService::class.java) }
 

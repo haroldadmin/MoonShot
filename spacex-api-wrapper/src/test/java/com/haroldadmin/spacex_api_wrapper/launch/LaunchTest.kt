@@ -17,7 +17,7 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Retrofit
 
-class LaunchTest : BaseApiTest() {
+internal class LaunchTest : BaseApiTest() {
 
     private val service: LaunchesService by lazy { retrofit.create(LaunchesService::class.java) }
 

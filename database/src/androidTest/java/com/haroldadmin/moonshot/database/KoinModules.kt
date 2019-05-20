@@ -4,7 +4,7 @@ import androidx.room.Room
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val androidTestModule = module {
+internal val androidTestModule = module {
     single<MoonShotDb> {
         Room
             .inMemoryDatabaseBuilder(androidContext(), MoonShotDb::class.java)

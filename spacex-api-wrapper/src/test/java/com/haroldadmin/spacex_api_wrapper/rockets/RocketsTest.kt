@@ -8,7 +8,7 @@ import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-class RocketsTest : BaseApiTest() {
+internal class RocketsTest : BaseApiTest() {
     private val service by lazy { retrofit.create(RocketsService::class.java) }
 
     init {
