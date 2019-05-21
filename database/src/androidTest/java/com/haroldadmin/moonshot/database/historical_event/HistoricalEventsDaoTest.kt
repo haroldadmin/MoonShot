@@ -1,0 +1,24 @@
+package com.haroldadmin.moonshot.database.historical_event
+
+import com.haroldadmin.moonshot.database.BaseDbTest
+import com.haroldadmin.moonshot.models.history.HistoricalEvent
+import com.haroldadmin.moonshot.models.launch.Links
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+internal class HistoricalEventsDaoTest : BaseDbTest() {
+
+    private val historicalEventsDao by lazy { db.historicalEventsDao() }
+
+    @Test
+    fun historicalEventsWriteTest() = runBlocking {
+        val historicalEvent = HistoricalEvent.getSampleHistoricalEvent()
+        val links = Links.getSampleLinks()
+        historicalEventsDao.saveHistoricalEvent(historicalEvent)
+        val savedHistoricalEvent = historicalEventsDao.getHistoricalEvent(historicalEvent.id)
+        val savedLinks = savedHistoricalEvent.links
+        assertEquals(historicalEvent, savedHistoricalEvent)
+        assertEquals(savedLinks, savedLinks)
+    }
+}

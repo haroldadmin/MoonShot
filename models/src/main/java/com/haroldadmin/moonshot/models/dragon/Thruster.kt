@@ -14,7 +14,8 @@ import com.haroldadmin.moonshot.models.common.Thrust
         ForeignKey(
             entity = Dragon::class,
             parentColumns = ["dragon_id"],
-            childColumns = ["dragon_id"]
+            childColumns = ["dragon_id"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("dragon_id")]

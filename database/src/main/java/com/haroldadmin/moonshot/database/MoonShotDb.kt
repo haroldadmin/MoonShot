@@ -8,6 +8,7 @@ import com.haroldadmin.moonshot.database.common.MissionSummaryDao
 import com.haroldadmin.moonshot.database.core.CoreDao
 import com.haroldadmin.moonshot.database.dragons.DragonsDao
 import com.haroldadmin.moonshot.database.dragons.ThrustersDao
+import com.haroldadmin.moonshot.database.historical_event.HistoricalEventsDao
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
@@ -48,7 +49,6 @@ import com.haroldadmin.moonshot.models.launch.Links as LaunchLinks
         Dragon::class,
         Thruster::class,
         HistoricalEvent::class,
-        Links::class,
         CompanyInfo::class,
         Headquarters::class,
         LandingPad::class,
@@ -75,4 +75,5 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun thrustersDao(): ThrustersDao
     abstract fun dragonsDao(): DragonsDao
 
+    abstract fun historicalEventsDao(): HistoricalEventsDao
 }

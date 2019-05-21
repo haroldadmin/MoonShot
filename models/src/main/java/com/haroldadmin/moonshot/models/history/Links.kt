@@ -1,21 +1,19 @@
 package com.haroldadmin.moonshot.models.history
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "history_links")
 data class Links(
-    @ColumnInfo(name = "reddit")
     val reddit: String?,
-    @ColumnInfo(name = "article")
     val article: String?,
-    @ColumnInfo(name = "wikipedia")
     val wikipedia: String?
 ) {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "links_id")
-    var linksId: Int? = null
+    internal companion object {
+        fun getSampleLinks(): Links {
+            return Links(
+                reddit = null,
+                article = "http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
+                wikipedia = "https://en.wikipedia.org/wiki/Falcon_1"
+            )
+        }
+    }
 
 }
