@@ -40,4 +40,18 @@ data class Thruster(
     @ColumnInfo(name = "thruster_id")
     var thrusterId: Int? = null
 
+    companion object {
+        fun getSampleThruster(dragonId: String): Thruster {
+            return Thruster(
+                type = "Draco",
+                amount = 18,
+                pods = 4,
+                fuel1 = "nitrogen tetroxide",
+                fuel2 = "monomethylhydrazine",
+                thrust = Thrust(kN = 0.4, lbf = 90.0),
+                dragonId = dragonId
+            )
+        }
+    }
+
 }
