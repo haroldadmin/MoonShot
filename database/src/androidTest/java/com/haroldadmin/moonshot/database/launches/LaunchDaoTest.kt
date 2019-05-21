@@ -1,5 +1,6 @@
-package com.haroldadmin.moonshot.database
+package com.haroldadmin.moonshot.database.launches
 
+import com.haroldadmin.moonshot.database.BaseDbTest
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary

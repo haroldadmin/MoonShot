@@ -1,7 +1,7 @@
-package com.haroldadmin.moonshot.database
+package com.haroldadmin.moonshot.database.capsule
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.haroldadmin.moonshot.database.capsule.CapsuleDao
+import com.haroldadmin.moonshot.database.BaseDbTest
 import com.haroldadmin.moonshot.database.common.MissionSummaryDao
 import com.haroldadmin.moonshot.models.capsule.Capsule
 import kotlinx.coroutines.runBlocking

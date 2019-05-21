@@ -6,6 +6,8 @@ import androidx.room.TypeConverters
 import com.haroldadmin.moonshot.database.capsule.CapsuleDao
 import com.haroldadmin.moonshot.database.common.MissionSummaryDao
 import com.haroldadmin.moonshot.database.core.CoreDao
+import com.haroldadmin.moonshot.database.dragons.DragonsDao
+import com.haroldadmin.moonshot.database.dragons.ThrustersDao
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
@@ -18,12 +20,8 @@ import com.haroldadmin.moonshot.models.common.MissionSummary
 import com.haroldadmin.moonshot.models.common.Thrust
 import com.haroldadmin.moonshot.models.common.Volume
 import com.haroldadmin.moonshot.models.core.Core
-import com.haroldadmin.moonshot.models.dragon.Cargo
 import com.haroldadmin.moonshot.models.dragon.Dragon
-import com.haroldadmin.moonshot.models.dragon.HeatShield
-import com.haroldadmin.moonshot.models.dragon.PressurizedCapsule
 import com.haroldadmin.moonshot.models.dragon.Thruster
-import com.haroldadmin.moonshot.models.dragon.Trunk
 import com.haroldadmin.moonshot.models.history.HistoricalEvent
 import com.haroldadmin.moonshot.models.history.Links
 import com.haroldadmin.moonshot.models.info.CompanyInfo
@@ -47,12 +45,8 @@ import com.haroldadmin.moonshot.models.launch.Links as LaunchLinks
         Thrust::class,
         Volume::class,
         Core::class,
-        Cargo::class,
         Dragon::class,
-        HeatShield::class,
-        PressurizedCapsule::class,
         Thruster::class,
-        Trunk::class,
         HistoricalEvent::class,
         Links::class,
         CompanyInfo::class,
@@ -77,5 +71,8 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun secondStageSummaryDao(): SecondStageSummaryDao
     abstract fun rocketSummaryDao(): RocketSummaryDao
     abstract fun launchDao(): LaunchDao
+
+    abstract fun thrustersDao(): ThrustersDao
+    abstract fun dragonsDao(): DragonsDao
 
 }
