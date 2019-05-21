@@ -8,5 +8,5 @@ object ProjectProperties {
     const val versionName = "1.0"
 
     const val kotlinVersion = "1.3.31"
-    const val agpVersion = "3.5.0-beta01"
+    const val agpVersion = "3.5.0-beta02"
 }

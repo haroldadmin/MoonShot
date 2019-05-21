@@ -3,6 +3,7 @@ object Libs {
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${ProjectProperties.kotlinVersion}"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:${ProjectProperties.kotlinVersion}"
 
     const val koinCore = "org.koin:koin-core:${Versions.koin}"
     const val koinTest = "org.koin:koin-test:${Versions.koin}"
@@ -25,7 +26,7 @@ object Libs {
 
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.loggingInterceptor}"
-    const val networkResponseAdapter = "com.github.haroldadmin:NetworkResponse-Retrofit-Call-Adapter-Coroutines:${Versions.cnrAdapter}"
+    const val networkResponseAdapter = "com.github.haroldadmin:CoroutinesNetworkResponseAdapter:${Versions.cnrAdapter}"
     const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
     const val moshiCodegen = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
     const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverter}"
