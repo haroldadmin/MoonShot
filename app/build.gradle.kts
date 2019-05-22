@@ -47,6 +47,11 @@ dependencies {
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.kotlinStdLib)
+
+    implementation(Libs.koinAndroid)
+    implementation(Libs.koinViewModel)
+    implementation(Libs.koinScope)
+
     implementation(Libs.appCompat)
     implementation(Libs.ktxCore)
     implementation(Libs.constraintLayout)
