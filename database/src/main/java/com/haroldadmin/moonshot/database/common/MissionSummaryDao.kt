@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.database.common
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.haroldadmin.moonshot.models.common.MissionSummary
 
@@ -15,7 +16,8 @@ interface MissionSummaryDao {
     @Insert
     suspend fun saveMissionSummary(missionSummary: MissionSummary)
 
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMissionSummaries(vararg missionSummary: MissionSummary)
 
     @Delete

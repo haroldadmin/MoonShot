@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.database.launch
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -26,13 +27,13 @@ interface LaunchDao {
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
     suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveLaunch(launch: Launch)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveLaunches(vararg launch: Launch)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveLaunches(launches: List<Launch>)
 
     @Delete
