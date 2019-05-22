@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface InfoService {
 
-    @GET("/info")
+    @GET("info")
     fun getSpacexInfo(): Deferred<NetworkResponse<CompanyInfo, ErrorResponse>>
 
 }

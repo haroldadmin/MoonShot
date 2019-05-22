@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface LaunchesService {
 
-    @GET("/launches")
+    @GET("launches")
     fun getAllLaunches(
         @Query("flight_id") flightId: String? = null,
         @Query("start") start: String? = null,
@@ -24,10 +24,10 @@ interface LaunchesService {
         @Query("order") order: String = "desc"
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>>
 
-    @GET("/launches/{flightNumber}")
+    @GET("launches/{flightNumber}")
     fun getLaunch(@Path("flightNumber") flightNumber: Int): Deferred<NetworkResponse<Launch, ErrorResponse>>
 
-    @GET("/launches/past")
+    @GET("launches/past")
     fun getPastLaunches(
         @Query("flight_id") flightId: String? = null,
         @Query("start") start: String? = null,
@@ -42,7 +42,7 @@ interface LaunchesService {
         @Query("order") order: String = "desc"
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>>
 
-    @GET("/launches/upcoming")
+    @GET("launches/upcoming")
     fun getUpcomingLaunches(
         @Query("flight_id") flightId: String? = null,
         @Query("start") start: String? = null,
@@ -57,9 +57,9 @@ interface LaunchesService {
         @Query("order") order: String = "asc"
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>>
 
-    @GET("/launches/latest")
+    @GET("launches/latest")
     fun getLatestLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>>
 
-    @GET("/launches/next")
+    @GET("launches/next")
     fun getNextLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>>
 }

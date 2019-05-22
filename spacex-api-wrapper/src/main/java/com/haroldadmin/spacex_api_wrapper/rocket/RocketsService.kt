@@ -9,11 +9,11 @@ import retrofit2.http.Query
 
 interface RocketsService {
 
-    @GET("/rockets")
+    @GET("rockets")
     fun getAllRockets(
         @Query("limit") limit: Int? = null
     ): Deferred<NetworkResponse<List<Rocket>, ErrorResponse>>
 
-    @GET("/rockets/{rocketId}")
+    @GET("rockets/{rocketId}")
     fun getRocket(@Path("rocketId") rocketId: String): Deferred<NetworkResponse<Rocket, ErrorResponse>>
 }

@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface HistoryService {
 
-    @GET("/history")
+    @GET("history")
     fun getAllHistoricalEvents(
         @Query("start") start: String? = null,
         @Query("end") end: String? = null,
@@ -19,6 +19,6 @@ interface HistoryService {
         @Query("order") order: String = "desc"
     ): Deferred<NetworkResponse<List<HistoricalEvent>, ErrorResponse>>
 
-    @GET("/history/{id}")
+    @GET("history/{id}")
     fun getHistoricalEvent(@Path("id") id: Int): Deferred<NetworkResponse<HistoricalEvent, ErrorResponse>>
 }

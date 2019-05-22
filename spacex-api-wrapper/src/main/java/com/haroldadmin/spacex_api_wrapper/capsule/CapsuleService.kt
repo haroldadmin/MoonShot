@@ -22,10 +22,10 @@ interface CapsuleService {
         @Query("order") order: String = "desc"
     ): Deferred<NetworkResponse<List<Capsule>, ErrorResponse>>
 
-    @GET("/capsules/{capsuleSerial}")
+    @GET("capsules/{capsuleSerial}")
     fun getCapsule(@Path("capsuleSerial") serial: String): Deferred<NetworkResponse<Capsule, ErrorResponse>>
 
-    @GET("/capsules/upcoming")
+    @GET("capsules/upcoming")
     fun getUpcomingCapsules(
         @Query("status") status: String? = null,
         @Query("original_launch") originalLaunch: Date? = null,
@@ -38,7 +38,7 @@ interface CapsuleService {
         @Query("order") order: String = "desc"
     ): Deferred<NetworkResponse<List<Capsule>, ErrorResponse>>
 
-    @GET("/capsules/past")
+    @GET("capsules/past")
     fun getPastCapsules(
         @Query("status") status: String? = null,
         @Query("original_launch") originalLaunch: Date? = null,

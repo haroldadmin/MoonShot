@@ -10,7 +10,7 @@ import java.util.Date
 
 interface CoresService {
 
-    @GET("/cores")
+    @GET("cores")
     fun getAllCores(
         @Query("block") block: Int? = null,
         @Query("status") status: String? = null,
@@ -27,10 +27,10 @@ interface CoresService {
         @Query("order") order: String = "desc"
         ): Deferred<NetworkResponse<List<Core>, ErrorResponse>>
 
-    @GET("/cores/{coreSerial}")
+    @GET("cores/{coreSerial}")
     fun getCore(@Path("coreSerial") serial: String): Deferred<NetworkResponse<Core, ErrorResponse>>
 
-    @GET("/cores/upcoming")
+    @GET("cores/upcoming")
     fun getUpcomingCores(
         @Query("block") block: Int? = null,
         @Query("status") status: String? = null,
@@ -47,7 +47,7 @@ interface CoresService {
         @Query("order") order: String = "asc"
     ): Deferred<NetworkResponse<List<Core>, ErrorResponse>>
 
-    @GET("/cores/past")
+    @GET("cores/past")
     fun getPastCores(
         @Query("block") block: Int? = null,
         @Query("status") status: String? = null,

@@ -8,9 +8,9 @@ import retrofit2.http.Path
 
 interface PayloadsService {
 
-    @GET("/payloads")
+    @GET("payloads")
     fun getAllPayloads(): Deferred<NetworkResponse<List<Payload>, ErrorResponse>>
 
-    @GET("/payloads/{payloadId}")
+    @GET("payloads/{payloadId}")
     fun getPayload(@Path("payloadId") payloadId: String): Deferred<NetworkResponse<Payload, ErrorResponse>>
 }

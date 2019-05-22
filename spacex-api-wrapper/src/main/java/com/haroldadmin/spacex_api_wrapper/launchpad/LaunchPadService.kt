@@ -8,10 +8,10 @@ import retrofit2.http.Path
 
 interface LaunchPadService {
 
-    @GET("/launchpads")
+    @GET("launchpads")
     fun getAllLaunchPads(): Deferred<NetworkResponse<List<LaunchPad>, ErrorResponse>>
 
-    @GET("/launchpads/{siteId}")
+    @GET("launchpads/{siteId}")
     fun getLaunchPad(@Path("siteId") siteId: String): Deferred<NetworkResponse<LaunchPad, ErrorResponse>>
 
 }

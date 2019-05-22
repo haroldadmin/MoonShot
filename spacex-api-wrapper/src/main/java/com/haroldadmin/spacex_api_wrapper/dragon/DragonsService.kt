@@ -9,11 +9,11 @@ import retrofit2.http.Query
 
 interface DragonsService {
 
-    @GET("/dragons")
+    @GET("dragons")
     fun getAllDragons(
         @Query("limit") limit: Int? = null
     ): Deferred<NetworkResponse<List<Dragon>, ErrorResponse>>
 
-    @GET("/dragons/{id}")
+    @GET("dragons/{id}")
     fun getDragon(@Path("id") id: String): Deferred<NetworkResponse<Dragon, ErrorResponse>>
 }

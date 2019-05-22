@@ -8,9 +8,9 @@ import retrofit2.http.Path
 
 interface MissionService {
 
-    @GET("/missions")
+    @GET("missions")
     fun getAllMissions(): Deferred<NetworkResponse<List<Mission>, ErrorResponse>>
 
-    @GET("/missions/{missionId}")
+    @GET("missions/{missionId}")
     fun getMission(@Path("missionId") missionId: String): Deferred<NetworkResponse<Mission, ErrorResponse>>
 }
