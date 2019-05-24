@@ -42,7 +42,7 @@ dependencies {
     kapt(Libs.roomCompiler)
     implementation(Libs.roomKtx)
 
-    testImplementation(Libs.junit)
+    testImplementation(Libs.junit4)
     androidTestImplementation(Libs.koinTest)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)

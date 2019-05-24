@@ -19,10 +19,10 @@ interface LaunchDao {
     suspend fun getLaunch(flightNumber: Int): Launch
 
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp")
-    suspend fun getUpcomingLaunches(timestamp: Long = Date().time.div(1000L)): List<Launch>
+    suspend fun getUpcomingLaunches(timestamp: Long): List<Launch>
 
     @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp")
-    suspend fun getPastLaunches(timestamp: Long = Date().time.div(1000L)): List<Launch>
+    suspend fun getPastLaunches(timestamp: Long): List<Launch>
 
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
     suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary

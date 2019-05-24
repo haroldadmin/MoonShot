@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.database.launches
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.haroldadmin.moonshot.database.BaseDbTest
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
@@ -10,7 +11,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 internal class LaunchDaoTest : BaseDbTest() {
 
     private val launchDao by lazy { db.launchDao() }
