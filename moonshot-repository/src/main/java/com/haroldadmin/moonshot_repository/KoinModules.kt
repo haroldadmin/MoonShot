@@ -29,42 +29,10 @@ import org.koin.dsl.module
 
 val repositoryModule = databaseModule + networkModule + serviceModule + module {
 
-    single<RemoteDataSource> {
-        RemoteDataSource(
-            get<CapsuleService>(),
-            get<CoresService>(),
-            get<DragonsService>(),
-            get<HistoryService>(),
-            get<InfoService>(),
-            get<LandingPadsService>(),
-            get<LaunchesService>(),
-            get<LaunchPadService>(),
-            get<MissionService>(),
-            get<PayloadsService>(),
-            get<RocketsService>()
-        )
-    }
-
-    single<LocalDataSource> {
-        LocalDataSource(
-            get<FirstStageSummaryDao>(),
-            get<SecondStageSummaryDao>(),
-            get<RocketSummaryDao>(),
-            get<LaunchDao>(),
-            get<LandingPadDao>(),
-            get<CompanyInfoDao>(),
-            get<HistoricalEventsDao>(),
-            get<ThrustersDao>(),
-            get<DragonsDao>(),
-            get<CoreDao>(),
-            get<CapsuleDao>()
-        )
-    }
-
     single<LaunchesRepository> {
         LaunchesRepository(
-            get<LocalDataSource>(),
-            get<RemoteDataSource>()
+            get<LaunchDao>(),
+            get<LaunchesService>()
         )
     }
 }
