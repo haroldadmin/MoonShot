@@ -33,7 +33,7 @@ android {
     testOptions {
         unitTests.apply {
             all(KotlinClosure1<Test, Test>({
-                useJUnitPlatform()
+                useJUnitPlatform { }
                 testLogging {
                     exceptionFormat = TestExceptionFormat.FULL
                     events("started", "skipped", "passed", "failed")
@@ -61,6 +61,7 @@ dependencies {
     implementation(Libs.networkResponseAdapter)
     implementation(Libs.okHttp)
 
+    testImplementation(Libs.coroutinesTest)
     testImplementation(Libs.koinTest)
     testImplementation(Libs.kotlinTest)
     testImplementation(Libs.mockk)

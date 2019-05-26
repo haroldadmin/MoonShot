@@ -17,7 +17,7 @@ internal class CapsuleTest: BaseApiTest() {
 
         describe("Capsules Service") {
             context("All capsules request") {
-                val responseBody = server.enqueue { fromFile("/sampledata/capsules/all_capsules_response.json") }
+                server.enqueue { fromFile("/sampledata/capsules/all_capsules_response.json") }
                 val response = service.getAllCapsules().await()
 
                 it ("Should return successfully") {
@@ -30,7 +30,7 @@ internal class CapsuleTest: BaseApiTest() {
             }
 
             context("One capsule request") {
-                val responseBody = server.enqueue { fromFile("/sampledata/capsules/one_capsule_response.json") }
+                server.enqueue { fromFile("/sampledata/capsules/one_capsule_response.json") }
                 val serial = "C112"
                 val response = service.getCapsule(serial).await()
 
