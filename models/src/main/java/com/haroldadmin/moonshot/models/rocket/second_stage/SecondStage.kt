@@ -7,8 +7,8 @@ data class SecondStage (
     val engines: Int,
     val fuelAmountTons: Double,
     val burnTimeSec: Double,
-    @Embedded
+    @Embedded(prefix = "thrust_")
     val thrust: Thrust,
-    @Embedded
+    @Embedded(prefix = "payloads_")
     val payloads: Payloads
 )

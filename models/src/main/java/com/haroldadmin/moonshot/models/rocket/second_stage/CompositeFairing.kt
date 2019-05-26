@@ -4,8 +4,8 @@ import androidx.room.Embedded
 import com.haroldadmin.moonshot.models.common.Length
 
 data class CompositeFairing (
-    @Embedded
+    @Embedded(prefix = "height")
     val height: Length,
-    @Embedded
+    @Embedded(prefix = "diameter")
     val diameter: Length
 )

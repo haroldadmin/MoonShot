@@ -2,5 +2,5 @@ package com.haroldadmin.moonshot.models.rocket
 
 data class LandingLegs (
     val number: Int,
-    val materia: String
+    val material: String
 )

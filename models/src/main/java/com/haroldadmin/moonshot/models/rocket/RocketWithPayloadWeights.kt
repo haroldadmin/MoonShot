@@ -8,7 +8,7 @@ data class RocketWithPayloadWeights (
     val rocket: Rocket,
     @Relation(
         entity = PayloadWeight::class,
-        entityColumn = "id",
+        entityColumn = "rocket_id",
         parentColumn = "rocket_id"
     )
     val payloadWeights: List<PayloadWeight>

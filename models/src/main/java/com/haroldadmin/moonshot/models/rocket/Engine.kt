@@ -11,9 +11,9 @@ data class Engine (
     val engineLossMax: Int,
     val propellant1: String,
     val propellant2: String,
-    @Embedded
+    @Embedded(prefix = "thrust_sea_level_")
     val thrustSeaLevel: Thrust,
-    @Embedded
+    @Embedded(prefix = "thrust_vacuum_")
     val thrustVacuum: Thrust,
     val thrustToWeight: Double
 )

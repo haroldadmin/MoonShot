@@ -8,8 +8,8 @@ data class FirstStage (
     val engines: Int,
     val fuelAmountTons: Double,
     val burnTimeSec: Double,
-    @Embedded
+    @Embedded(prefix = "thrust_sea_level")
     val thrustSeaLevel: Thrust,
-    @Embedded
+    @Embedded(prefix = "thrust_vacuum")
     val thrustVacuum: Thrust
 )
