@@ -14,7 +14,8 @@ import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSum
         ForeignKey(
             entity = SecondStageSummary::class,
             parentColumns = ["second_stage_summary_id"],
-            childColumns = ["second_stage_summary_id"]
+            childColumns = ["second_stage_summary_id"],
+            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("second_stage_summary_id")]
