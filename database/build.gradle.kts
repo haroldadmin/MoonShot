@@ -34,6 +34,8 @@ dependencies {
     implementation(project(":models"))
 
     implementation(Libs.kotlinStdLib)
+    implementation(Libs.coroutines)
+    implementation(Libs.coroutinesAndroid)
     implementation(Libs.kotlinReflect)
 
     implementation(Libs.koinAndroid)
