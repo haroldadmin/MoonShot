@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.haroldadmin.moonshot.models.capsule.Capsule
 import com.haroldadmin.moonshot.models.capsule.CapsulesWithMissionSummaries
 
@@ -18,6 +19,7 @@ interface CapsuleDao {
     suspend fun getCapsule(serial: String): Capsule
 
     @Query("SELECT * FROM capsules WHERE capsule_serial = :serial")
+    @Transaction
     suspend fun getCapsuleWithMissionSummaries(serial: String): CapsulesWithMissionSummaries
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

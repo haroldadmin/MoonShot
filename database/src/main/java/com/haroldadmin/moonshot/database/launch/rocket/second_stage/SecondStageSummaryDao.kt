@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload
 import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummaryWithPayloads
@@ -22,6 +23,7 @@ interface SecondStageSummaryDao {
     suspend fun getPayload(id: String): Payload
 
     @Query("SELECT * FROM second_stage_summaries WHERE second_stage_summary_id = :id")
+    @Transaction
     suspend fun getSecondStageWithPayloads(id: Int): SecondStageSummaryWithPayloads
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

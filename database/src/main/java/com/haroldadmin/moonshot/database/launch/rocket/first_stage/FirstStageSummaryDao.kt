@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary
 import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageWithCoreSummaries
@@ -22,6 +23,7 @@ interface FirstStageSummaryDao {
     suspend fun getCoreSummary(serial: String): CoreSummary
 
     @Query("SELECT * FROM first_stage_summaries WHERE first_stage_summary_id = :id")
+    @Transaction
     suspend fun getFirstStageWithCoreSummaries(id: Int): FirstStageWithCoreSummaries
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

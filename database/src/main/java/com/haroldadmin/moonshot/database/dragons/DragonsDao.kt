@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.haroldadmin.moonshot.models.dragon.Dragon
 import com.haroldadmin.moonshot.models.dragon.DragonWithThrusters
 
@@ -15,6 +16,7 @@ interface DragonsDao {
     suspend fun getDragon(id: String): Dragon
 
     @Query("SELECT * FROM dragons WHERE dragon_id = :id")
+    @Transaction
     suspend fun getDragonWithThrusters(id: String): DragonWithThrusters
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -16,7 +16,6 @@ interface MissionSummaryDao {
     @Insert
     suspend fun saveMissionSummary(missionSummary: MissionSummary)
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveMissionSummaries(vararg missionSummary: MissionSummary)
 
