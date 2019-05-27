@@ -1,5 +1,3 @@
-import java.net.URI
-
 buildscript {
     repositories {
         google()
@@ -8,6 +6,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:${ProjectProperties.agpVersion}")
         classpath(kotlin("gradle-plugin", version = ProjectProperties.kotlinVersion))
+        classpath(Libs.safeArgs)
     }
 }
 

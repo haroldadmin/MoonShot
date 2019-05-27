@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -37,6 +39,9 @@ android {
         exclude("META-INF/notice.txt")
         exclude("META-INF/ASL2.0")
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -53,11 +58,16 @@ dependencies {
     implementation(Libs.koinScope)
 
     implementation(Libs.appCompat)
+    implementation(Libs.materialComponents)
     implementation(Libs.ktxCore)
     implementation(Libs.constraintLayout)
+    implementation(Libs.navigation)
+    implementation(Libs.navigationUi)
     implementation(Libs.mvrx)
+    implementation(Libs.epoxy)
+    kapt(Libs.epoxyProcessor)
 
-    testImplementation(Libs.junit)
+    testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)
 }
