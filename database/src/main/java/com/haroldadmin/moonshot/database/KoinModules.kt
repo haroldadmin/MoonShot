@@ -13,6 +13,7 @@ import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
+import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -75,4 +76,7 @@ val databaseModule = module {
         get<MoonShotDb>().launchDao()
     }
 
+    single<RocketsDao> {
+        get<MoonShotDb>().rocketsDao()
+    }
 }

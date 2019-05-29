@@ -9,7 +9,7 @@ data class FirstStage(
     @Json(name = "reusable") val reusable: Boolean,
     @Json(name = "engines") val engines: Int,
     @Json(name = "fuel_amount_tons") val fuelAmountTons: Double,
-    @Json(name = "burn_time_sec") val burnTimeSecs: Double,
+    @Json(name = "burn_time_sec") val burnTimeSecs: Double?,
     @Json(name = "thrust_sea_level") val thrustSeaLevel: Thrust,
     @Json(name = "thrust_vacuum") val thrustVacuum: Thrust
 )

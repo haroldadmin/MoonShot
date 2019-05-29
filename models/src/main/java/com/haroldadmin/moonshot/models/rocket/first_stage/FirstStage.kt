@@ -7,7 +7,7 @@ data class FirstStage (
     val reusable: Boolean,
     val engines: Int,
     val fuelAmountTons: Double,
-    val burnTimeSec: Double,
+    val burnTimeSec: Double?,
     @Embedded(prefix = "thrust_sea_level")
     val thrustSeaLevel: Thrust,
     @Embedded(prefix = "thrust_vacuum")

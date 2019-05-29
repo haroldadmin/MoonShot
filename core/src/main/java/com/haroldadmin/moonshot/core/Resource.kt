@@ -20,5 +20,5 @@ sealed class Resource<out T> {
      */
     object Loading: Resource<Nothing>()
 
-    object Unitialized: Resource<Nothing>()
+    object Uninitialized: Resource<Nothing>()
 }

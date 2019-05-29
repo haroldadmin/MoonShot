@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 data class SecondStage(
     @Json(name = "engines") val engines: Int,
     @Json(name = "fuel_amount_tons") val fuelAmountTons: Double?,
-    @Json(name = "burn_time_sec") val burnTimeSecs: Double,
+    @Json(name = "burn_time_sec") val burnTimeSecs: Double?,
     @Json(name = "thrust") val thrust: Thrust,
     @Json(name = "payloads") val payloads: Payloads
 )
