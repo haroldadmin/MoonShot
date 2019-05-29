@@ -18,11 +18,12 @@ class MainActivity : MoonShotActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         navController = findNavController(R.id.navHostFragment)
         binding.mainToolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
+        binding.mainBottomNav.setupWithNavController(navController)
     }
 }

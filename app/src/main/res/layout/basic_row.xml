@@ -13,6 +13,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/space_mono"
             android:paddingLeft="16dp"
             android:paddingTop="24dp"
             android:paddingRight="16dp"
