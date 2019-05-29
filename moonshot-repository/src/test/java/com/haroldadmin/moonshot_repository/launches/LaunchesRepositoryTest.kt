@@ -1,8 +1,9 @@
-package com.haroldadmin.moonshot_repository
+package com.haroldadmin.moonshot_repository.launches
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
+import com.haroldadmin.moonshot_repository.launch.LaunchesRepository
 import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import io.kotlintest.matchers.collections.shouldHaveSize

@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketWithPayloadWeights
 
@@ -27,6 +28,24 @@ interface RocketsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRockets(vararg rocket: Rocket)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveRockets(rockets: List<Rocket>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>)
+
+    @Transaction
+    suspend fun saveRocketsWithPayloadWeights(rockets: List<Rocket>, payloadWeights: List<PayloadWeight>) {
+        saveRockets(rockets)
+        savePayloadWeights(payloadWeights)
+    }
+
+    @Transaction
+    suspend fun saveRocketWithPayloadWeights(rocket: Rocket, payloadWeights: List<PayloadWeight>) {
+        saveRocket(rocket)
+        savePayloadWeights(payloadWeights)
+    }
 
     @Delete
     suspend fun deleteRocket(rocket: Rocket)

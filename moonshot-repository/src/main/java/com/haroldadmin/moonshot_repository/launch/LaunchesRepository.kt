@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot_repository
+package com.haroldadmin.moonshot_repository.launch
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource

@@ -21,7 +21,7 @@ object Versions {
     const val retrofit = "2.5.0"
     const val okHttp = "3.14.2"
     const val loggingInterceptor = "3.14.1"
-    const val cnrAdapter = "2.0"
+    const val cnrAdapter = "2.0.2"
     const val moshi = "1.8.0"
     const val moshiConverter = "2.4.0"
     const val moshiAdapters = "1.8.0"

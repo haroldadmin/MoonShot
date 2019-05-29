@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot_repository
+package com.haroldadmin.moonshot_repository.launches
 
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
