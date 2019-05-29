@@ -5,12 +5,6 @@ import com.haroldadmin.spacex_api_wrapper.common.*
 import com.haroldadmin.spacex_api_wrapper.rocket.*
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import com.haroldadmin.moonshot.models.common.Length as DbLength
-import com.haroldadmin.moonshot.models.common.Location as DbLocation
-import com.haroldadmin.moonshot.models.common.Mass as DbMass
-import com.haroldadmin.moonshot.models.common.MissionSummary as DbMissionSummary
-import com.haroldadmin.moonshot.models.common.Thrust as DbThrust
-import com.haroldadmin.moonshot.models.common.Volume as DbVolume
 
 internal class MappersTest : DescribeSpec({
     describe("Common Mappers") {
@@ -195,9 +189,7 @@ internal class MappersTest : DescribeSpec({
                     thrust shouldBe apiSs.thrust.toDbThrust()
                     payloads shouldBe apiSs.payloads.toDbPayloads()
                 }
-
             }
-
         }
 
         context("First Stage") {
@@ -223,9 +215,7 @@ internal class MappersTest : DescribeSpec({
                     thrustVacuum shouldBe apiFs.thrustVacuum.toDbThrust()
                     thrustSeaLevel shouldBe apiFs.thrustSeaLevel.toDbThrust()
                 }
-
             }
-
         }
 
         context("Payload Weight") {
@@ -241,7 +231,7 @@ internal class MappersTest : DescribeSpec({
 
             val dbPw = apiPw.toDbPayloadWeight(rocketId)
 
-            it ("Should map values correctly") {
+            it("Should map values correctly") {
                 with(dbPw) {
                     payloadWeightId shouldBe apiPw.id
                     name shouldBe apiPw.name
@@ -250,7 +240,6 @@ internal class MappersTest : DescribeSpec({
                     rocketId shouldBe rocketId
                 }
             }
-
         }
 
         context("Rocket") {
@@ -301,7 +290,7 @@ internal class MappersTest : DescribeSpec({
 
             val dbRocket = apiRocket.toDbRocket()
 
-            it ("Should map values correctly") {
+            it("Should map values correctly") {
                 with(dbRocket) {
 
                     rocketId shouldBe apiRocket.rockedId

@@ -65,5 +65,4 @@ class RocketsRepository(
             else -> Resource.Error(rocketsDao.getRocket(rocketId), null)
         }
     }
-
 }

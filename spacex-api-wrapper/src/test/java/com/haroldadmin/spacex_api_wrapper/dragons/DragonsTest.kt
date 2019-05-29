@@ -17,7 +17,7 @@ internal class DragonsTest : BaseApiTest() {
         describe("Dragons service") {
 
             context("All dragons") {
-                server.enqueue{ fromFile("/sampledata/dragons/all_dragons.json") }
+                server.enqueue { fromFile("/sampledata/dragons/all_dragons.json") }
                 val response = service.getAllDragons().await()
 
                 it("Should return a succesful response") {
@@ -43,7 +43,5 @@ internal class DragonsTest : BaseApiTest() {
                 }
             }
         }
-
     }
-
 }

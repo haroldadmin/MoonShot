@@ -24,5 +24,4 @@ interface MissionSummaryDao {
 
     @Delete
     suspend fun deleteMissionSummaries(vararg missionSummaries: MissionSummary)
-
 }

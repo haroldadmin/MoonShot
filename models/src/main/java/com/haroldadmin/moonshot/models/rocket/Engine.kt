@@ -3,7 +3,7 @@ package com.haroldadmin.moonshot.models.rocket
 import androidx.room.Embedded
 import com.haroldadmin.moonshot.models.common.Thrust
 
-data class Engine (
+data class Engine(
     val number: Int,
     val type: String,
     val version: String,

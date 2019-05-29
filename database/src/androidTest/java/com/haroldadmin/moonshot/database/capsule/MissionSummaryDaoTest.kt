@@ -39,5 +39,4 @@ internal class MissionSummaryDaoTest : BaseDbTest() {
             assertEquals(missions.size, it.missions.size)
         }
     }
-
 }

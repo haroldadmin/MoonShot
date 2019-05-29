@@ -38,5 +38,4 @@ interface LaunchDao {
 
     @Delete
     suspend fun deleteLaunch(launch: Launch)
-
 }

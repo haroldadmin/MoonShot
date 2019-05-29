@@ -5,12 +5,11 @@ import com.haroldadmin.spacex_api_wrapper.common.Mass
 import com.haroldadmin.spacex_api_wrapper.common.Volume
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.util.Date
 
 @JsonClass(generateAdapter = true)
-data class Dragon (
+data class Dragon(
     @Json(name = "id") val id: String,
-    @Json(name = "name") val name:  String,
+    @Json(name = "name") val name: String,
     @Json(name = "type") val type: String,
     @Json(name = "active") val active: Boolean,
     @Json(name = "crew_capacity") val crewCapacity: Int,

@@ -36,6 +36,4 @@ data class HistoricalEvent(
             )
         }
     }
-
 }
-

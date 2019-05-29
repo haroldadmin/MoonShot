@@ -4,7 +4,7 @@ import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 
-class FakeLaunchesDao(val sampleData: List<Launch> = listOf()): LaunchDao {
+class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao {
     override suspend fun getAllLaunches(): List<Launch> = sampleData
 
     override suspend fun getLaunch(flightNumber: Int): Launch = Launch.getSampleLaunch()
@@ -22,5 +22,4 @@ class FakeLaunchesDao(val sampleData: List<Launch> = listOf()): LaunchDao {
     override suspend fun saveLaunches(launches: List<Launch>) = Unit
 
     override suspend fun deleteLaunch(launch: Launch) = Unit
-
 }

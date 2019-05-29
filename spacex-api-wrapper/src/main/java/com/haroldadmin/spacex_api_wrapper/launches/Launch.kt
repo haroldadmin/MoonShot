@@ -4,9 +4,8 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.Date
 
-
 @JsonClass(generateAdapter = true)
-data class Launch (
+data class Launch(
     @Json(name = "flight_number") val flightNumber: Int,
     @Json(name = "mission_name") val missionName: String,
     @Json(name = "mission_id") val missionId: List<String>,
@@ -27,4 +26,3 @@ data class Launch (
     @Json(name = "static_fire_date_utc") val staticFireDate: Date?,
     @Json(name = "timeline") val timeline: Timeline?
 )
-

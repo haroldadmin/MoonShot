@@ -9,7 +9,7 @@ import com.haroldadmin.moonshot.models.rocket.PayloadWeight as DbPayloadWeight
 class FakeRocketsDao(
     val sampleRockets: List<DbRocket> = listOf(),
     val samplePayloadWeights: List<DbPayloadWeight> = listOf()
-): RocketsDao {
+) : RocketsDao {
     override suspend fun getAllRockets(): List<DbRocket> = sampleRockets
 
     override suspend fun getRocket(rocketId: String): DbRocket = DbRocket.getSampleRocket()
@@ -30,6 +30,4 @@ class FakeRocketsDao(
     override suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>) = Unit
 
     override suspend fun deleteRocket(rocket: DbRocket) = Unit
-
-
 }

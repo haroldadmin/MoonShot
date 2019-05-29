@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class CompanyDaoTest: BaseDbTest() {
+internal class CompanyDaoTest : BaseDbTest() {
 
     private val dao by lazy { db.companyInfoDao() }
 

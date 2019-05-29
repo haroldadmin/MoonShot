@@ -8,7 +8,7 @@ import io.kotlintest.matchers.numerics.shouldBeGreaterThan
 import io.kotlintest.matchers.string.shouldContain
 import io.kotlintest.shouldBe
 
-internal class InfoTest: BaseApiTest() {
+internal class InfoTest : BaseApiTest() {
     private val service by lazy { retrofit.create(InfoService::class.java) }
 
     init {

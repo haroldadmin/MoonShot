@@ -11,7 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class CoreDaoTest: BaseDbTest() {
+internal class CoreDaoTest : BaseDbTest() {
 
     private val dao by lazy { db.coreDao() }
     private val capsuleDao by lazy { db.capsuleDao() }

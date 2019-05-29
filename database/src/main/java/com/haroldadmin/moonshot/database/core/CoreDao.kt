@@ -29,5 +29,4 @@ interface CoreDao {
 
     @Delete
     suspend fun deleteCore(core: Core)
-
 }

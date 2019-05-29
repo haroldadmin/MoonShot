@@ -53,7 +53,6 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 it("Should return $sampleData") {
                     (launches as Resource.Success<List<DbLaunch>>).data shouldHaveSize 0
                 }
-
             }
 
             context("Get all launches with network error") {
@@ -94,7 +93,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 )
 
                 val launches = repository.getAllLaunches()
-             
+
                 it("Should call the api service") {
                     verify { service.getAllLaunches() }
                 }
@@ -102,7 +101,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 it("Should call the dao") {
                     coVerify { dao.getAllLaunches() }
                 }
-                
+
                 it("Should return Resource.Error") {
                     launches.shouldBeTypeOf<Resource.Error<List<Launch>, *>>()
                 }
@@ -115,6 +114,5 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
             }
         }
-
     }
 }

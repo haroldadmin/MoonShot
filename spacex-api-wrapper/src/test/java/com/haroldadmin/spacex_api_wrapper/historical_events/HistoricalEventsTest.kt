@@ -41,7 +41,6 @@ internal class HistoricalEventsTest : BaseApiTest() {
                     (response as NetworkResponse.Success).body.id shouldBe id
                 }
             }
-
         }
     }
 }

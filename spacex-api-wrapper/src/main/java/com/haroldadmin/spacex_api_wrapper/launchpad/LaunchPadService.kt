@@ -13,5 +13,4 @@ interface LaunchPadService {
 
     @GET("launchpads/{siteId}")
     fun getLaunchPad(@Path("siteId") siteId: String): Deferred<NetworkResponse<LaunchPad, ErrorResponse>>
-
 }

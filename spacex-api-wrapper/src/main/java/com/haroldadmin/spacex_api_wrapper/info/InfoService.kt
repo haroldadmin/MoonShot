@@ -9,5 +9,4 @@ interface InfoService {
 
     @GET("info")
     fun getSpacexInfo(): Deferred<NetworkResponse<CompanyInfo, ErrorResponse>>
-
 }

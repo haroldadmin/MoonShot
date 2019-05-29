@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
-internal class CapsuleDaoTest: BaseDbTest() {
+internal class CapsuleDaoTest : BaseDbTest() {
 
     private val capsuleDao: CapsuleDao by lazy { db.capsuleDao() }
     private val missionSummaryDao: MissionSummaryDao by lazy { db.missionSummaryDao() }

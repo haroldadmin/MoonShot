@@ -27,5 +27,4 @@ interface DragonsDao {
 
     @Delete
     suspend fun deleteDragon(dragon: Dragon)
-
 }

@@ -4,8 +4,7 @@ import io.kotlintest.matchers.types.shouldNotBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 
-
-class ResourceTest : DescribeSpec( {
+class ResourceTest : DescribeSpec({
 
         describe("Resource") {
 
@@ -47,7 +46,5 @@ class ResourceTest : DescribeSpec( {
                     loadingResource.shouldNotBeTypeOf<Resource.Error<*, *>>()
                 }
             }
-
         }
-
 })

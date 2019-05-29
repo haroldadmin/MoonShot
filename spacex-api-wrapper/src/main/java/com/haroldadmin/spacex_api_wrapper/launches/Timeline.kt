@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Timeline(
     @Json(name = "webcast_liftoff") val webcastLiftoff: Int?,
-    @Json(name = "go_for_prop_loading") val goForPropLoading : Int?,
+    @Json(name = "go_for_prop_loading") val goForPropLoading: Int?,
     @Json(name = "rp1_loading") val rp1Loading: Int?,
     @Json(name = "stage1_lox_loading") val stage1LoxLoading: Int?,
     @Json(name = "stage2_lox_loading") val stage2LoxLoading: Int?,
@@ -18,7 +18,7 @@ data class Timeline(
     @Json(name = "liftoff") val liftoff: Int?,
     @Json(name = "maxq") val maxQ: Int?,
     @Json(name = "meco") val meco: Int?,
-    @Json(name = "stage_sep") val stageSeparation : Int?,
+    @Json(name = "stage_sep") val stageSeparation: Int?,
     @Json(name = "second_stage_ignition") val secondStateIgnition: Int?,
     @Json(name = "fairing_deploy") val fairingDeploy: Int?,
     @Json(name = "first_stage_entry_burn") val firstStageEntryBurn: Int?,

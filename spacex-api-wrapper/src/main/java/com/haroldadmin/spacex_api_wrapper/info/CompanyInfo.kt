@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CompanyInfo (
+data class CompanyInfo(
     @Json(name = "name") val name: String,
     @Json(name = "founder") val founder: String,
     @Json(name = "founded") val foundedYear: Int,

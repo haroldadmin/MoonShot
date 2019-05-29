@@ -18,7 +18,7 @@ import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Retrofit
 
-internal class CoresTest: KoinTest {
+internal class CoresTest : KoinTest {
 
     lateinit var server: MockWebServer
     lateinit var service: CoresService
@@ -58,7 +58,6 @@ internal class CoresTest: KoinTest {
         val response = service.getCore(serial).await()
         assertTrue(response is NetworkResponse.Success)
         assertTrue((response as NetworkResponse.Success).body.serial == serial)
-
     }
 
     @After

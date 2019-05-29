@@ -7,7 +7,7 @@ import com.haroldadmin.spacex_api_wrapper.fromFile
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 
-internal class LaunchPadTest: BaseApiTest() {
+internal class LaunchPadTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(LaunchPadService::class.java) }
 
@@ -19,11 +19,11 @@ internal class LaunchPadTest: BaseApiTest() {
 
                 val response = service.getAllLaunchPads().await()
 
-                it ("Should return successfully") {
+                it("Should return successfully") {
                     (response is NetworkResponse.Success) shouldBe true
                 }
 
-                it ("Should parse sample data correctly") {
+                it("Should parse sample data correctly") {
                     (response as NetworkResponse.Success).body shouldHaveSize 6
                 }
             }
@@ -33,15 +33,14 @@ internal class LaunchPadTest: BaseApiTest() {
                 server.enqueue { fromFile("/sampledata/launch_pads/one_launch_pad.json") }
                 val response = service.getLaunchPad(siteId).await()
 
-                it ("Should return successfully") {
+                it("Should return successfully") {
                     (response is NetworkResponse.Success) shouldBe true
                 }
 
-                it ("Should parse sample data correctly") {
+                it("Should parse sample data correctly") {
                     (response as NetworkResponse.Success).body.siteId shouldBe siteId
                 }
             }
         }
-
     }
 }

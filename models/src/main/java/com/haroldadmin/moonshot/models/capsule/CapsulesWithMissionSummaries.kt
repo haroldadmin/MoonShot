@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.haroldadmin.moonshot.models.common.MissionSummary
 
-data class CapsulesWithMissionSummaries (
+data class CapsulesWithMissionSummaries(
     @Embedded
     val capsule: Capsule,
     @Relation(

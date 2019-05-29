@@ -9,7 +9,7 @@ import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 
-internal class CapsuleTest: BaseApiTest() {
+internal class CapsuleTest : BaseApiTest() {
 
     private val service by lazy { retrofit.create(CapsuleService::class.java) }
 
@@ -20,11 +20,11 @@ internal class CapsuleTest: BaseApiTest() {
                 server.enqueue { fromFile("/sampledata/capsules/all_capsules_response.json") }
                 val response = service.getAllCapsules().await()
 
-                it ("Should return successfully") {
+                it("Should return successfully") {
                     (response is NetworkResponse.Success) shouldBe true
                 }
 
-                it ("Should parse sample data correctly") {
+                it("Should parse sample data correctly") {
                     (response as NetworkResponse.Success).body shouldHaveSize 18
                 }
             }
@@ -43,7 +43,5 @@ internal class CapsuleTest: BaseApiTest() {
                 }
             }
         }
-
     }
-
 }

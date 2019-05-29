@@ -52,7 +52,6 @@ internal fun CompositeFairing.toDbCompositeFairing(): DbCompositeFairing {
         height = this.height.toDbLength(),
         diameter = this.diameter.toDbLength()
     )
-
 }
 
 internal fun Payloads.toDbPayloads(): DbPayloads {

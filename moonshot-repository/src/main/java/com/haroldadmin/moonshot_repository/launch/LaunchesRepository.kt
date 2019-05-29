@@ -78,7 +78,6 @@ class LaunchesRepository(
                 Resource.Error(localDataSource.getPastLaunches(currentTime), null)
             }
         }
-
     }
 
     @FlowPreview

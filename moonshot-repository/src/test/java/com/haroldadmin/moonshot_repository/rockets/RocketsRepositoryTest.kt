@@ -18,7 +18,7 @@ import kotlinx.coroutines.CompletableDeferred
 import java.io.IOException
 
 @Suppress("DeferredResultUnused", "UNCHECKED_CAST")
-class RocketsRepositoryTest: DescribeSpec() {
+class RocketsRepositoryTest : DescribeSpec() {
 
     private val dao: RocketsDao = spyk(FakeRocketsDao())
     private val service = mockk<RocketsService>()
@@ -35,18 +35,18 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rockets = repository.getAllRockets()
 
-                it ("Should call the api service") {
+                it("Should call the api service") {
                     verify { service.getAllRockets() }
                 }
 
-                it ("Should call the dao") {
+                it("Should call the dao") {
                     coVerify {
                         dao.getAllRockets()
                         dao.saveRocketsWithPayloadWeights(any(), any())
                     }
                 }
 
-                it ("Should return Resource.Success") {
+                it("Should return Resource.Success") {
                     rockets.shouldBeTypeOf<Resource.Success<List<Rocket>>>()
                 }
             }
@@ -59,11 +59,11 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rockets = repository.getAllRockets()
 
-                it ("Should call the api service to get all rockets") {
+                it("Should call the api service to get all rockets") {
                     verify { service.getAllRockets() }
                 }
 
-                it ("Should call the dao only to get the cached values") {
+                it("Should call the dao only to get the cached values") {
                     coVerify { dao.getAllRockets() }
                     coVerify {
                         dao.saveRocket(any()) wasNot called
@@ -73,7 +73,7 @@ class RocketsRepositoryTest: DescribeSpec() {
                     }
                 }
 
-                it ("Should return Resource.Error") {
+                it("Should return Resource.Error") {
                     rockets.shouldBeTypeOf<Resource.Error<List<Rocket>, ErrorResponse>>()
                     rockets as Resource.Error<List<Rocket>, ErrorResponse>
                     rockets.data shouldBe listOf()
@@ -89,11 +89,11 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rockets = repository.getAllRockets()
 
-                it ("Should call the api to get all rockets") {
+                it("Should call the api to get all rockets") {
                     verify { service.getAllRockets() }
                 }
 
-                it ("Should call the dao only to get the cached values") {
+                it("Should call the dao only to get the cached values") {
                     coVerify { dao.getAllRockets() }
                     coVerify {
                         dao.saveRocket(any()) wasNot called
@@ -103,7 +103,7 @@ class RocketsRepositoryTest: DescribeSpec() {
                     }
                 }
 
-                it ("Should return Resource.Error") {
+                it("Should return Resource.Error") {
                     rockets.shouldBeTypeOf<Resource.Error<List<Rocket>, IOException>>()
                     rockets as Resource.Error<List<Rocket>, IOException>
                     rockets.data shouldBe listOf()
@@ -124,18 +124,18 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rocket = repository.getRocket(rocketId)
 
-                it ("Should call the api service to get the rocket") {
+                it("Should call the api service to get the rocket") {
                     verify { service.getRocket(rocketId) }
                 }
 
-                it ("Should call the dao to save and retrieve the data") {
+                it("Should call the dao to save and retrieve the data") {
                     coVerify {
                         dao.saveRocket(any())
                         dao.getRocket(rocketId)
                     }
                 }
 
-                it ("Should return successfully") {
+                it("Should return successfully") {
                     rocket.shouldBeTypeOf<Resource.Success<Rocket>>()
                     rocket as Resource.Success
                     rocket.data.rocketId shouldBe rocketId
@@ -151,11 +151,11 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rocket = repository.getRocket(rocketId)
 
-                it ("Should call the api service") {
+                it("Should call the api service") {
                     verify { service.getRocket(rocketId) }
                 }
 
-                it ("Should call the dao only to fetch cached value") {
+                it("Should call the dao only to fetch cached value") {
                     coVerify {
                         dao.getRocket(rocketId)
                         dao.saveRocket(any()) wasNot called
@@ -163,12 +163,11 @@ class RocketsRepositoryTest: DescribeSpec() {
                     }
                 }
 
-                it ("Should return Resource.Error") {
+                it("Should return Resource.Error") {
                     rocket.shouldBeTypeOf<Resource.Error<Rocket, ErrorResponse>>()
                     rocket as Resource.Error<Rocket, ErrorResponse>
                     rocket.error shouldBe null
                 }
-
             }
 
             context("Get one rocket with network error") {
@@ -180,11 +179,11 @@ class RocketsRepositoryTest: DescribeSpec() {
 
                 val rocket = repository.getRocket(rocketId)
 
-                it ("Should call the API service") {
+                it("Should call the API service") {
                     verify { service.getRocket(rocketId) }
                 }
 
-                it ("Should call dao only to retrieve the cached value") {
+                it("Should call dao only to retrieve the cached value") {
                     coVerify {
                         dao.getRocket(rocketId)
                         dao.saveRocket(any()) wasNot called
@@ -192,7 +191,7 @@ class RocketsRepositoryTest: DescribeSpec() {
                     }
                 }
 
-                it ("Should result in Resource.Error") {
+                it("Should result in Resource.Error") {
                     rocket.shouldBeTypeOf<Resource.Error<Rocket, IOException>>()
                 }
             }

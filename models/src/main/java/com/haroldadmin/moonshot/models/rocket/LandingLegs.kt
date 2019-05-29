@@ -1,6 +1,6 @@
 package com.haroldadmin.moonshot.models.rocket
 
-data class LandingLegs (
+data class LandingLegs(
     val number: Int,
     val material: String?
 )

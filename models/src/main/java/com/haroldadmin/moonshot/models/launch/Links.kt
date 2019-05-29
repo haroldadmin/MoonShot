@@ -31,5 +31,4 @@ data class Links(
             listOf()
         )
     }
-
 }

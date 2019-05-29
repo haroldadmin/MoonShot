@@ -16,5 +16,4 @@ interface LandingPadsService {
 
     @GET("landpads/{id}")
     fun getLandingPad(@Path("id") id: Int): Deferred<NetworkResponse<LandingPad, ErrorResponse>>
-
 }

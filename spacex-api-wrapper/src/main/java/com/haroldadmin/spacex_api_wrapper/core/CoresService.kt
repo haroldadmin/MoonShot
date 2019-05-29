@@ -25,7 +25,7 @@ interface CoresService {
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: String = "original_launch",
         @Query("order") order: String = "desc"
-        ): Deferred<NetworkResponse<List<Core>, ErrorResponse>>
+    ): Deferred<NetworkResponse<List<Core>, ErrorResponse>>
 
     @GET("cores/{coreSerial}")
     fun getCore(@Path("coreSerial") serial: String): Deferred<NetworkResponse<Core, ErrorResponse>>

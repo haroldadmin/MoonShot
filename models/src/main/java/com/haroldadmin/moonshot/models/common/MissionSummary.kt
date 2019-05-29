@@ -45,5 +45,4 @@ data class MissionSummary(
         fun getSampleMissionSummary(capsuleSerial: String = "", coreSerial: String = "") =
             MissionSummary("", 0, capsuleSerial, coreSerial)
     }
-
 }

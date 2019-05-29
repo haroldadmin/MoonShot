@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Payload (
+data class Payload(
     @Json(name = "payload_id") val id: String,
     @Json(name = "norad_id") val noraidId: List<Int>,
     @Json(name = "reused") val reused: Boolean,

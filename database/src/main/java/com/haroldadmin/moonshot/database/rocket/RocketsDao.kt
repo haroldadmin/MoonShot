@@ -49,5 +49,4 @@ interface RocketsDao {
 
     @Delete
     suspend fun deleteRocket(rocket: Rocket)
-
 }

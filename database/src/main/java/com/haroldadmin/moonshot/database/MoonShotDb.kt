@@ -33,7 +33,6 @@ import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSum
 import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
-import com.haroldadmin.moonshot.models.launch.Links as LaunchLinks
 
 @Database(
     entities = arrayOf(

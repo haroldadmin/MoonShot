@@ -36,7 +36,7 @@ internal class LaunchDaoTest : BaseDbTest() {
     @Test
     fun launchReadTest() = runBlocking {
         val launch = launchDao.getLaunch(launch.flightNumber)
-        assertEquals(launch,launchDao.getLaunch(launch.flightNumber))
+        assertEquals(launch, launchDao.getLaunch(launch.flightNumber))
     }
 
     @Test

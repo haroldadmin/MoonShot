@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class DragonsDaoTest: BaseDbTest() {
+internal class DragonsDaoTest : BaseDbTest() {
 
     private val dragonsDao by lazy { db.dragonsDao() }
     private val thrustersDao by lazy { db.thrustersDao() }

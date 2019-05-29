@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "payload_weights")
-data class PayloadWeight (
+data class PayloadWeight(
     @ColumnInfo(name = "payload_weight_id")
     val payloadWeightId: String,
     @ColumnInfo(name = "name")
@@ -39,5 +39,4 @@ data class PayloadWeight (
             )
         }
     }
-
 }

@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class LaunchPad (
+data class LaunchPad(
     @Json(name = "id") val id: Int,
     @Json(name = "status") val status: String,
     @Json(name = "location") val location: Location,

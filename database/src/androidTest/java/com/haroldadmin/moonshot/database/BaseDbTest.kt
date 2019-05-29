@@ -33,5 +33,4 @@ internal abstract class BaseDbTest : KoinTest {
         db.close()
         stopKoin()
     }
-
 }

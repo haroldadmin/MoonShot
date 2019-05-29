@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-internal class RocketDaoTest: BaseDbTest() {
+internal class RocketDaoTest : BaseDbTest() {
 
     private val payloadWeightsDao by lazy { db.payloadWeightsDao() }
     private val dao by lazy { db.rocketsDao() }

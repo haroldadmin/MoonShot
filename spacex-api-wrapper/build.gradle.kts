@@ -28,7 +28,7 @@ dependencies {
     implementation(Libs.networkResponseAdapter)
     implementation(Libs.moshi)
     implementation(Libs.moshiConverter)
-    implementation (Libs.moshiAdapters)
+    implementation(Libs.moshiAdapters)
     kapt(Libs.moshiCodegen)
 
     testImplementation(Libs.mockWebServer)

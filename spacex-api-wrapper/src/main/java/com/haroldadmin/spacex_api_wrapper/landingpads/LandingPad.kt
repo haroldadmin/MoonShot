@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class LandingPad (
+data class LandingPad(
     @Json(name = "id") val id: String,
     @Json(name = "full_name") val fullName: String,
     @Json(name = "status") val status: String,
