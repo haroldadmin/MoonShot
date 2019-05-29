@@ -6,7 +6,7 @@ import com.haroldadmin.moonshot.models.common.Location as DbLocation
 import com.haroldadmin.moonshot.models.common.Mass as DbMass
 import com.haroldadmin.moonshot.models.common.MissionSummary as DbMissionSummary
 import com.haroldadmin.moonshot.models.common.Thrust as DbThrust
-import com.haroldadmin.moonshot.models.common.Volume as DbVolum
+import com.haroldadmin.moonshot.models.common.Volume as DbVolume
 
 internal fun Thrust.toDbThrust(): DbThrust {
     return DbThrust(
