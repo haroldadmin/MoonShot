@@ -20,6 +20,7 @@ class LaunchesViewModel(
     init {
         viewModelScope.launch {
             getAllLaunches()
+            getNextLaunch()
         }
     }
 
@@ -41,6 +42,12 @@ class LaunchesViewModel(
     private suspend fun getPastLaunches() {
         executeAsResource({ copy(launches = it) }) {
             launchesRepository.getPastLaunches(Date().time)
+        }
+    }
+
+    private suspend fun getNextLaunch() {
+        executeAsResource({ copy(nextLaunch = it) }) {
+            launchesRepository.getNextLaunch(Date().time)
         }
     }
 

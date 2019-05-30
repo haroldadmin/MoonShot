@@ -5,5 +5,6 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.launch.Launch
 
 data class LaunchesState(
-    val launches: Resource<List<Launch>> = Resource.Uninitialized
+    val launches: Resource<List<Launch>> = Resource.Uninitialized,
+    val nextLaunch: Resource<Launch> = Resource.Uninitialized
 ) : MoonShotState

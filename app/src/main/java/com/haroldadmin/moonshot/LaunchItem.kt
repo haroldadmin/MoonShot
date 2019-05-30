@@ -5,6 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
@@ -16,8 +19,8 @@ class LaunchItem @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val titleView: TextView
-    private val subtitleView: TextView
+    private val titleView: AppCompatTextView
+    private val subtitleView: AppCompatTextView
 
     init {
         inflate(context, R.layout.basic_row, this)
@@ -28,13 +31,17 @@ class LaunchItem @JvmOverloads constructor(
 
     @TextProp
     fun setTitle(title: CharSequence) {
-        titleView.text = title
+        titleView.setTextFuture(PrecomputedTextCompat.getTextFuture(title, TextViewCompat.getTextMetricsParams(titleView), null))
     }
 
     @TextProp
     fun setSubtitle(subtitle: CharSequence?) {
-        subtitleView.visibility = if (subtitle.isNullOrBlank()) View.GONE else View.VISIBLE
-        subtitleView.text = subtitle
+        subtitle?.let {
+            subtitleView.visibility = View.VISIBLE
+            subtitleView.setTextFuture(PrecomputedTextCompat.getTextFuture(subtitle, TextViewCompat.getTextMetricsParams(subtitleView), null))
+        } ?: run {
+            subtitleView.visibility = View.GONE
+        }
     }
 
     @CallbackProp
