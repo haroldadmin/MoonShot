@@ -1,11 +1,6 @@
 package com.haroldadmin.moonshot.database.launch.rocket
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageWithCoreSummaries
 import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummaryWithPayloads
@@ -29,6 +24,9 @@ interface RocketSummaryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRocketSummary(rocketSummary: RocketSummary)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveRocketSummaries(rocketSummaries: List<RocketSummary>)
 
     @Delete
     suspend fun deleteRocketSummary(rocketSummary: RocketSummary)

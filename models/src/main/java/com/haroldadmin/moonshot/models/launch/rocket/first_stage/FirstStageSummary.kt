@@ -25,7 +25,7 @@ data class FirstStageSummary(
 ) {
     @ColumnInfo(name = "first_stage_summary_id")
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
+    var id: Long? = null
 
     companion object {
         fun getSampleFirstStageSummary(rocketId: String) =

@@ -31,7 +31,7 @@ data class RocketSummary(
     @ColumnInfo(name = "rocket_type")
     val rocketType: String,
     @Embedded
-    val fairings: Fairings
+    val fairings: Fairings?
 ) {
     companion object {
         fun getSampleRocketSummary(launchFlightNumber: Int) =

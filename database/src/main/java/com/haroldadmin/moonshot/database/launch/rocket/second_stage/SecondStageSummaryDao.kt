@@ -27,10 +27,13 @@ interface SecondStageSummaryDao {
     suspend fun getSecondStageWithPayloads(id: Int): SecondStageSummaryWithPayloads
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveSecondStageSummary(secondStageSummary: SecondStageSummary)
+    suspend fun saveSecondStageSummary(secondStageSummary: SecondStageSummary): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun savePayload(payload: Payload)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun savePayloads(payloads: List<Payload>)
 
     @Delete
     suspend fun deleteSecondStageSummary(secondStageSummary: SecondStageSummary)

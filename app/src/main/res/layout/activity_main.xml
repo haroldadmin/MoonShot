@@ -12,7 +12,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainAppbarLayout"
-            paddingTopSystemWindowInsets="@{true}"
+            app:paddingTopSystemWindowInsets="@{true}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp"

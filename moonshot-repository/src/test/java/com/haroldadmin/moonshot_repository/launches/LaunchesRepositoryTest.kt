@@ -3,11 +3,14 @@ package com.haroldadmin.moonshot_repository.launches
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
 import com.haroldadmin.moonshot_repository.launch.LaunchesRepository
 import com.haroldadmin.moonshot_repository.mappers.toDbLaunch
+import com.haroldadmin.moonshot_repository.mappers.toDbRocketSummary
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
-import com.haroldadmin.spacex_api_wrapper.launches.Launch
-import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
+import com.haroldadmin.spacex_api_wrapper.launches.*
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
@@ -17,31 +20,38 @@ import io.mockk.*
 import kotlinx.coroutines.CompletableDeferred
 import java.io.IOException
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
+import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary as DbRocketSummary
 
 internal class LaunchesRepositoryTest : DescribeSpec() {
 
     private val sampleData = listOf<DbLaunch>()
-    private val dao: LaunchDao = spyk(FakeLaunchesDao())
-    private val service = mockk<LaunchesService>()
-    private val repository = LaunchesRepository(dao, service)
+    private val launchDao: LaunchDao = spyk(FakeLaunchesDao())
+    private val rocketSummaryDao: RocketSummaryDao = spyk(FakeRocketSummariesDao())
+    private val firstStageSummaryDao: FirstStageSummaryDao = spyk(FakeFirstStageSummaryDao())
+    private val secondStageSummaryDao: SecondStageSummaryDao = spyk(FakeSecondStageSummaryDao())
+    private val launchesService = mockk<LaunchesService>()
+    private val repository =
+        LaunchesRepository(launchDao, rocketSummaryDao, firstStageSummaryDao, secondStageSummaryDao, launchesService)
 
     init {
 
         describe("Launches Repository") {
             context("Get all launches successfully") {
 
-                every { service.getAllLaunches() } returns CompletableDeferred(
+                every { launchesService.getAllLaunches() } returns CompletableDeferred(
                     NetworkResponse.Success(listOf(), null)
                 )
 
                 val launches = repository.getAllLaunches()
 
-                it("Should call the api service") {
-                    verify { service.getAllLaunches() }
+                it("Should call the api launchesService") {
+                    verify { launchesService.getAllLaunches() }
                 }
 
-                it("Should call the dao") {
-                    coVerify { dao.getAllLaunches() }
+                it("Should call the launchDao") {
+                    coVerify {
+                        launchDao.getAllLaunches()
+                    }
                 }
 
                 it("Should return Resource.Success") {
@@ -55,18 +65,18 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
 
             context("Get all launches with network error") {
 
-                every { service.getAllLaunches() } returns CompletableDeferred(
+                every { launchesService.getAllLaunches() } returns CompletableDeferred(
                     NetworkResponse.NetworkError(IOException())
                 )
 
                 val launches = repository.getAllLaunches()
 
-                it("Should call the api service") {
-                    verify { service.getAllLaunches() }
+                it("Should call the api launchesService") {
+                    verify { launchesService.getAllLaunches() }
                 }
 
-                it("Should call the dao") {
-                    coVerify { dao.getAllLaunches() }
+                it("Should call the launchDao") {
+                    coVerify { launchDao.getAllLaunches() }
                 }
 
                 it("Should return Resource.Error") {
@@ -86,18 +96,18 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
 
                 val errorBody = null
                 val responseCode = 404
-                every { service.getAllLaunches() } returns CompletableDeferred(
+                every { launchesService.getAllLaunches() } returns CompletableDeferred(
                     NetworkResponse.ServerError(errorBody, responseCode)
                 )
 
                 val launches = repository.getAllLaunches()
 
-                it("Should call the api service") {
-                    verify { service.getAllLaunches() }
+                it("Should call the api launchesService") {
+                    verify { launchesService.getAllLaunches() }
                 }
 
-                it("Should call the dao") {
-                    coVerify { dao.getAllLaunches() }
+                it("Should call the launchDao") {
+                    coVerify { launchDao.getAllLaunches() }
                 }
 
                 it("Should return Resource.Error") {
@@ -112,39 +122,18 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
             }
 
-            context("Get next launch successfully") {
-                val apiLaunch = mockk<Launch>()
-                val dbLaunch = mockk<DbLaunch>()
-
-                every { service.getNextLaunch() } returns CompletableDeferred(
-                    NetworkResponse.Success(apiLaunch)
-                )
-                mockkStatic("com.haroldadmin.moonshot_repository.mappers.LaunchKt")
-                every { apiLaunch.toDbLaunch() } returns DbLaunch.getSampleLaunch()
-
-                val launch = repository.getNextLaunch(0L)
-
-                it("Should call the api service") {
-                    verify { service.getNextLaunch() }
-                }
-
-                it("Should return Resource.Success") {
-                    launch.shouldBeTypeOf<Resource.Success<DbLaunch>>()
-                }
-            }
-
             context("Get next launch with server error") {
                 val errorBody = null
                 val responseCode = 404
 
-                every { service.getNextLaunch() } returns CompletableDeferred(
+                every { launchesService.getNextLaunch() } returns CompletableDeferred(
                     NetworkResponse.ServerError(errorBody, responseCode)
                 )
 
                 val launch = repository.getNextLaunch(0L)
 
-                it ("Should call the api service") {
-                    verify { service.getNextLaunch() }
+                it("Should call the api launchesService") {
+                    verify { launchesService.getNextLaunch() }
                 }
 
                 it("Should return Resource.Error") {

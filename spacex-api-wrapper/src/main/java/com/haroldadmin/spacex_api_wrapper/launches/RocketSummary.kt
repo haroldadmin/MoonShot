@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class RocketSummary(
-    @Json(name = "rocket_id") val id: String,
+    @Json(name = "rocket_id") val rocketId: String,
     @Json(name = "rocket_name") val name: String,
     @Json(name = "rocket_type") val type: String,
     @Json(name = "first_stage") val firstStage: FirstStageSummary,

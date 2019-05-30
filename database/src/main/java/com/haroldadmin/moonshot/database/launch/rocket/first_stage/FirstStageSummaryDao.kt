@@ -27,13 +27,16 @@ interface FirstStageSummaryDao {
     suspend fun getFirstStageWithCoreSummaries(id: Int): FirstStageWithCoreSummaries
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveFirstStageSummary(firstStageSummary: FirstStageSummary)
+    suspend fun saveFirstStageSummary(firstStageSummary: FirstStageSummary): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCoreSummary(coreSummary: CoreSummary)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCoreSummaries(vararg coreSummary: CoreSummary)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveCoreSummaries(coreSummaries: List<CoreSummary>)
 
     @Delete
     suspend fun deleteFirstStageSummary(firstStageSummary: FirstStageSummary)

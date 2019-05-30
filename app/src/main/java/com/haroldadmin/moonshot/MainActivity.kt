@@ -3,9 +3,6 @@ package com.haroldadmin.moonshot
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.marginTop
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -35,7 +32,6 @@ class MainActivity : MoonShotActivity() {
             mainToolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
 
             mainBottomNav.setupWithNavController(navController)
-
         }
     }
 }

@@ -5,14 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.simpleController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.core.safe
 import com.haroldadmin.moonshot.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.launchItem
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -25,12 +22,8 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.rvLaunches.setController(epoxyController())
+        return binding.root
     }
 
     override fun invalidate() {
@@ -42,7 +35,7 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun epoxyController() = simpleController(launchesViewModel) { state ->
 
-        when(val nextLaunch = state.nextLaunch) {
+        when (val nextLaunch = state.nextLaunch) {
             is Resource.Success -> {
                 launchItem {
                     id("next launch", nextLaunch.data.missionName)
