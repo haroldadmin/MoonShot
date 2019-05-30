@@ -21,6 +21,9 @@ interface LaunchDao {
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp")
     suspend fun getUpcomingLaunches(timestamp: Long): List<Launch>
 
+    @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT 1")
+    suspend fun getNextLaunch(timestamp: Long): Launch
+
     @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp")
     suspend fun getPastLaunches(timestamp: Long): List<Launch>
 

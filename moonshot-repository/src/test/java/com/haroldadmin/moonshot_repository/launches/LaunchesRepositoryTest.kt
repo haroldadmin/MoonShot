@@ -4,6 +4,8 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot_repository.launch.LaunchesRepository
+import com.haroldadmin.moonshot_repository.mappers.toDbLaunch
+import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import io.kotlintest.matchers.collections.shouldHaveSize
@@ -11,11 +13,7 @@ import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.CompletableDeferred
 import java.io.IOException
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
@@ -33,7 +31,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
             context("Get all launches successfully") {
 
                 every { service.getAllLaunches() } returns CompletableDeferred(
-                    NetworkResponse.Success<List<Launch>>(listOf(), null)
+                    NetworkResponse.Success(listOf(), null)
                 )
 
                 val launches = repository.getAllLaunches()
@@ -47,7 +45,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
 
                 it("Should return Resource.Success") {
-                    launches.shouldBeTypeOf<Resource.Success<List<Launch>>>()
+                    launches.shouldBeTypeOf<Resource.Success<List<DbLaunch>>>()
                 }
 
                 it("Should return $sampleData") {
@@ -72,7 +70,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
 
                 it("Should return Resource.Error") {
-                    launches.shouldBeTypeOf<Resource.Error<List<Launch>, *>>()
+                    launches.shouldBeTypeOf<Resource.Error<List<DbLaunch>, ErrorResponse>>()
                 }
 
                 it("Should have an $sampleData as data") {
@@ -103,14 +101,54 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
 
                 it("Should return Resource.Error") {
-                    launches.shouldBeTypeOf<Resource.Error<List<Launch>, *>>()
+                    launches.shouldBeTypeOf<Resource.Error<List<DbLaunch>, ErrorResponse>>()
                 }
 
                 it("Should have $sampleData as data") {
-                    with(launches as Resource.Error<List<Launch>, *>) {
+                    with(launches as Resource.Error<List<DbLaunch>, *>) {
                         data shouldBe sampleData
                         error shouldBe null
                     }
+                }
+            }
+
+            context("Get next launch successfully") {
+                val apiLaunch = mockk<Launch>()
+                val dbLaunch = mockk<DbLaunch>()
+
+                every { service.getNextLaunch() } returns CompletableDeferred(
+                    NetworkResponse.Success(apiLaunch)
+                )
+                mockkStatic("com.haroldadmin.moonshot_repository.mappers.LaunchKt")
+                every { apiLaunch.toDbLaunch() } returns DbLaunch.getSampleLaunch()
+
+                val launch = repository.getNextLaunch(0L)
+
+                it("Should call the api service") {
+                    verify { service.getNextLaunch() }
+                }
+
+                it("Should return Resource.Success") {
+                    launch.shouldBeTypeOf<Resource.Success<DbLaunch>>()
+                }
+            }
+
+            context("Get next launch with server error") {
+                val errorBody = null
+                val responseCode = 404
+
+                every { service.getNextLaunch() } returns CompletableDeferred(
+                    NetworkResponse.ServerError(errorBody, responseCode)
+                )
+
+                val launch = repository.getNextLaunch(0L)
+
+                it ("Should call the api service") {
+                    verify { service.getNextLaunch() }
+                }
+
+                it("Should return Resource.Error") {
+                    launch.shouldBeTypeOf<Resource.Error<DbLaunch, ErrorResponse>>()
                 }
             }
         }

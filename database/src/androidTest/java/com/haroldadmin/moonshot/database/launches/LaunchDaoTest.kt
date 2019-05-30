@@ -40,6 +40,12 @@ internal class LaunchDaoTest : BaseDbTest() {
     }
 
     @Test
+    fun nextLaunchTest() = runBlocking {
+        val launch = launchDao.getNextLaunch(0L)
+        assertEquals(launch, launchDao.getLaunch(launch.flightNumber))
+    }
+
+    @Test
     fun rocketReadTest() = runBlocking {
         val summary = rocketSummaryDao.getRocketSummary(rocketSummary.rocketId)
         assertEquals(rocketSummary, summary)

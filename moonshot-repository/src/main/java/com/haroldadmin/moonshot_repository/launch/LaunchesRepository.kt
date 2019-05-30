@@ -1,7 +1,10 @@
 package com.haroldadmin.moonshot_repository.launch
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.cnradapter.invoke
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.safe
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot_repository.mappers.toDbLaunch
@@ -54,6 +57,23 @@ class LaunchesRepository(
 
             else -> {
                 Resource.Error(localDataSource.getUpcomingLaunches(currentTime), null)
+            }
+        }
+    }
+
+    suspend fun getNextLaunch(currentTime: Long): Resource<Launch> = withContext(Dispatchers.IO) {
+        val launch = executeWithRetry { remoteDataSource.getNextLaunch().await() }
+        when (launch) {
+            is NetworkResponse.Success -> {
+                val nextLaunch = launch()!!.toDbLaunch()
+                localDataSource.saveLaunch(nextLaunch)
+                Resource.Success(localDataSource.getNextLaunch(currentTime))
+            }
+            is NetworkResponse.ServerError -> {
+                Resource.Error(localDataSource.getNextLaunch(currentTime), launch.body)
+            }
+            is NetworkResponse.NetworkError -> {
+                Resource.Error(localDataSource.getNextLaunch(currentTime), launch.error)
             }
         }
     }

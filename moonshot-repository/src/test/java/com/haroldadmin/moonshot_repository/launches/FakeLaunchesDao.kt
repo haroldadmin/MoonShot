@@ -15,6 +15,8 @@ class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao {
 
     override suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary = RocketSummary.getSampleRocketSummary(1)
 
+    override suspend fun getNextLaunch(timestamp: Long): Launch = Launch.getSampleLaunch()
+
     override suspend fun saveLaunch(launch: Launch) = Unit
 
     override suspend fun saveLaunches(vararg launch: Launch) = Unit
