@@ -30,6 +30,11 @@ interface RocketSummaryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRocketSummary(rocketSummary: RocketSummary)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveRocketSummaries(rocketSummaries: List<RocketSummary>)
+
     @Delete
     suspend fun deleteRocketSummary(rocketSummary: RocketSummary)
+
+
 }

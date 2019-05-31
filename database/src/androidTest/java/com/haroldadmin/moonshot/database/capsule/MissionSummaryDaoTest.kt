@@ -9,7 +9,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
 internal class MissionSummaryDaoTest : BaseDbTest() {
@@ -23,7 +22,7 @@ internal class MissionSummaryDaoTest : BaseDbTest() {
     fun capsuleWriteWithMissionSummariesTest() = runBlocking {
         val capsule = Capsule.getSampleCapsule()
         val core = Core.getSampleCore()
-        val missions = arrayOf<MissionSummary>(
+        val missions = arrayOf(
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial),
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial),
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial),
@@ -31,9 +30,9 @@ internal class MissionSummaryDaoTest : BaseDbTest() {
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial)
         )
 
-        capsuleDao.saveCapsule(capsule)
-        coreDao.saveCore(core)
-        missionSummaryDao.saveMissionSummaries(*missions)
+        capsuleDao.save(capsule)
+        coreDao.save(core)
+        missionSummaryDao.saveAll(*missions)
         capsuleDao.getCapsuleWithMissionSummaries(capsule.serial).let {
             assertEquals(capsule, it.capsule)
             assertEquals(missions.size, it.missions.size)

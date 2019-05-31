@@ -18,10 +18,10 @@ internal class HistoricalEventsDaoTest : BaseDbTest() {
     fun historicalEventsWriteTest() = runBlocking {
         val historicalEvent = HistoricalEvent.getSampleHistoricalEvent()
         val links = Links.getSampleLinks()
-        historicalEventsDao.saveHistoricalEvent(historicalEvent)
+        historicalEventsDao.save(historicalEvent)
         val savedHistoricalEvent = historicalEventsDao.getHistoricalEvent(historicalEvent.id)
         val savedLinks = savedHistoricalEvent.links
         assertEquals(historicalEvent, savedHistoricalEvent)
-        assertEquals(savedLinks, savedLinks)
+        assertEquals(links, savedLinks)
     }
 }

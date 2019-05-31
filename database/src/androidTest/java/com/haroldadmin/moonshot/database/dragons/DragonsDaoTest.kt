@@ -19,8 +19,8 @@ internal class DragonsDaoTest : BaseDbTest() {
     fun dragonWriteTest() = runBlocking {
         val dragon = Dragon.getSampleDragon()
         val thruster = Thruster.getSampleThruster(dragon.dragonId)
-        dragonsDao.saveDragon(dragon)
-        thrustersDao.saveThruster(thruster)
+        dragonsDao.save(dragon)
+        thrustersDao.save(thruster)
         val savedDragon = dragonsDao.getDragon(dragon.dragonId)
         val savedDragonWithThrusters = dragonsDao.getDragonWithThrusters(dragon.dragonId)
 

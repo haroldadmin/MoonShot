@@ -1,44 +1,94 @@
 package com.haroldadmin.moonshot.database.launch
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
+import androidx.room.Transaction
+import com.haroldadmin.moonshot.database.BaseDao
 import com.haroldadmin.moonshot.models.launch.Launch
-import java.util.*
+import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload
 
 @Dao
-interface LaunchDao {
+abstract class LaunchDao: BaseDao<Launch> {
 
     @Query("SELECT * FROM launches")
-    suspend fun getAllLaunches(): List<Launch>
+    abstract suspend fun getAllLaunches(): List<Launch>
 
     @Query("SELECT * FROM launches WHERE flight_number = :flightNumber")
-    suspend fun getLaunch(flightNumber: Int): Launch
+    abstract suspend fun getLaunch(flightNumber: Int): Launch
 
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp")
-    suspend fun getUpcomingLaunches(timestamp: Long): List<Launch>
+    abstract suspend fun getUpcomingLaunches(timestamp: Long): List<Launch>
 
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT 1")
-    suspend fun getNextLaunch(timestamp: Long): Launch
+    abstract suspend fun getNextLaunch(timestamp: Long): Launch
 
     @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp")
-    suspend fun getPastLaunches(timestamp: Long): List<Launch>
+    abstract suspend fun getPastLaunches(timestamp: Long): List<Launch>
 
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
-    suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary
+    abstract suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary
+
+    @Transaction
+    open suspend fun saveLaunchWithSummaries(
+        launch: Launch,
+        rocketSummary: RocketSummary,
+        firstStageSummary: FirstStageSummary,
+        secondStageSummary: SecondStageSummary,
+        coreSummaries: List<CoreSummary>,
+        payloads: List<Payload>
+    ) {
+        saveAll(launch)
+        saveRocketSummary(rocketSummary)
+        saveFirstStageSummary(firstStageSummary)
+        saveSecondStageSummary(secondStageSummary)
+        saveCoreSummaries(coreSummaries)
+        savePayloads(payloads)
+    }
+
+    @Transaction
+    open suspend fun saveLaunchesWithSummaries(
+        launches: List<Launch>,
+        rocketSummaries: List<RocketSummary>,
+        firstStageSummaries: List<FirstStageSummary>,
+        coreSummaries: List<CoreSummary>,
+        secondStageSummaries: List<SecondStageSummary>,
+        payloads: List<Payload>
+    ) {
+        saveAll(launches)
+        saveRocketSummaries(rocketSummaries)
+        saveFirstStageSummaries(firstStageSummaries)
+        saveCoreSummaries(coreSummaries)
+        saveSecondStageSummaries(secondStageSummaries)
+        savePayloads(payloads)
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveLaunch(launch: Launch)
+    abstract suspend fun saveRocketSummary(rocketSummary: RocketSummary)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveLaunches(vararg launch: Launch)
+    abstract suspend fun saveRocketSummaries(rocketSummaries: List<RocketSummary>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveLaunches(launches: List<Launch>)
+    abstract suspend fun saveFirstStageSummary(firstStageSummary: FirstStageSummary)
 
-    @Delete
-    suspend fun deleteLaunch(launch: Launch)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun saveFirstStageSummaries(firstStageSummaries: List<FirstStageSummary>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun saveSecondStageSummary(secondStageSummary: SecondStageSummary)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun saveSecondStageSummaries(secondStageSummaries: List<SecondStageSummary>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun saveCoreSummaries(coreSummaries: List<CoreSummary>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun savePayloads(payloads: List<Payload>)
 }

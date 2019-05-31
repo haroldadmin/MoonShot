@@ -20,7 +20,7 @@ internal class CoreDaoTest : BaseDbTest() {
     @Test
     fun coreReadWriteTest() = runBlocking {
         val core = Core.getSampleCore()
-        dao.saveCore(core)
+        dao.save(core)
 
         val savedCore = dao.getCore(core.serial)
         assertEquals(core, savedCore)
@@ -29,10 +29,10 @@ internal class CoreDaoTest : BaseDbTest() {
     @Test
     fun coreMissionSummariesTest() = runBlocking {
         val core = Core.getSampleCore()
-        dao.saveCore(core)
+        dao.save(core)
 
         val capsule = Capsule.getSampleCapsule()
-        capsuleDao.saveCapsule(capsule)
+        capsuleDao.save(capsule)
 
         val missionSummaries = arrayOf(
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial),
@@ -41,7 +41,7 @@ internal class CoreDaoTest : BaseDbTest() {
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial),
             MissionSummary.getSampleMissionSummary(capsule.serial, core.serial)
         )
-        missionSummariesDao.saveMissionSummaries(*missionSummaries)
+        missionSummariesDao.saveAll(*missionSummaries)
 
         val coreWithMissionSummaries = dao.getCoreWtihMissionSummaries(core.serial)
 

@@ -16,7 +16,7 @@ internal class CompanyDaoTest : BaseDbTest() {
     @Test
     fun companyInfoWriteTest() = runBlocking {
         val companyInfo = CompanyInfo.getSampleCompanyInfo()
-        dao.saveCompanyInfo(companyInfo)
+        dao.save(companyInfo)
 
         val savedCompanyInfo = dao.getCompanyInfo()
         assertEquals(companyInfo, savedCompanyInfo)

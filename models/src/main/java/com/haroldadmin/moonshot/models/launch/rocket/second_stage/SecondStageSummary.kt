@@ -23,12 +23,12 @@ data class SecondStageSummary(
     @ColumnInfo(name = "rocket_id")
     val rocketId: String,
     @ColumnInfo(name = "block")
-    val block: Int
+    val block: Int?
 ) {
 
     @ColumnInfo(name = "second_stage_summary_id")
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
+    @PrimaryKey
+    var id: Int = hashCode()
 
     companion object {
         fun getSampleSecondStageSummary(rocketId: String) =

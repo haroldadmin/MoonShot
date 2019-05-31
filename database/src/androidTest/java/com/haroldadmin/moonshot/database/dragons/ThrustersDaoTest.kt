@@ -18,9 +18,9 @@ internal class ThrustersDaoTest : BaseDbTest() {
     @Test
     fun thrusterWriteTest() = runBlocking {
         val dragon = Dragon.getSampleDragon()
-        dragonDao.saveDragon(dragon)
+        dragonDao.save(dragon)
         val tempThruster = Thruster.getSampleThruster(dragon.dragonId)
-        thrustersDao.saveThruster(tempThruster)
+        thrustersDao.save(tempThruster)
 
         val thruster = thrustersDao.getAllThrusters().first()
         assertEquals(tempThruster, thruster)

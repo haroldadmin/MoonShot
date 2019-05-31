@@ -27,10 +27,10 @@ internal class LaunchDaoTest : BaseDbTest() {
 
     @Before
     fun writeSampleData() = runBlocking {
-        launchDao.saveLaunch(launch)
+        launchDao.save(launch)
         rocketSummaryDao.saveRocketSummary(rocketSummary)
-        secondStageSummaryDao.saveSecondStageSummary(secondStageSummary)
-        firstStageSummaryDao.saveFirstStageSummary(firstStageSummary)
+        secondStageSummaryDao.save(secondStageSummary)
+        firstStageSummaryDao.save(firstStageSummary)
     }
 
     @Test
@@ -54,42 +54,38 @@ internal class LaunchDaoTest : BaseDbTest() {
     @Test
     fun secondStageSummaryReadTest() = runBlocking {
         val summaries = secondStageSummaryDao.getAllSecondStageSummaries()
-        assertEquals(summaries.size, 1)
-        assertEquals(summaries.first(), secondStageSummary)
+        assertEquals(1, summaries.size)
+        assertEquals(secondStageSummary, summaries.first())
     }
 
     @Test
     fun firstStageSummaryReadTest() = runBlocking {
         val summaries = firstStageSummaryDao.getAllFirstStageSummaries()
-        assertEquals(summaries.size, 1)
-        assertEquals(summaries.first(), firstStageSummary)
+        assertEquals(1, summaries.size)
+        assertEquals(firstStageSummary, summaries.first())
     }
 
     @Test
     fun firstStageSummaryWithCores() = runBlocking {
         val summary = rocketSummaryDao.getFirstStage(rocketSummary.rocketId)
-        assertEquals(summary.firstStageSummary, firstStageSummary)
+        assertEquals(firstStageSummary, summary.firstStageSummary)
         assertTrue(summary.cores.isEmpty())
     }
 
     @Test
     fun secondStageSummaryWithPayloads() = runBlocking {
         val summary = rocketSummaryDao.getSecondStage(rocketSummary.rocketId)
-        assertEquals(summary.secondStageSummary, secondStageSummary)
+        assertEquals(secondStageSummary, summary.secondStageSummary)
         assertTrue(summary.payloads.isEmpty())
     }
 
     @Test
     fun launchCascadedDeleteTest() = runBlocking {
-        launchDao.deleteLaunch(launch)
+        launchDao.delete(launch)
 
-        launchDao.getAllLaunches().let {
-            assertTrue(it.isEmpty())
-        }
+        assertTrue(launchDao.getAllLaunches().isEmpty())
 
-        rocketSummaryDao.getAllRocketSummaries().let {
-            assertTrue(it.isEmpty())
-        }
+        assertTrue(rocketSummaryDao.getAllRocketSummaries().isEmpty())
 
         secondStageSummaryDao
             .getAllSecondStageSummaries().let {

@@ -16,7 +16,7 @@ internal class LandingPadDaoTest : BaseDbTest() {
     @Test
     fun landingPadWriteTest() = runBlocking {
         val landingPad = LandingPad.getSampleLandingPad()
-        dao.saveLandingPad(landingPad)
+        dao.save(landingPad)
 
         val savedLandingPad = dao.getLandingPad(landingPad.id)
         assertEquals(landingPad, savedLandingPad)

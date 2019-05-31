@@ -15,7 +15,7 @@ internal class RocketDaoTest : BaseDbTest() {
     @Test
     fun rocketReadWriteTest() = runBlocking {
         val rocket = Rocket.getSampleRocket()
-        dao.saveRocket(rocket)
+        dao.save(rocket)
         val savedRocket = dao.getRocket(rocket.rocketId)
 
         assertEquals(rocket, savedRocket)
@@ -24,10 +24,10 @@ internal class RocketDaoTest : BaseDbTest() {
     @Test
     fun rocketWithPayloadWeightsTest() = runBlocking {
         val rocket = Rocket.getSampleRocket()
-        dao.saveRocket(rocket)
+        dao.save(rocket)
 
         val payloadWeights = arrayOf(PayloadWeight.gameSamplePayloadWeight(rocket.rocketId))
-        payloadWeightsDao.savePayloadWeights(*payloadWeights)
+        payloadWeightsDao.saveAll(*payloadWeights)
 
         val savedRocketWithPayloadWeights = dao.getRocketWithPayloadWeights(rocket.rocketId)
         assertEquals(payloadWeights.toList(), savedRocketWithPayloadWeights.payloadWeights)

@@ -24,8 +24,8 @@ data class FirstStageSummary(
     val rocketId: String
 ) {
     @ColumnInfo(name = "first_stage_summary_id")
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
+    @PrimaryKey
+    var id: Int = hashCode()
 
     companion object {
         fun getSampleFirstStageSummary(rocketId: String) =
