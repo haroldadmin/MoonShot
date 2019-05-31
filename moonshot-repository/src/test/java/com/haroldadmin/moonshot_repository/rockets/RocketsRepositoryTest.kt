@@ -3,12 +3,12 @@ package com.haroldadmin.moonshot_repository.rockets
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
-import com.haroldadmin.moonshot.models.rocket.Rocket
+import com.haroldadmin.moonshot.models.rocket.Rocket as DbRocket
 import com.haroldadmin.moonshot_repository.mappers.toDbRocket
 import com.haroldadmin.moonshot_repository.rocket.RocketsRepository
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
-import com.haroldadmin.spacex_api_wrapper.rocket.Rocket as ApiRocket
+import com.haroldadmin.spacex_api_wrapper.rocket.Rocket
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
@@ -17,7 +17,7 @@ import io.mockk.*
 import kotlinx.coroutines.CompletableDeferred
 import java.io.IOException
 
-@Suppress("DeferredResultUnused", "UNCHECKED_CAST")
+@Suppress("DeferredResultUnused")
 class RocketsRepositoryTest : DescribeSpec() {
 
     private val dao: RocketsDao = spyk(FakeRocketsDao())
@@ -66,8 +66,8 @@ class RocketsRepositoryTest : DescribeSpec() {
                 it("Should call the dao only to get the cached values") {
                     coVerify { dao.getAllRockets() }
                     coVerify {
-                        dao.saveRocket(any()) wasNot called
-                        dao.saveRockets(any<List<Rocket>>()) wasNot called
+                        dao.save(any()) wasNot called
+                        dao.saveAll(any<List<DbRocket>>()) wasNot called
                         dao.savePayloadWeights(any()) wasNot called
                         dao.saveRocketWithPayloadWeights(any(), any()) wasNot called
                     }
@@ -75,7 +75,7 @@ class RocketsRepositoryTest : DescribeSpec() {
 
                 it("Should return Resource.Error") {
                     rockets.shouldBeTypeOf<Resource.Error<List<Rocket>, ErrorResponse>>()
-                    rockets as Resource.Error<List<Rocket>, ErrorResponse>
+                    rockets as Resource.Error<List<DbRocket>, ErrorResponse>
                     rockets.data shouldBe listOf()
                     rockets.error shouldBe null
                 }
@@ -96,8 +96,8 @@ class RocketsRepositoryTest : DescribeSpec() {
                 it("Should call the dao only to get the cached values") {
                     coVerify { dao.getAllRockets() }
                     coVerify {
-                        dao.saveRocket(any()) wasNot called
-                        dao.saveRockets(any<List<Rocket>>()) wasNot called
+                        dao.save(any()) wasNot called
+                        dao.saveAll(any<List<DbRocket>>()) wasNot called
                         dao.savePayloadWeights(any()) wasNot called
                         dao.saveRocketWithPayloadWeights(any(), any()) wasNot called
                     }
@@ -105,7 +105,7 @@ class RocketsRepositoryTest : DescribeSpec() {
 
                 it("Should return Resource.Error") {
                     rockets.shouldBeTypeOf<Resource.Error<List<Rocket>, IOException>>()
-                    rockets as Resource.Error<List<Rocket>, IOException>
+                    rockets as Resource.Error<List<DbRocket>, IOException>
                     rockets.data shouldBe listOf()
                     rockets.error shouldNotBe null
                 }
@@ -113,10 +113,10 @@ class RocketsRepositoryTest : DescribeSpec() {
 
             context("Get one rocket successfully") {
                 val rocketId = "falcon9"
-                val mockedRocket = mockk<ApiRocket>()
+                val mockedRocket = mockk<Rocket>()
                 mockkStatic("com.haroldadmin.moonshot_repository.mappers.RocketKt")
                 every { mockedRocket.rockedId } returns rocketId
-                every { mockedRocket.toDbRocket() } returns Rocket.getSampleRocket()
+                every { mockedRocket.toDbRocket() } returns DbRocket.getSampleRocket()
                 every { mockedRocket.payloadWeights } returns listOf()
                 every { service.getRocket(rocketId) } returns CompletableDeferred(
                     NetworkResponse.Success(mockedRocket)
@@ -130,7 +130,7 @@ class RocketsRepositoryTest : DescribeSpec() {
 
                 it("Should call the dao to save and retrieve the data") {
                     coVerify {
-                        dao.saveRocket(any())
+                        dao.save(any())
                         dao.getRocket(rocketId)
                     }
                 }
@@ -158,14 +158,14 @@ class RocketsRepositoryTest : DescribeSpec() {
                 it("Should call the dao only to fetch cached value") {
                     coVerify {
                         dao.getRocket(rocketId)
-                        dao.saveRocket(any()) wasNot called
+                        dao.save(any()) wasNot called
                         dao.saveRocketWithPayloadWeights(any(), any()) wasNot called
                     }
                 }
 
                 it("Should return Resource.Error") {
                     rocket.shouldBeTypeOf<Resource.Error<Rocket, ErrorResponse>>()
-                    rocket as Resource.Error<Rocket, ErrorResponse>
+                    rocket as Resource.Error<DbRocket, ErrorResponse>
                     rocket.error shouldBe null
                 }
             }
@@ -186,7 +186,7 @@ class RocketsRepositoryTest : DescribeSpec() {
                 it("Should call dao only to retrieve the cached value") {
                     coVerify {
                         dao.getRocket(rocketId)
-                        dao.saveRocket(any()) wasNot called
+                        dao.save(any()) wasNot called
                         dao.saveRocketWithPayloadWeights(any(), any()) wasNot called
                     }
                 }

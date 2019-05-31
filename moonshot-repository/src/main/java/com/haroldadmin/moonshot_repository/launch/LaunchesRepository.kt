@@ -4,98 +4,113 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.cnradapter.invoke
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.core.safe
 import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
+import com.haroldadmin.moonshot_repository.mappers.toDbCoreSummary
+import com.haroldadmin.moonshot_repository.mappers.toDbFirstStageSummary
 import com.haroldadmin.moonshot_repository.mappers.toDbLaunch
+import com.haroldadmin.moonshot_repository.mappers.toDbPayload
+import com.haroldadmin.moonshot_repository.mappers.toDbRocketSummary
+import com.haroldadmin.moonshot_repository.mappers.toDbSecondStageSummary
+import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
+import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary as DbRocketSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary as DbCoreSummary
+import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary as DbFirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary as DbSecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload as DbPayload
 
 class LaunchesRepository(
-    private val localDataSource: LaunchDao,
-    private val remoteDataSource: LaunchesService
+    private val launchDao: LaunchDao,
+    private val rocketSummaryDao: RocketSummaryDao,
+    private val firstStageSummaryDao: FirstStageSummaryDao,
+    private val secondStageSummaryDao: SecondStageSummaryDao,
+    private val launchesService: LaunchesService
 ) {
 
-    suspend fun getAllLaunches(): Resource<List<Launch>> = withContext(Dispatchers.IO) {
+    suspend fun getAllLaunches(): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
 
-        when (val launches = remoteDataSource.getAllLaunches().await()) {
+        when (val launches = launchesService.getAllLaunches().await()) {
             is NetworkResponse.Success -> {
-                localDataSource.saveLaunches(launches.body.map { it.toDbLaunch() })
-                Resource.Success(localDataSource.getAllLaunches())
+                saveApiLaunches(launches()!!)
+                Resource.Success(launchDao.getAllLaunches())
             }
 
             is NetworkResponse.ServerError -> {
-                Resource.Error(localDataSource.getAllLaunches(), launches.body)
+                Resource.Error(launchDao.getAllLaunches(), launches.body)
             }
 
             is NetworkResponse.NetworkError -> {
-                Resource.Error(localDataSource.getAllLaunches(), launches.error)
+                Resource.Error(launchDao.getAllLaunches(), launches.error)
             }
             else -> {
-                Resource.Error(localDataSource.getAllLaunches(), null)
+                Resource.Error(launchDao.getAllLaunches(), null)
             }
         }
     }
 
-    suspend fun getUpcomingLaunches(currentTime: Long): Resource<List<Launch>> = withContext(Dispatchers.IO) {
-        when (val launches = remoteDataSource.getUpcomingLaunches().await()) {
+    suspend fun getUpcomingLaunches(currentTime: Long): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
+        when (val launchesResponse = launchesService.getUpcomingLaunches().await()) {
             is NetworkResponse.Success -> {
-                localDataSource.saveLaunches(launches.body.map { it.toDbLaunch() })
-                Resource.Success(localDataSource.getUpcomingLaunches(currentTime))
+                saveApiLaunches(launchesResponse()!!)
+                Resource.Success(launchDao.getUpcomingLaunches(currentTime))
             }
             is NetworkResponse.ServerError -> {
-                Resource.Error(localDataSource.getUpcomingLaunches(currentTime), launches.body)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime), launchesResponse.body)
             }
 
             is NetworkResponse.NetworkError -> {
-                Resource.Error(localDataSource.getUpcomingLaunches(currentTime), launches.error)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime), launchesResponse.error)
             }
 
             else -> {
-                Resource.Error(localDataSource.getUpcomingLaunches(currentTime), null)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime), null)
             }
         }
     }
 
-    suspend fun getNextLaunch(currentTime: Long): Resource<Launch> = withContext(Dispatchers.IO) {
-        val launch = executeWithRetry { remoteDataSource.getNextLaunch().await() }
+    suspend fun getNextLaunch(currentTime: Long): Resource<DbLaunch> = withContext(Dispatchers.IO) {
+        val launch = executeWithRetry { launchesService.getNextLaunch().await() }
         when (launch) {
             is NetworkResponse.Success -> {
-                val nextLaunch = launch()!!.toDbLaunch()
-                localDataSource.saveLaunch(nextLaunch)
-                Resource.Success(localDataSource.getNextLaunch(currentTime))
+                saveApiLaunch(launch()!!)
+                Resource.Success(launchDao.getNextLaunch(currentTime))
             }
             is NetworkResponse.ServerError -> {
-                Resource.Error(localDataSource.getNextLaunch(currentTime), launch.body)
+                Resource.Error(launchDao.getNextLaunch(currentTime), launch.body)
             }
             is NetworkResponse.NetworkError -> {
-                Resource.Error(localDataSource.getNextLaunch(currentTime), launch.error)
+                Resource.Error(launchDao.getNextLaunch(currentTime), launch.error)
             }
         }
     }
 
-    suspend fun getPastLaunches(currentTime: Long): Resource<List<Launch>> = withContext(Dispatchers.IO) {
+    suspend fun getPastLaunches(currentTime: Long): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
 
-        when (val launches = remoteDataSource.getPastLaunches().await()) {
+        when (val launches = launchesService.getPastLaunches().await()) {
             is NetworkResponse.Success -> {
-                localDataSource.saveLaunches(launches.body.map { it.toDbLaunch() })
-                Resource.Success(localDataSource.getPastLaunches(currentTime))
+                saveApiLaunches(launches()!!)
+                Resource.Success(launchDao.getPastLaunches(currentTime))
             }
 
             is NetworkResponse.ServerError -> {
-                Resource.Error(localDataSource.getPastLaunches(currentTime), launches.body)
+                Resource.Error(launchDao.getPastLaunches(currentTime), launches.body)
             }
 
             is NetworkResponse.NetworkError -> {
-                Resource.Error(localDataSource.getPastLaunches(currentTime), launches.error)
+                Resource.Error(launchDao.getPastLaunches(currentTime), launches.error)
             }
 
             else -> {
-                Resource.Error(localDataSource.getPastLaunches(currentTime), null)
+                Resource.Error(launchDao.getPastLaunches(currentTime), null)
             }
         }
     }
@@ -103,24 +118,73 @@ class LaunchesRepository(
     @FlowPreview
     suspend fun flowAllLaunches() =
         flow {
-                emit(Resource.Loading)
+            emit(Resource.Loading)
 
-                val dbLaunches = localDataSource.getAllLaunches()
-                emit(Resource.Success(dbLaunches))
+            val dbLaunches = launchDao.getAllLaunches()
+            emit(Resource.Success(dbLaunches))
 
-                when (val launches = remoteDataSource.getAllLaunches().await()) {
-                    is NetworkResponse.Success -> {
-                        localDataSource.saveLaunches(launches.body.map { it.toDbLaunch() })
-                        val savedLaunches = localDataSource.getAllLaunches()
-                        emit(Resource.Success(savedLaunches))
-                    }
-                    is NetworkResponse.ServerError -> {
-                        emit(Resource.Error(dbLaunches, launches.body))
-                    }
-                    is NetworkResponse.NetworkError -> {
-                        emit(Resource.Error(dbLaunches, launches.error))
-                    }
+            when (val launches = launchesService.getAllLaunches().await()) {
+                is NetworkResponse.Success -> {
+                    saveApiLaunches(launches()!!)
+                    val savedLaunches = launchDao.getAllLaunches()
+                    emit(Resource.Success(savedLaunches))
+                }
+                is NetworkResponse.ServerError -> {
+                    emit(Resource.Error(dbLaunches, launches.body))
+                }
+                is NetworkResponse.NetworkError -> {
+                    emit(Resource.Error(dbLaunches, launches.error))
                 }
             }
+        }
             .flowOn(Dispatchers.IO, bufferSize = 0)
+
+    private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {
+        val launches: List<DbLaunch> = apiLaunches.map { it.toDbLaunch() }
+        val rocketSummaries: List<DbRocketSummary> = apiLaunches.map { it.rocket.toDbRocketSummary(it.flightNumber) }
+        val firstStageSummaries: List<DbFirstStageSummary> =
+            apiLaunches.map { it.rocket.firstStage.toDbFirstStageSummary(it.rocket.rocketId) }
+        val secondStageSummaries: List<DbSecondStageSummary> =
+            apiLaunches.map { it.rocket.secondState.toDbSecondStageSummary(it.rocket.rocketId) }
+        val coreSummaries: List<DbCoreSummary> = apiLaunches.flatMap { launch ->
+            val rocketId = launch.rocket.rocketId
+            val firstStageSummaryId = launch.rocket.firstStage.toDbFirstStageSummary(rocketId).id
+            launch.rocket.firstStage.cores.map { core ->
+                core.toDbCoreSummary(firstStageSummaryId)
+            }
+        }
+        val payloads: List<DbPayload> = apiLaunches.flatMap { launch ->
+            val rocketId = launch.rocket.rocketId
+            val secondStageSummaryId = launch.rocket.secondState.toDbSecondStageSummary(rocketId).id
+            launch.rocket.secondState.payloads.map { payload ->
+                payload.toDbPayload(secondStageSummaryId)
+            }
+        }
+        launchDao.saveLaunchesWithSummaries(
+            launches,
+            rocketSummaries,
+            firstStageSummaries,
+            coreSummaries,
+            secondStageSummaries,
+            payloads
+        )
+    }
+
+    private suspend fun saveApiLaunch(apiLaunch: Launch) {
+        val launch = apiLaunch.toDbLaunch()
+        val rocketSummary = apiLaunch.rocket.toDbRocketSummary(apiLaunch.flightNumber)
+        val rocketId = apiLaunch.rocket.rocketId
+        val firstStageSummary = apiLaunch.rocket.firstStage.toDbFirstStageSummary(rocketId)
+        val secondStageSummary = apiLaunch.rocket.secondState.toDbSecondStageSummary(rocketId)
+        val coreSummaries = apiLaunch.rocket.firstStage.cores.map { it.toDbCoreSummary(firstStageSummary.id) }
+        val payloads = apiLaunch.rocket.secondState.payloads.map { it.toDbPayload(secondStageSummary.id) }
+        launchDao.saveLaunchWithSummaries(
+            launch,
+            rocketSummary,
+            firstStageSummary,
+            secondStageSummary,
+            coreSummaries,
+            payloads
+        )
+    }
 }

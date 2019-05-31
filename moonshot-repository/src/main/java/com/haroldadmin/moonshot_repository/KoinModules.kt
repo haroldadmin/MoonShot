@@ -2,6 +2,9 @@ package com.haroldadmin.moonshot_repository
 
 import com.haroldadmin.moonshot.database.databaseModule
 import com.haroldadmin.moonshot.database.launch.LaunchDao
+import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot_repository.launch.LaunchesRepository
 import com.haroldadmin.moonshot_repository.rocket.RocketsRepository
@@ -16,6 +19,9 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     single<LaunchesRepository> {
         LaunchesRepository(
             get<LaunchDao>(),
+            get<RocketSummaryDao>(),
+            get<FirstStageSummaryDao>(),
+            get<SecondStageSummaryDao>(),
             get<LaunchesService>()
         )
     }
