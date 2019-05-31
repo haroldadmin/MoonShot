@@ -1,5 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
+apply(from="../ktlint.gradle")
+
 plugins {
     id("com.android.library")
     kotlin("android")

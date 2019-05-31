@@ -18,5 +18,4 @@ abstract class CoreDao : BaseDao<Core> {
     @Query("SELECT * FROM cores WHERE core_serial = :serial")
     @Transaction
     abstract suspend fun getCoreWtihMissionSummaries(serial: String): CoreWithMissionSummaries
-
 }

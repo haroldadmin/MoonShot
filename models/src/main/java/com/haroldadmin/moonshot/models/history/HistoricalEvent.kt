@@ -5,7 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "historical_events")
 data class HistoricalEvent(

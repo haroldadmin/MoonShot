@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.haroldadmin.moonshot.database.BaseDbTest
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

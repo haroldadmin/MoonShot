@@ -4,12 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot_repository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
-import java.util.*
+import java.util.Date
 
 @FlowPreview
 class LaunchesViewModel(
@@ -26,11 +26,11 @@ class LaunchesViewModel(
 
     @FlowPreview
     private suspend fun getAllLaunches() {
-       launchesRepository
-           .flowAllLaunches()
-           .collect { resource ->
-               setState { copy(launches = resource) }
-           }
+        launchesRepository
+            .flowAllLaunches()
+            .collect { resource ->
+                setState { copy(launches = resource) }
+            }
     }
 
     private suspend fun getUpcomingLaunches() {

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.airbnb.mvrx.MvRxViewModelFactory
 import com.airbnb.mvrx.ViewModelContext
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot_repository.rocket.RocketsRepository
+import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 

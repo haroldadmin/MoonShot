@@ -8,13 +8,13 @@ import androidx.room.Transaction
 import com.haroldadmin.moonshot.database.BaseDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 @Dao
-abstract class LaunchDao: BaseDao<Launch> {
+abstract class LaunchDao : BaseDao<Launch> {
 
     @Query("SELECT * FROM launches")
     abstract suspend fun getAllLaunches(): List<Launch>

@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.common.Length
 import com.haroldadmin.moonshot.models.common.Mass
 import com.haroldadmin.moonshot.models.common.Thrust
-import com.haroldadmin.moonshot.models.rocket.first_stage.FirstStage
-import com.haroldadmin.moonshot.models.rocket.second_stage.CompositeFairing
-import com.haroldadmin.moonshot.models.rocket.second_stage.Payloads
-import com.haroldadmin.moonshot.models.rocket.second_stage.SecondStage
+import com.haroldadmin.moonshot.models.rocket.firstStage.FirstStage
+import com.haroldadmin.moonshot.models.rocket.secondStage.CompositeFairing
+import com.haroldadmin.moonshot.models.rocket.secondStage.Payloads
+import com.haroldadmin.moonshot.models.rocket.secondStage.SecondStage
 
 @Entity(tableName = "rockets")
 data class Rocket(

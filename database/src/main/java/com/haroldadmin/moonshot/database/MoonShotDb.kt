@@ -8,13 +8,13 @@ import com.haroldadmin.moonshot.database.common.MissionSummaryDao
 import com.haroldadmin.moonshot.database.core.CoreDao
 import com.haroldadmin.moonshot.database.dragons.DragonsDao
 import com.haroldadmin.moonshot.database.dragons.ThrustersDao
-import com.haroldadmin.moonshot.database.historical_event.HistoricalEventsDao
+import com.haroldadmin.moonshot.database.historicalEvent.HistoricalEventsDao
 import com.haroldadmin.moonshot.database.info.CompanyInfoDao
-import com.haroldadmin.moonshot.database.landing_pad.LandingPadDao
+import com.haroldadmin.moonshot.database.landingPad.LandingPadDao
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
-import com.haroldadmin.moonshot.database.launch.rocket.first_stage.FirstStageSummaryDao
-import com.haroldadmin.moonshot.database.launch.rocket.second_stage.SecondStageSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSummaryDao
+import com.haroldadmin.moonshot.database.launch.rocket.secondStage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.rocket.PayloadWeightsDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot.models.capsule.Capsule
@@ -27,10 +27,10 @@ import com.haroldadmin.moonshot.models.info.CompanyInfo
 import com.haroldadmin.moonshot.models.landingpad.LandingPad
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.CoreSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.payload.Payload
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
 

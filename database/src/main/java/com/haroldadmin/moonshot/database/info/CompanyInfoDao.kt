@@ -10,5 +10,4 @@ abstract class CompanyInfoDao : BaseDao<CompanyInfo> {
 
     @Query("SELECT * FROM companyInfo LIMIT 1")
     abstract suspend fun getCompanyInfo(): CompanyInfo
-
 }

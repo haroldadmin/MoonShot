@@ -10,5 +10,4 @@ abstract class MissionSummaryDao : BaseDao<MissionSummary> {
 
     @Query("SELECT * FROM mission_summaries")
     abstract suspend fun getAllMissionSummaries(): List<MissionSummary>
-
 }

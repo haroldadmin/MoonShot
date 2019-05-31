@@ -7,8 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
-import com.haroldadmin.moonshot.models.launch.rocket.first_stage.FirstStageWithCoreSummaries
-import com.haroldadmin.moonshot.models.launch.rocket.second_stage.SecondStageSummaryWithPayloads
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageWithCoreSummaries
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummaryWithPayloads
 
 @Dao
 interface RocketSummaryDao {
@@ -35,6 +35,4 @@ interface RocketSummaryDao {
 
     @Delete
     suspend fun deleteRocketSummary(rocketSummary: RocketSummary)
-
-
 }

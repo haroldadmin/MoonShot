@@ -13,5 +13,4 @@ abstract class PayloadWeightsDao : BaseDao<PayloadWeight> {
 
     @Query("SELECT * FROM payload_weights WHERE id = :id")
     abstract suspend fun getPayloadWeight(id: Int): PayloadWeight
-
 }

@@ -3,7 +3,7 @@ package com.haroldadmin.moonshot.models.core
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "cores")
 data class Core(
