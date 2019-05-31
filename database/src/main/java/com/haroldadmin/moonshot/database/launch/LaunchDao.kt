@@ -43,7 +43,7 @@ abstract class LaunchDao : BaseDao<Launch> {
         coreSummaries: List<CoreSummary>,
         payloads: List<Payload>
     ) {
-        saveAll(launch)
+        saveLaunch(launch)
         saveRocketSummary(rocketSummary)
         saveFirstStageSummary(firstStageSummary)
         saveSecondStageSummary(secondStageSummary)
@@ -60,7 +60,7 @@ abstract class LaunchDao : BaseDao<Launch> {
         secondStageSummaries: List<SecondStageSummary>,
         payloads: List<Payload>
     ) {
-        saveAll(launches)
+        saveLaunches(launches)
         saveRocketSummaries(rocketSummaries)
         saveFirstStageSummaries(firstStageSummaries)
         saveCoreSummaries(coreSummaries)
@@ -68,27 +68,33 @@ abstract class LaunchDao : BaseDao<Launch> {
         savePayloads(payloads)
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun saveLaunch(launches: Launch)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract suspend fun saveLaunches(launches: List<Launch>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveRocketSummary(rocketSummary: RocketSummary)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveRocketSummaries(rocketSummaries: List<RocketSummary>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveFirstStageSummary(firstStageSummary: FirstStageSummary)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveFirstStageSummaries(firstStageSummaries: List<FirstStageSummary>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveSecondStageSummary(secondStageSummary: SecondStageSummary)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveSecondStageSummaries(secondStageSummaries: List<SecondStageSummary>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun saveCoreSummaries(coreSummaries: List<CoreSummary>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun savePayloads(payloads: List<Payload>)
 }
