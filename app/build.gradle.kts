@@ -1,3 +1,5 @@
+apply(from="../ktlint.gradle")
+
 plugins {
     id("com.android.application")
     kotlin("android")

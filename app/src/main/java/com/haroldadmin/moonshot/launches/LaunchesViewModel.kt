@@ -13,9 +13,9 @@ import java.util.*
 
 @FlowPreview
 class LaunchesViewModel(
-        initialState: LaunchesState,
-        private val launchesRepository: LaunchesRepository
-    ) : MoonShotViewModel<LaunchesState>(initialState) {
+    initialState: LaunchesState,
+    private val launchesRepository: LaunchesRepository
+) : MoonShotViewModel<LaunchesState>(initialState) {
 
     init {
         viewModelScope.launch {
