@@ -120,7 +120,7 @@ class RocketsRepositoryTest : DescribeSpec() {
             context("Get one rocket successfully") {
                 val rocketId = "falcon9"
                 val mockedRocket = mockk<Rocket>()
-                mockkStatic("com.haroldadmin.moonshot_repository.mappers.RocketKt")
+                mockkStatic("com.haroldadmin.moonshotRepository.mappers.RocketKt")
                 every { mockedRocket.rockedId } returns rocketId
                 every { mockedRocket.toDbRocket() } returns DbRocket.getSampleRocket()
                 every { mockedRocket.payloadWeights } returns listOf()
