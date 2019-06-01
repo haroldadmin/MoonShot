@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="launch"
             type="com.haroldadmin.moonshot.models.launch.Launch" />
@@ -13,46 +14,63 @@
             type="android.view.View.OnClickListener" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:padding="@dimen/marginLarge"
         android:background="?attr/selectableItemBackground"
-        android:onClick="@{clickListener}"
-        android:layout_margin="@dimen/marginMedium">
+        android:onClick="@{clickListener}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launchDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginMedium"
-            android:layout_marginStart="@dimen/marginMedium"
-            android:layout_marginEnd="@dimen/marginMedium"
+            android:textAppearance="?attr/textAppearanceOverline"
             app:asyncText="@{launch.launchYear}"
-            tools:text="2014"
-            android:textAppearance="?attr/textAppearanceOverline"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2014" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            app:glideCircleCrop="@{true}"
+            app:glideImage="@{launch.links.flickrImages.size() >= 1 ? launch.links.flickrImages.get(1) : null}"
+            app:glideImageError="@{@drawable/ic_rocket_dark}"
+            app:glideImageFallback="@{@drawable/ic_rocket_dark}"
+            app:layout_constraintBottom_toBottomOf="@id/launchMissionName"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/launchMissionName"
+            app:layout_constraintTop_toTopOf="@id/launchMissionName"
+            tools:src="@drawable/ic_rocket_dark" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launchMissionName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:asyncText="@{launch.missionName}"
-            android:layout_marginStart="@dimen/marginMedium"
             android:layout_marginEnd="@dimen/marginMedium"
-            android:layout_marginBottom="@dimen/marginSmall"
-            tools:text="Thaicom 6"
             android:textAppearance="?attr/textAppearanceHeadline5"
-            android:textStyle="bold"/>
+            app:asyncText="@{launch.missionName}"
+            app:layout_constraintEnd_toStartOf="@+id/image"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/launchDate"
+            tools:text="Thaicom 6" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launchSite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:layout_marginTop="@dimen/marginMedium"
             app:asyncText="@{launch.launchSite.siteName}"
-            tools:text="CCAFS SLC 40"
-            android:layout_margin="@dimen/marginSmall"
-            android:textAppearance="?attr/textAppearanceBody2"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/launchMissionName"
+            tools:text="CCAFS SLC 40" />
 
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

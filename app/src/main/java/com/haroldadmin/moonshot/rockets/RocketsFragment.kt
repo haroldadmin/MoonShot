@@ -1,19 +1,20 @@
 package com.haroldadmin.moonshot.rockets
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.fragmentViewModel
-import com.airbnb.mvrx.withState
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.simpleController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentRocketsBinding
-import com.haroldadmin.moonshot.launchItem
+import com.haroldadmin.moonshot.itemError
+import com.haroldadmin.moonshot.itemLoading
+import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.models.rocket.Rocket
-import kotlinx.android.synthetic.main.basic_row.*
 
 class RocketsFragment : MoonShotFragment() {
 
@@ -34,37 +35,32 @@ class RocketsFragment : MoonShotFragment() {
         when (val rockets = state.rockets) {
             is Resource.Success -> {
                 rockets.data.forEach { rocket ->
-                    launchItem {
+                    itemRocket {
                         id(rocket.rocketId)
-                        title(rocket.rocketName)
-                        subtitle(rocket.description)
+                        rocket(rocket)
                     }
                 }
             }
             is Resource.Error<List<Rocket>, *> -> {
-                launchItem {
-                    id("error-header")
-                    title("Error loading rockets")
+                itemError {
+                    id("error-rockets")
+                    error("Error loading rockets")
                 }
                 rockets.data?.forEach { rocket ->
-                    launchItem {
+                    itemRocket {
                         id(rocket.rocketId)
-                        title(rocket.rocketName)
-                        subtitle(rocket.description)
+                        rocket(rocket)
                     }
                 }
             }
-            else -> launchItem {
-                id("loading-header")
-                title("Loading rockets")
-                subtitle("Hang on")
+            else -> itemLoading {
+                id("loading-rockets")
+                message("Loading Rockets")
             }
         }
     }
 
     override fun invalidate() {
-        withState(viewModel) { state ->
-            binding.rvRockets.requestModelBuild()
-        }
+        binding.rvRockets.requestModelBuild()
     }
 }

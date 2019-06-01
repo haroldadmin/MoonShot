@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="rocket"
+            type="com.haroldadmin.moonshot.models.rocket.Rocket" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/marginMedium">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:src="@drawable/ic_rocket"
+            android:tint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:layout_marginBottom="@dimen/marginMedium"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:asyncText="@{rocket.rocketName}"
+            tools:text="Falcon 1" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            android:background="?attr/colorSecondary"
+            android:layout_margin="@dimen/marginMedium"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/marginMedium"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:asyncText="@{rocket.description}"
+            tools:text="@tools:sample/lorem/random"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

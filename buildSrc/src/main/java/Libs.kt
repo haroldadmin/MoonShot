@@ -19,11 +19,15 @@ object Libs {
     const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+    const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
 
     const val mvrx = "com.airbnb.android:mvrx:${Versions.mvrx}"
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
     const val epoxyDatabinding ="com.airbnb.android:epoxy-databinding:${Versions.epoxy}"
+
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
 

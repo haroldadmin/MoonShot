@@ -51,41 +51,6 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun epoxyController() = simpleController(launchesViewModel) { state ->
 
-        when (val nextLaunch = state.nextLaunch) {
-            is Resource.Success -> {
-                itemLaunch {
-                    id("$nextLaunch.data.flightNumber-next")
-                    launch(nextLaunch.data)
-                    clickListener { model, _, _, _ ->
-                        val flightNumber = model.launch().flightNumber
-                        findNavController().navigate(
-                            R.id.launchDetails,
-                            bundleOf(MvRx.KEY_ARG to LaunchDetailsArgs(flightNumber))
-                        )
-                    }
-                }
-            }
-            is Resource.Error<Launch, *> -> {
-                itemError {
-                    id("next-launch-error")
-                    error("Unable to fetch next launch")
-                }
-                nextLaunch.data?.let { cachedLaunch ->
-                    itemLaunch {
-                        id("$cachedLaunch.flightNumber-next")
-                        launch(cachedLaunch)
-                        clickListener { model, _, _, _ ->
-                            val flightNumber = model.launch().flightNumber
-                            findNavController().navigate(
-                                R.id.launchDetails,
-                                bundleOf(MvRx.KEY_ARG to LaunchDetailsArgs(flightNumber))
-                            )
-                        }
-                    }
-                }
-            }
-        }
-
         when (val launches = state.launches) {
             is Resource.Success -> {
                 launches.data.forEach { launch ->

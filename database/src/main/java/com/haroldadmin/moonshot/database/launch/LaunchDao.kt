@@ -16,7 +16,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 @Dao
 abstract class LaunchDao : BaseDao<Launch> {
 
-    @Query("SELECT * FROM launches")
+    @Query("SELECT * FROM launches ORDER BY launch_date_utc DESC")
     abstract suspend fun getAllLaunches(): List<Launch>
 
     @Query("SELECT * FROM launches WHERE flight_number = :flightNumber")

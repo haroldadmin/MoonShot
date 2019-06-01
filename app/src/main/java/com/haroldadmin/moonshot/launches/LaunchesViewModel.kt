@@ -19,8 +19,14 @@ class LaunchesViewModel(
     init {
         viewModelScope.launch {
             getAllLaunches()
-            getNextLaunch()
         }
+    }
+
+    private var offset = 0
+    private var limit = 15
+
+    fun getLaunches() {
+
     }
 
     private suspend fun getAllLaunches() {
@@ -38,12 +44,12 @@ class LaunchesViewModel(
             launchesRepository.getPastLaunches(Date().time)
         }
     }
-
-    private suspend fun getNextLaunch() {
-        executeAsResource({ copy(nextLaunch = it) }) {
-            launchesRepository.getNextLaunch(Date().time)
-        }
-    }
+//
+//    private suspend fun getNextLaunch() {
+//        executeAsResource({ copy(nextLaunch = it) }) {
+//            launchesRepository.getNextLaunch(Date().time)
+//        }
+//    }
 
     companion object : MvRxViewModelFactory<LaunchesViewModel, LaunchesState> {
         override fun create(viewModelContext: ViewModelContext, state: LaunchesState): LaunchesViewModel? {

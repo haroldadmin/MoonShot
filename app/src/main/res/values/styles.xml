@@ -42,6 +42,7 @@
 
     <style name="TextAppearance.MoonShot.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/space_mono</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.MoonShot.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
