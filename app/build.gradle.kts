@@ -20,7 +20,7 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
@@ -43,6 +43,9 @@ android {
     }
     kapt {
         correctErrorTypes = true
+    }
+    androidExtensions {
+        isExperimental = true
     }
 }
 
@@ -67,7 +70,10 @@ dependencies {
     implementation(Libs.navigationUi)
     implementation(Libs.mvrx)
     implementation(Libs.epoxy)
+    implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
+
+    implementation(Libs.lemniscate)
 
     testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)

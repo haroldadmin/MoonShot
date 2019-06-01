@@ -2,14 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/launchesScreen">
+    app:startDestination="@id/launches">
 
     <fragment
-        android:id="@+id/launchesScreen"
+        android:id="@+id/launches"
         android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
-        android:label="Launches" />
+        android:label="Launches" >
+    </fragment>
     <fragment
-        android:id="@+id/rocketsScreen"
+        android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
         android:label="Rockets" />
+    <fragment
+        android:id="@+id/launchDetails"
+        android:name="com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragment"
+        android:label="Launch Details">
+    </fragment>
 </navigation>

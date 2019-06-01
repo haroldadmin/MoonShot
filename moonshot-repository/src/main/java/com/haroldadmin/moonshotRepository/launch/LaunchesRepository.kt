@@ -4,6 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.cnradapter.invoke
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.safe
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSummaryDao
@@ -138,6 +139,24 @@ class LaunchesRepository(
             }
         }
             .flowOn(Dispatchers.IO, bufferSize = 0)
+
+
+    suspend fun getLaunch(flightNumber: Int): Resource<DbLaunch> = withContext(Dispatchers.IO) {
+        val launch = executeWithRetry { launchesService.getLaunch(flightNumber).await() }
+        when (launch) {
+            is NetworkResponse.Success -> {
+                saveApiLaunch(launch()!!)
+                Resource.Success(launchDao.getLaunch(flightNumber))
+            }
+
+            is NetworkResponse.ServerError -> {
+                Resource.Error(launchDao.getLaunch(flightNumber), launch.body)
+            }
+            is NetworkResponse.NetworkError -> {
+                Resource.Error(launchDao.getLaunch(flightNumber), launch.error)
+            }
+        }
+    }
 
     private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {
         val launches: List<DbLaunch> = apiLaunches.map { it.toDbLaunch() }

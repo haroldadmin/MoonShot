@@ -27,7 +27,7 @@ class RocketsFragment : MoonShotFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvLaunches.setController(epoxyController())
+        binding.rvRockets.setController(epoxyController())
     }
 
     override fun epoxyController() = simpleController(viewModel) { state ->
@@ -64,8 +64,7 @@ class RocketsFragment : MoonShotFragment() {
 
     override fun invalidate() {
         withState(viewModel) { state ->
-            Log.d(this::class.java.simpleName, state.rockets.toString())
-            binding.rvLaunches.requestModelBuild()
+            binding.rvRockets.requestModelBuild()
         }
     }
 }

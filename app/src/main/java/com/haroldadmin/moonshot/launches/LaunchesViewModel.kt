@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import java.util.Date
 
-@FlowPreview
 class LaunchesViewModel(
     initialState: LaunchesState,
     private val launchesRepository: LaunchesRepository
@@ -24,13 +23,8 @@ class LaunchesViewModel(
         }
     }
 
-    @FlowPreview
     private suspend fun getAllLaunches() {
-        launchesRepository
-            .flowAllLaunches()
-            .collect { resource ->
-                setState { copy(launches = resource) }
-            }
+        executeAsResource({ copy(launches = it) }) { launchesRepository.getAllLaunches() }
     }
 
     private suspend fun getUpcomingLaunches() {

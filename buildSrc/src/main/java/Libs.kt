@@ -23,6 +23,9 @@ object Libs {
     const val mvrx = "com.airbnb.android:mvrx:${Versions.mvrx}"
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
+    const val epoxyDatabinding ="com.airbnb.android:epoxy-databinding:${Versions.epoxy}"
+
+    const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
 
     const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
     const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"

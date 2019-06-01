@@ -2,16 +2,18 @@ object Versions {
 
     const val coroutines = "1.2.1"
 
-    const val koin = "2.0.0-GA"
+    const val koin = "2.0.1"
 
     const val appCompat = "1.0.2"
     const val ktxCore = "1.0.2"
     const val constraintLayout = "2.0.0-beta1"
-    const val materialComponents = "1.1.0-alpha06"
+    const val materialComponents = "1.1.0-alpha07"
     const val navigation = "2.1.0-alpha04"
 
     const val mvrx = "1.0.1"
     const val epoxy = "3.5.1"
+
+    const val lemniscate = "2.0.0"
 
     const val rxJava = "2.2.8"
     const val rxAndroid = "2.1.1"
