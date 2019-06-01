@@ -2,11 +2,54 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/space_mono</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryHighEmp</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryHighEmp</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurfaceHighEmp</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MoonShot.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MoonShot.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MoonShot.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MoonShot.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MoonShot.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MoonShot.Headline6</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MoonShot.Overline</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="MoonShot.Widget.Toolbar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/space_mono</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/space_mono</item>
     </style>
 
 </resources>

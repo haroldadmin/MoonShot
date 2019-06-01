@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorSurface">#ECEFF1</color>
-    <color name="colorSurfaceLight">#FFFFFF</color>
-    <color name="colorSurfaceDark">#B0BEC5</color>
-    <color name="colorOnSurfaceHighEmp">#DD000000</color>
-    <color name="colorOnSurfaceMediumEmp">#99000000</color>
-    <color name="colorOnSurfaceLowEmp">#60000000</color>
-
+    <color name="colorSurface">#263238</color>
+    <color name="colorSurfaceLight">#455A64</color>
+    <color name="colorSurfaceDark">#000000</color>
+    <color name="colorOnSurfaceHighEmp">#FFFFFF</color>
+    <color name="colorOnSurfaceMediumEmp">#99FFFFFF</color>
+    <color name="colorOnSurfaceLowEmp">#60FFFFFF</color>
+    
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryVariant">#616161</color>
+    <color name="colorPrimaryVariant">#BDBDBD</color>
     <color name="colorOnPrimaryHighEmp">#FFFFFF</color>
     <color name="colorOnPrimaryMediumEmp">#99FFFFFF</color>
     <color name="colorOnPrimaryLowEmp">#60FFFFFF</color>
-
+    
     <color name="colorSecondary">#1565C0</color>
     <color name="colorSecondaryVariant">#0D47A1</color>
     <color name="colorOnSecondaryHighEmp">#FFFFFF</color>
     <color name="colorOnSecondaryMediumEmp">#D3FFFFFF</color>
     <color name="colorOnSecondaryLowEmp">#60FFFFFF</color>
 
-    <color name="colorPrimaryDark">#212121</color>
-    <color name="colorStatusBar">#33212121</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorStatusBar">#33000000</color>
 </resources>

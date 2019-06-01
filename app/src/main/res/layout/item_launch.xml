@@ -39,7 +39,7 @@
             app:asyncText="@{launch.missionName}"
             android:layout_marginStart="@dimen/marginMedium"
             android:layout_marginEnd="@dimen/marginMedium"
-            android:layout_marginBottom="@dimen/marginMedium"
+            android:layout_marginBottom="@dimen/marginSmall"
             tools:text="Thaicom 6"
             android:textAppearance="?attr/textAppearanceHeadline5"
             android:textStyle="bold"/>
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             app:asyncText="@{launch.launchSite.siteName}"
             tools:text="CCAFS SLC 40"
-            android:layout_margin="@dimen/marginMedium"
+            android:layout_margin="@dimen/marginSmall"
             android:textAppearance="?attr/textAppearanceBody2"/>
 
 
