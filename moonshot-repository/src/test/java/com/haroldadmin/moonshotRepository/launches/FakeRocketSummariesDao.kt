@@ -10,7 +10,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 class FakeRocketSummariesDao(
     private val flightNumber: Int = 0
 ) : RocketSummaryDao {
-    override suspend fun getRocketSummaryForLaunch(flightNumber: Int): RocketSummary {
+    override suspend fun getRocketSummary(flightNumber: Int): RocketSummary {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

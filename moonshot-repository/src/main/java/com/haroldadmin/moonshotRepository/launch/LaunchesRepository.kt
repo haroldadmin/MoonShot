@@ -161,7 +161,7 @@ class LaunchesRepository(
     }
 
     suspend fun getRocketSummary(flightNumber: Int): Resource<DbRocketSummary> = withContext(Dispatchers.IO) {
-        Resource.Success(rocketSummaryDao.getRocketSummaryForLaunch(flightNumber))
+        Resource.Success(rocketSummaryDao.getRocketSummary(flightNumber))
     }
 
     private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {

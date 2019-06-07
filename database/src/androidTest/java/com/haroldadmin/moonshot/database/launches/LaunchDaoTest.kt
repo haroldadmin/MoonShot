@@ -22,8 +22,8 @@ internal class LaunchDaoTest : BaseDbTest() {
     private val firstStageSummaryDao by lazy { db.firstStageSummaryDao() }
     private val launch = Launch.getSampleLaunch()
     private val rocketSummary = RocketSummary.getSampleRocketSummary(launch.flightNumber)
-    private val secondStageSummary = SecondStageSummary.getSampleSecondStageSummary(rocketSummary.rocketId)
-    private val firstStageSummary = FirstStageSummary.getSampleFirstStageSummary(rocketSummary.rocketId)
+    private val secondStageSummary = SecondStageSummary.getSampleSecondStageSummary(launch.flightNumber)
+    private val firstStageSummary = FirstStageSummary.getSampleFirstStageSummary(launch.flightNumber)
 
     @Before
     fun writeSampleData() = runBlocking {
@@ -47,7 +47,7 @@ internal class LaunchDaoTest : BaseDbTest() {
 
     @Test
     fun rocketReadTest() = runBlocking {
-        val summary = rocketSummaryDao.getRocketSummary(rocketSummary.rocketId)
+        val summary = rocketSummaryDao.getRocketSummary(launch.flightNumber)
         assertEquals(rocketSummary, summary)
     }
 
@@ -67,14 +67,14 @@ internal class LaunchDaoTest : BaseDbTest() {
 
     @Test
     fun firstStageSummaryWithCores() = runBlocking {
-        val summary = rocketSummaryDao.getFirstStage(rocketSummary.rocketId)
+        val summary = rocketSummaryDao.getFirstStage(launch.flightNumber)
         assertEquals(firstStageSummary, summary.firstStageSummary)
         assertTrue(summary.cores.isEmpty())
     }
 
     @Test
     fun secondStageSummaryWithPayloads() = runBlocking {
-        val summary = rocketSummaryDao.getSecondStage(rocketSummary.rocketId)
+        val summary = rocketSummaryDao.getSecondStage(launch.flightNumber)
         assertEquals(secondStageSummary, summary.secondStageSummary)
         assertTrue(summary.payloads.isEmpty())
     }
@@ -83,7 +83,7 @@ internal class LaunchDaoTest : BaseDbTest() {
     fun launchCascadedDeleteTest() = runBlocking {
         launchDao.delete(launch)
 
-        assertTrue(launchDao.getAllLaunches().isEmpty())
+        assertTrue(launchDao.getAllLaunches(Integer.MAX_VALUE).isEmpty())
 
         assertTrue(rocketSummaryDao.getAllRocketSummaries().isEmpty())
 

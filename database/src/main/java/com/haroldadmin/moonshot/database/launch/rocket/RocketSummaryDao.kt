@@ -14,7 +14,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 interface RocketSummaryDao {
 
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
-    suspend fun getRocketSummaryForLaunch(flightNumber: Int): RocketSummary
+    suspend fun getRocketSummary(flightNumber: Int): RocketSummary
 
     @Query("SELECT * FROM rocket_summaries")
     suspend fun getAllRocketSummaries(): List<RocketSummary>
