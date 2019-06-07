@@ -11,11 +11,18 @@ class LaunchDetailsViewModel(
 ) : MoonShotViewModel<LaunchDetailsState>(initState) {
 
     init {
-        getLaunchDetails(initState.flightNumber)
+        viewModelScope.launch {
+            getLaunchDetails(initState.flightNumber)
+            getRocketSummary(initState.flightNumber)
+        }
     }
 
-    private fun getLaunchDetails(flightNumber: Int) = viewModelScope.launch {
+    suspend fun getLaunchDetails(flightNumber: Int) {
         executeAsResource({ copy(launch = it) }) { launchesRepository.getLaunch(flightNumber) }
+    }
+
+    suspend fun getRocketSummary(flightNumber: Int) {
+        executeAsResource({ copy(rocketSummary = it) }) { launchesRepository.getRocketSummary(flightNumber) }
     }
 
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="rocketSummary"
+            type="com.haroldadmin.moonshot.models.launch.rocket.RocketSummary" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerRocket"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:text="@string/launchRocketHeaderText"
+            android:textAppearance="@style/TextAppearance.MoonShot.Overline1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketName"
+            asyncText="@{rocketSummary.rocketName}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:paddingBottom="@dimen/marginMedium"
+            android:textAppearance="@style/TextAppearance.MoonShot.Headline5"
+            android:textColor="@color/colorOnSurfaceHighEmp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerRocket"
+            tools:text="Falcon 9" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/headerBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="rocketName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketTypeLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginTop="@dimen/marginSmall"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:text="@string/launchRocketTypeLabel"
+            android:textAppearance="@style/TextAppearance.MoonShot.Overline2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerBarrier" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketType"
+            asyncText="@{rocketSummary.rocketType}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:layout_marginBottom="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rocketTypeLabel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Merlin A" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

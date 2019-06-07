@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="heading"
+            type="String" />
+
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:text="@{heading}"
+            android:textAppearance="?attr/textAppearanceOverline"
+            tools:text="Details" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginMedium"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:text="@{text}"
+            android:textAppearance="?attr/textAppearanceBody2"
+            tools:text="@tools:sample/lorem/random" />
+
+    </LinearLayout>
+</layout>

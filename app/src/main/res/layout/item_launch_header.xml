@@ -5,8 +5,14 @@
 
     <data>
         <variable
-            name="launch"
-            type="com.haroldadmin.moonshot.models.launch.Launch" />
+            name="backdrop"
+            type="String" />
+        <variable
+            name="missionPatch"
+            type="String" />
+        <variable
+            name="missionName"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,34 +21,35 @@
 
         <ImageView
             android:id="@+id/nextLaunchBackdrop"
-            glideImage="@{launch.backdropImageUrl}"
             glideCrossFade="true"
+            glideImage="@{backdrop}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_min="150dp"
             android:contentDescription="@string/headerLaunchImageContentDescription"
+            android:foreground="@drawable/launch_header_image_overlay"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/launchNameBarrier"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_min="150dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/colorSurfaceTranslucent"
-            tools:src="@tools:sample/backgrounds/scenic"/>
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launchName"
-            asyncText="@{launch.missionName}"
+            asyncText="@{missionName}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginMedium"
             android:layout_marginTop="@dimen/marginMedium"
             android:layout_marginEnd="@dimen/marginMedium"
             android:paddingBottom="@dimen/marginLarge"
-            android:textAppearance="@style/TextAppearance.MoonShot.Headline4"
-            android:textSize="38sp"
             android:textAlignment="center"
-            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceHeadline4"
             android:textColor="@color/colorOnSurfaceHighEmp"
+            android:textSize="38sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/launchMissionPatch"
@@ -51,7 +58,7 @@
         <ImageView
             android:id="@+id/launchMissionPatch"
             glideCircleCrop="true"
-            glideImage="@{launch.missionPatch}"
+            glideImage="@{missionPatch}"
             glideImageError="@{@drawable/ic_rocket}"
             glideImageFallback="@{@drawable/ic_rocket}"
             android:layout_width="72dp"
@@ -63,39 +70,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/launchNameBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="launchName" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/launchDetailsHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginMedium"
-            android:layout_marginTop="@dimen/marginLarge"
-            android:layout_marginEnd="@dimen/marginMedium"
-            android:text="@string/headerLaunchDetailsHeader"
-            android:textAppearance="@style/TextAppearance.MoonShot.Overline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchNameBarrier" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            asyncText="@{launch.details}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginMedium"
-            android:layout_marginTop="@dimen/marginSmall"
-            android:layout_marginEnd="@dimen/marginMedium"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchDetailsHeader"
-            tools:text="@tools:sample/lorem/random" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

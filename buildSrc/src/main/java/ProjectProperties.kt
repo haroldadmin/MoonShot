@@ -1,6 +1,6 @@
 object ProjectProperties {
     const val compileSdk = 28
-    const val minSdk = 21
+    const val minSdk = 23
     const val targetSdk = 28
 
     const val applicationId = "com.haroldadmin.moonshot"
