@@ -11,7 +11,7 @@ import com.haroldadmin.moonshot.base.typedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.itemError
-import com.haroldadmin.moonshot.itemLaunch
+import com.haroldadmin.moonshot.itemLaunchHeader
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.vector.withState
@@ -44,13 +44,15 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val epoxyController by lazy {
         typedEpoxyController(viewModel) { state ->
             when (state.launch) {
-                is Resource.Success -> itemLaunch {
-                    id(state.launch.data.flightNumber)
-                    launch(state.launch.data)
+                is Resource.Success -> {
+                    itemLaunchHeader {
+                        id("header-${state.launch.data.flightNumber}")
+                        launch(state.launch.data)
+                    }
                 }
                 is Resource.Error<Launch, *> -> itemError {
                     id("launch-error")
-                    error(state.launch.error.toString())
+                    error("Unable to load launch details")
                 }
                 else -> itemLoading {
                     id("launch-loading")

@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.models.launch
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.util.Date
 
@@ -50,4 +51,9 @@ data class Launch(
             Timeline.getSampleTimeline()
         )
     }
+
+    @Ignore
+    val backdropImageUrl = links?.flickrImages?.firstOrNull() ?: links?.redditMedia
+    @Ignore
+    val missionPatch = links?.missionPatchSmall ?: links?.missionPatch
 }

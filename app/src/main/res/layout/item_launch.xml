@@ -37,15 +37,15 @@
             android:layout_width="54dp"
             android:layout_height="54dp"
             app:glideCircleCrop="@{true}"
-            app:glideImage="@{launch.links.flickrImages.size() >= 1 ? launch.links.flickrImages.get(1) : null}"
-            app:glideImageError="@{@drawable/ic_rocket_dark}"
-            app:glideImageFallback="@{@drawable/ic_rocket_dark}"
+            app:glideImage="@{launch.missionPatch}"
+            app:glideImageError="@{@drawable/ic_rocket}"
+            app:glideImageFallback="@{@drawable/ic_rocket}"
             app:layout_constraintBottom_toBottomOf="@id/launchMissionName"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/launchMissionName"
             app:layout_constraintTop_toTopOf="@id/launchMissionName"
-            tools:src="@drawable/ic_rocket_dark" />
+            tools:src="@drawable/ic_rocket" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/launchMissionName"

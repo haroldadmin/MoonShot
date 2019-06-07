@@ -6,6 +6,7 @@
     <color name="colorOnSurfaceHighEmp">#FFFFFF</color>
     <color name="colorOnSurfaceMediumEmp">#99FFFFFF</color>
     <color name="colorOnSurfaceLowEmp">#60FFFFFF</color>
+    <color name="colorSurfaceTranslucent">#A5263238</color>
     
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryVariant">#BDBDBD</color>

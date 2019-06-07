@@ -2,4 +2,7 @@
     <string name="app_name">MoonShot</string>
     <string name="menuLaunchesLabel">Launches</string>
     <string name="menuRocketsLabel">Rockets</string>
+    <string name="headerLaunchDetailsHeader">Details</string>
+    <string name="headerLaunchImageContentDescription">Image related to the launch</string>
+    <string name="headerLaunchMissionPatchContentDescription">Mission patch image</string>
 </resources>

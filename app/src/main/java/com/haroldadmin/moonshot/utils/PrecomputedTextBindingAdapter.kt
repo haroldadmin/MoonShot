@@ -10,13 +10,16 @@ import androidx.databinding.BindingAdapter
     "asyncText",
     "android:textSize",
     requireAll = false)
-fun asyncText(view: TextView, text: CharSequence, textSize: Int?) {
+fun asyncText(view: TextView, text: CharSequence?, textSize: Int?) {
     // first, set all measurement affecting properties of the text
     // (size, locale, typeface, direction, etc)
     if (textSize != null) {
         // interpret the text size as SP
         view.textSize = textSize.toFloat()
     }
-    (view as AppCompatTextView).setTextFuture(
-        PrecomputedTextCompat.getTextFuture(text, TextViewCompat.getTextMetricsParams(view), null))
+    if (text != null) {
+        (view as AppCompatTextView).setTextFuture(
+            PrecomputedTextCompat.getTextFuture(text, TextViewCompat.getTextMetricsParams(view), null)
+        )
+    } else return
 }

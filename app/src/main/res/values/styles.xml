@@ -34,6 +34,7 @@
 
     <style name="TextAppearance.MoonShot.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="fontFamily">@font/space_mono</item>
+        <item name="android:textColor">@color/colorOnPrimaryHighEmp</item>
     </style>
 
     <style name="TextAppearance.MoonShot.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
@@ -51,6 +52,7 @@
 
     <style name="TextAppearance.MoonShot.Overline" parent="TextAppearance.MaterialComponents.Overline">
         <item name="fontFamily">@font/space_mono</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
