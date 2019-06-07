@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/launches">
 
     <fragment
         android:id="@+id/launches"
         android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
-        android:label="Launches" >
+        android:label="Launches"
+        tools:layout="@layout/fragment_launches">
+        <action
+            android:id="@+id/launchDetails"
+            app:destination="@id/launchDetails"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
-        android:label="Rockets" />
+        android:label="Rockets"
+        tools:layout="@layout/fragment_rockets"/>
     <fragment
         android:id="@+id/launchDetails"
         android:name="com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragment"
-        android:label="Launch Details">
+        android:label="Launch Details"
+        tools:layout="@layout/fragment_launch_details">
+        <argument
+            android:name="flightNumber"
+            app:argType="integer"
+            app:nullable="false" />
     </fragment>
 </navigation>

@@ -4,14 +4,16 @@ object Versions {
 
     const val koin = "2.0.1"
 
-    const val appCompat = "1.0.2"
+    const val appCompat = "1.1.0-beta01"
+    const val lifecycle = "2.2.0-alpha01"
     const val ktxCore = "1.0.2"
     const val constraintLayout = "2.0.0-beta1"
     const val materialComponents = "1.1.0-alpha07"
-    const val navigation = "2.1.0-alpha04"
+    const val navigation = "2.1.0-alpha05"
     const val paging = "2.1.0"
 
-    const val mvrx = "1.0.1"
+    const val vector = "0.1.0"
+
     const val epoxy = "3.5.1"
 
     const val glide = "4.9.0"
@@ -23,7 +25,7 @@ object Versions {
 
     const val room = "2.1.0-alpha07"
 
-    const val retrofit = "2.5.0"
+    const val retrofit = "2.6.0"
     const val okHttp = "3.14.2"
     const val loggingInterceptor = "3.14.1"
     const val cnrAdapter = "2.0.2"

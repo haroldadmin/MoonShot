@@ -7,7 +7,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter(
-    "app:asyncText",
+    "asyncText",
     "android:textSize",
     requireAll = false)
 fun asyncText(view: TextView, text: CharSequence, textSize: Int?) {

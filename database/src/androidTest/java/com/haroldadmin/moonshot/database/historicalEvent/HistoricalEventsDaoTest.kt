@@ -3,7 +3,7 @@ package com.haroldadmin.moonshot.database.historicalEvent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.haroldadmin.moonshot.database.BaseDbTest
 import com.haroldadmin.moonshot.models.history.HistoricalEvent
-import com.haroldadmin.moonshot.models.launch.Links
+import com.haroldadmin.moonshot.models.history.Links
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -13,6 +13,7 @@ object Libs {
     const val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
 
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
+    const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktxCore}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
@@ -21,7 +22,8 @@ object Libs {
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
     const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
 
-    const val mvrx = "com.airbnb.android:mvrx:${Versions.mvrx}"
+    const val vector = "com.github.haroldadmin:Vector:0.0.3"
+
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
     const val epoxyDatabinding ="com.airbnb.android:epoxy-databinding:${Versions.epoxy}"

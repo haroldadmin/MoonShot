@@ -2,7 +2,6 @@ package com.haroldadmin.moonshot.utils
 
 import android.content.res.Configuration
 import androidx.core.os.ConfigurationCompat
-import com.airbnb.mvrx.BaseMvRxViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 

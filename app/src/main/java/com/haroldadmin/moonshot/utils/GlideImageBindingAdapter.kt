@@ -6,10 +6,10 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 @BindingAdapter(
-    "app:glideImage",
-    "app:glideImageError",
-    "app:glideImageFallback",
-    "app:glideCircleCrop",
+    "glideImage",
+    "glideImageError",
+    "glideImageFallback",
+    "glideCircleCrop",
     requireAll = false
 )
 fun loadImage(view: ImageView,

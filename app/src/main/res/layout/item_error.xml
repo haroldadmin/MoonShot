@@ -5,7 +5,7 @@
     <data>
         <variable
             name="error"
-            type="java.lang.String" />
+            type="String" />
     </data>
 
     <FrameLayout
@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{error}"
+            android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            tools:text="Failed to fetch resource"
-            android:textAlignment="center" />
+            tools:text="Failed to fetch resource" />
 
     </FrameLayout>
 </layout>

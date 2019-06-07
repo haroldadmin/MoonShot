@@ -6,7 +6,7 @@ data class Links(
     val wikipedia: String?
 ) {
 
-    internal companion object {
+    companion object {
         fun getSampleLinks(): Links {
             return Links(
                 reddit = null,

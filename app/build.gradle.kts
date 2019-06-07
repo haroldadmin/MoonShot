@@ -54,6 +54,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(project(":core"))
+    implementation(project(":base"))
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.kotlinStdLib)
@@ -62,13 +63,18 @@ dependencies {
     implementation(Libs.koinViewModel)
     implementation(Libs.koinScope)
 
+    implementation(Libs.vector)
+
+    implementation(Libs.rxJava)
+    implementation(Libs.rxAndroid)
+
     implementation(Libs.appCompat)
+    implementation(Libs.lifecycle)
     implementation(Libs.materialComponents)
     implementation(Libs.ktxCore)
     implementation(Libs.constraintLayout)
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
-    implementation(Libs.mvrx)
     implementation(Libs.epoxy)
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
