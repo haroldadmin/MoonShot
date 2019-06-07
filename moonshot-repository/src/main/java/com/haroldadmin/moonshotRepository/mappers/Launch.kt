@@ -116,12 +116,12 @@ internal fun Fairing.toDbFairings(): DbFairings {
     )
 }
 
-internal fun CoreSummary.toDbCoreSummary(firstStageSummaryId: Int): DbCoreSummary {
+internal fun CoreSummary.toDbCoreSummary(flightNumber: Int): DbCoreSummary {
     return DbCoreSummary(
+        flightNumber = flightNumber,
         serial = this.serial ?: "Unknown",
         reused = this.reused,
         block = this.block,
-        firstStageSummaryId = firstStageSummaryId,
         flight = this.flight,
         gridfins = this.gridfins,
         landingIntent = this.landingIntent,
@@ -132,9 +132,9 @@ internal fun CoreSummary.toDbCoreSummary(firstStageSummaryId: Int): DbCoreSummar
     )
 }
 
-internal fun FirstStageSummary.toDbFirstStageSummary(rocketId: String): DbFirstStageSummary {
+internal fun FirstStageSummary.toDbFirstStageSummary(flightNumber: Int): DbFirstStageSummary {
     return DbFirstStageSummary(
-        rocketId = rocketId
+        flightNumber = flightNumber
     )
 }
 
@@ -158,8 +158,9 @@ internal fun OrbitParams.toDbOrbitParams(): DbOrbitParams {
     )
 }
 
-internal fun Payload.toDbPayload(secondStageSummaryId: Int): DbPayload {
+internal fun Payload.toDbPayload(flightNumber: Int): DbPayload {
     return DbPayload(
+        flightNumber = flightNumber,
         id = this.id,
         customers = this.customers,
         manufacturer = this.manufacturer,
@@ -170,14 +171,13 @@ internal fun Payload.toDbPayload(secondStageSummaryId: Int): DbPayload {
         payloadMassKg = this.payloadMassKg,
         payloadMassLbs = this.payloadMassLbs,
         payloadType = this.payloadType,
-        reused = this.reused,
-        secondStageSummaryId = secondStageSummaryId
+        reused = this.reused
     )
 }
 
-internal fun SecondStageSummary.toDbSecondStageSummary(rocketId: String): DbSecondStageSummary {
+internal fun SecondStageSummary.toDbSecondStageSummary(flightNumber: Int): DbSecondStageSummary {
     return DbSecondStageSummary(
-        rocketId = rocketId,
+        flightNumber = flightNumber,
         block = this.block
     )
 }

@@ -7,7 +7,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageWithCo
 
 class FakeFirstStageSummaryDao(
     private val fssId: Int = 0,
-    private val rocketId: String = "falcon9"
+    private val flightNumber: Int = 65
 ) : FirstStageSummaryDao() {
 
     override suspend fun save(obj: FirstStageSummary) = Unit
@@ -30,12 +30,14 @@ class FakeFirstStageSummaryDao(
 
     override suspend fun getAllFirstStageSummaries(): List<FirstStageSummary> = listOf()
 
-    override suspend fun getFirstStageSummary(id: Int): FirstStageSummary = FirstStageSummary.getSampleFirstStageSummary(rocketId)
+    override suspend fun getFirstStageSummary(flightNumber: Int): FirstStageSummary = FirstStageSummary.getSampleFirstStageSummary(
+        this.flightNumber
+    )
 
     override suspend fun getCoreSummary(serial: String): CoreSummary = CoreSummary.getSampleCoreSummary(fssId)
 
-    override suspend fun getFirstStageWithCoreSummaries(id: Int): FirstStageWithCoreSummaries = FirstStageWithCoreSummaries(
-        FirstStageSummary.getSampleFirstStageSummary(rocketId),
+    override suspend fun getFirstStageWithCoreSummaries(flightNumber: Int): FirstStageWithCoreSummaries = FirstStageWithCoreSummaries(
+        FirstStageSummary.getSampleFirstStageSummary(this.flightNumber),
         listOf()
     )
 }

@@ -11,14 +11,15 @@ import androidx.room.PrimaryKey
     foreignKeys = [
         ForeignKey(
             entity = FirstStageSummary::class,
-            parentColumns = ["first_stage_summary_id"],
-            childColumns = ["first_stage_summary_id"]
+            parentColumns = ["launch_flight_number"],
+            childColumns = ["launch_flight_number"]
         )
     ],
-    indices = [Index("first_stage_summary_id")]
+    primaryKeys = ["core_serial", "launch_flight_number"],
+    indices = [Index("launch_flight_number")]
 )
 data class CoreSummary(
-    @PrimaryKey
+    @ColumnInfo(name = "launch_flight_number") val flightNumber: Int,
     @ColumnInfo(name = "core_serial") val serial: String,
     @ColumnInfo(name = "flight") val flight: Int?,
     @ColumnInfo(name = "block") val block: Int?,
@@ -28,13 +29,13 @@ data class CoreSummary(
     @ColumnInfo(name = "land_success") val landSuccess: Boolean?,
     @ColumnInfo(name = "landing_intent") val landingIntent: Boolean?,
     @ColumnInfo(name = "landing_type") val landingType: String?,
-    @ColumnInfo(name = "landing_vehicle") val landingVehicle: String?,
-    @ColumnInfo(name = "first_stage_summary_id") val firstStageSummaryId: Int
+    @ColumnInfo(name = "landing_vehicle") val landingVehicle: String?
 ) {
 
     companion object {
-        fun getSampleCoreSummary(firstStageSummaryId: Int): CoreSummary =
+        fun getSampleCoreSummary(flightNumber: Int): CoreSummary =
             CoreSummary(
+                flightNumber,
                 "B1042",
                 0,
                 4,
@@ -44,8 +45,7 @@ data class CoreSummary(
                 true,
                 true,
                 "",
-                "",
-                firstStageSummaryId
+                ""
             )
     }
 }

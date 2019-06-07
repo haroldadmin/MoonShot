@@ -36,13 +36,15 @@ class LaunchesRepository(
     private val launchesService: LaunchesService
 ) {
 
-    suspend fun getAllLaunches(limit: Int = 20, includeUpcoming: Boolean = false, maxTimestamp: Long = Long.MAX_VALUE): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
+    suspend fun getAllLaunches(
+        limit: Int = 20,
+        maxTimestamp: Long = Long.MAX_VALUE
+    ): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
 
         when (val launches = launchesService.getAllLaunches().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(launches()!!)
-                if (includeUpcoming) Resource.Success(launchDao.getAllLaunches(limit))
-                else Resource.Success(launchDao.getAllLaunches(maxTimestamp, limit))
+                Resource.Success(launchDao.getAllLaunches(maxTimestamp, limit))
             }
 
             is NetworkResponse.ServerError -> {
@@ -158,26 +160,28 @@ class LaunchesRepository(
         }
     }
 
+    suspend fun getRocketSummary(flightNumber: Int): Resource<DbRocketSummary> = withContext(Dispatchers.IO) {
+        Resource.Success(rocketSummaryDao.getRocketSummaryForLaunch(flightNumber))
+    }
+
     private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {
         val launches: List<DbLaunch> = apiLaunches.map { it.toDbLaunch() }
-        val rocketSummaries: List<DbRocketSummary> = apiLaunches.map { it.rocket.toDbRocketSummary(it.flightNumber) }
+
+        val rocketSummaries: List<DbRocketSummary> =
+            apiLaunches.map { launch -> launch.rocket.toDbRocketSummary(launch.flightNumber) }
+
         val firstStageSummaries: List<DbFirstStageSummary> =
-            apiLaunches.map { it.rocket.firstStage.toDbFirstStageSummary(it.rocket.rocketId) }
+            apiLaunches.map { launch -> launch.rocket.firstStage.toDbFirstStageSummary(launch.flightNumber) }
+
         val secondStageSummaries: List<DbSecondStageSummary> =
-            apiLaunches.map { it.rocket.secondState.toDbSecondStageSummary(it.rocket.rocketId) }
+            apiLaunches.map { launch -> launch.rocket.secondState.toDbSecondStageSummary(launch.flightNumber) }
+
         val coreSummaries: List<DbCoreSummary> = apiLaunches.flatMap { launch ->
-            val rocketId = launch.rocket.rocketId
-            val firstStageSummaryId = launch.rocket.firstStage.toDbFirstStageSummary(rocketId).id
-            launch.rocket.firstStage.cores.map { core ->
-                core.toDbCoreSummary(firstStageSummaryId)
-            }
+            launch.rocket.firstStage.cores.map { core -> core.toDbCoreSummary(launch.flightNumber) }
         }
+
         val payloads: List<DbPayload> = apiLaunches.flatMap { launch ->
-            val rocketId = launch.rocket.rocketId
-            val secondStageSummaryId = launch.rocket.secondState.toDbSecondStageSummary(rocketId).id
-            launch.rocket.secondState.payloads.map { payload ->
-                payload.toDbPayload(secondStageSummaryId)
-            }
+            launch.rocket.secondState.payloads.map { payload -> payload.toDbPayload(launch.flightNumber) }
         }
         launchDao.saveLaunchesWithSummaries(
             launches,
@@ -191,12 +195,19 @@ class LaunchesRepository(
 
     private suspend fun saveApiLaunch(apiLaunch: Launch) {
         val launch = apiLaunch.toDbLaunch()
+
         val rocketSummary = apiLaunch.rocket.toDbRocketSummary(apiLaunch.flightNumber)
-        val rocketId = apiLaunch.rocket.rocketId
-        val firstStageSummary = apiLaunch.rocket.firstStage.toDbFirstStageSummary(rocketId)
-        val secondStageSummary = apiLaunch.rocket.secondState.toDbSecondStageSummary(rocketId)
-        val coreSummaries = apiLaunch.rocket.firstStage.cores.map { it.toDbCoreSummary(firstStageSummary.id) }
-        val payloads = apiLaunch.rocket.secondState.payloads.map { it.toDbPayload(secondStageSummary.id) }
+
+        val firstStageSummary = apiLaunch.rocket.firstStage.toDbFirstStageSummary(apiLaunch.flightNumber)
+
+        val secondStageSummary = apiLaunch.rocket.secondState.toDbSecondStageSummary(apiLaunch.flightNumber)
+
+        val coreSummaries =
+            apiLaunch.rocket.firstStage.cores.map { coreSummary -> coreSummary.toDbCoreSummary(apiLaunch.flightNumber) }
+
+        val payloads =
+            apiLaunch.rocket.secondState.payloads.map { payload -> payload.toDbPayload(apiLaunch.flightNumber) }
+
         launchDao.saveLaunchWithSummaries(
             launch,
             rocketSummary,

@@ -14,13 +14,13 @@ abstract class SecondStageSummaryDao : BaseDao<SecondStageSummary> {
     @Query("SELECT * FROM second_stage_summaries")
     abstract suspend fun getAllSecondStageSummaries(): List<SecondStageSummary>
 
-    @Query("SELECT * FROM second_stage_summaries WHERE second_stage_summary_id = :id")
-    abstract suspend fun getSecondStageSummary(id: Int): SecondStageSummary
+    @Query("SELECT * FROM second_stage_summaries WHERE launch_flight_number = :flightNumber")
+    abstract suspend fun getSecondStageSummary(flightNumber: Int): SecondStageSummary
 
     @Query("SELECT * FROM payloads WHERE payload_id = :id")
     abstract suspend fun getPayload(id: String): Payload
 
-    @Query("SELECT * FROM second_stage_summaries WHERE second_stage_summary_id = :id")
+    @Query("SELECT * FROM second_stage_summaries WHERE launch_flight_number = :flightNumber")
     @Transaction
-    abstract suspend fun getSecondStageWithPayloads(id: Int): SecondStageSummaryWithPayloads
+    abstract suspend fun getSecondStageWithPayloads(flightNumber: Int): SecondStageSummaryWithPayloads
 }

@@ -3,7 +3,6 @@ package com.haroldadmin.moonshot.models.launch.rocket.firstStage
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 
@@ -12,23 +11,20 @@ import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
     foreignKeys = [
         ForeignKey(
             entity = RocketSummary::class,
-            parentColumns = ["rocket_id"],
-            childColumns = ["rocket_id"],
+            parentColumns = ["launch_flight_number"],
+            childColumns = ["launch_flight_number"],
             onDelete = ForeignKey.CASCADE
         )
-    ],
-    indices = [Index("rocket_id")]
+    ]
 )
 data class FirstStageSummary(
-    @ColumnInfo(name = "rocket_id")
-    val rocketId: String
-) {
-    @ColumnInfo(name = "first_stage_summary_id")
     @PrimaryKey
-    var id: Int = hashCode()
+    @ColumnInfo(name = "launch_flight_number")
+    val flightNumber: Int
+) {
 
     companion object {
-        fun getSampleFirstStageSummary(rocketId: String) =
-            FirstStageSummary(rocketId)
+        fun getSampleFirstStageSummary(flightNumber: Int) =
+            FirstStageSummary(flightNumber = flightNumber)
     }
 }

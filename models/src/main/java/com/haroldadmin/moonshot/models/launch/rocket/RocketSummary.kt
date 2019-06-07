@@ -22,10 +22,10 @@ import com.haroldadmin.moonshot.models.launch.Launch
 )
 data class RocketSummary(
     @PrimaryKey
-    @ColumnInfo(name = "rocket_id")
-    val rocketId: String,
     @ColumnInfo(name = "launch_flight_number")
     val launchFlightNumber: Int,
+    @ColumnInfo(name = "rocket_id")
+    val rocketId: String,
     @ColumnInfo(name = "rocket_name")
     val rocketName: String,
     @ColumnInfo(name = "rocket_type")
@@ -36,8 +36,8 @@ data class RocketSummary(
     companion object {
         fun getSampleRocketSummary(launchFlightNumber: Int) =
             RocketSummary(
-                "falcon9",
                 launchFlightNumber,
+                "falcon9",
                 "Falcon 9",
                 "FT",
                 Fairings.getSampleFairing()

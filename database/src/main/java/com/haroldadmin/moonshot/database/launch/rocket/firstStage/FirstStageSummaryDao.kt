@@ -14,13 +14,13 @@ abstract class FirstStageSummaryDao : BaseDao<FirstStageSummary> {
     @Query("SELECT * FROM first_stage_summaries")
     abstract suspend fun getAllFirstStageSummaries(): List<FirstStageSummary>
 
-    @Query("SELECT * FROM first_stage_summaries WHERE first_stage_summary_id = :id")
-    abstract suspend fun getFirstStageSummary(id: Int): FirstStageSummary
+    @Query("SELECT * FROM first_stage_summaries WHERE launch_flight_number = :flightNumber")
+    abstract suspend fun getFirstStageSummary(flightNumber: Int): FirstStageSummary
 
     @Query("SELECT * FROM core_summaries WHERE core_serial = :serial")
     abstract suspend fun getCoreSummary(serial: String): CoreSummary
 
-    @Query("SELECT * FROM first_stage_summaries WHERE first_stage_summary_id = :id")
+    @Query("SELECT * FROM first_stage_summaries WHERE launch_flight_number = :flightNumber")
     @Transaction
-    abstract suspend fun getFirstStageWithCoreSummaries(id: Int): FirstStageWithCoreSummaries
+    abstract suspend fun getFirstStageWithCoreSummaries(flightNumber: Int): FirstStageWithCoreSummaries
 }

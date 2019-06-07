@@ -7,8 +7,8 @@ data class FirstStageWithCoreSummaries(
     @Embedded val firstStageSummary: FirstStageSummary,
     @Relation(
         entity = CoreSummary::class,
-        parentColumn = "first_stage_summary_id",
-        entityColumn = "first_stage_summary_id"
+        parentColumn = "launch_flight_number",
+        entityColumn = "launch_flight_number"
     )
     val cores: List<CoreSummary>
 )

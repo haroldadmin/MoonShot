@@ -8,20 +8,21 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummaryWithPayloads
 
 class FakeRocketSummariesDao(
-    private val flightNumber: Int = 0,
-    private val rocketId: String = "falcon9"
+    private val flightNumber: Int = 0
 ) : RocketSummaryDao {
+    override suspend fun getRocketSummaryForLaunch(flightNumber: Int): RocketSummary {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getAllRocketSummaries(): List<RocketSummary> = listOf()
 
-    override suspend fun getRocketSummary(id: String): RocketSummary = RocketSummary.getSampleRocketSummary(flightNumber)
-
-    override suspend fun getFirstStage(id: String): FirstStageWithCoreSummaries = FirstStageWithCoreSummaries(
-        FirstStageSummary.getSampleFirstStageSummary(rocketId),
+    override suspend fun getFirstStage(flightNumber: Int): FirstStageWithCoreSummaries = FirstStageWithCoreSummaries(
+        FirstStageSummary.getSampleFirstStageSummary(this.flightNumber),
         listOf()
     )
 
-    override suspend fun getSecondStage(id: String): SecondStageSummaryWithPayloads = SecondStageSummaryWithPayloads(
-        SecondStageSummary.getSampleSecondStageSummary(rocketId),
+    override suspend fun getSecondStage(flightNumber: Int): SecondStageSummaryWithPayloads = SecondStageSummaryWithPayloads(
+        SecondStageSummary.getSampleSecondStageSummary(this.flightNumber),
         listOf()
     )
 

@@ -9,7 +9,7 @@ data class SecondStageSummaryWithPayloads(
     val secondStageSummary: SecondStageSummary,
     @Relation(
         entity = Payload::class,
-        parentColumn = "second_stage_summary_id",
-        entityColumn = "second_stage_summary_id"
+        parentColumn = "launch_flight_number",
+        entityColumn = "launch_flight_number"
     ) val payloads: List<Payload>
 )

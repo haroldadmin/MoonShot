@@ -4,8 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 
 @Entity(
@@ -13,15 +11,15 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
     foreignKeys = [
         ForeignKey(
             entity = SecondStageSummary::class,
-            parentColumns = ["second_stage_summary_id"],
-            childColumns = ["second_stage_summary_id"],
+            parentColumns = ["launch_flight_number"],
+            childColumns = ["launch_flight_number"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("second_stage_summary_id")]
+    primaryKeys = ["launch_flight_number", "payload_id"]
 )
 data class Payload(
-    @PrimaryKey
+    @ColumnInfo(name = "launch_flight_number") val flightNumber: Int,
     @ColumnInfo(name = "payload_id") val id: String,
     @ColumnInfo(name = "norad_id") val noradId: List<Int>,
     @ColumnInfo(name = "reused") val reused: Boolean,
@@ -32,12 +30,12 @@ data class Payload(
     @ColumnInfo(name = "payload_mass_kg") val payloadMassKg: Double?,
     @ColumnInfo(name = "payload_mass_lbs") val payloadMassLbs: Double?,
     @ColumnInfo(name = "orbit") val orbit: String,
-    @Embedded val orbitParams: OrbitParams,
-    @ColumnInfo(name = "second_stage_summary_id") val secondStageSummaryId: Int
+    @Embedded val orbitParams: OrbitParams
 ) {
     companion object {
-        fun getSamplePayload(secondStageSummaryId: Int): Payload {
+        fun getSamplePayload(flightNumber: Int): Payload {
             return Payload(
+                flightNumber = flightNumber,
                 id = "id",
                 noradId = listOf(1),
                 reused = false,
@@ -48,8 +46,7 @@ data class Payload(
                 payloadMassKg = 0.0,
                 payloadMassLbs = 0.0,
                 orbit = "Orbit",
-                orbitParams = OrbitParams.getSampleOrbitParams(),
-                secondStageSummaryId = secondStageSummaryId
+                orbitParams = OrbitParams.getSampleOrbitParams()
             )
         }
     }

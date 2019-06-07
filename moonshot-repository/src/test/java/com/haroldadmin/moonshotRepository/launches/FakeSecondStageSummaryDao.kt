@@ -6,7 +6,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 class FakeSecondStageSummaryDao(
-    private val rocketId: String = "falcon9",
+    private val flightNumber: Int = 0,
     private val sssId: Int = 0
 ) : SecondStageSummaryDao() {
 
@@ -30,12 +30,16 @@ class FakeSecondStageSummaryDao(
 
     override suspend fun getAllSecondStageSummaries(): List<SecondStageSummary> = listOf()
 
-    override suspend fun getSecondStageSummary(id: Int): SecondStageSummary = SecondStageSummary.getSampleSecondStageSummary(rocketId)
+    override suspend fun getSecondStageSummary(flightNumber: Int): SecondStageSummary =
+        SecondStageSummary.getSampleSecondStageSummary(
+            this.flightNumber
+        )
 
     override suspend fun getPayload(id: String): Payload = Payload.getSamplePayload(sssId)
 
-    override suspend fun getSecondStageWithPayloads(id: Int): SecondStageSummaryWithPayloads = SecondStageSummaryWithPayloads(
-        SecondStageSummary.getSampleSecondStageSummary(rocketId),
-        listOf()
-    )
+    override suspend fun getSecondStageWithPayloads(flightNumber: Int): SecondStageSummaryWithPayloads =
+        SecondStageSummaryWithPayloads(
+            SecondStageSummary.getSampleSecondStageSummary(this.flightNumber),
+            listOf()
+        )
 }
