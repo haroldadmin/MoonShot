@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import java.util.Date
 
 class LaunchesViewModel(
@@ -18,7 +19,8 @@ class LaunchesViewModel(
     }
 
     suspend fun getAllLaunches() {
-        executeAsResource({ copy(launches = it) }) { launchesRepository.getAllLaunches() }
+        val currentTime = Calendar.getInstance().timeInMillis
+        executeAsResource({ copy(launches = it) }) { launchesRepository.getAllLaunches(limit = 20, maxTimestamp = currentTime) }
     }
 
     suspend fun getUpcomingLaunches() {
