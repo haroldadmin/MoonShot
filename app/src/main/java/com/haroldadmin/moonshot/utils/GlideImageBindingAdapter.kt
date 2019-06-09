@@ -5,13 +5,13 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 
 @BindingAdapter(
     "glideImage",
     "glideImageError",
     "glideImageFallback",
     "glideCircleCrop",
-    "glideCrossFade",
     requireAll = false
 )
 fun loadImage(
@@ -19,16 +19,15 @@ fun loadImage(
     glideImage: String?,
     glideImageError: Drawable?,
     glideImageFallback: Drawable?,
-    glideCircleCrop: Boolean?,
-    glideCrossFade: Boolean?
+    glideCircleCrop: Boolean?
 ) {
     val request = GlideApp.with(view)
         .load(glideImage)
+        .transition(withCrossFade())
         .error(glideImageError)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .fallback(glideImageFallback)
 
     if (glideCircleCrop == true) request.circleCrop()
-    if (glideCrossFade == true) request.transition(DrawableTransitionOptions.withCrossFade())
     request.into(view)
 }

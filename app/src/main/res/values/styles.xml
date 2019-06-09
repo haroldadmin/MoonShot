@@ -85,10 +85,6 @@
         <item name="cardBackgroundColor">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="Widget.MoonShot.Launch.DetailCard2" parent="Widget.MoonShot.CardView">
-        <item name="cardBackgroundColor">@color/colorSurfaceDark</item>
-    </style>
-
     <style name="TextAppearance.MoonShot.Launch.Overline" parent="TextAppearance.MoonShot.Overline1">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>

@@ -2,7 +2,10 @@ package com.haroldadmin.moonshot.base
 
 import android.os.Handler
 import com.airbnb.epoxy.AsyncEpoxyController
+import com.airbnb.epoxy.CarouselModelBuilder
+import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.TypedEpoxyController
 import com.haroldadmin.vector.withState
 
@@ -65,4 +68,17 @@ fun <S : MoonShotState> MoonShotFragment.asyncTypedEpoxyController(
     withState(viewModel) { state ->
         buildModels(state)
     }
+}
+
+inline fun EpoxyController.carousel(modelInitializer: CarouselModelBuilder.() -> Unit) {
+    CarouselModel_().apply {
+        modelInitializer()
+    }.addTo(this)
+}
+
+inline fun <T> CarouselModelBuilder.withModelsFrom(
+    items: List<T>,
+    modelBuilder: (T) -> EpoxyModel<*>
+) {
+    models(items.map { modelBuilder(it) })
 }

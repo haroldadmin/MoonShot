@@ -18,4 +18,8 @@
     <string name="launchDetailLaunchDateHeader">Launch Date</string>
     <string name="launchDetailLaunchDetailHeader">Details</string>
     <string name="nextLaunchFragmentNextLaunchHeaderText">Next Launch</string>
+    <string name="launchDetailsFragmentLoadingMessage">Loading launch details</string>
+    <string name="launchDetailsFragmentRocketSummaryError">Unable to load rocket summary</string>
+    <string name="launchDetailsFragmentRocketSummaryLoading">Loading rocket summary</string>
+    <string name="launchDetailsFragmentLoading">Unable to load launch details</string>
 </resources>

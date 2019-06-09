@@ -10,7 +10,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.MoonShot.Launch.DetailCard2"
+        style="@style/Widget.MoonShot.Launch.DetailCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
@@ -69,7 +69,7 @@
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginMedium"
                 android:layout_marginBottom="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Subtitle"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Body"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

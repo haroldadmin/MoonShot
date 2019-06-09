@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.*
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -71,14 +73,26 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         heading("Details")
                         text(state.launch.data.details)
                     }
+
+                    state.launch.data.links?.flickrImages?.let { imageUrls ->
+                        carousel {
+                            id ("launch-pictures")
+                            withModelsFrom(imageUrls) { url ->
+                                ItemLaunchPictureBindingModel_()
+                                    .id(url)
+                                    .imageUrl(url)
+                            }
+                        }
+                    }
                 }
+
                 is Resource.Error<Launch, *> -> itemError {
                     id("launch-error")
-                    error("Unable to load launch details")
+                    error(getString(R.string.launchDetailsFragmentLoading))
                 }
                 else -> itemLoading {
                     id("launch-loading")
-                    message("Loading launch details")
+                    message(getString(R.string.launchDetailsFragmentLoadingMessage))
                 }
             }
             when (state.rocketSummary) {
@@ -88,11 +102,11 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 }
                 is Resource.Error<RocketSummary, *> -> itemError {
                     id("rocket-summary-error")
-                    error("Unable to load rocket summary")
+                    error(getString(R.string.launchDetailsFragmentRocketSummaryError))
                 }
                 else -> itemLoading {
                     id("rocket-summary-loading")
-                    message("Loading rocket summary")
+                    message(getString(R.string.launchDetailsFragmentRocketSummaryLoading))
                 }
             }
         }

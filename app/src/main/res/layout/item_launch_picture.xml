@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="imageUrl"
+            type="String" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MoonShot.CardView"
+        android:id="@+id/imageCard"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginSmall"
+        android:layout_marginEnd="@dimen/marginMedium"
+        android:layout_marginBottom="@dimen/marginSmall">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            glideImage="@{imageUrl}"
+            android:scaleType="centerCrop"
+            android:foreground="?attr/selectableItemBackground"/>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>
