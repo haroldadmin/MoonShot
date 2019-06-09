@@ -8,12 +8,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
-import com.haroldadmin.moonshot.*
+import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
+import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
+import com.haroldadmin.moonshot.itemError
+import com.haroldadmin.moonshot.itemLaunchCard
+import com.haroldadmin.moonshot.itemLaunchRocket
+import com.haroldadmin.moonshot.itemLoading
+import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.utils.format
@@ -76,7 +82,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
                     state.launch.data.links?.flickrImages?.let { imageUrls ->
                         carousel {
-                            id ("launch-pictures")
+                            id("launch-pictures")
                             withModelsFrom(imageUrls) { url ->
                                 ItemLaunchPictureBindingModel_()
                                     .id(url)

@@ -18,7 +18,6 @@ import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemNextLaunchDetail
-import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
