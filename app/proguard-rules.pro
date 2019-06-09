@@ -55,36 +55,6 @@
 # ----------------------------------------------------------------------------
 
 
-# MvRx Proguard Rules
-
-# These classes are used via kotlin reflection and the keep might not be required anymore once Proguard supports
-# Kotlin reflection directly.
--keep class kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl
--keep class kotlin.reflect.jvm.internal.impl.serialization.deserialization.builtins.BuiltInsLoaderImpl
--keep class kotlin.reflect.jvm.internal.impl.load.java.FieldOverridabilityCondition
--keep class kotlin.reflect.jvm.internal.impl.load.java.ErasedOverridabilityCondition
--keep class kotlin.reflect.jvm.internal.impl.load.java.JavaIncompatibilityRulesOverridabilityCondition
-
-# If Companion objects are instantiated via Kotlin reflection and they extend/implement a class that Proguard
-# would have removed or inlined we run into trouble as the inheritance is still in the Metadata annotation
-# read by Kotlin reflection.
-# FIXME Remove if Kotlin reflection is supported by Pro/Dexguard
--if class **$Companion extends **
--keep class <2>
--if class **$Companion implements **
--keep class <2>
-
-# https://medium.com/@AthorNZ/kotlin-metadata-jackson-and-proguard-f64f51e5ed32
--keep class kotlin.Metadata { *; }
-
-# https://stackoverflow.com/questions/33547643/how-to-use-kotlin-with-proguard
--dontwarn kotlin.**
-
-# RxJava
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-   long producerIndex;
-   long consumerIndex;
-}
 
 # ----------------------------------------------------------------------------
 
@@ -97,3 +67,65 @@
 }
 
 # ----------------------------------------------------------------------------
+
+
+# ------------------------------------------ Moshi Proguard Rules ------------------------------------------
+
+# JSR 305 annotations are for embedding nullability information.
+-dontwarn javax.annotation.**
+
+-keepclasseswithmembers class * {
+    @com.squareup.moshi.* <methods>;
+}
+
+-keep @com.squareup.moshi.JsonQualifier interface *
+
+# Enum field names are used by the integrated EnumJsonAdapter.
+# Annotate enums with @JsonClass(generateAdapter = false) to use them with Moshi.
+-keepclassmembers @com.squareup.moshi.JsonClass class * extends java.lang.Enum {
+    <fields>;
+}
+
+# The name of @JsonClass types is used to look up the generated adapter.
+-keepnames @com.squareup.moshi.JsonClass class *
+
+# Retain generated JsonAdapters if annotated type is retained.
+-if @com.squareup.moshi.JsonClass class *
+-keep class <1>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-if @com.squareup.moshi.JsonClass class **$*
+-keep class <1>_<2>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-if @com.squareup.moshi.JsonClass class **$*$*
+-keep class <1>_<2>_<3>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-if @com.squareup.moshi.JsonClass class **$*$*$*
+-keep class <1>_<2>_<3>_<4>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-if @com.squareup.moshi.JsonClass class **$*$*$*$*
+-keep class <1>_<2>_<3>_<4>_<5>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+-if @com.squareup.moshi.JsonClass class **$*$*$*$*$*
+-keep class <1>_<2>_<3>_<4>_<5>_<6>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
+
+-keep class kotlin.reflect.jvm.internal.impl.builtins.BuiltInsLoaderImpl
+
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+
+-keep class kotlin.reflect.jvm.internal.** { *; }
+# ------------------------------------------------------------------------------------
