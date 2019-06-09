@@ -5,7 +5,7 @@
     <string name="headerLaunchDetailsHeader">Details</string>
     <string name="headerLaunchImageContentDescription">Image related to the launch</string>
     <string name="headerLaunchMissionPatchContentDescription">Mission patch image</string>
-    <string name="launchRocketHeaderText">Rocket</string>
+    <string name="launchRocketHeaderText">Rocket Summary</string>
     <string name="launchRocketTypeLabel">Type</string>
     <string name="launchRocketDetailsButtonText">See details</string>
     <string name="headerLaunchDateHeader">Launch Date</string>

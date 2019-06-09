@@ -18,7 +18,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.MoonShot.NextLaunch.DetailCard"
+        style="@style/Widget.MoonShot.Launch.DetailCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
                 asyncText="@{detailHeader}"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Header"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +53,7 @@
                 android:layout_marginEnd="@dimen/marginSmall"
                 android:layout_marginBottom="@dimen/marginLarge"
                 asyncText="@{detailName}"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Main"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icon"
                 app:layout_constraintStart_toStartOf="parent"

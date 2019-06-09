@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="rocketSummary"
             type="com.haroldadmin.moonshot.models.launch.rocket.RocketSummary" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.MoonShot.Launch.Card"
+        style="@style/Widget.MoonShot.Launch.DetailCard2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
@@ -32,7 +31,7 @@
                 android:layout_marginTop="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
                 android:text="@string/launchRocketHeaderText"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Header"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Main"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerRocket"
@@ -57,7 +56,7 @@
                 android:layout_marginTop="@dimen/marginSmall"
                 android:layout_marginEnd="@dimen/marginLarge"
                 android:text="@string/launchRocketTypeLabel"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Header"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rocketName" />
@@ -70,7 +69,7 @@
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginMedium"
                 android:layout_marginBottom="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.DetailsSmall"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Subtitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
