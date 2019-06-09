@@ -9,9 +9,9 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
-private data class TestState(val count: Resource<Int> = Resource.Uninitialized): MoonShotState
+private data class TestState(val count: Resource<Int> = Resource.Uninitialized) : MoonShotState
 
-private class TestViewModel: MoonShotViewModel<TestState>(TestState()) {
+private class TestViewModel : MoonShotViewModel<TestState>(TestState()) {
 
     suspend fun updateCount() {
         executeAsResource({ copy(count = it) }) {
@@ -34,5 +34,4 @@ class ExecuteAsResourceTest {
             assertEquals(1, state.count.data)
         }
     }
-
 }

@@ -23,16 +23,18 @@ open class MoonShotTypedEpoxyController<S : MoonShotState>(
     }
 }
 
-open class MoonShotAsyncTypedEpoxyController<S: MoonShotState>(
+open class MoonShotAsyncTypedEpoxyController<S : MoonShotState>(
     diffingHandler: Handler,
     modelBuildingHandler: Handler,
     val buildModelsCallback: EpoxyController.(state: S) -> Unit = {}
-): TypedEpoxyController<S>(modelBuildingHandler, diffingHandler) {
+) : TypedEpoxyController<S>(modelBuildingHandler, diffingHandler) {
+
+    override fun isDebugLoggingEnabled(): Boolean = true
+
     override fun buildModels(data: S) {
         buildModelsCallback(data)
     }
 }
-
 
 fun <S : MoonShotState> MoonShotFragment.typedEpoxyController(
     viewModel: MoonShotViewModel<S>,
@@ -44,7 +46,6 @@ fun <S : MoonShotState> MoonShotFragment.typedEpoxyController(
     }
 }
 
-
 fun MoonShotFragment.simpleController(
     buildModels: EpoxyController.() -> Unit
 ) = MoonShotEpoxyController {
@@ -54,7 +55,7 @@ fun MoonShotFragment.simpleController(
     buildModels()
 }
 
-fun <S: MoonShotState> MoonShotFragment.asyncTypedEpoxyController(
+fun <S : MoonShotState> MoonShotFragment.asyncTypedEpoxyController(
     modelBuildingHandler: Handler,
     diffingHandler: Handler,
     viewModel: MoonShotViewModel<S>,

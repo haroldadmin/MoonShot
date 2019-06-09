@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.launchDetails
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LaunchDetailsViewModel(
@@ -18,11 +19,11 @@ class LaunchDetailsViewModel(
     }
 
     suspend fun getLaunchDetails(flightNumber: Int) {
-        executeAsResource({ copy(launch = it) }) { launchesRepository.getLaunch(flightNumber) }
+        launchesRepository.flowLaunch(flightNumber)
+            .collect { launch -> setState { copy(launch = launch) } }
     }
 
     suspend fun getRocketSummary(flightNumber: Int) {
         executeAsResource({ copy(rocketSummary = it) }) { launchesRepository.getRocketSummary(flightNumber) }
     }
-
 }

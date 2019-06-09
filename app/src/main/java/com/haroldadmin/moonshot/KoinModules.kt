@@ -6,6 +6,8 @@ import com.haroldadmin.moonshot.launchDetails.LaunchDetailsState
 import com.haroldadmin.moonshot.launchDetails.LaunchDetailsViewModel
 import com.haroldadmin.moonshot.launches.LaunchesState
 import com.haroldadmin.moonshot.launches.LaunchesViewModel
+import com.haroldadmin.moonshot.nextLaunch.NextLaunchState
+import com.haroldadmin.moonshot.nextLaunch.NextLaunchViewModel
 import com.haroldadmin.moonshot.rockets.RocketsState
 import com.haroldadmin.moonshot.rockets.RocketsViewModel
 import com.haroldadmin.moonshotRepository.repositoryModule
@@ -19,6 +21,8 @@ val appModule = repositoryModule + module {
     viewModel { (initialState: RocketsState) -> RocketsViewModel(initialState, get()) }
 
     viewModel { (initialState: LaunchDetailsState) -> LaunchDetailsViewModel(initialState, get()) }
+
+    viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get()) }
 
     single(named("diffing-thread")) {
         HandlerThread("epoxy-diffing-thread").apply { start() }

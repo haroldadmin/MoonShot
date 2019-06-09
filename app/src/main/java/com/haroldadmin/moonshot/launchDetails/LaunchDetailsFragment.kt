@@ -1,19 +1,18 @@
 package com.haroldadmin.moonshot.launchDetails
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.haroldadmin.moonshot.base.MoonShotFragment
-import com.haroldadmin.moonshot.base.typedEpoxyController
+import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.itemError
-import com.haroldadmin.moonshot.itemLaunchHeader
+import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextWithHeading
@@ -21,8 +20,10 @@ import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 class LaunchDetailsFragment : MoonShotFragment() {
 
@@ -31,6 +32,8 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val viewModel by viewModel<LaunchDetailsViewModel> {
         parametersOf(LaunchDetailsState(safeArgs.flightNumber), safeArgs.flightNumber)
     }
+    private val differ by inject<Handler>(named("differ"))
+    private val builder by inject<Handler>(named("builder"))
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
@@ -43,19 +46,24 @@ class LaunchDetailsFragment : MoonShotFragment() {
         viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        epoxyController.cancelPendingModelBuild()
+    }
+
     override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
+        if (epoxyController.currentData != state) {
+            epoxyController.setData(state)
+        }
     }
 
     private val epoxyController by lazy {
-        typedEpoxyController(viewModel) { state ->
+        asyncTypedEpoxyController(builder, differ, viewModel) { state ->
             when (state.launch) {
                 is Resource.Success -> {
-                    itemLaunchHeader {
+                    itemLaunchCard {
                         id("header-${state.launch.data.flightNumber}")
-                        backdrop(state.launch.data.backdropImageUrl)
-                        missionPatch(state.launch.data.missionPatch)
-                        missionName(state.launch.data.missionName)
+                        launch(state.launch.data)
                     }
                     itemTextWithHeading {
                         id("launch-date-${state.launch.data.flightNumber}")
@@ -71,12 +79,10 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 is Resource.Error<Launch, *> -> itemError {
                     id("launch-error")
                     error("Unable to load launch details")
-                    return@typedEpoxyController // We don't want to load other details if the launch details are not present
                 }
                 else -> itemLoading {
                     id("launch-loading")
                     message("Loading launch details")
-                    return@typedEpoxyController // We don't want to load other details if the launch details are loading
                 }
             }
             when (state.rocketSummary) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="message"
             type="String" />
@@ -12,13 +13,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/marginLarge">
+        android:layout_margin="@dimen/marginLarge"
+        android:orientation="horizontal">
 
         <com.vlad1m1r.lemniscate.roulette.HypotrochoidProgressView
             android:id="@+id/lemniscate"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_margin="@dimen/marginSmall"
             app:distanceFromCenter="2"
             app:duration="1250"
@@ -26,21 +28,19 @@
             app:maxLineLength="0.8"
             app:minLineLength="0.8"
             app:numberOfCycles="2"
-            app:precision="80"
             app:radiusFixed="5"
             app:radiusMoving="2"
-            app:strokeWidth="2dp"
-            android:layout_gravity="center"/>
+            app:strokeWidth="2dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:asyncText="@{message}"
-            tools:text="Loading Resource"
-            android:textAppearance="?attr/textAppearanceBody1"
-            android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/marginMedium"/>
+            android:layout_margin="@dimen/marginMedium"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:asyncText="@{message}"
+            tools:text="Loading Resource" />
 
     </LinearLayout>
 </layout>

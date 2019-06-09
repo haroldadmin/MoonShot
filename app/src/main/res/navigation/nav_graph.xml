@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/launches">
+    app:startDestination="@id/nextLaunchFragment">
 
     <fragment
         android:id="@+id/launches"
@@ -22,7 +22,7 @@
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
         android:label="Rockets"
-        tools:layout="@layout/fragment_rockets"/>
+        tools:layout="@layout/fragment_rockets" />
     <fragment
         android:id="@+id/launchDetails"
         android:name="com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragment"
@@ -32,5 +32,18 @@
             android:name="flightNumber"
             app:argType="integer"
             app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/nextLaunchFragment"
+        android:name="com.haroldadmin.moonshot.nextLaunch.NextLaunchFragment"
+        android:label="Next Launch"
+        tools:layout="@layout/fragment_next_launch">
+        <action
+            android:id="@+id/launchDetails"
+            app:destination="@id/launchDetails"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

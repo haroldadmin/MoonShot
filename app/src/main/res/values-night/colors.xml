@@ -22,4 +22,6 @@
 
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorStatusBar">#33000000</color>
+
+    <color name="colorError">#ad1457</color>
 </resources>

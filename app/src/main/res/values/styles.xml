@@ -9,6 +9,8 @@
         <item name="colorOnSecondary">@color/colorOnSecondaryHighEmp</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnSurface">@color/colorOnSurfaceHighEmp</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorOnError">@color/colorOnSurfaceHighEmp</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MoonShot.Headline1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.MoonShot.Headline2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.MoonShot.Headline3</item>
@@ -52,11 +54,39 @@
     <style name="TextAppearance.MoonShot.Overline1" parent="TextAppearance.MaterialComponents.Overline">
         <item name="fontFamily">@font/space_mono</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
     <style name="TextAppearance.MoonShot.Overline2" parent="TextAppearance.MaterialComponents.Overline">
         <item name="fontFamily">@font/space_mono</item>
     </style>
 
+    <style name="Widget.MoonShot.Error.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">?attr/colorError</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Error.Main" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?attr/colorOnError</item>
+    </style>
+
+    <style name="Widget.MoonShot.Launch.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Launch.Header" parent="TextAppearance.MoonShot.Overline1">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Launch.Main" parent="TextAppearance.MoonShot.Headline5">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Launch.Details" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
 </resources>

@@ -9,4 +9,8 @@
     <string name="launchRocketTypeLabel">Type</string>
     <string name="launchRocketDetailsButtonText">See details</string>
     <string name="headerLaunchDateHeader">Launch Date</string>
+    <string name="launchCardHeaderText">Launch</string>
+    <string name="launchesFragmentErrorMessage">Error getting launches</string>
+    <string name="launchesFragmentLoadingMessage">Loading All Launches</string>
+    <string name="nextLaunchFragmentErrorMessage">Error getting next launch</string>
 </resources>

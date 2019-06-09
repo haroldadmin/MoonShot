@@ -14,12 +14,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
     "glideCrossFade",
     requireAll = false
 )
-fun loadImage(view: ImageView,
-              glideImage: String?,
-              glideImageError: Drawable?,
-              glideImageFallback: Drawable?,
-              glideCircleCrop: Boolean?,
-              glideCrossFade: Boolean?) {
+fun loadImage(
+    view: ImageView,
+    glideImage: String?,
+    glideImageError: Drawable?,
+    glideImageFallback: Drawable?,
+    glideCircleCrop: Boolean?,
+    glideCrossFade: Boolean?
+) {
     val request = GlideApp.with(view)
         .load(glideImage)
         .error(glideImageError)

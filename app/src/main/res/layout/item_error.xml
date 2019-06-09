@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -8,19 +9,26 @@
             type="String" />
     </data>
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MoonShot.Error.Card"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/marginLarge">
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/marginMedium">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{error}"
-            android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            tools:text="Failed to fetch resource" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/errorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/marginLarge"
+                android:drawableStart="@drawable/ic_rocket"
+                android:text="@{error}"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:drawablePadding="@dimen/marginMedium"
+                android:drawableTint="@color/colorOnSurfaceHighEmp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.MoonShot.Error.Main"
+                tools:text="Failed to fetch resource" />
 
-    </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

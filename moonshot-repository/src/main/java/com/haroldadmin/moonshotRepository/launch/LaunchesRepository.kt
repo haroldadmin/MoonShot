@@ -85,7 +85,7 @@ class LaunchesRepository(
         when (launch) {
             is NetworkResponse.Success -> {
                 saveApiLaunch(launch()!!)
-                Resource.Success(launchDao.getNextLaunch(currentTime))
+                Resource.Success(launchDao.getNextLaunch(currentTime)!!) // Launch is definitely present because we just saved it
             }
             is NetworkResponse.ServerError -> {
                 Resource.Error(launchDao.getNextLaunch(currentTime), launch.body)
@@ -119,18 +119,22 @@ class LaunchesRepository(
     }
 
     @FlowPreview
-    suspend fun flowAllLaunches(limit: Int) =
-        flow {
+    suspend fun flowAllLaunches(limit: Int, maxTimestamp: Long = Long.MAX_VALUE) = flow {
             emit(Resource.Loading)
 
-            val dbLaunches = launchDao.getAllLaunches(limit)
-            emit(Resource.Success(dbLaunches))
+            val dbLaunches = launchDao.getAllLaunches(maxTimestamp, limit)
+
+            if (!dbLaunches.isNullOrEmpty()) {
+                emit(Resource.Success(dbLaunches))
+            }
 
             when (val launches = launchesService.getAllLaunches().await()) {
                 is NetworkResponse.Success -> {
                     saveApiLaunches(launches()!!)
-                    val savedLaunches = launchDao.getAllLaunches(limit)
-                    emit(Resource.Success(savedLaunches))
+                    val savedLaunches = launchDao.getAllLaunches(maxTimestamp, limit)
+                    if (savedLaunches != dbLaunches) {
+                        emit(Resource.Success(savedLaunches))
+                    }
                 }
                 is NetworkResponse.ServerError -> {
                     emit(Resource.Error(dbLaunches, launches.body))
@@ -140,15 +144,14 @@ class LaunchesRepository(
                 }
             }
         }
-            .flowOn(Dispatchers.IO, bufferSize = 0)
-
+            .flowOn(Dispatchers.IO)
 
     suspend fun getLaunch(flightNumber: Int): Resource<DbLaunch> = withContext(Dispatchers.IO) {
         val launch = executeWithRetry { launchesService.getLaunch(flightNumber).await() }
         when (launch) {
             is NetworkResponse.Success -> {
                 saveApiLaunch(launch()!!)
-                Resource.Success(launchDao.getLaunch(flightNumber))
+                Resource.Success(launchDao.getLaunch(flightNumber)!!) // Launch is definitely present because we just saved it
             }
 
             is NetworkResponse.ServerError -> {
@@ -159,6 +162,30 @@ class LaunchesRepository(
             }
         }
     }
+
+    suspend fun flowLaunch(flightNumber: Int) = flow {
+        emit(Resource.Loading)
+
+        val launch = launchDao.getLaunch(flightNumber)
+        if (launch != null) emit(Resource.Success(launch))
+
+        when (val launchResponse = executeWithRetry { launchesService.getLaunch(flightNumber).await() }) {
+            is NetworkResponse.Success -> {
+                saveApiLaunch(launchResponse()!!)
+                val dbLaunch = launchDao.getLaunch(flightNumber)!!
+                if (dbLaunch != launch) {
+                    emit(Resource.Success(dbLaunch))
+                }
+            }
+            is NetworkResponse.ServerError -> {
+                emit(Resource.Error(launch, launchResponse.body))
+            }
+            is NetworkResponse.NetworkError -> {
+                emit(Resource.Error(launch, launchResponse.error))
+            }
+        }
+    }
+        .flowOn(Dispatchers.IO)
 
     suspend fun getRocketSummary(flightNumber: Int): Resource<DbRocketSummary> = withContext(Dispatchers.IO) {
         Resource.Success(rocketSummaryDao.getRocketSummary(flightNumber))
