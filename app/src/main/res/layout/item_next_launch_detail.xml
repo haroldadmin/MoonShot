@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="heading"
+            name="detailHeader"
             type="String" />
 
         <variable
-            name="text"
+            name="detailName"
             type="String" />
+
+        <variable
+            name="detailIcon"
+            type="android.graphics.drawable.Drawable" />
     </data>
-
 
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.MoonShot.NextLaunch.DetailCard"
@@ -29,35 +31,53 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/heading"
+                android:id="@+id/detailHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginTop="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
-                asyncText="@{heading}"
+                asyncText="@{detailHeader}"
                 android:textAppearance="@style/TextAppearance.MoonShot.Launch.Header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Details" />
+                tools:text="Launch Site" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text"
-                asyncText="@{text}"
+                android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginEnd="@dimen/marginSmall"
+                android:layout_marginBottom="@dimen/marginLarge"
+                asyncText="@{detailName}"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Main"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailHeader"
+                app:layout_constraintVertical_bias="0.0"
+                tools:text="Cape Canaveral" />
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/marginSmall"
+                android:layout_marginTop="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
                 android:layout_marginBottom="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.DetailsText"
+                android:src="@{detailIcon}"
+                android:tint="@color/colorOnPrimaryHighEmp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/heading"
-                app:maxLinesToggle="@{@integer/maxLinesCollapsed}"
-                tools:text="@tools:sample/lorem/random" />
+                app:layout_constraintStart_toEndOf="@id/title"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_rocket" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 </layout>

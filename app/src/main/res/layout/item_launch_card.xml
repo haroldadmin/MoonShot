@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="header"
+            type="String" />
+
+        <variable
             name="launch"
             type="com.haroldadmin.moonshot.models.launch.Launch" />
 
@@ -41,7 +45,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/launchCardHeaderText" />
+                tools:text="Launch"
+                asyncText="@{ header ?? @string/launchCardHeaderText}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/launchName"
@@ -81,7 +86,7 @@
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginTop="@dimen/marginMedium"
                 android:layout_marginEnd="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Details"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.DetailsSmall"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/launchName"
@@ -96,7 +101,7 @@
                 android:layout_marginTop="@dimen/marginSmall"
                 android:layout_marginEnd="@dimen/marginLarge"
                 android:layout_marginBottom="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Details"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.DetailsSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

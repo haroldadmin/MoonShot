@@ -13,4 +13,9 @@
     <string name="launchesFragmentErrorMessage">Error getting launches</string>
     <string name="launchesFragmentLoadingMessage">Loading All Launches</string>
     <string name="nextLaunchFragmentErrorMessage">Error getting next launch</string>
+    <string name="nextLaunchFragmentLoadingMessage">Loading next launch</string>
+    <string name="launchDetailLaunchSiteHeader">Launch Site</string>
+    <string name="launchDetailLaunchDateHeader">Launch Date</string>
+    <string name="launchDetailLaunchDetailHeader">Details</string>
+    <string name="nextLaunchFragmentNextLaunchHeaderText">Next Launch</string>
 </resources>

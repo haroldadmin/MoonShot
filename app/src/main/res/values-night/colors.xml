@@ -9,7 +9,7 @@
     <color name="colorSurfaceTranslucent">#A5263238</color>
     
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryVariant">#BDBDBD</color>
+    <color name="colorPrimaryVariant">#000000</color>
     <color name="colorOnPrimaryHighEmp">#FFFFFF</color>
     <color name="colorOnPrimaryMediumEmp">#99FFFFFF</color>
     <color name="colorOnPrimaryLowEmp">#60FFFFFF</color>

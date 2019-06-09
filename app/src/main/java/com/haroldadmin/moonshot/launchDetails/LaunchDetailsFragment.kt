@@ -7,15 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.haroldadmin.moonshot.*
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
-import com.haroldadmin.moonshot.itemError
-import com.haroldadmin.moonshot.itemLaunchCard
-import com.haroldadmin.moonshot.itemLaunchRocket
-import com.haroldadmin.moonshot.itemLoading
-import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.utils.format

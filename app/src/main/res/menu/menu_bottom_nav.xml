@@ -2,12 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@id/nextLaunch"
+        android:icon="@drawable/ic_round_home_24px"
+        android:title="@string/app_name" />
+
+    <item
         android:id="@id/launches"
-        android:icon="@drawable/ic_round_flight_takeoff_24px"
+        android:icon="@drawable/ic_round_history_24px"
         android:title="@string/menuLaunchesLabel" />
 
     <item
         android:id="@id/rockets"
         android:icon="@drawable/ic_rocket"
         android:title="@string/menuRocketsLabel" />
+
 </menu>

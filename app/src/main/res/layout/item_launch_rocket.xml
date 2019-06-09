@@ -70,7 +70,7 @@
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginMedium"
                 android:layout_marginBottom="@dimen/marginLarge"
-                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Details"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.DetailsSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
