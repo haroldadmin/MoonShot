@@ -14,18 +14,18 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 interface RocketSummaryDao {
 
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
-    suspend fun getRocketSummary(flightNumber: Int): RocketSummary
+    suspend fun getRocketSummary(flightNumber: Int): RocketSummary?
 
     @Query("SELECT * FROM rocket_summaries")
     suspend fun getAllRocketSummaries(): List<RocketSummary>
 
     @Query("SELECT * FROM first_stage_summaries WHERE launch_flight_number = :flightNumber")
     @Transaction
-    suspend fun getFirstStage(flightNumber: Int): FirstStageWithCoreSummaries
+    suspend fun getFirstStage(flightNumber: Int): FirstStageWithCoreSummaries?
 
     @Query("SELECT * FROM second_stage_summaries WHERE launch_flight_number = :flightNumber")
     @Transaction
-    suspend fun getSecondStage(flightNumber: Int): SecondStageSummaryWithPayloads
+    suspend fun getSecondStage(flightNumber: Int): SecondStageSummaryWithPayloads?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveRocketSummary(rocketSummary: RocketSummary)
