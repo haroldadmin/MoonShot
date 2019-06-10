@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.common.Location
 
 @Entity(tableName = "launch_pads")
-data class LaunchPad (
+data class LaunchPad(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,
@@ -24,7 +24,7 @@ data class LaunchPad (
     @ColumnInfo(name = "details")
     val details: String,
     @ColumnInfo(name = "site_id")
-    val site_id: String,
+    val siteId: String,
     @ColumnInfo(name = "site_name_long")
     val siteNameLong: String,
     @Embedded
@@ -47,7 +47,7 @@ data class LaunchPad (
                 wikipedia = "https://en.wikipedia.org/wiki/Omelek_Island",
                 details = "SpaceX original launch site, where all of the Falcon 1 launches occured. " +
                         "Abandoned as SpaceX decided against upgrading the pad to support Falcon 9.\"",
-                site_id = "kwajalein_atoll",
+                siteId = "kwajalein_atoll",
                 siteNameLong = "Kwajalein Atoll Omelek Island"
             )
         }

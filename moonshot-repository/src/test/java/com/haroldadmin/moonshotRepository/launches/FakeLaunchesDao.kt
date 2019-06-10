@@ -2,6 +2,9 @@ package com.haroldadmin.moonshotRepository.launches
 
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.launch.LaunchPictures
+import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
@@ -9,6 +12,16 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
+    override suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, limit: Int): List<LaunchMinimal> = listOf()
+
+    override suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal? = null
+
+    override suspend fun getLaunchStats(flightNumber: Int): LaunchStats? = null
+
+    override suspend fun getLaunchMinimal(flightNumber: Int): LaunchMinimal? = null
+
+    override suspend fun getLaunchPictures(flightNumber: Int): LaunchPictures? = null
+
     override suspend fun saveLaunch(launches: Launch) = Unit
 
     override suspend fun saveLaunches(launches: List<Launch>) = Unit
@@ -53,11 +66,9 @@ class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
 
     override suspend fun getLaunch(flightNumber: Int): Launch = Launch.getSampleLaunch()
 
-    override suspend fun getUpcomingLaunches(timestamp: Long): List<Launch> = sampleData
+    override suspend fun getUpcomingLaunches(timestamp: Long, limit: Int): List<Launch> = sampleData
 
-    override suspend fun getPastLaunches(timestamp: Long): List<Launch> = sampleData
-
-    override suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary = RocketSummary.getSampleRocketSummary(1)
+    override suspend fun getPastLaunches(timestamp: Long, limit: Int): List<Launch> = sampleData
 
     override suspend fun getNextLaunch(timestamp: Long): Launch = Launch.getSampleLaunch()
 }

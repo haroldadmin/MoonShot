@@ -2,16 +2,15 @@ package com.haroldadmin.moonshot.launchDetails
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
-import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -153,8 +152,10 @@ class LaunchDetailsFragment : MoonShotFragment() {
             itemLaunchDetail {
                 id("launch-date")
                 detailHeader(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                detailName(launch.launchDate?.format(resources.configuration)
-                    ?: getString(R.string.launchDetailsFragmentNoLaunchDateText))
+                detailName(
+                    launch.launchDate?.format(resources.configuration)
+                        ?: getString(R.string.launchDetailsFragmentNoLaunchDateText)
+                )
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
             }
             itemLaunchDetail {
@@ -162,15 +163,19 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 detailHeader("Launch Site")
                 detailName(launch.siteName ?: getString(R.string.fragmentLauchDetailsNoLaunchSiteMessage))
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
-                onDetailClick { _ ->
-                    Snackbar.make(binding.root, "Coming soon", Snackbar.LENGTH_SHORT).show()
-                }
+                onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
             }
             itemTextWithHeading {
                 id("launch-details")
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
             }
+        }
+    }
+
+    private fun showLaunchPadDetails(siteId: String) {
+        LaunchDetailsFragmentDirections.launchPadDetails(siteId).let { action ->
+            findNavController().navigate(action)
         }
     }
 }

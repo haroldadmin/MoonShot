@@ -12,4 +12,3 @@ data class LaunchDetailsState(
     val launchStats: Resource<LaunchStats> = Resource.Uninitialized,
     val launchPictures: Resource<LaunchPictures> = Resource.Uninitialized
 ) : MoonShotState
-

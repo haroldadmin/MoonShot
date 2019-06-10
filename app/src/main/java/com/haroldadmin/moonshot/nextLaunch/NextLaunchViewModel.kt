@@ -21,5 +21,4 @@ class NextLaunchViewModel(
     suspend fun getNextLaunch(currentTime: Long) =
         launchesRepository.flowNextLaunch(currentTime)
             .collect { setState { copy(nextLaunch = it) } }
-
 }

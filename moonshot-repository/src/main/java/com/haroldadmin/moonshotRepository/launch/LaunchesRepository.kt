@@ -30,9 +30,7 @@ import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary as DbRocketSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary as DbCoreSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary as DbFirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageWithCoreSummaries as DbFirstStageSummaryWithCores
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary as DbSecondStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummaryWithPayloads as DbSecondStageSummaryWithPayloads
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload as DbPayload
 
 class LaunchesRepository(
@@ -192,7 +190,6 @@ class LaunchesRepository(
     }
         .flowOn(Dispatchers.IO)
 
-
     suspend fun flowLaunchStats(flightNumber: Int) = flow<Resource<LaunchStats>> {
         val launchStats = launchDao.getLaunchStats(flightNumber)
         launchStats?.let { stats ->
@@ -200,7 +197,6 @@ class LaunchesRepository(
         } ?: emit(Resource.Error(null, null))
     }
         .flowOn(Dispatchers.IO)
-
 
     suspend fun flowLaunchPictures(flightNumber: Int) = flow<Resource<LaunchPictures>> {
         val pictures = launchDao.getLaunchPictures(flightNumber)

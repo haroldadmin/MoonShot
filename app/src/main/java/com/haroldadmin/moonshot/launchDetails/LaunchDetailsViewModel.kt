@@ -3,10 +3,7 @@ package com.haroldadmin.moonshot.launchDetails
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.launch
 
 class LaunchDetailsViewModel(
@@ -21,7 +18,6 @@ class LaunchDetailsViewModel(
             getLaunchPictures(initState.flightNumber)
         }
     }
-
 
     suspend fun getLaunchDetails(flightNumber: Int) =
         launchesRepository.flowLaunch(flightNumber)

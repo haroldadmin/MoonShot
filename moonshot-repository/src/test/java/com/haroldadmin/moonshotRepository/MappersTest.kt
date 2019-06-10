@@ -11,6 +11,7 @@ import com.haroldadmin.moonshotRepository.mappers.toDbLandingLegs
 import com.haroldadmin.moonshotRepository.mappers.toDbEngine
 import com.haroldadmin.moonshotRepository.mappers.toDbPayloads
 import com.haroldadmin.moonshotRepository.mappers.toDbFirstStage
+import com.haroldadmin.moonshotRepository.mappers.toDbLaunchPad
 import com.haroldadmin.moonshotRepository.mappers.toDbRocket
 import com.haroldadmin.moonshotRepository.mappers.toDbPayloadWeight
 import com.haroldadmin.moonshotRepository.mappers.toDbSecondStage
@@ -28,6 +29,7 @@ import com.haroldadmin.spacex_api_wrapper.rocket.SecondStage
 import com.haroldadmin.spacex_api_wrapper.rocket.FirstStage
 import com.haroldadmin.spacex_api_wrapper.rocket.PayloadWeight
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket
+import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 
@@ -339,6 +341,44 @@ internal class MappersTest : DescribeSpec({
                     wikipedia shouldBe apiRocket.wikipedia
                     description shouldBe apiRocket.description
                 }
+            }
+        }
+    }
+
+    describe("LaunchPad Mappers") {
+        context("Launch Pad") {
+            val apiLaunchPad = LaunchPad(
+                id = 1,
+                status = "retired",
+                location = Location(
+                    name = "Omelek Island",
+                    region = "Marshall Islang",
+                    longitude = 167.7431292,
+                    latitude = 9.0477206
+                ),
+                vehiclesLaunched = listOf("Falcon 1"),
+                attemptedLaunches = 5,
+                successfulLaunches = 2,
+                wikipedia = "https://en.wikipedia.org/wiki/Omelek_Island",
+                details = "SpaceX original launch site, where all of the Falcon 1 launches occured. " +
+                        "Abandoned as SpaceX decided against upgrading the pad to support Falcon 9.\"",
+                siteId = "kwajalein_atoll",
+                siteNameLong = "Kwajalein Atoll Omelek Island"
+            )
+
+            val dbLaunchPad = apiLaunchPad.toDbLaunchPad()
+
+            it("Should map values correctly") {
+                dbLaunchPad.id shouldBe apiLaunchPad.id
+                dbLaunchPad.status shouldBe apiLaunchPad.status
+                dbLaunchPad.location shouldBe apiLaunchPad.location.toDbLocation()
+                dbLaunchPad.vehiclesLanded shouldBe apiLaunchPad.vehiclesLaunched
+                dbLaunchPad.attemptedLaunches shouldBe apiLaunchPad.attemptedLaunches
+                dbLaunchPad.successfulLaunches shouldBe apiLaunchPad.successfulLaunches
+                dbLaunchPad.wikipedia shouldBe apiLaunchPad.wikipedia
+                dbLaunchPad.details shouldBe apiLaunchPad.details
+                dbLaunchPad.siteId shouldBe apiLaunchPad.siteId
+                dbLaunchPad.siteNameLong shouldBe apiLaunchPad.siteNameLong
             }
         }
     }

@@ -30,4 +30,9 @@
     <string name="fragmentLauchDetailsNoLaunchSiteMessage">Launch Site unavailable</string>
     <string name="fragmentLaunchDetailsLaunchDateHeader">Launch Date</string>
     <string name="fragmentLaunchDetailsLaunchDetailsHeader">Details</string>
+    <string name="fragmentLaunchPadLaunchPadHeader">Launch Pad</string>
+    <string name="fragmentLaunchPadDetailsHeader">Details</string>
+    <string name="fragmentLaunchPadStatusHeader">Status</string>
+    <string name="fragmentLaunchPadLaunchPadErrorMessage">Unable to fetch Launch Pad Details</string>
+    <string name="fragmentLaunchPadLaunchPadLoadingMessage">Loading Launch Pad details</string>
 </resources>

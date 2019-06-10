@@ -18,11 +18,13 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
         android:label="Rockets"
         tools:layout="@layout/fragment_rockets" />
+
     <fragment
         android:id="@+id/launchDetails"
         android:name="com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragment"
@@ -32,7 +34,15 @@
             android:name="flightNumber"
             app:argType="integer"
             app:nullable="false" />
+        <action
+            android:id="@+id/launchPadDetails"
+            app:destination="@id/launchPadFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
     <fragment
         android:id="@+id/nextLaunch"
         android:name="com.haroldadmin.moonshot.nextLaunch.NextLaunchFragment"
@@ -46,4 +56,15 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/launchPadFragment"
+        android:name="com.haroldadmin.moonshot.launchPad.LaunchPadFragment"
+        android:label="Launch Pad">
+        <argument
+            android:name="siteId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
 </navigation>

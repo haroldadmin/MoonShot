@@ -4,6 +4,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import com.haroldadmin.moonshot.launchDetails.LaunchDetailsState
 import com.haroldadmin.moonshot.launchDetails.LaunchDetailsViewModel
+import com.haroldadmin.moonshot.launchPad.LaunchPadState
+import com.haroldadmin.moonshot.launchPad.LaunchPadViewModel
 import com.haroldadmin.moonshot.launches.LaunchesState
 import com.haroldadmin.moonshot.launches.LaunchesViewModel
 import com.haroldadmin.moonshot.nextLaunch.NextLaunchState
@@ -23,6 +25,8 @@ val appModule = repositoryModule + module {
     viewModel { (initialState: LaunchDetailsState) -> LaunchDetailsViewModel(initialState, get()) }
 
     viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get()) }
+
+    viewModel { (initialState: LaunchPadState) -> LaunchPadViewModel(initialState, get()) }
 
     single(named("diffing-thread")) {
         HandlerThread("epoxy-diffing-thread").apply { start() }

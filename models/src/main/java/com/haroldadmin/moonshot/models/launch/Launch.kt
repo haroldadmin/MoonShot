@@ -5,10 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageWithCoreSummaries
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummaryWithPayloads
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -62,7 +58,6 @@ data class Launch(
     @Ignore
     val missionPatch = links?.missionPatchSmall ?: links?.missionPatch
 }
-
 
 data class LaunchMinimal(
     @ColumnInfo(name = "flight_number")

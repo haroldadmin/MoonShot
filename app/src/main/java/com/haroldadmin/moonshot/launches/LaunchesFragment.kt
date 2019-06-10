@@ -15,7 +15,6 @@ import com.haroldadmin.moonshot.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
-import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
