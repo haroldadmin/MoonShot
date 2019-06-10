@@ -23,6 +23,7 @@ import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
+import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
@@ -87,18 +88,22 @@ class LaunchDetailsFragment : MoonShotFragment() {
             }
             when (val stats = state.launchStats) {
                 is Resource.Success -> {
+                    itemTextHeader {
+                        id("rocket")
+                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                    }
                     itemLaunchRocket {
                         id("rocket-summary")
                         rocketSummary(stats.data.rocket)
                     }
                     itemTextWithHeading {
                         id("first-stage-summary")
-                        heading("First Stage")
+                        heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
                         text("Cores: ${stats.data.firstStageCoreCounts}")
                     }
                     itemTextWithHeading {
                         id("second-stage-summary")
-                        heading("Second Stage")
+                        heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
                         text("Payloads: ${stats.data.secondStagePayloadCounts}")
                     }
                 }
@@ -129,12 +134,18 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
             when (val pictures = state.launchPictures) {
                 is Resource.Success -> {
-                    carousel {
-                        id("launch-pictures")
-                        withModelsFrom(pictures.data.images) { url ->
-                            ItemLaunchPictureBindingModel_()
-                                .id(url)
-                                .imageUrl(url)
+                    if (pictures.data.images.isNotEmpty()){
+                        itemTextHeader {
+                            id("photos")
+                            header("Photos")
+                        }
+                        carousel {
+                            id("launch-pictures")
+                            withModelsFrom(pictures.data.images) { url ->
+                                ItemLaunchPictureBindingModel_()
+                                    .id(url)
+                                    .imageUrl(url)
+                            }
                         }
                     }
                 }

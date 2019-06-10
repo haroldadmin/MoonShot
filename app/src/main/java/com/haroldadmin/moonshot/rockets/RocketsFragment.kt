@@ -39,6 +39,11 @@ class RocketsFragment : MoonShotFragment() {
         viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        epoxyController.cancelPendingModelBuild()
+    }
+
     private val epoxyController by lazy {
         typedEpoxyController(viewModel) { state ->
             when (val rockets = state.rockets) {

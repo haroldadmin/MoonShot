@@ -46,6 +46,11 @@ class NextLaunchFragment : MoonShotFragment() {
         viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        epoxyController.cancelPendingModelBuild()
+    }
+
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
     }
@@ -106,6 +111,12 @@ class NextLaunchFragment : MoonShotFragment() {
                 detailHeader(getString(R.string.launchDetailLaunchSiteHeader))
                 detailName(launch.siteNameLong)
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
+                onDetailClick { _ ->
+                    launch.siteId?.let { id ->
+                        val action = NextLaunchFragmentDirections.launchPadDetails(id)
+                        findNavController().navigate(action)
+                    }
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.haroldadmin.moonshot.launchPad
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyController
+import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -16,6 +19,8 @@ import com.haroldadmin.moonshot.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLoading
+import com.haroldadmin.moonshot.itemMapCard
+import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.vector.withState
@@ -46,6 +51,11 @@ class LaunchPadFragment : MoonShotFragment() {
         viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        epoxyController.cancelPendingModelBuild()
+    }
+
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
     }
@@ -55,6 +65,10 @@ class LaunchPadFragment : MoonShotFragment() {
             when (val launchpad = state.launchPad) {
                 is Resource.Success -> buildLaunchPadModels(this, launchpad.data)
                 is Resource.Error<LaunchPad, *> -> {
+                    itemTextHeader {
+                        id("map")
+                        header(getString(R.string.itemMapCardMapHeader))
+                    }
                     itemError {
                         id("launchpad-error")
                         error(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
@@ -84,7 +98,21 @@ class LaunchPadFragment : MoonShotFragment() {
         itemTextWithHeading {
             id("status")
             heading(getString(R.string.fragmentLaunchPadStatusHeader))
-            text(launchpad.status)
+            text(launchpad.status.capitalize())
+        }
+        itemTextHeader {
+            id("map")
+            header(getString(R.string.itemMapCardMapHeader))
+        }
+        itemMapCard {
+            id("map")
+            mapImageUrl(launchpad.location.getStaticMapUrl())
+            onMapClick { _ ->
+                val mapIntent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
+                }
+                startActivity(mapIntent)
+            }
         }
     }
 }

@@ -23,6 +23,14 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+        all {
+            if (project.hasProperty("MAPQUEST_API_KEY")) {
+                val MAPQUEST_API_KEY: String by project
+                buildConfigField("String", "MapQuestApiKey", MAPQUEST_API_KEY)
+            } else {
+                buildConfigField("String", "MapQuestApiKey", "mock-key")
+            }
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
