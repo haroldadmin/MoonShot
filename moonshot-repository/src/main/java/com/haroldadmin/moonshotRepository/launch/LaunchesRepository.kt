@@ -91,29 +91,29 @@ class LaunchesRepository(
     }
         .flowOn(Dispatchers.IO)
 
-    suspend fun getUpcomingLaunches(currentTime: Long): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
+    suspend fun getUpcomingLaunches(currentTime: Long, limit: Int): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
         when (val launchesResponse = launchesService.getUpcomingLaunches().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(launchesResponse()!!)
-                Resource.Success(launchDao.getUpcomingLaunches(currentTime))
+                Resource.Success(launchDao.getUpcomingLaunches(currentTime, limit))
             }
             is NetworkResponse.ServerError -> {
-                Resource.Error(launchDao.getUpcomingLaunches(currentTime), launchesResponse.body)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime, limit), launchesResponse.body)
             }
 
             is NetworkResponse.NetworkError -> {
-                Resource.Error(launchDao.getUpcomingLaunches(currentTime), launchesResponse.error)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime, limit), launchesResponse.error)
             }
 
             else -> {
-                Resource.Error(launchDao.getUpcomingLaunches(currentTime), null)
+                Resource.Error(launchDao.getUpcomingLaunches(currentTime, limit), null)
             }
         }
     }
 
-    suspend fun flowUpcomingLaunches(currentTime: Long, limit: Int = Int.MAX_VALUE) = flow<Resource<List<DbLaunch>>> {
+    suspend fun flowUpcomingLaunches(currentTime: Long, limit: Int) = flow<Resource<List<DbLaunch>>> {
         emit(Resource.Loading)
-        val dbLaunches = launchDao.getUpcomingLaunches(currentTime)
+        val dbLaunches = launchDao.getUpcomingLaunches(currentTime, limit)
         emit(Resource.Success(dbLaunches))
 
         when (val apiLaunches = launchesService.getUpcomingLaunches().await()) {
@@ -165,37 +165,37 @@ class LaunchesRepository(
     }
         .flowOn(Dispatchers.IO)
 
-    suspend fun getPastLaunches(currentTime: Long): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
+    suspend fun getPastLaunches(currentTime: Long, limit: Int): Resource<List<DbLaunch>> = withContext(Dispatchers.IO) {
 
         when (val launches = launchesService.getPastLaunches().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(launches()!!)
-                Resource.Success(launchDao.getPastLaunches(currentTime))
+                Resource.Success(launchDao.getPastLaunches(currentTime, limit))
             }
 
             is NetworkResponse.ServerError -> {
-                Resource.Error(launchDao.getPastLaunches(currentTime), launches.body)
+                Resource.Error(launchDao.getPastLaunches(currentTime, limit), launches.body)
             }
 
             is NetworkResponse.NetworkError -> {
-                Resource.Error(launchDao.getPastLaunches(currentTime), launches.error)
+                Resource.Error(launchDao.getPastLaunches(currentTime, limit), launches.error)
             }
 
             else -> {
-                Resource.Error(launchDao.getPastLaunches(currentTime), null)
+                Resource.Error(launchDao.getPastLaunches(currentTime, limit), null)
             }
         }
     }
 
-    suspend fun flowPastLaunches(currentTime: Long) = flow<Resource<List<DbLaunch>>> {
+    suspend fun flowPastLaunches(currentTime: Long, limit: Int) = flow<Resource<List<DbLaunch>>> {
         emit(Resource.Loading)
 
-        val dbLaunches = launchDao.getPastLaunches(currentTime)
+        val dbLaunches = launchDao.getPastLaunches(currentTime, limit)
 
         when (val apiLaunches = launchesService.getPastLaunches().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(apiLaunches.body)
-                val launches = launchDao.getPastLaunches(currentTime)
+                val launches = launchDao.getPastLaunches(currentTime, limit)
                 if (launches != dbLaunches) {
                     emit(Resource.Success(launches))
                 }

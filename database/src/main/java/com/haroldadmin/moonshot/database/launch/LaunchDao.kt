@@ -31,8 +31,8 @@ abstract class LaunchDao : BaseDao<Launch> {
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT 1")
     abstract suspend fun getNextLaunch(timestamp: Long): Launch?
 
-    @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp")
-    abstract suspend fun getPastLaunches(timestamp: Long): List<Launch>
+    @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp LIMIT :limit")
+    abstract suspend fun getPastLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
 
     @Query("SELECT * FROM rocket_summaries WHERE launch_flight_number = :flightNumber")
     abstract suspend fun getRocketForLaunch(flightNumber: Int): RocketSummary?
