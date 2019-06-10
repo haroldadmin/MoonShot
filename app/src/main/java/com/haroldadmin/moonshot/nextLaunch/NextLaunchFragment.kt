@@ -17,7 +17,7 @@ import com.haroldadmin.moonshot.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
-import com.haroldadmin.moonshot.itemNextLaunchDetail
+import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
@@ -91,7 +91,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 onLaunchClick { _ -> showLaunchDetails(launch.flightNumber) }
             }
 
-            itemNextLaunchDetail {
+            itemLaunchDetail {
                 id("launch-date")
                 detailHeader(getString(R.string.launchDetailLaunchDateHeader))
                 detailName(
@@ -101,7 +101,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
             }
 
-            itemNextLaunchDetail {
+            itemLaunchDetail {
                 id("launch-site")
                 detailHeader(getString(R.string.launchDetailLaunchSiteHeader))
                 detailName(launch.siteNameLong)

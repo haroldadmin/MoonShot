@@ -25,4 +25,9 @@
     <string name="launchDetailsFragmentNoLaunchDetailsText">No details available</string>
     <string name="launchDetailsFragmentNoLaunchDateText">Launch date unavailable</string>
     <string name="nextLaunchFragmentNoLaunchDateText">Launch date unavailable</string>
+    <string name="launchDetailsFragmentFirstStageSummaryHeader">First Stage</string>
+    <string name="launchDetailsFragmentSecondStageSummaryHeader">Second Stage</string>
+    <string name="fragmentLauchDetailsNoLaunchSiteMessage">Launch Site unavailable</string>
+    <string name="fragmentLaunchDetailsLaunchDateHeader">Launch Date</string>
+    <string name="fragmentLaunchDetailsLaunchDetailsHeader">Details</string>
 </resources>

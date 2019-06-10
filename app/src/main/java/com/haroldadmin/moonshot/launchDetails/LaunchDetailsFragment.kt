@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
+import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -19,6 +21,7 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
+import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextWithHeading
@@ -92,12 +95,12 @@ class LaunchDetailsFragment : MoonShotFragment() {
                     itemTextWithHeading {
                         id("first-stage-summary")
                         heading("First Stage")
-                        text("Cores: ${stats.data!!.firstStageCoreCounts}")
+                        text("Cores: ${stats.data.firstStageCoreCounts}")
                     }
                     itemTextWithHeading {
                         id("second-stage-summary")
                         heading("Second Stage")
-                        text("Payloads: ${stats.data!!.secondStagePayloadCounts}")
+                        text("Payloads: ${stats.data.secondStagePayloadCounts}")
                     }
                 }
                 is Resource.Error<LaunchStats, *> -> {
@@ -112,12 +115,12 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         }
                         itemTextWithHeading {
                             id("first-stage-summary")
-                            heading("First Stage")
+                            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
                             text("Cores: ${stats.data!!.firstStageCoreCounts}")
                         }
                         itemTextWithHeading {
                             id("second-stage-summary")
-                            heading("Second Stage")
+                            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
                             text("Payloads: ${stats.data!!.secondStagePayloadCounts}")
                         }
                     }
@@ -147,17 +150,25 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 id("header")
                 launch(launch)
             }
-            itemTextWithHeading {
+            itemLaunchDetail {
                 id("launch-date")
-                heading("Launch Date")
-                text(
-                    launch.launchDate?.format(resources.configuration)
-                        ?: getString(R.string.launchDetailsFragmentNoLaunchDateText)
-                )
+                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
+                detailName(launch.launchDate?.format(resources.configuration)
+                    ?: getString(R.string.launchDetailsFragmentNoLaunchDateText))
+                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
+            }
+            itemLaunchDetail {
+                id("launch-site")
+                detailHeader("Launch Site")
+                detailName(launch.siteName ?: getString(R.string.fragmentLauchDetailsNoLaunchSiteMessage))
+                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
+                onDetailClick { _ ->
+                    Snackbar.make(binding.root, "Coming soon", Snackbar.LENGTH_SHORT).show()
+                }
             }
             itemTextWithHeading {
                 id("launch-details")
-                heading("Details")
+                heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
             }
         }

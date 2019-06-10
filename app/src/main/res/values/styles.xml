@@ -99,7 +99,7 @@
         <item name="fontFamily">@font/space_mono</item>
     </style>
 
-    <style name="TextAppearance.MoonShot.Launch.Body" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.MoonShot.Launch.Body" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
