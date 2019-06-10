@@ -6,3 +6,7 @@ package com.haroldadmin.moonshot.core
  * scenarios when using the `when` statement.
  */
 val Any.safe get() = Unit
+
+fun <A, B, C> tripleOf(a: A, b: B, c: C) = Triple(a, b, c)
+
+fun <A, B> pairOf(a: A, b: B) = Pair(a, b)

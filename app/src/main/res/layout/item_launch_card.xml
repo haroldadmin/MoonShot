@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="header"
             type="String" />
 
         <variable
             name="launch"
-            type="com.haroldadmin.moonshot.models.launch.Launch" />
+            type="com.haroldadmin.moonshot.models.launch.LaunchMinimal" />
 
         <variable
             name="onLaunchClick"
@@ -94,7 +93,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/launchSite"
-                asyncText="@{launch.launchSite.siteName}"
+                asyncText="@{launch.siteName}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginLarge"

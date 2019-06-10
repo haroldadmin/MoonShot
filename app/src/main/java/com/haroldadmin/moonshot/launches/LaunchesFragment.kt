@@ -16,6 +16,7 @@ import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,9 +49,7 @@ class LaunchesFragment : MoonShotFragment() {
     }
 
     override fun renderState() = withState(viewModel) { state ->
-        if (epoxyController.currentData != state) {
-            epoxyController.setData(state)
-        }
+        epoxyController.setData(state)
     }
 
     private val epoxyController by lazy {
@@ -70,7 +69,7 @@ class LaunchesFragment : MoonShotFragment() {
                         }
                     }
                 }
-                is Resource.Error<List<Launch>, *> -> {
+                is Resource.Error<List<LaunchMinimal>, *> -> {
                     itemError {
                         id("launch-error")
                         error(getString(R.string.launchesFragmentErrorMessage))

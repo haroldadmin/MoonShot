@@ -32,8 +32,6 @@ open class MoonShotAsyncTypedEpoxyController<S : MoonShotState>(
     val buildModelsCallback: EpoxyController.(state: S) -> Unit = {}
 ) : TypedEpoxyController<S>(modelBuildingHandler, diffingHandler) {
 
-    override fun isDebugLoggingEnabled(): Boolean = true
-
     override fun buildModels(data: S) {
         buildModelsCallback(data)
     }

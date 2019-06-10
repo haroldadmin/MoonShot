@@ -6,11 +6,11 @@
     <data>
         <variable
             name="rocketSummary"
-            type="com.haroldadmin.moonshot.models.launch.rocket.RocketSummary" />
+            type="com.haroldadmin.moonshot.models.launch.RocketSummaryMinimal" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.MoonShot.Launch.DetailCard"
+        style="@style/Widget.MoonShot.Launch.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"

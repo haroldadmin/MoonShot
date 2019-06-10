@@ -5,6 +5,11 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageWithCoreSummaries
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
+import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummaryWithPayloads
+import java.text.SimpleDateFormat
 import java.util.Date
 
 @Entity(tableName = "launches")
@@ -57,3 +62,45 @@ data class Launch(
     @Ignore
     val missionPatch = links?.missionPatchSmall ?: links?.missionPatch
 }
+
+
+data class LaunchMinimal(
+    @ColumnInfo(name = "flight_number")
+    val flightNumber: Int,
+    @ColumnInfo(name = "mission_name")
+    val missionName: String?,
+    @ColumnInfo(name = "missionPatchSmall")
+    val missionPatch: String?,
+    @ColumnInfo(name = "launch_date_utc")
+    val launchDate: Date?,
+    @ColumnInfo(name = "details")
+    val details: String?,
+    @ColumnInfo(name = "siteName")
+    val siteName: String?,
+    @ColumnInfo(name = "siteNameLong")
+    val siteNameLong: String?
+) {
+    @Ignore
+    val launchYear: String = SimpleDateFormat("YYYY").format(launchDate)
+}
+
+data class LaunchStats(
+    @Embedded(prefix = "rocket_")
+    val rocket: RocketSummaryMinimal,
+    @ColumnInfo(name = "core_count")
+    val firstStageCoreCounts: Int,
+    @ColumnInfo(name = "payload_count")
+    val secondStagePayloadCounts: Int
+)
+
+data class RocketSummaryMinimal(
+    @ColumnInfo(name = "name")
+    val rocketName: String,
+    @ColumnInfo(name = "type")
+    val rocketType: String
+)
+
+data class LaunchPictures(
+    @ColumnInfo(name = "flickrImages")
+    val images: List<String>
+)

@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class FirstStageWithCoreSummaries(
-    @Embedded val firstStageSummary: FirstStageSummary,
+    @Embedded val firstStageSummary: FirstStageSummary?,
     @Relation(
         entity = CoreSummary::class,
         parentColumn = "launch_flight_number",

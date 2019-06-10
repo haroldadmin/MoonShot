@@ -6,7 +6,6 @@ import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Calendar
-import java.util.Date
 
 class LaunchesViewModel(
     initState: LaunchesState,
@@ -22,17 +21,7 @@ class LaunchesViewModel(
     suspend fun getAllLaunches() {
         val currentTime = Calendar.getInstance().timeInMillis
         launchesRepository
-            .flowAllLaunches(limit = 20, maxTimestamp = currentTime)
+            .flowAllMinimalLaunches(limit = 15, maxTimestamp = currentTime)
             .collect { setState { copy(launches = it) } }
-    }
-
-    suspend fun getUpcomingLaunches(currentTime: Long, limit: Int) {
-        launchesRepository.flowUpcomingLaunches(currentTime, limit)
-            .collect { launches -> setState { copy(launches = launches) } }
-    }
-
-    suspend fun getPastLaunches(currentTime: Long, limit: Int) {
-        launchesRepository.flowPastLaunches(currentTime, limit)
-            .collect { launches -> setState { copy(launches = launches) } }
     }
 }

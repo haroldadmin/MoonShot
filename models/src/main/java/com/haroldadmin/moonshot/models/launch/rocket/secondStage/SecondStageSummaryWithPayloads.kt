@@ -6,7 +6,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 data class SecondStageSummaryWithPayloads(
     @Embedded
-    val secondStageSummary: SecondStageSummary,
+    val secondStageSummary: SecondStageSummary?,
     @Relation(
         entity = Payload::class,
         parentColumn = "launch_flight_number",

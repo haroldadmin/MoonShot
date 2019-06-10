@@ -18,7 +18,7 @@ import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemNextLaunchDetail
-import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
@@ -46,13 +46,17 @@ class NextLaunchFragment : MoonShotFragment() {
         viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
+    override fun renderState() = withState(viewModel) { state ->
+        epoxyController.setData(state)
+    }
+
     private val epoxyController by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
             when (val launch = state.nextLaunch) {
 
                 is Resource.Success -> buildLaunchModels(this, launch.data)
 
-                is Resource.Error<Launch, *> -> {
+                is Resource.Error<LaunchMinimal, *> -> {
                     itemError {
                         id("next-launch-error")
                         error(getString(R.string.nextLaunchFragmentErrorMessage))
@@ -69,10 +73,6 @@ class NextLaunchFragment : MoonShotFragment() {
         }
     }
 
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
-    }
-
     private fun showLaunchDetails(flightNumber: Int) {
         NextLaunchFragmentDirections.launchDetails(flightNumber).let { action ->
             findNavController().navigate(action)
@@ -81,7 +81,7 @@ class NextLaunchFragment : MoonShotFragment() {
 
     private fun buildLaunchModels(
         controller: EpoxyController,
-        launch: Launch
+        launch: LaunchMinimal
     ) {
         with(controller) {
             itemLaunchCard {
@@ -94,17 +94,18 @@ class NextLaunchFragment : MoonShotFragment() {
             itemNextLaunchDetail {
                 id("launch-date")
                 detailHeader(getString(R.string.launchDetailLaunchDateHeader))
-                detailName(launch.launchDate.format(resources.configuration))
+                detailName(
+                    launch.launchDate?.format(resources.configuration)
+                        ?: getString(R.string.nextLaunchFragmentNoLaunchDateText)
+                )
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
             }
 
-            launch.launchSite?.let { site ->
-                itemNextLaunchDetail {
-                    id(site.siteId)
-                    detailHeader(getString(R.string.launchDetailLaunchSiteHeader))
-                    detailName(site.siteNameLong)
-                    detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
-                }
+            itemNextLaunchDetail {
+                id("launch-site")
+                detailHeader(getString(R.string.launchDetailLaunchSiteHeader))
+                detailName(launch.siteNameLong)
+                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
             }
         }
     }

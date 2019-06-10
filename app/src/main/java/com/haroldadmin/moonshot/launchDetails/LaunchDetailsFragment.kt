@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.launchDetails
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,8 @@ import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextWithHeading
-import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
@@ -57,26 +58,24 @@ class LaunchDetailsFragment : MoonShotFragment() {
     }
 
     override fun renderState() = withState(viewModel) { state ->
-        if (epoxyController.currentData != state) {
-            epoxyController.setData(state)
-        }
+        epoxyController.setData(state)
     }
 
     private val epoxyController by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
-            when (state.launch) {
+            when (val launch = state.launch) {
                 is Resource.Success -> {
-                    buildLaunchModels(this, state.launch.data)
+                    buildLaunchModels(this, launch.data)
                 }
 
-                is Resource.Error<Launch, *> -> {
+                is Resource.Error<LaunchMinimal, *> -> {
                     itemError {
                         id("launch-error")
                         error(getString(R.string.launchDetailsFragmentLoading))
                     }
 
-                    if (state.launch.data != null) {
-                        buildLaunchModels(this, state.launch.data!!)
+                    if (launch.data != null) {
+                        buildLaunchModels(this, launch.data!!)
                     }
                 }
                 else -> itemLoading {
@@ -84,49 +83,82 @@ class LaunchDetailsFragment : MoonShotFragment() {
                     message(getString(R.string.launchDetailsFragmentLoadingMessage))
                 }
             }
-            when (state.rocketSummary) {
-                is Resource.Success -> itemLaunchRocket {
-                    id("rocket-summary")
-                    rocketSummary(state.rocketSummary.data)
+            when (val stats = state.launchStats) {
+                is Resource.Success -> {
+                    itemLaunchRocket {
+                        id("rocket-summary")
+                        rocketSummary(stats.data.rocket)
+                    }
+                    itemTextWithHeading {
+                        id("first-stage-summary")
+                        heading("First Stage")
+                        text("Cores: ${stats.data!!.firstStageCoreCounts}")
+                    }
+                    itemTextWithHeading {
+                        id("second-stage-summary")
+                        heading("Second Stage")
+                        text("Payloads: ${stats.data!!.secondStagePayloadCounts}")
+                    }
                 }
-                is Resource.Error<RocketSummary, *> -> itemError {
-                    id("rocket-summary-error")
-                    error(getString(R.string.launchDetailsFragmentRocketSummaryError))
+                is Resource.Error<LaunchStats, *> -> {
+                    itemError {
+                        id("rocket-summary-error")
+                        error(getString(R.string.launchDetailsFragmentRocketSummaryError))
+                    }
+                    stats.data?.let {
+                        itemLaunchRocket {
+                            id("rocket-summary")
+                            rocketSummary(stats.data!!.rocket)
+                        }
+                        itemTextWithHeading {
+                            id("first-stage-summary")
+                            heading("First Stage")
+                            text("Cores: ${stats.data!!.firstStageCoreCounts}")
+                        }
+                        itemTextWithHeading {
+                            id("second-stage-summary")
+                            heading("Second Stage")
+                            text("Payloads: ${stats.data!!.secondStagePayloadCounts}")
+                        }
+                    }
                 }
-                else -> itemLoading {
-                    id("rocket-summary-loading")
-                    message(getString(R.string.launchDetailsFragmentRocketSummaryLoading))
+                else -> Unit
+            }
+
+            when (val pictures = state.launchPictures) {
+                is Resource.Success -> {
+                    carousel {
+                        id("launch-pictures")
+                        withModelsFrom(pictures.data.images) { url ->
+                            ItemLaunchPictureBindingModel_()
+                                .id(url)
+                                .imageUrl(url)
+                        }
+                    }
                 }
+                else -> Unit
             }
         }
     }
 
-    private fun buildLaunchModels(controller: EpoxyController, launch: Launch) {
+    private fun buildLaunchModels(controller: EpoxyController, launch: LaunchMinimal) {
         with(controller) {
             itemLaunchCard {
-                id("header-${launch.flightNumber}")
+                id("header")
                 launch(launch)
             }
             itemTextWithHeading {
-                id("launch-date-${launch.flightNumber}")
+                id("launch-date")
                 heading("Launch Date")
-                text(launch.launchDate.format(resources.configuration))
+                text(
+                    launch.launchDate?.format(resources.configuration)
+                        ?: getString(R.string.launchDetailsFragmentNoLaunchDateText)
+                )
             }
             itemTextWithHeading {
-                id("launch-details-${launch.flightNumber}")
+                id("launch-details")
                 heading("Details")
-                text(launch.details)
-            }
-
-            launch.links?.flickrImages?.let { imageUrls ->
-                carousel {
-                    id("launch-pictures")
-                    withModelsFrom(imageUrls) { url ->
-                        ItemLaunchPictureBindingModel_()
-                            .id(url)
-                            .imageUrl(url)
-                    }
-                }
+                text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
             }
         }
     }

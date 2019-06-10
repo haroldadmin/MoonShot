@@ -15,10 +15,10 @@ abstract class FirstStageSummaryDao : BaseDao<FirstStageSummary> {
     abstract suspend fun getAllFirstStageSummaries(): List<FirstStageSummary>
 
     @Query("SELECT * FROM first_stage_summaries WHERE launch_flight_number = :flightNumber")
-    abstract suspend fun getFirstStageSummary(flightNumber: Int): FirstStageSummary
+    abstract suspend fun getFirstStageSummary(flightNumber: Int): FirstStageSummary?
 
     @Query("SELECT * FROM core_summaries WHERE core_serial = :serial")
-    abstract suspend fun getCoreSummary(serial: String): CoreSummary
+    abstract suspend fun getCoreSummary(serial: String): CoreSummary?
 
     @Query("SELECT * FROM first_stage_summaries WHERE launch_flight_number = :flightNumber")
     @Transaction
