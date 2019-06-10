@@ -24,6 +24,7 @@ class LaunchDetailsViewModel(
     }
 
     suspend fun getRocketSummary(flightNumber: Int) {
-        executeAsResource({ copy(rocketSummary = it) }) { launchesRepository.getRocketSummary(flightNumber) }
+        launchesRepository.flowRocketSummary(flightNumber)
+            .collect { rocketSummary -> setState { copy(rocketSummary = rocketSummary) } }
     }
 }

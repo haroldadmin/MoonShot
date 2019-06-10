@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
 import com.haroldadmin.moonshot.R
@@ -65,36 +66,18 @@ class LaunchDetailsFragment : MoonShotFragment() {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
             when (state.launch) {
                 is Resource.Success -> {
-                    itemLaunchCard {
-                        id("header-${state.launch.data.flightNumber}")
-                        launch(state.launch.data)
-                    }
-                    itemTextWithHeading {
-                        id("launch-date-${state.launch.data.flightNumber}")
-                        heading("Launch Date")
-                        text(state.launch.data.launchDate.format(resources.configuration))
-                    }
-                    itemTextWithHeading {
-                        id("launch-details-${state.launch.data.flightNumber}")
-                        heading("Details")
-                        text(state.launch.data.details)
-                    }
-
-                    state.launch.data.links?.flickrImages?.let { imageUrls ->
-                        carousel {
-                            id("launch-pictures")
-                            withModelsFrom(imageUrls) { url ->
-                                ItemLaunchPictureBindingModel_()
-                                    .id(url)
-                                    .imageUrl(url)
-                            }
-                        }
-                    }
+                    buildLaunchModels(this, state.launch.data)
                 }
 
-                is Resource.Error<Launch, *> -> itemError {
-                    id("launch-error")
-                    error(getString(R.string.launchDetailsFragmentLoading))
+                is Resource.Error<Launch, *> -> {
+                    itemError {
+                        id("launch-error")
+                        error(getString(R.string.launchDetailsFragmentLoading))
+                    }
+
+                    if (state.launch.data != null) {
+                        buildLaunchModels(this, state.launch.data!!)
+                    }
                 }
                 else -> itemLoading {
                     id("launch-loading")
@@ -113,6 +96,36 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 else -> itemLoading {
                     id("rocket-summary-loading")
                     message(getString(R.string.launchDetailsFragmentRocketSummaryLoading))
+                }
+            }
+        }
+    }
+
+    private fun buildLaunchModels(controller: EpoxyController, launch: Launch) {
+        with(controller) {
+            itemLaunchCard {
+                id("header-${launch.flightNumber}")
+                launch(launch)
+            }
+            itemTextWithHeading {
+                id("launch-date-${launch.flightNumber}")
+                heading("Launch Date")
+                text(launch.launchDate.format(resources.configuration))
+            }
+            itemTextWithHeading {
+                id("launch-details-${launch.flightNumber}")
+                heading("Details")
+                text(launch.details)
+            }
+
+            launch.links?.flickrImages?.let { imageUrls ->
+                carousel {
+                    id("launch-pictures")
+                    withModelsFrom(imageUrls) { url ->
+                        ItemLaunchPictureBindingModel_()
+                            .id(url)
+                            .imageUrl(url)
+                    }
                 }
             }
         }

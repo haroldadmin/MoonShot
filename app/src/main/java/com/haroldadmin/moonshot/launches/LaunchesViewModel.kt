@@ -24,24 +24,15 @@ class LaunchesViewModel(
         launchesRepository
             .flowAllLaunches(limit = 20, maxTimestamp = currentTime)
             .collect { setState { copy(launches = it) } }
-//        executeAsResource({ copy(launches = it) }) { launchesRepository.getAllLaunches(limit = 20, maxTimestamp = currentTime) }
     }
 
-    suspend fun getUpcomingLaunches() {
-        executeAsResource({ copy(launches = it) }) {
-            launchesRepository.getUpcomingLaunches(Date().time)
-        }
+    suspend fun getUpcomingLaunches(currentTime: Long, limit: Int) {
+        launchesRepository.flowUpcomingLaunches(currentTime, limit)
+            .collect { launches -> setState { copy(launches = launches) } }
     }
 
-    suspend fun getPastLaunches() {
-        executeAsResource({ copy(launches = it) }) {
-            launchesRepository.getPastLaunches(Date().time)
-        }
+    suspend fun getPastLaunches(currentTime: Long, limit: Int) {
+        launchesRepository.flowPastLaunches(currentTime, limit)
+            .collect { launches -> setState { copy(launches = launches) } }
     }
-
-//    private suspend fun getNextLaunch() {
-//        executeAsResource({ copy(nextLaunch = it) }) {
-//            launchesRepository.getNextLaunch(Date().time)
-//        }
-//    }
 }
