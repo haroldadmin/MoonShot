@@ -19,6 +19,7 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.itemError
+import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLaunchRocket
@@ -176,7 +177,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
                 onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
             }
-            itemTextWithHeading {
+            itemExpandableTextWithHeading {
                 id("launch-details")
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))

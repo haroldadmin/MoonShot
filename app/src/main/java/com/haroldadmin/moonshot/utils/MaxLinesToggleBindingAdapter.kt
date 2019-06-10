@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.utils
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -9,21 +10,34 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 
-@BindingAdapter("maxLinesToggle")
+@BindingAdapter(
+    "maxLinesToggle",
+    "expandedIcon",
+    "collapsedIcon",
+    requireAll = false
+)
 fun maxLinesClickListener(
     view: TextView,
     previousCollapsedMaxLines: Int,
-    newCollapsedMaxLines: Int
+    previousExpandedIcon: Drawable?,
+    previousCollapsedIcon: Drawable?,
+    newCollapsedMaxLines: Int,
+    newExpandedIcon: Drawable?,
+    newCollapsedIcon: Drawable?
 ) {
     if (previousCollapsedMaxLines != newCollapsedMaxLines) {
         // Default to the collapsed number of max lines
         view.maxLines = newCollapsedMaxLines
         // Set click listener which toggles between this and MAX_INT
-        view.setOnClickListener(MaxLinesToggleClickListener(newCollapsedMaxLines))
+        view.setOnClickListener(MaxLinesToggleClickListener(newCollapsedMaxLines, newExpandedIcon, newCollapsedIcon))
     }
 }
 
-private class MaxLinesToggleClickListener(private val collapsedLines: Int) : View.OnClickListener {
+private class MaxLinesToggleClickListener(
+    private val collapsedLines: Int,
+    private val expandedIcon: Drawable?,
+    private val collapsedIcon: Drawable?
+) : View.OnClickListener {
     private val transition = ChangeBounds().apply {
         duration = 200
         interpolator = FastOutSlowInInterpolator()
@@ -32,7 +46,14 @@ private class MaxLinesToggleClickListener(private val collapsedLines: Int) : Vie
     override fun onClick(view: View) {
         TransitionManager.beginDelayedTransition(findParent(view), transition)
         val textView = view as TextView
-        textView.maxLines = if (textView.maxLines > collapsedLines) collapsedLines else Int.MAX_VALUE
+        if (textView.maxLines > collapsedLines) {
+            textView.maxLines = collapsedLines
+            textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, collapsedIcon)
+
+        } else {
+            textView.maxLines = Int.MAX_VALUE
+            textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, expandedIcon)
+        }
     }
 
     private fun findParent(view: View): ViewGroup {

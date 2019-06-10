@@ -17,6 +17,7 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.itemError
+import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemMapCard
@@ -90,7 +91,7 @@ class LaunchPadFragment : MoonShotFragment() {
             detailHeader(getString(R.string.fragmentLaunchPadLaunchPadHeader))
             detailName(launchpad.siteNameLong)
         }
-        itemTextWithHeading {
+        itemExpandableTextWithHeading {
             id("launch-pad-detail")
             heading(getString(R.string.fragmentLaunchPadDetailsHeader))
             text(launchpad.details)

@@ -55,6 +55,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/heading"
                 maxLinesToggle="@{@integer/maxLinesCollapsed}"
+                collapsedIcon="@{@drawable/ic_round_expand_more_24px}"
+                expandedIcon="@{@drawable/ic_round_expand_less_24px}"
+                android:drawableBottom="@drawable/ic_round_expand_more_24px"
+                android:drawablePadding="@dimen/marginSmall"
+                android:drawableTint="?attr/colorOnPrimary"
                 tools:text="@tools:sample/lorem/random" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
