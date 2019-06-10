@@ -15,6 +15,7 @@ import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSummaryDao
 import com.haroldadmin.moonshot.database.launch.rocket.secondStage.SecondStageSummaryDao
+import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.database.rocket.PayloadWeightsDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot.models.capsule.Capsule
@@ -31,6 +32,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
+import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
 
@@ -51,7 +53,8 @@ import com.haroldadmin.moonshot.models.rocket.Rocket
         RocketSummary::class,
         SecondStageSummary::class,
         PayloadWeight::class,
-        Rocket::class
+        Rocket::class,
+        LaunchPad::class
     ), version = 1, exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -77,4 +80,6 @@ abstract class MoonShotDb : RoomDatabase() {
 
     abstract fun payloadWeightsDao(): PayloadWeightsDao
     abstract fun rocketsDao(): RocketsDao
+
+    abstract fun launchpadDao(): LaunchPadDao
 }

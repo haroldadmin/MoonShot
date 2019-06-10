@@ -67,14 +67,14 @@ internal class LaunchDaoTest : BaseDbTest() {
 
     @Test
     fun firstStageSummaryWithCores() = runBlocking {
-        val summary = rocketSummaryDao.getFirstStage(launch.flightNumber)
+        val summary = rocketSummaryDao.getFirstStage(launch.flightNumber)!!
         assertEquals(firstStageSummary, summary.firstStageSummary)
         assertTrue(summary.cores.isEmpty())
     }
 
     @Test
     fun secondStageSummaryWithPayloads() = runBlocking {
-        val summary = rocketSummaryDao.getSecondStage(launch.flightNumber)
+        val summary = rocketSummaryDao.getSecondStage(launch.flightNumber)!!
         assertEquals(secondStageSummary, summary.secondStageSummary)
         assertTrue(summary.payloads.isEmpty())
     }
