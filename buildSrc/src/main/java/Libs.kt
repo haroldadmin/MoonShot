@@ -21,6 +21,7 @@ object Libs {
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
     const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
+    const val preference = "androidx.preference:preference-ktx:${Versions.preference}"
 
     const val vector = "com.github.haroldadmin:Vector:0.0.3"
 

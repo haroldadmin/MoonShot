@@ -135,7 +135,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
             when (val pictures = state.launchPictures) {
                 is Resource.Success -> {
-                    if (pictures.data.images.isNotEmpty()){
+                    if (pictures.data.images.isNotEmpty()) {
                         itemTextHeader {
                             id("photos")
                             header("Photos")

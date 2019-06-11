@@ -70,4 +70,9 @@
             app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.haroldadmin.moonshot.settings.SettingsFragment"
+        android:label="Settings" />
+
 </navigation>

@@ -10,9 +10,11 @@ import com.haroldadmin.moonshot.launches.LaunchesState
 import com.haroldadmin.moonshot.launches.LaunchesViewModel
 import com.haroldadmin.moonshot.nextLaunch.NextLaunchState
 import com.haroldadmin.moonshot.nextLaunch.NextLaunchViewModel
+import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.rockets.RocketsState
 import com.haroldadmin.moonshot.rockets.RocketsViewModel
 import com.haroldadmin.moonshotRepository.repositoryModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -24,7 +26,7 @@ val appModule = repositoryModule + module {
 
     viewModel { (initialState: LaunchDetailsState) -> LaunchDetailsViewModel(initialState, get()) }
 
-    viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get()) }
+    viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get(), get()) }
 
     viewModel { (initialState: LaunchPadState) -> LaunchPadViewModel(initialState, get()) }
 
@@ -37,4 +39,6 @@ val appModule = repositoryModule + module {
 
     single(named("differ")) { Handler(get<HandlerThread>(named("diffing-thread")).looper) }
     single(named("builder")) { Handler(get<HandlerThread>(named("building-thread")).looper) }
+
+    factory { LaunchNotificationManager(androidContext()) }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="notifications_category"
+        app:title="@string/preferencesNotificationsCategoryTitle">
+
+        <SwitchPreferenceCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:summary="@string/preferencesNotificationsSwitchSummary"
+            app:icon="@drawable/ic_round_notifications_24px"
+            app:key="launch-notifications"
+            app:title="@string/preferencesNotificationsSwitchTitle" />
+
+        <SeekBarPreference
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="10"
+            android:key="notification-padding"
+            android:max="60"
+            android:summary="@string/preferencesNotificationsMinutesSummary"
+            android:title="@string/preferencesNotificationsMinutesTitle"
+            app:icon="@drawable/ic_round_history_24px"
+            app:min="0"
+            app:showSeekBarValue="true"
+            android:dependency="launch-notifications" />
+    </PreferenceCategory>
+</PreferenceScreen>

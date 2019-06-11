@@ -83,6 +83,8 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
+    implementation(Libs.preference)
+
     implementation(Libs.epoxy)
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)

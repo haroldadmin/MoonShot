@@ -38,4 +38,9 @@
     <string name="itemMapCardContentDescription">Static map image of this location</string>
     <string name="itemMapCardMapHeader">Map</string>
     <string name="launchDetailsFragmentRocketSummaryHeaderText">Rocket Summary</string>
+    <string name="preferencesNotificationsCategoryTitle">Notifications</string>
+    <string name="preferencesNotificationsSwitchTitle">Enable launch notifications</string>
+    <string name="preferencesNotificationsSwitchSummary">Get notifications before the next launch takes place</string>
+    <string name="preferencesNotificationsMinutesSummary">How many minutes before the launch should we remind you?</string>
+    <string name="preferencesNotificationsMinutesTitle">Minutes before launch</string>
 </resources>

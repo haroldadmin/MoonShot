@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
@@ -29,9 +30,15 @@ class MainActivity : MoonShotActivity() {
             root.systemUiVisibility =
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
-            mainToolbar.setupWithNavController(navController, AppBarConfiguration(navController.graph))
-
             mainBottomNav.setupWithNavController(navController)
+            mainToolbar.apply {
+                setupWithNavController(navController, AppBarConfiguration(navController.graph))
+                inflateMenu(R.menu.menu_main)
+                setOnMenuItemClickListener { menuItem ->
+                    menuItem.onNavDestinationSelected(navController)
+                }
+            }
         }
+//        )
     }
 }

@@ -11,6 +11,7 @@ object Versions {
     const val materialComponents = "1.1.0-alpha07"
     const val navigation = "2.1.0-alpha05"
     const val paging = "2.1.0"
+    const val preference = "1.1.0-beta01"
 
     const val vector = "0.1.0"
 

@@ -16,11 +16,12 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemLaunchDetail
+import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -53,6 +54,11 @@ class NextLaunchFragment : MoonShotFragment() {
 
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
+        fragmentScope.launch {
+            if (state.nextLaunch is Resource.Success) {
+                viewModel.persistNextLaunchValues(requireContext())
+            }
+        }
     }
 
     private val epoxyController by lazy {

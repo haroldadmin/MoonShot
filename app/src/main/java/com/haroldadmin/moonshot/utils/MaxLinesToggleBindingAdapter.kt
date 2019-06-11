@@ -49,7 +49,6 @@ private class MaxLinesToggleClickListener(
         if (textView.maxLines > collapsedLines) {
             textView.maxLines = collapsedLines
             textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, collapsedIcon)
-
         } else {
             textView.maxLines = Int.MAX_VALUE
             textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, expandedIcon)
