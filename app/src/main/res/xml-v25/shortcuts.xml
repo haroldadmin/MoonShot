@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="launches"
-        android:enabled="true"
-        android:icon="@drawable/ic_round_history_24px"
-        android:shortcutShortLabel="@string/shortcutLaunchesShortLabel">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.haroldadmin.moonshot"
-            android:targetClass="com.haroldadmin.moonshot.MainActivity"
-            android:data="moonshot://launches"/>
-    </shortcut>
-
-    <shortcut
-        android:shortcutId="rockets"
-        android:enabled="true"
-        android:icon="@drawable/ic_round_rocket_small"
-        android:shortcutShortLabel="@string/shortcutRocketsShortLabel">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.haroldadmin.moonshot"
-            android:targetClass="com.haroldadmin.moonshot.MainActivity"
-            android:data="moonshot://rockets" />
-    </shortcut>
-
-    <shortcut
-        android:shortcutId="settings"
         android:enabled="true"
         android:icon="@drawable/ic_round_settings_24px"
+        android:shortcutId="settings"
         android:shortcutShortLabel="@string/shortcutSettingsShortLabel">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="com.haroldadmin.moonshot"
+            android:data="moonshot://settings"
             android:targetClass="com.haroldadmin.moonshot.MainActivity"
-            android:data="moonshot://settings"/>
+            android:targetPackage="com.haroldadmin.moonshot" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_round_history_24px"
+        android:shortcutId="launches"
+        android:shortcutShortLabel="@string/shortcutLaunchesShortLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="moonshot://launches"
+            android:targetClass="com.haroldadmin.moonshot.MainActivity"
+            android:targetPackage="com.haroldadmin.moonshot" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_round_rocket_small"
+        android:shortcutId="rockets"
+        android:shortcutShortLabel="@string/shortcutRocketsShortLabel">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="moonshot://rockets"
+            android:targetClass="com.haroldadmin.moonshot.MainActivity"
+            android:targetPackage="com.haroldadmin.moonshot" />
     </shortcut>
 </shortcuts>

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyController
@@ -42,7 +43,11 @@ class LaunchPadFragment : MoonShotFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
-        binding.rvLaunchPad.setController(epoxyController)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        binding.rvLaunchPad.apply {
+            setController(epoxyController)
+            layoutAnimation = animation
+        }
         return binding.root
     }
 

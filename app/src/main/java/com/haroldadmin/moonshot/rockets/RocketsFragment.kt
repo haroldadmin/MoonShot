@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
+import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.typedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
@@ -26,12 +28,12 @@ class RocketsFragment : MoonShotFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRocketsBinding.inflate(inflater, container, false)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        binding.rvRockets.apply {
+            setController(epoxyController)
+            layoutAnimation = animation
+        }
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.rvRockets.setController(epoxyController)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -5,6 +5,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.haroldadmin.moonshot.R
@@ -33,7 +34,11 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
-        binding.rvLaunches.setController(epoxyController)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        binding.rvLaunches.apply {
+            setController(epoxyController)
+            layoutAnimation = animation
+        }
         return binding.root
     }
 
