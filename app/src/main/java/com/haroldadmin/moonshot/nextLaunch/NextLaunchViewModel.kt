@@ -15,7 +15,6 @@ import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
 import com.haroldadmin.moonshot.notifications.NOTIFICATION_DATE_FORMAT
 import com.haroldadmin.moonshot.utils.format
-import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

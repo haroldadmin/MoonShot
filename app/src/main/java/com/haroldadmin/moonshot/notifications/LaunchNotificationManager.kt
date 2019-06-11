@@ -8,7 +8,6 @@ import android.content.SharedPreferences
 import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
-import com.haroldadmin.moonshot.utils.log
 
 class LaunchNotificationManager(val context: Context) {
 
