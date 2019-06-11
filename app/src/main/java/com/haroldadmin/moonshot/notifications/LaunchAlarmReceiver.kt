@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
@@ -19,12 +20,12 @@ class LaunchAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun deliverIntent(context: Context) = GlobalScope.launch {
-        withContext(Dispatchers.IO) {
-            val notification = LaunchNotificationBuilder.create(context)
-
+        try {
+            val notification = withContext(Dispatchers.IO) { LaunchNotificationBuilder.create(context) }
             NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification)
-
             cleanupSharedPrefs(context)
+        } catch (e: Exception) {
+            Log.e("LaunchAlarmReceiver", "An error occurred while delivering intent: $e")
         }
     }
 
@@ -36,6 +37,7 @@ class LaunchAlarmReceiver : BroadcastReceiver() {
             remove(KEY_LAUNCH_DATE)
             remove(KEY_LAUNCH_TIME)
             remove(KEY_LAUNCH_MISSION_PATCH)
+            remove(KEY_FLIGHT_NUMBER)
         }
     }
 }

@@ -11,6 +11,8 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDeepLinkBuilder
 import com.haroldadmin.moonshot.MainActivity
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.utils.GlideApp
@@ -18,15 +20,18 @@ import com.haroldadmin.moonshot.utils.GlideApp
 object LaunchNotificationBuilder {
     fun create(context: Context): Notification {
 
-        val intent = Intent(context, MainActivity::class.java)
-        val pendingIntent =
-            PendingIntent.getActivity(context, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
         val preferences = context.getSharedPreferences(MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
         val launchName = preferences.getString(KEY_LAUNCH_NAME, "A launch")
         val launchSite = preferences.getString(KEY_LAUNCH_SITE, "a launch site")
         val launchDate = preferences.getString(KEY_LAUNCH_DATE, "soon")
         val missionPatch = preferences.getString(KEY_LAUNCH_MISSION_PATCH, "")
+        val flightNumber = preferences.getInt(KEY_FLIGHT_NUMBER, -1)
+
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.launchDetails)
+            .setArguments(bundleOf("flightNumber" to flightNumber))
+            .createPendingIntent()
 
         val largeIcon: Bitmap = if (missionPatch.isNullOrBlank()) {
             GlideApp.with(context)

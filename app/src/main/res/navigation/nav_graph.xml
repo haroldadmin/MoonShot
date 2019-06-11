@@ -17,6 +17,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="moonshot://launches" />
     </fragment>
 
     <fragment
@@ -41,6 +44,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="moonshot://launchDetails/{flightNumber}" />
     </fragment>
 
     <fragment
@@ -73,6 +79,10 @@
     <fragment
         android:id="@+id/settings"
         android:name="com.haroldadmin.moonshot.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="Settings" >
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="moonshot://settings" />
+    </fragment>
 
 </navigation>

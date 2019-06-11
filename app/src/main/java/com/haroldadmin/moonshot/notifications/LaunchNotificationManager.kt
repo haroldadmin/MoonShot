@@ -15,7 +15,7 @@ class LaunchNotificationManager(val context: Context) {
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun scheduleNotifications() {
-        val padding = preferences.getInt(KEY_NOTIFICATION_PADDING, 10)
+        val padding = preferences.getInt(KEY_NOTIFICATION_PADDING, 30)
         val launchTime = preferences.getLong(KEY_LAUNCH_NAME, Long.MAX_VALUE)
 
         val notifyIntent = Intent(context, LaunchAlarmReceiver::class.java)

@@ -89,23 +89,25 @@ class LaunchDetailsFragment : MoonShotFragment() {
             }
             when (val stats = state.launchStats) {
                 is Resource.Success -> {
-                    itemTextHeader {
-                        id("rocket")
-                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
-                    }
-                    itemLaunchRocket {
-                        id("rocket-summary")
-                        rocketSummary(stats.data.rocket)
-                    }
-                    itemTextWithHeading {
-                        id("first-stage-summary")
-                        heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
-                        text("Cores: ${stats.data.firstStageCoreCounts}")
-                    }
-                    itemTextWithHeading {
-                        id("second-stage-summary")
-                        heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
-                        text("Payloads: ${stats.data.secondStagePayloadCounts}")
+                    if (stats.data.rocket != null) {
+                        itemTextHeader {
+                            id("rocket")
+                            header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                        }
+                        itemLaunchRocket {
+                            id("rocket-summary")
+                            rocketSummary(stats.data.rocket)
+                        }
+                        itemTextWithHeading {
+                            id("first-stage-summary")
+                            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
+                            text("Cores: ${stats.data.firstStageCoreCounts}")
+                        }
+                        itemTextWithHeading {
+                            id("second-stage-summary")
+                            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
+                            text("Payloads: ${stats.data.secondStagePayloadCounts}")
+                        }
                     }
                 }
                 is Resource.Error<LaunchStats, *> -> {

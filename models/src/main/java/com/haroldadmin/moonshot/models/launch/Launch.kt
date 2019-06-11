@@ -83,7 +83,7 @@ data class LaunchMinimal(
 
 data class LaunchStats(
     @Embedded(prefix = "rocket_")
-    val rocket: RocketSummaryMinimal,
+    val rocket: RocketSummaryMinimal?,
     @ColumnInfo(name = "core_count")
     val firstStageCoreCounts: Int,
     @ColumnInfo(name = "payload_count")

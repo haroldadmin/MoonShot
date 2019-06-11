@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.notifications.KEY_FLIGHT_NUMBER
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NAME
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_SITE
@@ -51,6 +52,7 @@ class NextLaunchViewModel(
             val preferences = context.getSharedPreferences(MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
 
             preferences.edit(commit = true) {
+                putInt(KEY_FLIGHT_NUMBER, state.nextLaunch.data.flightNumber)
                 putString(KEY_LAUNCH_NAME, state.nextLaunch.data.missionName)
                 putString(KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
                 putString(

@@ -18,7 +18,7 @@
         <SeekBarPreference
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:defaultValue="10"
+            android:defaultValue="30"
             android:key="notification-padding"
             android:max="60"
             android:summary="@string/preferencesNotificationsMinutesSummary"
