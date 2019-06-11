@@ -3,9 +3,7 @@ package com.haroldadmin.moonshot.notifications
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -13,7 +11,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
-import com.haroldadmin.moonshot.MainActivity
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.utils.GlideApp
 

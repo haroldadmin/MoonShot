@@ -3,6 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        app:key="user_interface"
+        android:title="@string/preferencesUserInterfaceCategoryTitle">
+        <ListPreference
+            app:key="theme-mode"
+            android:title="UI Theme"
+            app:icon="@drawable/ic_round_palette_24px"
+            android:defaultValue="auto"
+            android:entries="@array/theme_modes"
+            android:entryValues="@array/theme_modes_values"
+            app:summary="Change the colors of the app" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:key="notifications_category"
         app:title="@string/preferencesNotificationsCategoryTitle">
 

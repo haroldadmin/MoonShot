@@ -2,9 +2,7 @@ package com.haroldadmin.moonshot.models.launch.rocket.secondStage
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 
 @Entity(
     tableName = "second_stage_summaries"

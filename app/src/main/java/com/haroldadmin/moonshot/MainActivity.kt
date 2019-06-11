@@ -9,8 +9,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
+
+const val KEY_THEME_MODE = "theme-mode"
+
+val THEME_MAPPINGS = mapOf(
+    "light" to AppCompatDelegate.MODE_NIGHT_NO,
+    "dark" to AppCompatDelegate.MODE_NIGHT_YES,
+    "auto" to AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+)
 
 class MainActivity : MoonShotActivity() {
 
@@ -19,7 +28,8 @@ class MainActivity : MoonShotActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+
+        initUiTheme()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.navHostFragment)
@@ -38,5 +48,13 @@ class MainActivity : MoonShotActivity() {
                 }
             }
         }
+    }
+
+    private fun initUiTheme() {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val theme = preferences.getString(KEY_THEME_MODE, "auto")
+        THEME_MAPPINGS[theme]?.let { mode ->
+            AppCompatDelegate.setDefaultNightMode(mode)
+        } ?: AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 }

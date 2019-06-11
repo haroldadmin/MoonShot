@@ -26,6 +26,7 @@ val databaseModule = module {
             MoonShotDb::class.java,
             "moonshot-db"
         )
+            .fallbackToDestructiveMigration()
             .build()
     }
 

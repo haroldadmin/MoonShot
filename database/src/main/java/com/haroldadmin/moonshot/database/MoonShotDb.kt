@@ -55,7 +55,7 @@ import com.haroldadmin.moonshot.models.rocket.Rocket
         PayloadWeight::class,
         Rocket::class,
         LaunchPad::class
-    ), version = 1, exportSchema = false
+    ), version = 2, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MoonShotDb : RoomDatabase() {

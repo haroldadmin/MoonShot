@@ -3,10 +3,8 @@ package com.haroldadmin.moonshot.models.launch.rocket
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.haroldadmin.moonshot.models.launch.Launch
 
 @Entity(
     tableName = "rocket_summaries",

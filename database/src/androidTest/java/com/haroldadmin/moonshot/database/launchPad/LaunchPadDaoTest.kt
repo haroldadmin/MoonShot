@@ -19,7 +19,7 @@ internal class LaunchPadDaoTest : BaseDbTest() {
         val launchPad = LaunchPad.getSampleLanchpad()
         dao.save(launchPad)
 
-        val savedLaunchpad = dao.getLaunchPad(launchPad.site_id)
+        val savedLaunchpad = dao.getLaunchPad(launchPad.siteId)
 
         assertEquals(launchPad, savedLaunchpad)
     }
