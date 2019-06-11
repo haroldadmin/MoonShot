@@ -10,14 +10,6 @@ import com.haroldadmin.moonshot.models.launch.Launch
 
 @Entity(
     tableName = "rocket_summaries",
-    foreignKeys = [
-        ForeignKey(
-            entity = Launch::class,
-            parentColumns = ["flight_number"],
-            childColumns = ["launch_flight_number"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
     indices = [Index("launch_flight_number")]
 )
 data class RocketSummary(

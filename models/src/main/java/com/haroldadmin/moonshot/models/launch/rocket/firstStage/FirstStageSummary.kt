@@ -7,15 +7,7 @@ import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary
 
 @Entity(
-    tableName = "first_stage_summaries",
-    foreignKeys = [
-        ForeignKey(
-            entity = RocketSummary::class,
-            parentColumns = ["launch_flight_number"],
-            childColumns = ["launch_flight_number"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+    tableName = "first_stage_summaries"
 )
 data class FirstStageSummary(
     @PrimaryKey

@@ -8,14 +8,6 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 
 @Entity(
     tableName = "payloads",
-    foreignKeys = [
-        ForeignKey(
-            entity = SecondStageSummary::class,
-            parentColumns = ["launch_flight_number"],
-            childColumns = ["launch_flight_number"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
     primaryKeys = ["launch_flight_number", "payload_id"]
 )
 data class Payload(

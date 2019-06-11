@@ -7,13 +7,6 @@ import androidx.room.Index
 
 @Entity(
     tableName = "core_summaries",
-    foreignKeys = [
-        ForeignKey(
-            entity = FirstStageSummary::class,
-            parentColumns = ["launch_flight_number"],
-            childColumns = ["launch_flight_number"]
-        )
-    ],
     primaryKeys = ["core_serial", "launch_flight_number"],
     indices = [Index("launch_flight_number")]
 )
