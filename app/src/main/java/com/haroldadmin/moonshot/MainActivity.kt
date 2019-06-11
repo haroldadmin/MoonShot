@@ -19,7 +19,6 @@ class MainActivity : MoonShotActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -39,6 +38,5 @@ class MainActivity : MoonShotActivity() {
                 }
             }
         }
-//        )
     }
 }

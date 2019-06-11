@@ -43,4 +43,7 @@
     <string name="preferencesNotificationsSwitchSummary">Get notifications before the next launch takes place</string>
     <string name="preferencesNotificationsMinutesSummary">How many minutes before the launch should we remind you?</string>
     <string name="preferencesNotificationsMinutesTitle">Minutes before launch</string>
+    <string name="shortcutLaunchesShortLabel">Launches</string>
+    <string name="shortcutRocketsShortLabel">Rockets</string>
+    <string name="shortcutSettingsShortLabel">Settings</string>
 </resources>

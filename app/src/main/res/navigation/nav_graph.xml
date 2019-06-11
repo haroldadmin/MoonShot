@@ -18,7 +18,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <deepLink
-            android:id="@+id/deepLink"
+            android:id="@+id/launchesDeeplink"
             app:uri="moonshot://launches" />
     </fragment>
 
@@ -26,7 +26,11 @@
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
         android:label="Rockets"
-        tools:layout="@layout/fragment_rockets" />
+        tools:layout="@layout/fragment_rockets">
+        <deepLink
+            android:id="@+id/rocketsDeeplink"
+            app:uri="moonshot://rockets" />
+    </fragment>
 
     <fragment
         android:id="@+id/launchDetails"
@@ -45,7 +49,7 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <deepLink
-            android:id="@+id/deepLink3"
+            android:id="@+id/launchDetailsDeeplink"
             app:uri="moonshot://launchDetails/{flightNumber}" />
     </fragment>
 
@@ -64,6 +68,9 @@
         <action
             android:id="@+id/launchPadDetails"
             app:destination="@id/launchPadFragment" />
+        <deepLink
+            android:id="@+id/nextLaunchDeeplink"
+            app:uri="moonshot://nextLaunch" />
     </fragment>
 
     <fragment
@@ -74,14 +81,17 @@
             android:name="siteId"
             app:argType="string"
             app:nullable="false" />
+        <deepLink
+            android:id="@+id/launchPadDeeplink"
+            app:uri="moonshot://launchpad/{siteId}" />
     </fragment>
 
     <fragment
         android:id="@+id/settings"
         android:name="com.haroldadmin.moonshot.settings.SettingsFragment"
-        android:label="Settings" >
+        android:label="Settings">
         <deepLink
-            android:id="@+id/deepLink2"
+            android:id="@+id/settingsDeeplink"
             app:uri="moonshot://settings" />
     </fragment>
 
