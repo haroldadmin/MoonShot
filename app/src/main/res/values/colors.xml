@@ -14,6 +14,9 @@
     <color name="colorOnPrimaryMediumEmp">#99FFFFFF</color>
     <color name="colorOnPrimaryLowEmp">#60FFFFFF</color>
 
+    <color name="colorPrimaryMed">#BF212121</color>
+    <color name="colorPrimaryLow">#60212121</color>
+
     <color name="colorSecondary">#1565C0</color>
     <color name="colorSecondaryVariant">#0D47A1</color>
     <color name="colorOnSecondaryHighEmp">#FFFFFF</color>

@@ -10,7 +10,8 @@
                 R.layout.item_launch_picture,
                 R.layout.item_launch_detail,
                 R.layout.item_map_card,
-                R.layout.item_text_header
+                R.layout.item_text_header,
+                R.layout.item_youtube_link
         }
 )
 package com.haroldadmin.moonshot;

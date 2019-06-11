@@ -1,5 +1,7 @@
 package com.haroldadmin.moonshot.launchDetails
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -27,6 +29,7 @@ import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
+import com.haroldadmin.moonshot.itemYoutubeLink
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
@@ -188,6 +191,20 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 id("launch-details")
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
+            }
+            if (launch.youtubeKey != null) {
+                itemTextHeader {
+                    id("links")
+                    header(getString(R.string.launchDetailsFragmentLinksHeader))
+                }
+                itemYoutubeLink {
+                    id("youtube")
+                    thumbnailUrl(launch.youtubeKey!!.youtubeThumbnail())
+                    onYoutubeClick { _ ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(launch.youtubeKey!!.youtubeVideo()))
+                        startActivity(intent)
+                    }
+                }
             }
         }
     }

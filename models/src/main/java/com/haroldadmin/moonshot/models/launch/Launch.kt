@@ -75,7 +75,9 @@ data class LaunchMinimal(
     @ColumnInfo(name = "siteNameLong")
     val siteNameLong: String?,
     @ColumnInfo(name = "siteId")
-    val siteId: String?
+    val siteId: String?,
+    @ColumnInfo(name = "youtubeKey")
+    val youtubeKey: String?
 ) {
     @Ignore
     val launchYear: String = SimpleDateFormat("YYYY").format(launchDate)

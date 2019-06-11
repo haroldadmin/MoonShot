@@ -46,4 +46,5 @@
     <string name="shortcutLaunchesShortLabel">Launches</string>
     <string name="shortcutRocketsShortLabel">Rockets</string>
     <string name="shortcutSettingsShortLabel">Settings</string>
+    <string name="launchDetailsFragmentLinksHeader">Links</string>
 </resources>

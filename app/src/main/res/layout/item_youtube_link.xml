@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="thumbnailUrl"
+            type="String" />
+
+        <variable
+            name="onYoutubeClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/marginMedium"
+        android:onClick="@{onYoutubeClick}"
+        android:foreground="?attr/selectableItemBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                glideImage="@{thumbnailUrl}"
+                glideImageError="@{@drawable/ic_round_ondemand_video_24px}"
+                glideImageFallback="@{@drawable/ic_round_ondemand_video_24px}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foreground="@drawable/image_card_overlay"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginBottom="@dimen/marginLarge"
+                android:layout_marginEnd="@dimen/marginLarge"
+                android:text="YouTube"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="YouTube" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
