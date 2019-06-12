@@ -19,4 +19,3 @@ const val KEY_LAUNCH_TIME = "launch-time"
 const val KEY_LAUNCH_MISSION_PATCH = "launch-mission-patch"
 const val KEY_FLIGHT_NUMBER = "launch-flight-number"
 
-const val NOTIFICATION_DATE_FORMAT = "hh:mm a, d MMM"

@@ -14,7 +14,7 @@ import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_DATE
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_TIME
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
-import com.haroldadmin.moonshot.notifications.NOTIFICATION_DATE_FORMAT
+import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +57,9 @@ class NextLaunchViewModel(
                 putString(KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
                 putString(
                     KEY_LAUNCH_DATE,
-                    state.nextLaunch.data.launchDate?.format(context.resources.configuration, NOTIFICATION_DATE_FORMAT)
+                    state.nextLaunch.data.launchDate?.format(context.resources.configuration,
+                        LONG_DATE_FORMAT
+                    )
                 )
                 state.nextLaunch.data.launchDate?.let {
                     putLong(KEY_LAUNCH_TIME, it.time)

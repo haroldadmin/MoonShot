@@ -20,6 +20,7 @@ import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.launch
@@ -111,7 +112,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 id("launch-date")
                 detailHeader(getString(R.string.launchDetailLaunchDateHeader))
                 detailName(
-                    launch.launchDate?.format(resources.configuration)
+                    launch.launchDate?.format(resources.configuration, LONG_DATE_FORMAT)
                         ?: getString(R.string.nextLaunchFragmentNoLaunchDateText)
                 )
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))

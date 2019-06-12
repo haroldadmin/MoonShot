@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -80,7 +81,7 @@ data class LaunchMinimal(
     val youtubeKey: String?
 ) {
     @Ignore
-    val launchYear: String = SimpleDateFormat("YYYY").format(launchDate)
+    val launchYear: String = SimpleDateFormat(SHORT_DATE_FORMAT).format(launchDate)
 }
 
 data class LaunchStats(
