@@ -70,7 +70,7 @@ class MainActivity : MoonShotActivity() {
 
     private fun initCrashReporting(preferences: SharedPreferences) {
         val crashReportingEnabled = preferences.getBoolean(KEY_CRASH_REPORTS, true)
-        if (crashReportingEnabled && BuildConfig.DEBUG) {
+        if (crashReportingEnabled && !BuildConfig.DEBUG) {
             Fabric.with(this, Crashlytics())
         }
     }
