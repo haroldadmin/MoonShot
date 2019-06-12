@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -10,10 +11,14 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.crashlytics.android.Crashlytics
+import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
+import io.fabric.sdk.android.Fabric
 
 const val KEY_THEME_MODE = "theme-mode"
+const val KEY_CRASH_REPORTS = "crash-reports"
 
 val THEME_MAPPINGS = mapOf(
     "light" to AppCompatDelegate.MODE_NIGHT_NO,
@@ -29,7 +34,9 @@ class MainActivity : MoonShotActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initUiTheme()
+        PreferenceManager.getDefaultSharedPreferences(this).also {
+            initPreferences(it)
+        }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         navController = findNavController(R.id.navHostFragment)
@@ -50,11 +57,23 @@ class MainActivity : MoonShotActivity() {
         }
     }
 
-    private fun initUiTheme() {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val theme = preferences.getString(KEY_THEME_MODE, "auto")
+    private fun initPreferences(preferences: SharedPreferences) {
+        initTheme(preferences)
+        initCrashReporting(preferences)
+    }
+
+    private fun initTheme(preferences: SharedPreferences) {
+        val theme = preferences.getString(KEY_THEME_MODE, "auto") ?: return
         THEME_MAPPINGS[theme]?.let { mode ->
             AppCompatDelegate.setDefaultNightMode(mode)
         } ?: AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+    }
+
+    private fun initCrashReporting(preferences: SharedPreferences) {
+        val crashReportingEnabled = preferences.getBoolean(KEY_CRASH_REPORTS, true)
+        if (crashReportingEnabled && BuildConfig.DEBUG) {
+            Fabric.with(this, Crashlytics())
+        }
     }
 }

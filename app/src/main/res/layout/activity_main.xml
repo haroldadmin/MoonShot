@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            android:theme="@style/MoonShot.Widget.Toolbar">
+            android:theme="@style/MoonShot.Widget.Toolbar"
+            >
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mainToolbar"

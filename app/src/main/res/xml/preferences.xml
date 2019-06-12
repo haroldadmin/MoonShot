@@ -41,4 +41,18 @@
             app:showSeekBarValue="true"
             android:dependency="launch-notifications" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="Privacy"
+        android:title="@string/preferencesPrivacyCategoryTitle">
+
+        <SwitchPreferenceCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            app:title="Crash Reporting"
+            app:summary="@string/preferencesCrashReportingSummary"
+            app:key="crash-reports"
+            app:icon="@drawable/ic_round_bug_report_24px" />
+    </PreferenceCategory>
 </PreferenceScreen>

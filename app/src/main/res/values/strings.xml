@@ -48,4 +48,7 @@
     <string name="shortcutSettingsShortLabel">Settings</string>
     <string name="launchDetailsFragmentLinksHeader">Links</string>
     <string name="preferencesUserInterfaceCategoryTitle">User Interface</string>
+    <string name="preferencesPrivacyCategoryTitle">Privacy</string>
+    <string name="preferencesCrashReportingSummary">Enable automatic crash reporting to help us improve the application</string>
+    <string name="preferencesCrashReportRestartMessage">Changing crash reports setting requires a restart</string>
 </resources>

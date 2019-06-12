@@ -57,4 +57,7 @@ object Libs {
     const val kotlinTest = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlinTest}"
     const val androidxTestCore = "androidx.arch.core:core-testing:${Versions.androidxTestCore}"
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
+
+    const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
+    const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 }

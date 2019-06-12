@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.snackbar.Snackbar
+import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.THEME_MAPPINGS
@@ -34,6 +36,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
             } else {
                 false
             }
+        }
+
+        findPreference<SwitchPreferenceCompat>(KEY_CRASH_REPORTS)?.setOnPreferenceChangeListener { _, newValue ->
+            view?.let { rootView ->
+                Snackbar.make(rootView, R.string.preferencesCrashReportRestartMessage, Snackbar.LENGTH_SHORT)
+                    .setAction("Restart") {
+                        activity?.recreate()
+                    }
+                    .show()
+            }
+            true
         }
     }
 }

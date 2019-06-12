@@ -41,4 +41,7 @@ object Versions {
     const val kotlinTest = "3.3.2"
     const val androidxTestCore = "2.0.0-rc01"
     const val mockk = "1.9.3"
+
+    const val firebaseCore = "16.0.9"
+    const val crashlytics = "2.10.1"
 }
