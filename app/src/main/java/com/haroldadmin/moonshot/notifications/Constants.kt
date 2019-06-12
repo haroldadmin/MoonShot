@@ -18,4 +18,3 @@ const val KEY_LAUNCH_DATE = "launch-date"
 const val KEY_LAUNCH_TIME = "launch-time"
 const val KEY_LAUNCH_MISSION_PATCH = "launch-mission-patch"
 const val KEY_FLIGHT_NUMBER = "launch-flight-number"
-

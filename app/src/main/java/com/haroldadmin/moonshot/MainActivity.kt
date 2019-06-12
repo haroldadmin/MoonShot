@@ -12,7 +12,6 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
-import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
 import io.fabric.sdk.android.Fabric
@@ -67,7 +66,6 @@ class MainActivity : MoonShotActivity() {
         THEME_MAPPINGS[theme]?.let { mode ->
             AppCompatDelegate.setDefaultNightMode(mode)
         } ?: AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-
     }
 
     private fun initCrashReporting(preferences: SharedPreferences) {
