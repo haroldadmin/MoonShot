@@ -1,7 +1,9 @@
 package com.haroldadmin.moonshot.settings
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
@@ -20,6 +22,11 @@ import org.koin.android.ext.android.inject
 class SettingsFragment : PreferenceFragmentCompat() {
 
     private val launchNotificationsManager by inject<LaunchNotificationManager>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSurface))
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
