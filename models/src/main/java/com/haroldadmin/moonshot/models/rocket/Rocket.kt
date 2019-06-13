@@ -153,7 +153,6 @@ data class Rocket(
     }
 }
 
-
 data class RocketMinimal(
     @ColumnInfo(name = "rocket_id")
     val rocketId: String,

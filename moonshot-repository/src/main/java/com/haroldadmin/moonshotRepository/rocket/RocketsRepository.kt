@@ -27,7 +27,7 @@ class RocketsRepository(
             emit(Resource.Success(dbRockets))
         }
 
-        when (val networkResponse = executeWithRetry { rocketsService.getAllRockets().await() } ) {
+        when (val networkResponse = executeWithRetry { rocketsService.getAllRockets().await() }) {
             is NetworkResponse.Success -> {
                 val rockets = networkResponse.body.map { it.toDbRocket() }
                 rocketsDao.saveAll(rockets)
@@ -60,7 +60,6 @@ class RocketsRepository(
         }
     }
         .flowOn(Dispatchers.IO)
-
 
     suspend fun getAllRockets(): Resource<List<Rocket>> = withContext(Dispatchers.IO) {
 
