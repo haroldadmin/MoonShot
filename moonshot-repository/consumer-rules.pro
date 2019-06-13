@@ -58,4 +58,24 @@
 }
 
 -keep class kotlin.reflect.jvm.internal.** { *; }
+
+-keepclasseswithmembers class * {
+    @com.squareup.moshi.* <methods>;
+}
+-dontwarn org.jetbrains.annotations.**
+
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
+}
+
+-keepclassmembers class * {
+    @com.squareup.moshi.FromJson <methods>;
+    @com.squareup.moshi.ToJson <methods>;
+}
+
+-keepnames @kotlin.Metadata class com.haroldadmin.spacex_api_wrapper.**
+-keep class com.haroldadmin.spacex_api_wrapper.** { *; }
+-keepclassmembers class com.haroldadmin.spacex_api_wrapper.** { *; }
+
 # ------------------------------------------------------------------------------------
