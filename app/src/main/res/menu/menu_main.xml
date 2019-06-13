@@ -5,4 +5,9 @@
         android:id="@+id/settings"
         android:title="Settings"
         android:icon="@drawable/ic_round_settings_24px"/>
+
+    <item
+        android:id="@+id/about"
+        android:title="About"
+        android:icon="@drawable/ic_round_bubble_chart_24px"/>
 </menu>

@@ -58,4 +58,10 @@
     <string name="rocketDetailsFragmentRocketDetailsErrorMessage">Error fetching rocket details</string>
     <string name="rocketDetailsFragmentRocketLoadingMessage">Loading rocket details</string>
     <string name="rocketDetailsFragmentLaunchesHeader">Launches</string>
+    <string name="aboutApp">MoonShot helps you keep up with SpaceX launches. If you like the project, please consider leaving us a great review on the app store.</string>
+    <string name="aboutFragmentRateMessage">Rate the app to show your support!</string>
+    <string name="aboutFragmentAuthorName">Kshitij Chauhan</string>
+    <string name="aboutFragmentRateHeader">Rate</string>
+    <string name="aboutFragmentAuthorHeader">Author</string>
+    <string name="aboutFragmentRepositoryHeader">Repository</string>
 </resources>

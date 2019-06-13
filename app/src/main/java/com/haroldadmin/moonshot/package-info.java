@@ -12,7 +12,9 @@
                 R.layout.item_map_card,
                 R.layout.item_text_header,
                 R.layout.item_youtube_link,
-                R.layout.item_internet_link
+                R.layout.item_internet_link,
+                R.layout.item_about_app,
+                R.layout.item_about_detail
         }
 )
 package com.haroldadmin.moonshot;
