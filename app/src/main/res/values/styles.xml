@@ -67,10 +67,14 @@
         <item name="cardElevation">4dp</item>
     </style>
 
-    <style name="TextAppearance.MoonShot.Error.Main" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.MoonShot.Error.Main" parent="TextAppearance.MoonShot.Headline6">
         <item name="android:textColor">?attr/colorOnError</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="TextAppearance.MoonShot.Loading.Main" parent="TextAppearance.MoonShot.Headline6">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
 
     <style name="Widget.MoonShot.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">4dp</item>

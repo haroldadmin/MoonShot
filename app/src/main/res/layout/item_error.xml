@@ -12,23 +12,30 @@
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.MoonShot.Error.Card"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginMedium">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/errorMessage"
-            asyncText="@{error}"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/marginLarge"
-            android:drawableStart="@drawable/ic_rocket"
-            android:drawablePadding="@dimen/marginMedium"
-            android:drawableTint="@color/colorOnSurfaceHighEmp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MoonShot.Error.Main"
-            tools:text="Failed to fetch resource" />
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/marginLarge">
 
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_margin="@dimen/marginLarge"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_round_rocket_small"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/errorMessage"
+                asyncText="@{error}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="@style/TextAppearance.MoonShot.Error.Main"
+                tools:text="Failed to fetch resource" />
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
