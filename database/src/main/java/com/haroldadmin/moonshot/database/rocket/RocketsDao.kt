@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import com.haroldadmin.moonshot.database.BaseDao
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
+import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.models.rocket.RocketWithPayloadWeights
 
 @Dao
@@ -23,6 +24,21 @@ abstract class RocketsDao : BaseDao<Rocket> {
     @Query("SELECT * FROM rockets WHERE rocket_id = :rocketId")
     @Transaction
     abstract suspend fun getRocketWithPayloadWeights(rocketId: String): RocketWithPayloadWeights
+
+    @Query("""
+        SELECT rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description
+        FROM rockets
+        ORDER BY rocket_name
+        DESC
+    """)
+    abstract suspend fun getAllRocketsMinimal(): List<RocketMinimal>
+
+    @Query("""
+        SELECT rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description
+        FROM rockets
+        WHERE rocket_id = :rocketId
+    """)
+    abstract suspend fun getRocketMinimal(rocketId: String): RocketMinimal?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>)

@@ -4,65 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="rocket"
-            type="com.haroldadmin.moonshot.models.rocket.Rocket" />
+            type="com.haroldadmin.moonshot.models.rocket.RocketMinimal" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MoonShot.Launch.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/marginMedium">
+        android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginEnd="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginSmall"
+        android:layout_marginBottom="@dimen/marginSmall">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="@dimen/marginMedium"
-            android:layout_marginEnd="@dimen/marginMedium"
-            android:src="@drawable/ic_rocket"
-            android:tint="?attr/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="@+id/name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/name" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginLarge"
-            android:layout_marginEnd="@dimen/marginMedium"
-            android:layout_marginTop="@dimen/marginMedium"
-            android:layout_marginBottom="@dimen/marginMedium"
-            android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:asyncText="@{rocket.rocketName}"
-            tools:text="Falcon 1" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rocketHeader"
+                android:text="Rocket"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginTop="@dimen/marginLarge"
+                android:layout_marginEnd="@dimen/marginLarge"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="0dp"
-            android:layout_height="0.5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
-            android:background="?attr/colorSecondary"
-            android:layout_margin="@dimen/marginMedium"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rocketName"
+                asyncText="@{rocket.rocketName}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginEnd="@dimen/marginSmall"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
+                app:layout_constraintEnd_toStartOf="@id/missionPatch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rocketHeader"
+                tools:text="Falcon 9" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="@dimen/marginMedium"
-            android:textAppearance="?attr/textAppearanceBody2"
-            app:asyncText="@{rocket.description}"
-            tools:text="@tools:sample/lorem/random"/>
+            <ImageView
+                android:id="@+id/missionPatch"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="@dimen/marginSmall"
+                android:layout_marginEnd="@dimen/marginLarge"
+                app:layout_constraintBottom_toBottomOf="@id/rocketName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/rocketName"
+                app:layout_constraintTop_toTopOf="@id/rocketName"
+                android:src="@drawable/ic_rocket" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/rocketStatus"
+                asyncText="@{rocket.statusText}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginTop="@dimen/marginSmall"
+                android:layout_marginEnd="@dimen/marginLarge"
+                android:layout_marginBottom="@dimen/marginLarge"
+                android:textAppearance="@style/TextAppearance.MoonShot.Launch.Subtitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rocketName"
+                tools:text="Active" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

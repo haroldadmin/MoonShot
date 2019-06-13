@@ -14,7 +14,7 @@ import com.haroldadmin.moonshot.databinding.FragmentRocketsBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemRocket
-import com.haroldadmin.moonshot.models.rocket.Rocket
+import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.vector.withState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -57,7 +57,7 @@ class RocketsFragment : MoonShotFragment() {
                         }
                     }
                 }
-                is Resource.Error<List<Rocket>, *> -> {
+                is Resource.Error<List<RocketMinimal>, *> -> {
                     itemError {
                         id("error-rockets")
                         error("Error loading rockets")

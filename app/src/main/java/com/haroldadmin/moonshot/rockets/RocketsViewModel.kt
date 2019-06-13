@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.rockets
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RocketsViewModel(
@@ -15,6 +16,7 @@ class RocketsViewModel(
     }
 
     suspend fun getAllRockets() {
-        executeAsResource({ copy(rockets = it) }) { repository.getAllRockets() }
+        repository.flowAllRocketsMinimal()
+            .collect { setState { copy(rockets = it) } }
     }
 }

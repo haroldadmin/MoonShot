@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.models.rocket
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.common.Length
 import com.haroldadmin.moonshot.models.common.Mass
@@ -150,4 +151,25 @@ data class Rocket(
             )
         }
     }
+}
+
+
+data class RocketMinimal(
+    @ColumnInfo(name = "rocket_id")
+    val rocketId: String,
+    @ColumnInfo(name = "rocket_name")
+    val rocketName: String,
+    @ColumnInfo(name = "rocket_type")
+    val rocketType: String,
+    @ColumnInfo(name = "active")
+    val active: Boolean,
+    @ColumnInfo(name = "cost_per_launch")
+    val costPerLaunch: Long,
+    @ColumnInfo(name = "success_rate")
+    val successRatePercentage: Double,
+    @ColumnInfo(name = "description")
+    val description: String
+) {
+    @Ignore
+    val statusText = if (active) "Active" else "Inactive"
 }
