@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.haroldadmin.moonshot.database.BaseDao
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
@@ -39,6 +40,18 @@ abstract class RocketsDao : BaseDao<Rocket> {
         WHERE rocket_id = :rocketId
     """)
     abstract suspend fun getRocketMinimal(rocketId: String): RocketMinimal?
+
+    @Query("""
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+        FROM launches
+        WHERE flight_number IN
+        (SELECT launch_flight_number
+        FROM rocket_summaries
+        WHERE rocket_id = :rocketId) AND launch_date_utc <= :timestamp
+        ORDER BY launch_date_utc DESC
+        LIMIT 10
+    """)
+    abstract suspend fun getLaunchesForRocket(rocketId: String, timestamp: Long): List<LaunchMinimal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>)

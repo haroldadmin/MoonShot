@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.typedEpoxyController
@@ -54,6 +55,11 @@ class RocketsFragment : MoonShotFragment() {
                         itemRocket {
                             id(rocket.rocketId)
                             rocket(rocket)
+                            onRocketClick { _ ->
+                                RocketsFragmentDirections.rocketDetails(rocket.rocketId).also { action ->
+                                    findNavController().navigate(action)
+                                }
+                            }
                         }
                     }
                 }

@@ -5,6 +5,7 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.cnradapter.invoke
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshotRepository.mappers.toDbPayloadWeight
@@ -60,6 +61,12 @@ class RocketsRepository(
         }
     }
         .flowOn(Dispatchers.IO)
+
+    suspend fun flowLaunchesForRocket(rocketId: String, timestamp: Long) = flow<Resource<List<LaunchMinimal>>> {
+        emit(Resource.Loading)
+        val launches = rocketsDao.getLaunchesForRocket(rocketId, timestamp)
+        emit(Resource.Success(launches))
+    }
 
     suspend fun getAllRockets(): Resource<List<Rocket>> = withContext(Dispatchers.IO) {
 

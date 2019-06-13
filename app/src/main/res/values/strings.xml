@@ -51,4 +51,11 @@
     <string name="preferencesPrivacyCategoryTitle">Privacy</string>
     <string name="preferencesCrashReportingSummary">Enable automatic crash reporting to help us improve the application</string>
     <string name="preferencesCrashReportRestartMessage">Changing crash reports setting requires a restart</string>
+    <string name="itemRocketHeader">Rocket</string>
+    <string name="rocketDetailsFragmentRocketDescriptionHeader">Description</string>
+    <string name="rocketDetailsFragmentCostPerLaunchHeader">Cost Per Launch</string>
+    <string name="rocketDetailsFragmentSuccessPercentageHeader">Success Percentage</string>
+    <string name="rocketDetailsFragmentRocketDetailsErrorMessage">Error fetching rocket details</string>
+    <string name="rocketDetailsFragmentRocketLoadingMessage">Loading rocket details</string>
+    <string name="rocketDetailsFragmentLaunchesHeader">Launches</string>
 </resources>

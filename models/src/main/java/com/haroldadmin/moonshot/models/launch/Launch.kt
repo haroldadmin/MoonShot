@@ -112,7 +112,9 @@ data class RocketSummaryMinimal(
     @ColumnInfo(name = "name")
     val rocketName: String,
     @ColumnInfo(name = "type")
-    val rocketType: String
+    val rocketType: String,
+    @ColumnInfo(name = "id")
+    val rocketId: String
 )
 
 data class LaunchPictures(

@@ -55,7 +55,7 @@ abstract class LaunchDao : BaseDao<Launch> {
     abstract suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal?
 
     @Query("""
-        SELECT rocket_summaries.rocket_name, rocket_summaries.rocket_type, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count
+        SELECT rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count
         FROM rocket_summaries
         INNER JOIN core_summaries ON rocket_summaries.launch_flight_number = core_summaries.launch_flight_number
         INNER JOIN payloads ON rocket_summaries.launch_flight_number = payloads.launch_flight_number

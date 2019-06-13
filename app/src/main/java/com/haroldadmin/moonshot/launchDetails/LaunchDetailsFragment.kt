@@ -106,6 +106,11 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         itemLaunchRocket {
                             id("rocket-summary")
                             rocketSummary(stats.data.rocket)
+                            onRocketClick { _ ->
+                                LaunchDetailsFragmentDirections.launchRocketDetails(stats.data.rocket!!.rocketId).also { action ->
+                                    findNavController().navigate(action)
+                                }
+                            }
                         }
                         itemTextWithHeading {
                             id("first-stage-summary")
