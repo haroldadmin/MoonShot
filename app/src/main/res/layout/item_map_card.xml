@@ -15,7 +15,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/cardHeightDefault"
         android:layout_margin="@dimen/marginMedium"
         android:foreground="?attr/selectableItemBackground"
         android:onClick="@{onMapClick}">

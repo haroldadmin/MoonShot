@@ -78,10 +78,25 @@ data class LaunchMinimal(
     @ColumnInfo(name = "siteId")
     val siteId: String?,
     @ColumnInfo(name = "youtubeKey")
-    val youtubeKey: String?
+    val youtubeKey: String?,
+    @ColumnInfo(name = "redditCampaign")
+    val redditCampaign: String?,
+    @ColumnInfo(name = "redditLaunch")
+    val redditLaunch: String?,
+    @ColumnInfo(name = "redditMedia")
+    val redditMedia: String?,
+    @ColumnInfo(name = "wikipedia")
+    val wikipedia: String?
 ) {
     @Ignore
     val launchYear: String = SimpleDateFormat(SHORT_DATE_FORMAT).format(launchDate)
+    @Ignore
+    val links = mapOf(
+        "YouTube" to youtubeKey,
+        "Reddit Campaign" to redditCampaign,
+        "Reddit Launch" to redditLaunch,
+        "Reddit Media" to redditMedia,
+        "Wikipedia" to wikipedia)
 }
 
 data class LaunchStats(

@@ -38,7 +38,7 @@ abstract class LaunchDao : BaseDao<Launch> {
     abstract suspend fun getPastLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
 
     @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
         WHERE launch_date_utc < :maxTimeStamp
         ORDER BY launch_date_utc DESC
@@ -47,7 +47,7 @@ abstract class LaunchDao : BaseDao<Launch> {
     abstract suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, limit: Int): List<LaunchMinimal>
 
     @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
         WHERE launch_date_utc >= :currentTime
         LIMIT 1
@@ -63,7 +63,7 @@ abstract class LaunchDao : BaseDao<Launch> {
     abstract suspend fun getLaunchStats(flightNumber: Int): LaunchStats?
 
     @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
         WHERE flight_number = :flightNumber
     """)

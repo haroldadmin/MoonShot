@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="header"
             type="String" />
@@ -22,19 +23,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/marginMedium"
+        android:layout_marginTop="@dimen/marginSmall"
         android:layout_marginEnd="@dimen/marginMedium"
         android:layout_marginBottom="@dimen/marginSmall"
-        android:layout_marginTop="@dimen/marginSmall"
-        android:onClick="@{onLaunchClick}"
-        android:transitionName="@{launch.missionName}">
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{onLaunchClick}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground">
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/launchHeader"
+                asyncText="@{ header ?? @string/launchCardHeaderText}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginLarge"
@@ -44,8 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Launch"
-                asyncText="@{ header ?? @string/launchCardHeaderText}" />
+                tools:text="Launch" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/launchName"
@@ -62,20 +62,20 @@
 
             <ImageView
                 android:id="@+id/missionPatch"
-                android:contentDescription="@string/headerLaunchMissionPatchContentDescription"
+                glideCircleCrop="true"
                 glideImage="@{launch.missionPatch}"
                 glideImageError="@{@drawable/ic_rocket}"
                 glideImageFallback="@{@drawable/ic_rocket}"
-                glideCircleCrop="true"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="@dimen/marginSmall"
                 android:layout_marginEnd="@dimen/marginLarge"
+                android:contentDescription="@string/headerLaunchMissionPatchContentDescription"
                 app:layout_constraintBottom_toBottomOf="@id/launchName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/launchName"
                 app:layout_constraintTop_toTopOf="@id/launchName"
-                tools:src="@drawable/ic_rocket"/>
+                tools:src="@drawable/ic_rocket" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/launchDate"

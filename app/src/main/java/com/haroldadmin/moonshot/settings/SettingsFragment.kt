@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
@@ -11,7 +12,9 @@ import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.THEME_MAPPINGS
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
+import com.haroldadmin.moonshot.notifications.KEY_NOTIFICATION_PADDING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
+import com.haroldadmin.moonshot.utils.log
 import org.koin.android.ext.android.inject
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -23,8 +26,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<SwitchPreferenceCompat>(KEY_LAUNCH_NOTIFICATIONS)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue == false) {
+                log("Disabling launch notifications")
                 launchNotificationsManager.disableNotifications()
             }
+            true
+        }
+
+        findPreference<SeekBarPreference>(KEY_NOTIFICATION_PADDING)?.setOnPreferenceChangeListener { _, newValue ->
+            if (newValue !is Int) return@setOnPreferenceChangeListener false
+            log("Setting launch notification padding to $newValue minutes")
+            launchNotificationsManager.scheduleNotifications(newValue)
             true
         }
 

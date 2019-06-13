@@ -80,3 +80,10 @@ inline fun <T> CarouselModelBuilder.withModelsFrom(
 ) {
     models(items.map { modelBuilder(it) })
 }
+
+inline fun <T, R> CarouselModelBuilder.withModelsFrom(
+    items: Map<T, R>,
+    modelBuilder: (T, R) -> EpoxyModel<*>
+) {
+    models(items.map { (key, value) -> modelBuilder(key, value) })
+}

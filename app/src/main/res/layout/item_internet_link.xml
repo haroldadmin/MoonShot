@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onLinkClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="backgroundGradient"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MoonShot.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardHeightDefault"
+        android:layout_margin="@dimen/marginMedium"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{onLinkClick}">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{backgroundGradient}"
+            tools:background="@drawable/gradient_wikipedia">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextAppearance.MoonShot.Launch.Headline"
+                asyncText="@{title}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginLarge"
+                android:layout_marginBottom="@dimen/marginLarge"
+                android:layout_gravity="bottom|start"
+                tools:text="Wikipedia" />
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

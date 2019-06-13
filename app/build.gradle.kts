@@ -30,7 +30,7 @@ android {
                 val MAPQUEST_API_KEY: String by project
                 buildConfigField("String", "MapQuestApiKey", MAPQUEST_API_KEY)
             } else {
-                buildConfigField("String", "MapQuestApiKey", "mock-key")
+                buildConfigField("String", "MapQuestApiKey", "\"mock-key\"")
             }
         }
     }

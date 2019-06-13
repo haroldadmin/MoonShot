@@ -14,7 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
+import com.haroldadmin.moonshot.ItemInternetLinkBindingModel_
 import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
+import com.haroldadmin.moonshot.ItemYoutubeLinkBindingModel_
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -29,7 +31,6 @@ import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
-import com.haroldadmin.moonshot.itemYoutubeLink
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
@@ -192,17 +193,59 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
             }
-            if (launch.youtubeKey != null) {
-                itemTextHeader {
-                    id("links")
-                    header(getString(R.string.launchDetailsFragmentLinksHeader))
+
+            launch
+                .links
+                .filterValues { !it.isNullOrBlank() }
+                .takeIf { it.isNotEmpty() }
+                ?.let { map ->
+                    buildLinks(map as Map<String, String>, this)
                 }
-                itemYoutubeLink {
-                    id("youtube")
-                    thumbnailUrl(launch.youtubeKey!!.youtubeThumbnail())
-                    onYoutubeClick { _ ->
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(launch.youtubeKey!!.youtubeVideo()))
-                        startActivity(intent)
+        }
+    }
+
+    private fun buildLinks(links: Map<String, String>, controller: EpoxyController) = with(controller) {
+        itemTextHeader {
+            id("links")
+            header(getString(R.string.launchDetailsFragmentLinksHeader))
+        }
+
+        carousel {
+            id("launch-links")
+            withModelsFrom(links) { name, link ->
+                when {
+                    name.contains("YouTube") -> {
+                        ItemYoutubeLinkBindingModel_()
+                            .id(link)
+                            .thumbnailUrl(link.youtubeThumbnail())
+                            .onYoutubeClick { _ ->
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(link.youtubeVideo())
+                                ).also { startActivity(it) }
+                            }
+                    }
+                    name.contains("Reddit") -> {
+                        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.gradient_reddit)
+                        ItemInternetLinkBindingModel_()
+                            .id(link)
+                            .title(name)
+                            .backgroundGradient(drawable)
+                            .onLinkClick { _ ->
+                                Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                                    .also { startActivity(it) }
+                            }
+                    }
+                    else -> {
+                        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.gradient_wikipedia)
+                        ItemInternetLinkBindingModel_()
+                            .id(link)
+                            .title(name)
+                            .backgroundGradient(drawable)
+                            .onLinkClick { _ ->
+                                Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                                    .also { startActivity(it) }
+                            }
                     }
                 }
             }
