@@ -2,14 +2,13 @@
 <resources>
     <color name="colorSurface">#263238</color>
     <color name="colorSurfaceLight">#455A64</color>
-    <color name="colorSurfaceDark">#000000</color>
+    <color name="colorSurfaceDark">#37474F</color>
     <color name="colorOnSurfaceHighEmp">#FFFFFF</color>
     <color name="colorOnSurfaceMediumEmp">#99FFFFFF</color>
     <color name="colorOnSurfaceLowEmp">#60FFFFFF</color>
     <color name="colorSurfaceTranslucent">#A5263238</color>
-    
     <color name="colorPrimary">#212121</color>
-    <color name="colorPrimaryVariant">#000000</color>
+    <color name="colorPrimaryVariant">#191919</color>
     <color name="colorOnPrimaryHighEmp">#FFFFFF</color>
     <color name="colorOnPrimaryMediumEmp">#99FFFFFF</color>
     <color name="colorOnPrimaryLowEmp">#60FFFFFF</color>
@@ -17,14 +16,14 @@
     <color name="colorPrimaryMed">#BF212121</color>
     <color name="colorPrimaryLow">#60212121</color>
     
-    <color name="colorSecondary">#1565C0</color>
-    <color name="colorSecondaryVariant">#0D47A1</color>
+    <color name="colorSecondary">#2196F3</color>
+    <color name="colorSecondaryVariant">#1565C0</color>
     <color name="colorOnSecondaryHighEmp">#FFFFFF</color>
     <color name="colorOnSecondaryMediumEmp">#D3FFFFFF</color>
     <color name="colorOnSecondaryLowEmp">#60FFFFFF</color>
 
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryDark">@color/colorPrimaryVariant</color>
     <color name="colorStatusBar">#33000000</color>
 
-    <color name="colorError">#ad1457</color>
+    <color name="colorError">#AD1457</color>
 </resources>
