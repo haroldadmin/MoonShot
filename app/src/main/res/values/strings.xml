@@ -64,4 +64,6 @@
     <string name="aboutFragmentRateHeader">Rate</string>
     <string name="aboutFragmentAuthorHeader">Author</string>
     <string name="aboutFragmentRepositoryHeader">Repository</string>
+    <string name="fragmentLaunchDetailsLaunchSiteHeader">Launch Site</string>
+    <string name="fragmentLaunchSuccessHeader">Launch Status</string>
 </resources>

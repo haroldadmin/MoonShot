@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemInternetLinkBindingModel_
@@ -56,6 +57,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
         binding.rvLaunchDetails.apply {
             setController(epoxyController)
             layoutAnimation = animation
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
         return binding.root
     }
@@ -76,6 +78,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     private val epoxyController by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
+
             when (val launch = state.launch) {
                 is Resource.Success -> {
                     buildLaunchModels(this, launch.data)
@@ -94,56 +97,34 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 else -> itemLoading {
                     id("launch-loading")
                     message(getString(R.string.launchDetailsFragmentLoadingMessage))
+                    spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
             }
+
             when (val stats = state.launchStats) {
                 is Resource.Success -> {
+                    itemTextHeader {
+                        id("rocket")
+                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                    }
                     if (stats.data.rocket != null) {
-                        itemTextHeader {
-                            id("rocket")
-                            header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
-                        }
-                        itemLaunchRocket {
-                            id("rocket-summary")
-                            rocketSummary(stats.data.rocket)
-                            onRocketClick { _ ->
-                                LaunchDetailsFragmentDirections.launchRocketDetails(stats.data.rocket!!.rocketId).also { action ->
-                                    findNavController().navigate(action)
-                                }
-                            }
-                        }
-                        itemTextWithHeading {
-                            id("first-stage-summary")
-                            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
-                            text("Cores: ${stats.data.firstStageCoreCounts}")
-                        }
-                        itemTextWithHeading {
-                            id("second-stage-summary")
-                            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
-                            text("Payloads: ${stats.data.secondStagePayloadCounts}")
-                        }
+                        buildLaunchStats(stats.data, this)
                     }
                 }
                 is Resource.Error<LaunchStats, *> -> {
+                    itemTextHeader {
+                        id("rocket")
+                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                    }
                     itemError {
                         id("rocket-summary-error")
                         error(getString(R.string.launchDetailsFragmentRocketSummaryError))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
-                    stats.data?.let {
-                        itemLaunchRocket {
-                            id("rocket-summary")
-                            rocketSummary(stats.data!!.rocket)
-                        }
-                        itemTextWithHeading {
-                            id("first-stage-summary")
-                            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
-                            text("Cores: ${stats.data!!.firstStageCoreCounts}")
-                        }
-                        itemTextWithHeading {
-                            id("second-stage-summary")
-                            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
-                            text("Payloads: ${stats.data!!.secondStagePayloadCounts}")
-                        }
+                    if (stats.data != null) {
+                        buildLaunchStats(stats.data!!, this)
                     }
                 }
                 else -> Unit
@@ -155,9 +136,11 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         itemTextHeader {
                             id("photos")
                             header("Photos")
+                            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                         }
                         carousel {
                             id("launch-pictures")
+                            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                             withModelsFrom(pictures.data.images) { url ->
                                 ItemLaunchPictureBindingModel_()
                                     .id(url)
@@ -176,6 +159,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
             itemLaunchCard {
                 id("header")
                 launch(launch)
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemLaunchDetail {
                 id("launch-date")
@@ -185,18 +169,28 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         ?: getString(R.string.launchDetailsFragmentNoLaunchDateText)
                 )
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemLaunchDetail {
                 id("launch-site")
-                detailHeader("Launch Site")
+                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
                 detailName(launch.siteName ?: getString(R.string.fragmentLauchDetailsNoLaunchSiteMessage))
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
                 onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            }
+            itemLaunchDetail {
+                id("launch-success")
+                detailHeader(getString(R.string.fragmentLaunchSuccessHeader))
+                detailName(launch.launchSuccessText)
+                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_flight_takeoff_24px))
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemExpandableTextWithHeading {
                 id("launch-details")
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
 
             launch
@@ -209,14 +203,41 @@ class LaunchDetailsFragment : MoonShotFragment() {
         }
     }
 
+    private fun buildLaunchStats(stats: LaunchStats, controller: EpoxyController) = with(controller) {
+        itemLaunchRocket {
+            id("rocket-summary")
+            rocketSummary(stats.rocket)
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            onRocketClick { _ ->
+                LaunchDetailsFragmentDirections.launchRocketDetails(stats.rocket!!.rocketId).also { action ->
+                    findNavController().navigate(action)
+                }
+            }
+        }
+        itemTextWithHeading {
+            id("first-stage-summary")
+            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+            text("Cores: ${stats.firstStageCoreCounts}")
+        }
+        itemTextWithHeading {
+            id("second-stage-summary")
+            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+            text("Payloads: ${stats.secondStagePayloadCounts}")
+        }
+    }
+
     private fun buildLinks(links: Map<String, String>, controller: EpoxyController) = with(controller) {
         itemTextHeader {
             id("links")
             header(getString(R.string.launchDetailsFragmentLinksHeader))
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
 
         carousel {
             id("launch-links")
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             withModelsFrom(links) { name, link ->
                 when {
                     name.contains("YouTube") -> {

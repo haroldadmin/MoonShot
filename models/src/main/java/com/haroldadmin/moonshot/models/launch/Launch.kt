@@ -55,8 +55,6 @@ data class Launch(
     }
 
     @Ignore
-    val backdropImageUrl = links?.flickrImages?.firstOrNull() ?: links?.redditMedia
-    @Ignore
     val missionPatch = links?.missionPatchSmall ?: links?.missionPatch
 }
 
@@ -69,6 +67,8 @@ data class LaunchMinimal(
     val missionPatch: String?,
     @ColumnInfo(name = "launch_date_utc")
     val launchDate: Date?,
+    @ColumnInfo(name = "launch_success")
+    val launchSuccess: Boolean?,
     @ColumnInfo(name = "details")
     val details: String?,
     @ColumnInfo(name = "siteName")
@@ -96,7 +96,11 @@ data class LaunchMinimal(
         "Reddit Campaign" to redditCampaign,
         "Reddit Launch" to redditLaunch,
         "Reddit Media" to redditMedia,
-        "Wikipedia" to wikipedia)
+        "Wikipedia" to wikipedia
+    )
+    @Ignore
+    val launchSuccessText: String =
+        if (launchSuccess == true) "Successful" else if (launchSuccess == false) "Unsuccessful" else "Unknown"
 }
 
 data class LaunchStats(

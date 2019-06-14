@@ -42,7 +42,7 @@ abstract class RocketsDao : BaseDao<Rocket> {
     abstract suspend fun getRocketMinimal(rocketId: String): RocketMinimal?
 
     @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
         WHERE flight_number IN
         (SELECT launch_flight_number
