@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -47,6 +48,7 @@ class LaunchPadFragment : MoonShotFragment() {
         binding.rvLaunchPad.apply {
             setController(epoxyController)
             layoutAnimation = animation
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
         return binding.root
     }
@@ -73,10 +75,12 @@ class LaunchPadFragment : MoonShotFragment() {
                     itemTextHeader {
                         id("map")
                         header(getString(R.string.itemMapCardMapHeader))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     itemError {
                         id("launchpad-error")
                         error(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
 
                     launchpad.data?.let { lp -> buildLaunchPadModels(this, lp) }
@@ -84,6 +88,7 @@ class LaunchPadFragment : MoonShotFragment() {
                 else -> itemLoading {
                     id("launchpad-loading")
                     message(getString(R.string.fragmentLaunchPadLaunchPadLoadingMessage))
+                    spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
             }
         }
@@ -94,24 +99,35 @@ class LaunchPadFragment : MoonShotFragment() {
             id("launch-pad")
             detailHeader(getString(R.string.fragmentLaunchPadLaunchPadHeader))
             detailName(launchpad.siteNameLong)
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
         itemExpandableTextWithHeading {
             id("launch-pad-detail")
             heading(getString(R.string.fragmentLaunchPadDetailsHeader))
             text(launchpad.details)
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
         itemTextWithHeading {
             id("status")
             heading(getString(R.string.fragmentLaunchPadStatusHeader))
             text(launchpad.status.capitalize())
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+        }
+        itemTextWithHeading {
+            id("success-percentage")
+            heading("Success Rate")
+            text(launchpad.successPercentage)
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
         }
         itemTextHeader {
             id("map")
             header(getString(R.string.itemMapCardMapHeader))
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
         itemMapCard {
             id("map")
             mapImageUrl(launchpad.location.getStaticMapUrl())
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             onMapClick { _ ->
                 val mapIntent = Intent(Intent.ACTION_VIEW).apply {
                     data = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")

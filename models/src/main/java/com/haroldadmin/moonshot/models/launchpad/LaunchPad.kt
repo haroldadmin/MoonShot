@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.models.launchpad
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.common.Location
 
@@ -52,4 +53,7 @@ data class LaunchPad(
             )
         }
     }
+
+    @Ignore
+    val successPercentage = "$successfulLaunches/$attemptedLaunches Launches"
 }
