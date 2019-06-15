@@ -12,8 +12,7 @@
 <a href='https://play.google.com/store/apps/details?id=com.haroldadmin.moonshot&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width = "150px"/></a>
 
 
-
-MoonShot is an app that uses the [SpaceX API](https://github.com/r-spacex/SpaceX-API) to display information about upcoming launches. It is a SpaceX companion app to help you keep up the company's rocket launches.
+MoonShot is an app that uses the [SpaceX API](https://github.com/r-spacex/SpaceX-API) to display information about upcoming launches. It is a SpaceX companion app to help you keep up with the company's rocket launches.
 
 MoonShot tries to follow architectural best practices for Android, and is built using [Vector](https://github.com/haroldadmin/Vector), a Kotlin Coroutines based MVI architecture library for Android. It is completely offline ready, and caches all the data once it has been retrieved. Most of the UI has been built using [Epoxy](https://github.com/airbnb/epoxy), a fantastic RecyclerView library by AirBnb that let's you build Recycler Views with multiple view types easily.
 
@@ -22,10 +21,11 @@ MoonShot tries to follow architectural best practices for Android, and is built 
 ### Features
 * View Next Launch information right on the home page
 * Get reminders before every launch
-* Clean, minimal design. Has Dark theme support as well.
-* Offline support, can display saved information when there's no network available.
 * View all the rockets used by SpaceX along with the launches they have attempted
 * View Launch Pad information about every launch
+* Clean, minimal design. Has Dark theme support.
+* Offline ready: Can display saved information when there's no network available.
+* And a lot, lot more.
 
 
 ### Project Architecture
