@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemLaunchCardBindingModel_
+import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -27,6 +28,7 @@ import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -41,6 +43,7 @@ class RocketDetailsFragment : MoonShotFragment() {
         val initialState = RocketDetailsState(rocketId = safeArgs.rocketId)
         parametersOf(initialState)
     }
+    private val mainViewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
@@ -58,6 +61,9 @@ class RocketDetailsFragment : MoonShotFragment() {
 
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
+        if (state.rocket is Resource.Success) {
+            mainViewModel.setTitle(state.rocket.data.rocketName)
+        }
     }
 
     private val epoxyController by lazy {

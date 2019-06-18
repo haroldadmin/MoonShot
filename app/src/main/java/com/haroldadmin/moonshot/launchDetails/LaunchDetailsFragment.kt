@@ -18,6 +18,7 @@ import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemInternetLinkBindingModel_
 import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
 import com.haroldadmin.moonshot.ItemYoutubeLinkBindingModel_
+import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -37,6 +38,7 @@ import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -48,6 +50,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val viewModel by viewModel<LaunchDetailsViewModel> {
         parametersOf(LaunchDetailsState(safeArgs.flightNumber), safeArgs.flightNumber)
     }
+    private val mainViewModel by sharedViewModel<MainViewModel>()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
 
@@ -74,6 +77,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
+        if (state.launch is Resource.Success && state.launch.data.missionName != null) {
+            mainViewModel.setTitle(state.launch.data.missionName!!)
+        }
     }
 
     private val epoxyController by lazy {
