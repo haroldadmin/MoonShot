@@ -5,6 +5,7 @@
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
         <item name="colorOnPrimary">@color/colorOnPrimaryHighEmp</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
         <item name="colorOnSecondary">@color/colorOnSecondaryHighEmp</item>
         <item name="colorSurface">@color/colorSurface</item>
@@ -20,6 +21,13 @@
         <item name="textAppearanceOverline">@style/TextAppearance.MoonShot.Overline1</item>
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+    </style>
+    
+    <style name="AppTheme.AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <!-- ColorPrimary corresponds to the color of a button in an alert dialog.-->
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorSecondary</item>
     </style>
 
     <style name="MoonShot.Widget.Toolbar" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
