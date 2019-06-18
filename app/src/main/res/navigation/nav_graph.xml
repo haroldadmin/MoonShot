@@ -10,6 +10,15 @@
         android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
         android:label="Launches"
         tools:layout="@layout/fragment_launches">
+        <argument
+            android:name="type"
+            app:argType="com.haroldadmin.moonshot.launches.LaunchTypes"
+            android:defaultValue="RECENT"/>
+        <argument
+            android:name="siteId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"  />
         <action
             android:id="@+id/launchDetails"
             app:destination="@id/launchDetails"
@@ -99,6 +108,13 @@
         <deepLink
             android:id="@+id/launchPadDeeplink"
             app:uri="moonshot://launchpad/{siteId}" />
+        <action
+            android:id="@+id/launchPadLaunches"
+            app:destination="@id/launches"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -135,5 +151,9 @@
         android:id="@+id/about"
         android:name="com.haroldadmin.moonshot.about.AboutFragment"
         android:label="About"
-        tools:layout="@layout/fragment_about"/>
+        tools:layout="@layout/fragment_about">
+        <deepLink
+            android:id="@+id/aboutDeepLink"
+            app:uri="moonshot://about"/>
+    </fragment>
 </navigation>

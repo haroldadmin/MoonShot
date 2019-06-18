@@ -22,6 +22,9 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = repositoryModule + module {
+
+    viewModel { (initialState: ScaffoldingState) -> MainViewModel(initialState) }
+
     viewModel { (initialState: LaunchesState) -> LaunchesViewModel(initialState, get()) }
 
     viewModel { (initialState: RocketsState) -> RocketsViewModel(initialState, get()) }

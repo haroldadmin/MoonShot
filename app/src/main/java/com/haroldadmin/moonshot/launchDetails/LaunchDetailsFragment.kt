@@ -88,6 +88,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                     itemError {
                         id("launch-error")
                         error(getString(R.string.launchDetailsFragmentLoading))
+                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
 
                     if (launch.data != null) {

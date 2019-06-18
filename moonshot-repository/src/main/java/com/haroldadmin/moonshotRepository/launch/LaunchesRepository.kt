@@ -205,6 +205,27 @@ class LaunchesRepository(
         } ?: emit(Resource.Error(null, null))
     }
 
+    suspend fun flowLaunchesForLaunchPad(siteId: String, timestamp: Long) = flow<Resource<List<LaunchMinimal>>> {
+        emit(Resource.Loading)
+
+        val dbLaunches = launchDao.getLaunchesForLaunchPad(siteId, timestamp)
+        if (dbLaunches.isNotEmpty()) {
+            emit(Resource.Success(dbLaunches))
+        }
+
+        when (val apiLaunches = launchesService.getAllLaunches(siteId = siteId).await()) {
+            is NetworkResponse.Success -> {
+                saveApiLaunches(apiLaunches.body)
+                val launches = launchDao.getLaunchesForLaunchPad(siteId, timestamp)
+                if (launches != dbLaunches)
+                    emit(Resource.Success(launches))
+            }
+            is NetworkResponse.ServerError -> emit(Resource.Error(dbLaunches, apiLaunches.body))
+
+            is NetworkResponse.NetworkError -> emit(Resource.Error(dbLaunches, apiLaunches.error))
+        }
+    }
+
     private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {
         val launches: List<DbLaunch> = apiLaunches.map { it.toDbLaunch() }
 

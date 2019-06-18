@@ -76,6 +76,14 @@ abstract class LaunchDao : BaseDao<Launch> {
     """)
     abstract suspend fun getLaunchPictures(flightNumber: Int): LaunchPictures?
 
+    @Query("""
+        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+        FROM launches
+        WHERE siteId = :siteId AND launch_date_utc <= :timestamp
+        ORDER BY launch_date_utc DESC
+    """)
+    abstract suspend fun getLaunchesForLaunchPad(siteId: String, timestamp: Long): List<LaunchMinimal>
+
     @Transaction
     open suspend fun saveLaunchWithSummaries(
         launch: Launch,

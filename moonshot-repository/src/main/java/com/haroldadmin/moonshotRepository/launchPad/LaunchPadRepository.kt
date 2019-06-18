@@ -23,9 +23,7 @@ class LaunchPadRepository(
             emit(Resource.Success(dbLaunchPad))
         }
 
-        val apiResponse = executeWithRetry { launchPadsService.getLaunchPad(siteId).await() }
-
-        when (apiResponse) {
+        when (val apiResponse = executeWithRetry { launchPadsService.getLaunchPad(siteId).await() }) {
             is NetworkResponse.Success -> {
                 saveLaunchPad(apiResponse.body)
                 val savedLaunchPad = launchPadDao.getLaunchPad(siteId)!!

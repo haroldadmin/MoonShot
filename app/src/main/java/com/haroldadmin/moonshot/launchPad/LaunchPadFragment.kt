@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
+import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -24,9 +26,11 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemMapCard
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
+import com.haroldadmin.moonshot.launches.LaunchTypes
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
@@ -41,6 +45,7 @@ class LaunchPadFragment : MoonShotFragment() {
         val initialState = LaunchPadState(safeArgs.siteId)
         parametersOf(initialState)
     }
+    private val mainViewModel by sharedViewModel<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
@@ -65,6 +70,9 @@ class LaunchPadFragment : MoonShotFragment() {
 
     override fun renderState() = withState(viewModel) { state ->
         epoxyController.setData(state)
+        if (state.launchPad is Resource.Success) {
+            mainViewModel.setTitle(state.launchPad.data.siteNameLong)
+        }
     }
 
     private val epoxyController by lazy {
@@ -118,6 +126,14 @@ class LaunchPadFragment : MoonShotFragment() {
             heading("Success Rate")
             text(launchpad.successPercentage)
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+            onTextWithDetailClick { _ ->
+                LaunchPadFragmentDirections.launchPadLaunches(
+                    type = LaunchTypes.LAUNCHPAD,
+                    siteId = launchpad.siteId
+                ).also { action ->
+                    findNavController().navigate(action)
+                }
+            }
         }
         itemTextHeader {
             id("map")
