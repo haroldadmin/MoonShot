@@ -23,7 +23,7 @@ object Libs {
     const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
     const val preference = "androidx.preference:preference-ktx:${Versions.preference}"
 
-    const val vector = "com.github.haroldadmin:Vector:0.0.3"
+    const val vector = "com.github.haroldadmin:Vector:${Versions.vector}"
 
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
