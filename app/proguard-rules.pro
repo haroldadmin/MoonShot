@@ -129,3 +129,9 @@
 
 -keep class kotlin.reflect.jvm.internal.** { *; }
 # ------------------------------------------------------------------------------------
+
+# ---- Enum proguard rules ---------------- #
+
+-keep public enum com.haroldadmin.moonshot.**{
+    *;
+}
