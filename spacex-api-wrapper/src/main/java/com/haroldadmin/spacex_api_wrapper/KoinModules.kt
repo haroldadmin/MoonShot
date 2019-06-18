@@ -15,6 +15,7 @@ import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -40,6 +41,7 @@ val networkModule = module {
             .addInterceptor(
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
             )
+            .cache(get<Cache>())
             .build()
     }
 

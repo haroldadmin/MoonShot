@@ -15,6 +15,8 @@ import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.networkModule
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import com.haroldadmin.spacex_api_wrapper.serviceModule
+import okhttp3.Cache
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = databaseModule + networkModule + serviceModule + module {
@@ -41,5 +43,9 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
             get<LaunchPadService>(),
             get<LaunchPadDao>()
         )
+    }
+
+    single<Cache> {
+        Cache(androidContext().cacheDir, 10 * 1000 * 1000)
     }
 }
