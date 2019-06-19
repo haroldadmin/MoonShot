@@ -6,15 +6,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.KEY_FLIGHT_NUMBER
+import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_DATE
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NAME
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_SITE
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_DATE
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_TIME
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
-import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +57,8 @@ class NextLaunchViewModel(
                 putString(KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
                 putString(
                     KEY_LAUNCH_DATE,
-                    state.nextLaunch.data.launchDate?.format(context.resources.configuration,
+                    state.nextLaunch.data.launchDate?.format(
+                        context.resources.configuration,
                         LONG_DATE_FORMAT
                     )
                 )
@@ -75,5 +76,9 @@ class NextLaunchViewModel(
             if (state.nextLaunch !is Resource.Success) return@withState
             launchNotificationManager.scheduleNotifications()
         }
+    }
+
+    fun updateCountdownTime(timeText: String) = setState {
+        copy(countDown = Resource.Success(timeText))
     }
 }

@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     initState: ScaffoldingState
-): MoonShotViewModel<ScaffoldingState>(initState) {
+) : MoonShotViewModel<ScaffoldingState>(initState) {
 
     fun setTitle(title: String) = viewModelScope.launch {
         val toolbarTitle = Consumable(title)

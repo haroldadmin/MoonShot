@@ -14,7 +14,8 @@
                 R.layout.item_youtube_link,
                 R.layout.item_internet_link,
                 R.layout.item_about_app,
-                R.layout.item_about_detail
+                R.layout.item_about_detail,
+                R.layout.item_countdown
         }
 )
 package com.haroldadmin.moonshot;

@@ -68,4 +68,6 @@
     <string name="fragmentLaunchSuccessHeader">Launch Status</string>
     <string name="aboutFragmentArchitectureHeader">Vector</string>
     <string name="aboutFragmentArchitectureMessage">This app is built with Vector, a Kotlin Coroutines based MVI architecture library for Android</string>
+    <string name="itemCountdownHeaderText">Count Down</string>
+    <string name="nextLaunchFragmentCountdownFinishText">Happening now</string>
 </resources>

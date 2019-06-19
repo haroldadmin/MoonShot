@@ -7,6 +7,8 @@ import com.haroldadmin.moonshot.BuildConfig
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Timer
+import kotlin.concurrent.fixedRateTimer
 
 fun Date.format(configuration: Configuration, pattern: String = "dd-MM-yyyy"): String {
     val locale = ConfigurationCompat.getLocales(configuration).get(0)
@@ -22,4 +24,23 @@ fun Long.format(configuration: Configuration): String {
 
 fun Any.log(message: String) {
     if (BuildConfig.DEBUG) Log.d(this::class.java.simpleName, message)
+}
+
+fun countdownTimer(
+    duration: Long,
+    period: Long = 1000L,
+    onFinish: (() -> Unit)? = null,
+    action: (timeLeft: Long) -> Unit
+): Timer {
+    var currentTime = 0L
+    return fixedRateTimer(name = "CountDown Timer", period = period) {
+        if (currentTime >= duration) {
+            action.invoke(0L)
+            onFinish?.invoke()
+            cancel()
+        } else {
+            action.invoke(duration - currentTime)
+            currentTime += period
+        }
+    }
 }

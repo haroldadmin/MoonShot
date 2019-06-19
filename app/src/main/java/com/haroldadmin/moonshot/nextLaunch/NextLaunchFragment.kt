@@ -10,17 +10,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.databinding.FragmentNextLaunchBinding
+import com.haroldadmin.moonshot.itemCountdown
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLoading
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
+import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.launch
@@ -28,6 +31,8 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import java.util.Timer
+import java.util.concurrent.TimeUnit
 
 class NextLaunchFragment : MoonShotFragment() {
 
@@ -37,6 +42,7 @@ class NextLaunchFragment : MoonShotFragment() {
     private val viewModel by viewModel<NextLaunchViewModel> {
         parametersOf(NextLaunchState())
     }
+    private var timer: Timer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
@@ -58,7 +64,21 @@ class NextLaunchFragment : MoonShotFragment() {
         epoxyController.cancelPendingModelBuild()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (timer == null) withState(viewModel) { state ->
+            setupCountdown(state)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        timer?.cancel()
+        timer = null
+    }
+
     override fun renderState() = withState(viewModel) { state ->
+        setupCountdown(state)
         epoxyController.setData(state)
         fragmentScope.launch {
             if (state.nextLaunch is Resource.Success) {
@@ -71,7 +91,9 @@ class NextLaunchFragment : MoonShotFragment() {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
             when (val launch = state.nextLaunch) {
 
-                is Resource.Success -> buildLaunchModels(this, launch.data)
+                is Resource.Success -> {
+                    buildLaunchModels(this, launch.data)
+                }
 
                 is Resource.Error<LaunchMinimal, *> -> {
                     itemError {
@@ -86,6 +108,15 @@ class NextLaunchFragment : MoonShotFragment() {
                     id("next-launch-loading")
                     message(getString(R.string.nextLaunchFragmentLoadingMessage))
                 }
+            }
+
+            when (val countDown = state.countDown) {
+                is Resource.Success ->
+                    itemCountdown {
+                        id("launch-countdown")
+                        time(countDown.data)
+                    }
+                else -> Unit
             }
         }
     }
@@ -131,5 +162,52 @@ class NextLaunchFragment : MoonShotFragment() {
                 }
             }
         }
+    }
+
+    private fun setupCountdown(state: NextLaunchState) {
+        if (state.nextLaunch is Resource.Success && timer == null) {
+            val launchTime = state.nextLaunch.data.launchDate?.time ?: 0L
+            val duration = launchTime - System.currentTimeMillis()
+            timer = createCountdownTimer(duration)
+        }
+    }
+
+    private fun createCountdownTimer(duration: Long): Timer {
+        return countdownTimer(duration = duration, onFinish = {
+            viewModel.updateCountdownTime(getString(R.string.nextLaunchFragmentCountdownFinishText))
+        }) { millisUntilFinished ->
+            val timeText = calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS).toString()
+            viewModel.updateCountdownTime(timeText)
+        }
+    }
+
+    private fun calculateTimeUntilLaunch(timeUntilFinished: Long, timeUnit: TimeUnit): TimeUntilLaunch {
+        var delta = timeUntilFinished
+        val days = timeUnit.toDays(delta)
+        if (days > 0) {
+            delta %= days * timeUnit.convert(1, TimeUnit.DAYS)
+        }
+        val hours = timeUnit.toHours(delta)
+        if (hours > 0) {
+            delta %= hours * timeUnit.convert(1, TimeUnit.HOURS)
+        }
+        val minutes = timeUnit.toMinutes(delta)
+        if (minutes > 0) {
+            delta %= minutes * timeUnit.convert(1, TimeUnit.MINUTES)
+        }
+        val seconds = timeUnit.toSeconds(delta)
+
+        return TimeUntilLaunch(days, hours, minutes, seconds)
+    }
+}
+
+private data class TimeUntilLaunch(
+    val days: Long,
+    val hours: Long,
+    val minutes: Long,
+    val seconds: Long
+) {
+    override fun toString(): String {
+        return "${days}D:${hours}H:${minutes}M:${seconds}S"
     }
 }
