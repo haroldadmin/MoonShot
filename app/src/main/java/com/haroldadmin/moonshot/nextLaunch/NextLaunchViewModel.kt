@@ -41,7 +41,6 @@ class NextLaunchViewModel(
 
     suspend fun persistNextLaunchValues(context: Context) = withContext(Dispatchers.Default) {
         withState { state ->
-
             if (state.nextLaunch !is Resource.Success) return@withState
 
             val settings = PreferenceManager.getDefaultSharedPreferences(context)
@@ -68,6 +67,7 @@ class NextLaunchViewModel(
             }
 
             scheduleNotification()
+            setState { copy(notificationScheduled = true) }
         }
     }
 

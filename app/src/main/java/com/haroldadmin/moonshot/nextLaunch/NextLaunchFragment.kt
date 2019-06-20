@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
-import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -80,9 +79,11 @@ class NextLaunchFragment : MoonShotFragment() {
     override fun renderState() = withState(viewModel) { state ->
         setupCountdown(state)
         epoxyController.setData(state)
-        fragmentScope.launch {
-            if (state.nextLaunch is Resource.Success) {
-                viewModel.persistNextLaunchValues(requireContext())
+        if (!state.notificationScheduled) {
+            fragmentScope.launch {
+                if (state.nextLaunch is Resource.Success) {
+                    viewModel.persistNextLaunchValues(requireContext())
+                }
             }
         }
     }
