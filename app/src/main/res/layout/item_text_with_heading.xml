@@ -26,6 +26,7 @@
         android:layout_marginTop="@dimen/marginSmall"
         android:layout_marginEnd="@dimen/marginMedium"
         android:layout_marginBottom="@dimen/marginSmall"
+        android:clickable="@{onTextWithDetailClick == null ? false : true}"
         android:onClick="@{onTextWithDetailClick}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
