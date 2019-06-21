@@ -4,13 +4,14 @@ import android.content.res.Configuration
 import android.util.Log
 import androidx.core.os.ConfigurationCompat
 import com.haroldadmin.moonshot.BuildConfig
+import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Timer
 import kotlin.concurrent.fixedRateTimer
 
-fun Date.format(configuration: Configuration, pattern: String = "dd-MM-yyyy"): String {
+fun Date.format(configuration: Configuration, pattern: String = SHORT_DATE_FORMAT): String {
     val locale = ConfigurationCompat.getLocales(configuration).get(0)
     val formatter = SimpleDateFormat(pattern, locale)
     return formatter.format(this)

@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -16,12 +17,29 @@ import com.haroldadmin.moonshot.THEME_MAPPINGS
 import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
 import com.haroldadmin.moonshot.notifications.KEY_NOTIFICATION_PADDING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
+import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
+import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import kotlin.coroutines.CoroutineContext
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     private val launchNotificationsManager by inject<LaunchNotificationManager>()
+    private val syncManager by inject<SyncManager>()
+    private val preferences by lazy {
+        requireContext().getSharedPreferences(
+            MOONSHOT_SHARED_PREFS,
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +74,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<SwitchPreferenceCompat>(KEY_CRASH_REPORTS)?.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<SwitchPreferenceCompat>(KEY_CRASH_REPORTS)?.setOnPreferenceChangeListener { _, _ ->
             view?.let { rootView ->
                 Snackbar.make(rootView, R.string.preferencesCrashReportRestartMessage, Snackbar.LENGTH_SHORT)
                     .setAction("Restart") {
@@ -66,5 +84,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
             true
         }
+
+        findPreference<SwitchPreferenceCompat>(SyncManager.KEY_BACKGROUND_SYNC)?.setOnPreferenceChangeListener { _, newValue ->
+            if (newValue == true) {
+                launch { syncManager.enableSync() }
+            } else {
+                launch { syncManager.disableSync() }
+            }
+            true
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }

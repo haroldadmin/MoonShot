@@ -22,6 +22,8 @@ object Libs {
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
     const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
     const val preference = "androidx.preference:preference-ktx:${Versions.preference}"
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    const val workManagerTestHelpers = "androidx.work:work-testing:${Versions.workManager}"
 
     const val vector = "com.github.haroldadmin:Vector:${Versions.vector}"
 
@@ -57,6 +59,7 @@ object Libs {
     const val kotlinTest = "io.kotlintest:kotlintest-runner-junit5:${Versions.kotlinTest}"
     const val androidxTestCore = "androidx.arch.core:core-testing:${Versions.androidxTestCore}"
     const val mockk = "io.mockk:mockk:${Versions.mockk}"
+    const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
 
     const val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
     const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"

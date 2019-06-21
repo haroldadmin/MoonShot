@@ -15,7 +15,9 @@ import com.haroldadmin.moonshot.rocketDetails.RocketDetailsState
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsViewModel
 import com.haroldadmin.moonshot.rockets.RocketsState
 import com.haroldadmin.moonshot.rockets.RocketsViewModel
+import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -46,6 +48,9 @@ val appModule = repositoryModule + module {
 
     single(named("differ")) { Handler(get<HandlerThread>(named("diffing-thread")).looper) }
     single(named("builder")) { Handler(get<HandlerThread>(named("building-thread")).looper) }
+
+    single { MoonShotWorkerFactory(getKoin()) }
+    single { SyncManager(androidApplication()) }
 
     factory { LaunchNotificationManager(androidContext()) }
 }

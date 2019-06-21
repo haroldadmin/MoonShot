@@ -86,6 +86,7 @@ dependencies {
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
     implementation(Libs.preference)
+    implementation(Libs.workManager)
 
     implementation(Libs.epoxy)
     implementation(Libs.epoxyDatabinding)
@@ -97,6 +98,8 @@ dependencies {
     implementation(Libs.lemniscate)
 
     testImplementation(Libs.junit4)
+    androidTestImplementation(Libs.mockkAndroid)
+    androidTestImplementation(Libs.workManagerTestHelpers)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)
 

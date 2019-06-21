@@ -70,4 +70,9 @@
     <string name="aboutFragmentArchitectureMessage">This app is built with Vector, a Kotlin Coroutines based MVI architecture library for Android</string>
     <string name="itemCountdownHeaderText">Count Down</string>
     <string name="nextLaunchFragmentCountdownFinishText">Happening now</string>
+    <string name="preferencesSyncCategoryTitle">Sync</string>
+    <string name="preferencesBackgroundSyncSummary">Allow the app to periodically refresh data in the background</string>
+    <string name="preferencesBackgroundSyncTitle">Background Sync</string>
+    <string name="preferencesThemeTitle">UI Theme</string>
+    <string name="preferencesThemeSummary">Change the colors of the app</string>
 </resources>

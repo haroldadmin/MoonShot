@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:key="user_interface"
-        android:title="@string/preferencesUserInterfaceCategoryTitle">
+        android:title="@string/preferencesUserInterfaceCategoryTitle"
+        app:key="user_interface">
         <ListPreference
-            app:key="theme-mode"
-            android:title="UI Theme"
-            app:icon="@drawable/ic_round_palette_24px"
             android:defaultValue="auto"
             android:entries="@array/theme_modes"
             android:entryValues="@array/theme_modes_values"
-            app:summary="Change the colors of the app" />
+            android:title="@string/preferencesThemeTitle"
+            app:icon="@drawable/ic_round_palette_24px"
+            app:key="theme-mode"
+            app:summary="@string/preferencesThemeSummary" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -32,27 +32,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:defaultValue="30"
+            android:dependency="launch-notifications"
             android:key="notification-padding"
             android:max="60"
             android:summary="@string/preferencesNotificationsMinutesSummary"
             android:title="@string/preferencesNotificationsMinutesTitle"
             app:icon="@drawable/ic_round_history_24px"
             app:min="0"
-            app:showSeekBarValue="true"
-            android:dependency="launch-notifications" />
+            app:showSeekBarValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="Privacy"
-        android:title="@string/preferencesPrivacyCategoryTitle">
+        app:key="sync-category"
+        app:title="@string/preferencesSyncCategoryTitle">
+        <SwitchPreferenceCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:icon="@drawable/ic_round_sync_24px"
+            android:summary="@string/preferencesBackgroundSyncSummary"
+            app:key="background-sync"
+            app:title="@string/preferencesBackgroundSyncTitle" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/preferencesPrivacyCategoryTitle"
+        app:key="Privacy">
 
         <SwitchPreferenceCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:defaultValue="true"
-            app:title="Crash Reporting"
-            app:summary="@string/preferencesCrashReportingSummary"
+            app:icon="@drawable/ic_round_bug_report_24px"
             app:key="crash-reports"
-            app:icon="@drawable/ic_round_bug_report_24px" />
+            app:summary="@string/preferencesCrashReportingSummary"
+            app:title="Crash Reporting" />
     </PreferenceCategory>
 </PreferenceScreen>

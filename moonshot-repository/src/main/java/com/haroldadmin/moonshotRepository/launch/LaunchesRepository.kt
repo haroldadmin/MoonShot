@@ -204,6 +204,7 @@ class LaunchesRepository(
             emit(Resource.Success(list))
         } ?: emit(Resource.Error(null, null))
     }
+        .flowOn(Dispatchers.IO)
 
     suspend fun flowLaunchesForLaunchPad(siteId: String, timestamp: Long) = flow<Resource<List<LaunchMinimal>>> {
         emit(Resource.Loading)
@@ -223,6 +224,18 @@ class LaunchesRepository(
             is NetworkResponse.ServerError -> emit(Resource.Error(dbLaunches, apiLaunches.body))
 
             is NetworkResponse.NetworkError -> emit(Resource.Error(dbLaunches, apiLaunches.error))
+        }
+    }
+        .flowOn(Dispatchers.IO)
+
+    suspend fun syncLaunches(): Resource<Unit> {
+        return when (val apiLaunches = executeWithRetry { launchesService.getAllLaunches().await() }) {
+            is NetworkResponse.Success -> {
+                saveApiLaunches(apiLaunches.body)
+                Resource.Success(Unit)
+            }
+            is NetworkResponse.ServerError -> Resource.Error(Unit, null)
+            is NetworkResponse.NetworkError -> Resource.Error(Unit, null)
         }
     }
 
