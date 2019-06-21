@@ -9,6 +9,8 @@ import androidx.core.app.AlarmManagerCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.haroldadmin.moonshot.utils.log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class LaunchNotificationManager(val context: Context) {
 
@@ -16,7 +18,7 @@ class LaunchNotificationManager(val context: Context) {
     private val settings: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val preferences: SharedPreferences = context.getSharedPreferences(MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
 
-    fun scheduleNotifications(launchPadding: Int? = null) {
+    suspend fun scheduleNotifications(launchPadding: Int? = null) = withContext(Dispatchers.Default) {
         val padding: Int = launchPadding ?: settings.getInt(KEY_NOTIFICATION_PADDING, 30) ?: 30
         val launchTime = preferences.getLong(KEY_LAUNCH_TIME, Long.MAX_VALUE)
 
@@ -32,7 +34,7 @@ class LaunchNotificationManager(val context: Context) {
         )
     }
 
-    fun disableNotifications() {
+    suspend fun disableNotifications() = withContext(Dispatchers.Default) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, LaunchAlarmReceiver::class.java)
         val pendingIntent =

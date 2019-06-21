@@ -4,8 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class BootCompleteReceiver : BroadcastReceiver() {
+class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope {
+
+    override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
@@ -14,7 +20,7 @@ class BootCompleteReceiver : BroadcastReceiver() {
                 .getBoolean(KEY_LAUNCH_NOTIFICATIONS, true)
 
             if (isNotificationsEnabled)
-                LaunchNotificationManager(context).scheduleNotifications()
+                launch { LaunchNotificationManager(context).scheduleNotifications() }
         }
     }
 }

@@ -52,7 +52,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
         findPreference<SwitchPreferenceCompat>(KEY_LAUNCH_NOTIFICATIONS)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue == false) {
                 log("Disabling launch notifications")
-                launchNotificationsManager.disableNotifications()
+                launch { launchNotificationsManager.disableNotifications() }
             }
             true
         }
@@ -60,7 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
         findPreference<SeekBarPreference>(KEY_NOTIFICATION_PADDING)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue !is Int) return@setOnPreferenceChangeListener false
             log("Setting launch notification padding to $newValue minutes")
-            launchNotificationsManager.scheduleNotifications(newValue)
+            launch { launchNotificationsManager.scheduleNotifications(newValue) }
             true
         }
 
