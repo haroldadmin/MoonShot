@@ -17,7 +17,7 @@ class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope {
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
             val isNotificationsEnabled = PreferenceManager
                 .getDefaultSharedPreferences(context)
-                .getBoolean(KEY_LAUNCH_NOTIFICATIONS, true)
+                .getBoolean(LaunchNotificationManager.KEY_LAUNCH_NOTIFICATIONS, true)
 
             if (isNotificationsEnabled)
                 launch { LaunchNotificationManager(context).scheduleNotifications() }

@@ -18,6 +18,10 @@ import kotlin.coroutines.CoroutineContext
 
 class MoonShot : Application(), CoroutineScope {
 
+    companion object {
+        const val MOONSHOT_SHARED_PREFS = "moonshot-shared-prefs"
+    }
+
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     override fun onCreate() {

@@ -12,12 +12,10 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
+import com.haroldadmin.moonshot.MoonShot
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.THEME_MAPPINGS
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
-import com.haroldadmin.moonshot.notifications.KEY_NOTIFICATION_PADDING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
-import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     private val syncManager by inject<SyncManager>()
     private val preferences by lazy {
         requireContext().getSharedPreferences(
-            MOONSHOT_SHARED_PREFS,
+            MoonShot.MOONSHOT_SHARED_PREFS,
             Context.MODE_PRIVATE
         )
     }
@@ -49,7 +47,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        findPreference<SwitchPreferenceCompat>(KEY_LAUNCH_NOTIFICATIONS)?.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<SwitchPreferenceCompat>(LaunchNotificationManager.KEY_LAUNCH_NOTIFICATIONS)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue == false) {
                 log("Disabling launch notifications")
                 launch { launchNotificationsManager.disableNotifications() }
@@ -57,7 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
             true
         }
 
-        findPreference<SeekBarPreference>(KEY_NOTIFICATION_PADDING)?.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<SeekBarPreference>(LaunchNotificationManager.KEY_NOTIFICATION_PADDING)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue !is Int) return@setOnPreferenceChangeListener false
             log("Setting launch notification padding to $newValue minutes")
             launch { launchNotificationsManager.scheduleNotifications(newValue) }

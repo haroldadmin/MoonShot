@@ -4,17 +4,11 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
+import com.haroldadmin.moonshot.MoonShot
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
-import com.haroldadmin.moonshot.notifications.KEY_FLIGHT_NUMBER
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_DATE
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NAME
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_NOTIFICATIONS
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_SITE
-import com.haroldadmin.moonshot.notifications.KEY_LAUNCH_TIME
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
-import com.haroldadmin.moonshot.notifications.MOONSHOT_SHARED_PREFS
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
@@ -44,25 +38,25 @@ class NextLaunchViewModel(
             if (state.nextLaunch !is Resource.Success) return@withState
 
             val settings = PreferenceManager.getDefaultSharedPreferences(context)
-            if (!settings.getBoolean(KEY_LAUNCH_NOTIFICATIONS, true)) {
+            if (!settings.getBoolean(LaunchNotificationManager.KEY_LAUNCH_NOTIFICATIONS, true)) {
                 return@withState
             }
 
-            val preferences = context.getSharedPreferences(MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
+            val preferences = context.getSharedPreferences(MoonShot.MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
 
             preferences.edit(commit = true) {
-                putInt(KEY_FLIGHT_NUMBER, state.nextLaunch.data.flightNumber)
-                putString(KEY_LAUNCH_NAME, state.nextLaunch.data.missionName)
-                putString(KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
+                putInt(LaunchNotificationManager.KEY_FLIGHT_NUMBER, state.nextLaunch.data.flightNumber)
+                putString(LaunchNotificationManager.KEY_LAUNCH_NAME, state.nextLaunch.data.missionName)
+                putString(LaunchNotificationManager.KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
                 putString(
-                    KEY_LAUNCH_DATE,
+                    LaunchNotificationManager.KEY_LAUNCH_DATE,
                     state.nextLaunch.data.launchDate?.format(
                         context.resources.configuration,
                         LONG_DATE_FORMAT
                     )
                 )
                 state.nextLaunch.data.launchDate?.let {
-                    putLong(KEY_LAUNCH_TIME, it.time)
+                    putLong(LaunchNotificationManager.KEY_LAUNCH_TIME, it.time)
                 }
             }
 

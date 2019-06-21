@@ -11,18 +11,19 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
+import com.haroldadmin.moonshot.MoonShot
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.utils.GlideApp
 
 object LaunchNotificationBuilder {
     fun create(context: Context): Notification {
 
-        val preferences = context.getSharedPreferences(MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
-        val launchName = preferences.getString(KEY_LAUNCH_NAME, "A launch")
-        val launchSite = preferences.getString(KEY_LAUNCH_SITE, "a launch site")
-        val launchDate = preferences.getString(KEY_LAUNCH_DATE, "soon")
-        val missionPatch = preferences.getString(KEY_LAUNCH_MISSION_PATCH, "")
-        val flightNumber = preferences.getInt(KEY_FLIGHT_NUMBER, -1)
+        val preferences = context.getSharedPreferences(MoonShot.MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
+        val launchName = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_NAME, "A launch")
+        val launchSite = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_SITE, "a launch site")
+        val launchDate = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_DATE, "soon")
+        val missionPatch = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_MISSION_PATCH, "")
+        val flightNumber = preferences.getInt(LaunchNotificationManager.KEY_FLIGHT_NUMBER, -1)
 
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
@@ -46,7 +47,7 @@ object LaunchNotificationBuilder {
 
         createChannel(context)
 
-        return NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+        return NotificationCompat.Builder(context, LaunchNotificationManager.PRIMARY_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_round_rocket_small)
             .setLargeIcon(largeIcon)
             .setContentTitle("$launchName Launch")
@@ -64,7 +65,7 @@ object LaunchNotificationBuilder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(
-                    PRIMARY_CHANNEL_ID,
+                    LaunchNotificationManager.PRIMARY_CHANNEL_ID,
                     "SpaceX Launch notifications",
                     NotificationManager.IMPORTANCE_HIGH
                 )
