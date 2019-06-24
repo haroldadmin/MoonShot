@@ -10,18 +10,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
-import com.haroldadmin.moonshot.R
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.databinding.FragmentNextLaunchBinding
-import com.haroldadmin.moonshot.itemCountdown
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
@@ -43,9 +42,14 @@ class NextLaunchFragment : MoonShotFragment() {
     }
     private var timer: Timer? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        NextLaunch.init()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvNextLaunch.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -99,7 +103,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 is Resource.Error<LaunchMinimal, *> -> {
                     itemError {
                         id("next-launch-error")
-                        error(getString(R.string.nextLaunchFragmentErrorMessage))
+                        error(getString(R.string.fragmentNextLaunchErrorMessage))
                     }
                     if (launch.data != null) {
                         buildLaunchModels(this, launch.data!!)
@@ -107,7 +111,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 }
                 else -> itemLoading {
                     id("next-launch-loading")
-                    message(getString(R.string.nextLaunchFragmentLoadingMessage))
+                    message(getString(R.string.fragmentNextLaunchLoadingMessage))
                 }
             }
 
@@ -136,7 +140,7 @@ class NextLaunchFragment : MoonShotFragment() {
             itemLaunchCard {
                 id(launch.flightNumber)
                 launch(launch)
-                header(getString(R.string.nextLaunchFragmentNextLaunchHeaderText))
+                header(getString(R.string.fragmentNextLaunchNextLaunchHeaderText))
                 onLaunchClick { _ -> showLaunchDetails(launch.flightNumber) }
             }
 
@@ -145,16 +149,16 @@ class NextLaunchFragment : MoonShotFragment() {
                 detailHeader(getString(R.string.fragmentNextLaunchDateHeader))
                 detailName(
                     launch.launchDate?.format(resources.configuration, LONG_DATE_FORMAT)
-                        ?: getString(R.string.nextLaunchFragmentNoLaunchDateText)
+                        ?: getString(R.string.fragmentNextLaunchNoLaunchDateText)
                 )
-                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
+                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_date_range_24px))
             }
 
             itemLaunchDetail {
                 id("launch-site")
                 detailHeader(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
                 detailName(launch.siteNameLong)
-                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
+                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_place_24px))
                 onDetailClick { _ ->
                     launch.siteId?.let { id ->
                         val action = NextLaunchFragmentDirections.launchPadDetails(id)
@@ -175,7 +179,7 @@ class NextLaunchFragment : MoonShotFragment() {
 
     private fun createCountdownTimer(duration: Long): Timer {
         return countdownTimer(duration = duration, onFinish = {
-            viewModel.updateCountdownTime(getString(R.string.nextLaunchFragmentCountdownFinishText))
+            viewModel.updateCountdownTime(getString(R.string.fragmentNextLaunchCountdownFinishText))
         }) { millisUntilFinished ->
             val timeText = calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS).toString()
             viewModel.updateCountdownTime(timeText)

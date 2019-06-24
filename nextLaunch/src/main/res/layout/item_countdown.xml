@@ -30,7 +30,7 @@
                 android:layout_marginStart="@dimen/marginLarge"
                 android:layout_marginTop="@dimen/marginLarge"
                 android:layout_marginEnd="@dimen/marginLarge"
-                android:text="@string/itemCountdownHeaderText"
+                android:text="@string/fragmentNextLaunchCountdownHeaderText"
                 android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

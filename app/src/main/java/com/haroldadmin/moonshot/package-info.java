@@ -9,7 +9,6 @@
                 R.layout.item_rocket,
                 R.layout.item_map_card,
                 R.layout.item_text_header,
-                R.layout.item_countdown
         }
 )
 package com.haroldadmin.moonshot;

@@ -4,8 +4,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import com.haroldadmin.moonshot.launchPad.LaunchPadState
 import com.haroldadmin.moonshot.launchPad.LaunchPadViewModel
-import com.haroldadmin.moonshot.nextLaunch.NextLaunchState
-import com.haroldadmin.moonshot.nextLaunch.NextLaunchViewModel
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsState
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsViewModel
@@ -20,8 +18,6 @@ import org.koin.dsl.module
 val appModule = repositoryModule + module {
 
     viewModel { (initialState: ScaffoldingState) -> MainViewModel(initialState) }
-
-    viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get(), get()) }
 
     viewModel { (initialState: LaunchPadState) -> LaunchPadViewModel(initialState, get()) }
 

@@ -141,3 +141,4 @@
 -keep class com.haroldadmin.moonshot.rockets.DataBinderMapperImpl { *; }
 -keep class com.haroldadmin.moonshot.launchDetails.DataBinderMapperImpl { *; }
 -keep class com.haroldadmin.moonshot.launches.DataBinderMapperImpl { *; }
+-keep class com.haroldadmin.moonshot.nextLaunch.DataBinderMapperImpl { *; }
