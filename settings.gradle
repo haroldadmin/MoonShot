@@ -1,6 +1,7 @@
 include ":about"
 include ":settings"
 include ":rockets"
+include ":launchDetails"
 include ":base"
 include ":moonshot-repository"
 include ":database"

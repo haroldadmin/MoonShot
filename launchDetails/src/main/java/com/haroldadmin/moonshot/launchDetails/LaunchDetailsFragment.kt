@@ -15,24 +15,20 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
-import com.haroldadmin.moonshot.ItemInternetLinkBindingModel_
-import com.haroldadmin.moonshot.ItemLaunchPictureBindingModel_
-import com.haroldadmin.moonshot.ItemYoutubeLinkBindingModel_
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
-import com.haroldadmin.moonshot.itemLaunchRocket
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
+import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
@@ -54,9 +50,14 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        LaunchDetails.init()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvLaunchDetails.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -93,7 +94,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 is Resource.Error<LaunchMinimal, *> -> {
                     itemError {
                         id("launch-error")
-                        error(getString(R.string.launchDetailsFragmentLoading))
+                        error(getString(R.string.fragmentLaunchDetailsErrorMessage))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
 
@@ -103,7 +104,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 }
                 else -> itemLoading {
                     id("launch-loading")
-                    message(getString(R.string.launchDetailsFragmentLoadingMessage))
+                    message(getString(R.string.fragmentLaunchDetailsLoadingMessage))
                     spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
             }
@@ -112,7 +113,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 is Resource.Success -> {
                     itemTextHeader {
                         id("rocket")
-                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                        header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     if (stats.data.rocket != null) {
@@ -122,12 +123,12 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 is Resource.Error<LaunchStats, *> -> {
                     itemTextHeader {
                         id("rocket")
-                        header(getString(R.string.launchDetailsFragmentRocketSummaryHeaderText))
+                        header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     itemError {
                         id("rocket-summary-error")
-                        error(getString(R.string.launchDetailsFragmentRocketSummaryError))
+                        error(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     if (stats.data != null) {
@@ -173,22 +174,22 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 detailHeader(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
                 detailName(
                     launch.launchDate?.format(resources.configuration)
-                        ?: getString(R.string.launchDetailsFragmentNoLaunchDateText)
+                        ?: getString(R.string.fragmentLaunchDetailsNoLaunchDateMessage)
                 )
-                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_date_range_24px))
+                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_date_range_24px))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemLaunchDetail {
                 id("launch-site")
                 detailHeader(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
-                detailName(launch.siteName ?: getString(R.string.fragmentLauchDetailsNoLaunchSiteMessage))
-                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
+                detailName(launch.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
+                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_place_24px))
                 onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemLaunchDetail {
                 id("launch-success")
-                detailHeader(getString(R.string.fragmentLaunchSuccessHeader))
+                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
                 detailName(launch.launchSuccessText)
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_flight_takeoff_24px))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
@@ -196,7 +197,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
             itemExpandableTextWithHeading {
                 id("launch-details")
                 heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
-                text(launch.details ?: getString(R.string.launchDetailsFragmentNoLaunchDetailsText))
+                text(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
 
@@ -216,20 +217,22 @@ class LaunchDetailsFragment : MoonShotFragment() {
             rocketSummary(stats.rocket)
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             onRocketClick { _ ->
-                LaunchDetailsFragmentDirections.launchRocketDetails(stats.rocket!!.rocketId).also { action ->
+                LaunchDetailsFragmentDirections.launchRocketDetails(
+                    stats.rocket!!.rocketId
+                ).also { action ->
                     findNavController().navigate(action)
                 }
             }
         }
         itemTextWithHeading {
             id("first-stage-summary")
-            heading(getString(R.string.launchDetailsFragmentFirstStageSummaryHeader))
+            heading(getString(R.string.fragmentLaunchDetailsFirstStageSummaryHeader))
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
             text("Cores: ${stats.firstStageCoreCounts}")
         }
         itemTextWithHeading {
             id("second-stage-summary")
-            heading(getString(R.string.launchDetailsFragmentSecondStageSummaryHeader))
+            heading(getString(R.string.fragmentLaunchDetailsSecondStageSummaryHeader))
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
             text("Payloads: ${stats.secondStagePayloadCounts}")
         }
@@ -238,7 +241,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private fun buildLinks(links: Map<String, String>, controller: EpoxyController) = with(controller) {
         itemTextHeader {
             id("links")
-            header(getString(R.string.launchDetailsFragmentLinksHeader))
+            header(getString(R.string.fragmentLaunchDetailsLinksHeader))
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
 
@@ -286,8 +289,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
     }
 
     private fun showLaunchPadDetails(siteId: String) {
-        LaunchDetailsFragmentDirections.launchPadDetails(siteId).let { action ->
-            findNavController().navigate(action)
-        }
+        LaunchDetailsFragmentDirections.launchPadDetails(siteId)
+            .let { action ->
+                findNavController().navigate(action)
+            }
     }
 }

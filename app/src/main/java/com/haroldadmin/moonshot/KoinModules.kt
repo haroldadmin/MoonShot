@@ -2,8 +2,6 @@ package com.haroldadmin.moonshot
 
 import android.os.Handler
 import android.os.HandlerThread
-import com.haroldadmin.moonshot.launchDetails.LaunchDetailsState
-import com.haroldadmin.moonshot.launchDetails.LaunchDetailsViewModel
 import com.haroldadmin.moonshot.launchPad.LaunchPadState
 import com.haroldadmin.moonshot.launchPad.LaunchPadViewModel
 import com.haroldadmin.moonshot.launches.LaunchesState
@@ -26,8 +24,6 @@ val appModule = repositoryModule + module {
     viewModel { (initialState: ScaffoldingState) -> MainViewModel(initialState) }
 
     viewModel { (initialState: LaunchesState) -> LaunchesViewModel(initialState, get()) }
-
-    viewModel { (initialState: LaunchDetailsState) -> LaunchDetailsViewModel(initialState, get()) }
 
     viewModel { (initialState: NextLaunchState) -> NextLaunchViewModel(initialState, get(), get()) }
 

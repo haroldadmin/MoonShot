@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragmentLaunchDetailsLoadingMessage">Loading launch details</string>
+    <string name="fragmentLaunchDetailsErrorMessage">Failed to get launch details</string>
+    <string name="fragmentLaunchDetailsLaunchDateHeader">Launch Date</string>
+    <string name="fragmentLaunchDetailsNoLaunchDateMessage">Launch date unavailable</string>
+    <string name="fragmentLaunchDetailsFirstStageSummaryHeader">First Stage</string>
+    <string name="fragmentLaunchDetailsSecondStageSummaryHeader">Second Stage</string>
+    <string name="fragmentLaunchDetailsLaunchDetailsHeader">Details</string>
+    <string name="fragmentLaunchDetailsNoLaunchDetailsMessage">No details available</string>
+    <string name="fragmentLaunchDetailsLaunchSiteHeader">Launch Site</string>
+    <string name="fragmentLaunchDetailsNoLaunchSiteMessage">Launch Site unavailable</string>
+    <string name="fragmentLaunchDetailsRocketSummaryHeader">Rocket Summary</string>
+    <string name="fragmentLaunchDetailsRocketSummaryLoading">Loading rocket summary</string>
+    <string name="fragmentLaunchDetailsRocketSummaryError">Error while loading Rocket Summary</string>
+    <string name="fragmentLaunchDetailsLinksHeader">Links</string>
+    <string name="fragmentLaunchDetailsLaunchStatusHeader">Launch Status</string>
+</resources>

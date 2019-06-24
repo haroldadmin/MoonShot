@@ -142,7 +142,7 @@ class NextLaunchFragment : MoonShotFragment() {
 
             itemLaunchDetail {
                 id("launch-date")
-                detailHeader(getString(R.string.launchDetailLaunchDateHeader))
+                detailHeader(getString(R.string.fragmentNextLaunchDateHeader))
                 detailName(
                     launch.launchDate?.format(resources.configuration, LONG_DATE_FORMAT)
                         ?: getString(R.string.nextLaunchFragmentNoLaunchDateText)
@@ -152,7 +152,7 @@ class NextLaunchFragment : MoonShotFragment() {
 
             itemLaunchDetail {
                 id("launch-site")
-                detailHeader(getString(R.string.launchDetailLaunchSiteHeader))
+                detailHeader(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
                 detailName(launch.siteNameLong)
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_place_24px))
                 onDetailClick { _ ->
