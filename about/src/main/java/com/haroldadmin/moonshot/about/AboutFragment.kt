@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import com.haroldadmin.moonshot.about.databinding.FragmentAboutBinding
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.simpleController
-import com.haroldadmin.moonshot.databinding.FragmentAboutBinding
+import com.haroldadmin.moonshot.R as appR
 
 class AboutFragment : MoonShotFragment() {
 
@@ -21,7 +22,7 @@ class AboutFragment : MoonShotFragment() {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         binding.rvAbout.apply {
             setController(epoxyController)
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         }
         return binding.root
     }
@@ -71,7 +72,7 @@ class AboutFragment : MoonShotFragment() {
             itemAboutDetail {
                 id("repo")
                 header(getString(R.string.aboutFragmentRepositoryHeader))
-                message(getString(R.string.app_name))
+                message(getString(appR.string.app_name))
                 icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_github_round))
                 onDetailClick { _ ->
                     Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/haroldadmin/MoonShot")).also { intent ->

@@ -135,3 +135,6 @@
 -keep public enum com.haroldadmin.moonshot.**{
     *;
 }
+
+# ---- Databinding in feature modules rule --------- #
+-keep class com.haroldadmin.moonshot.about.DataBinderMapperImpl { *; }
