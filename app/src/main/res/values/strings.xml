@@ -38,19 +38,11 @@
     <string name="itemMapCardContentDescription">Static map image of this location</string>
     <string name="itemMapCardMapHeader">Map</string>
     <string name="launchDetailsFragmentRocketSummaryHeaderText">Rocket Summary</string>
-    <string name="preferencesNotificationsCategoryTitle">Notifications</string>
-    <string name="preferencesNotificationsSwitchTitle">Enable launch notifications</string>
-    <string name="preferencesNotificationsSwitchSummary">Get notifications before the next launch takes place</string>
-    <string name="preferencesNotificationsMinutesSummary">How many minutes before the launch should we remind you?</string>
-    <string name="preferencesNotificationsMinutesTitle">Minutes before launch</string>
+
     <string name="shortcutLaunchesShortLabel">Launches</string>
     <string name="shortcutRocketsShortLabel">Rockets</string>
     <string name="shortcutSettingsShortLabel">Settings</string>
     <string name="launchDetailsFragmentLinksHeader">Links</string>
-    <string name="preferencesUserInterfaceCategoryTitle">User Interface</string>
-    <string name="preferencesPrivacyCategoryTitle">Privacy</string>
-    <string name="preferencesCrashReportingSummary">Enable automatic crash reporting to help us improve the application</string>
-    <string name="preferencesCrashReportRestartMessage">Changing crash reports setting requires a restart</string>
     <string name="itemRocketHeader">Rocket</string>
     <string name="rocketDetailsFragmentRocketDescriptionHeader">Description</string>
     <string name="rocketDetailsFragmentCostPerLaunchHeader">Cost Per Launch</string>
@@ -62,10 +54,6 @@
     <string name="fragmentLaunchSuccessHeader">Launch Status</string>
     <string name="itemCountdownHeaderText">Count Down</string>
     <string name="nextLaunchFragmentCountdownFinishText">Happening now</string>
-    <string name="preferencesSyncCategoryTitle">Sync</string>
-    <string name="preferencesBackgroundSyncSummary">Allow the app to periodically refresh data in the background</string>
-    <string name="preferencesBackgroundSyncTitle">Background Sync</string>
-    <string name="preferencesThemeTitle">UI Theme</string>
-    <string name="preferencesThemeSummary">Change the colors of the app</string>
     <string name="title_about">About</string>
+    <string name="title_settings">Settings</string>
 </resources>

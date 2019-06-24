@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.MoonShot
-import com.haroldadmin.moonshot.R
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.THEME_MAPPINGS
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.sync.SyncManager
@@ -41,7 +41,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSurface))
+        view.setBackgroundColor(ContextCompat.getColor(requireContext(), appR.color.colorSurface))
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
