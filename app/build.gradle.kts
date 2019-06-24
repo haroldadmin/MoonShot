@@ -57,7 +57,7 @@ android {
     androidExtensions {
         isExperimental = true
     }
-    dynamicFeatures = mutableSetOf(":about", ":settings")
+    dynamicFeatures = mutableSetOf(":about", ":settings", ":rockets")
 }
 
 dependencies {

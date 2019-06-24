@@ -138,3 +138,4 @@
 
 # ---- Databinding in feature modules rule --------- #
 -keep class com.haroldadmin.moonshot.about.DataBinderMapperImpl { *; }
+-keep class com.haroldadmin.moonshot.rockets.DataBinderMapperImpl { *; }

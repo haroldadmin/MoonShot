@@ -53,10 +53,7 @@ class RocketDetailsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer {
-            Log.d(logtag, it.toString())
-            renderState()
-        })
+        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
     }
 
     override fun renderState() = withState(viewModel) { state ->

@@ -1,5 +1,6 @@
 include ":about"
 include ":settings"
+include ":rockets"
 include ":base"
 include ":moonshot-repository"
 include ":database"

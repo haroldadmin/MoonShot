@@ -13,8 +13,6 @@ import com.haroldadmin.moonshot.nextLaunch.NextLaunchViewModel
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsState
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsViewModel
-import com.haroldadmin.moonshot.rockets.RocketsState
-import com.haroldadmin.moonshot.rockets.RocketsViewModel
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
 import org.koin.android.ext.koin.androidApplication
@@ -28,8 +26,6 @@ val appModule = repositoryModule + module {
     viewModel { (initialState: ScaffoldingState) -> MainViewModel(initialState) }
 
     viewModel { (initialState: LaunchesState) -> LaunchesViewModel(initialState, get()) }
-
-    viewModel { (initialState: RocketsState) -> RocketsViewModel(initialState, get()) }
 
     viewModel { (initialState: LaunchDetailsState) -> LaunchDetailsViewModel(initialState, get()) }
 
