@@ -8,12 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.simpleController
 import com.haroldadmin.moonshot.databinding.FragmentAboutBinding
-import com.haroldadmin.moonshot.itemAboutApp
-import com.haroldadmin.moonshot.itemAboutDetail
 
 class AboutFragment : MoonShotFragment() {
 

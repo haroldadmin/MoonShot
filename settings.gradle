@@ -1,3 +1,4 @@
+include ':about'
 include ":base"
 include ":moonshot-repository"
 include ":database"

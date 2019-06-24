@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="aboutApp">MoonShot helps you keep up with SpaceX launches. If you like the project, please consider leaving us a great review on the app store.</string>
+    <string name="aboutFragmentRateMessage">Rate the app to show your support!</string>
+    <string name="aboutFragmentAuthorName">Kshitij Chauhan</string>
+    <string name="aboutFragmentRateHeader">Rate</string>
+    <string name="aboutFragmentAuthorHeader">Author</string>
+    <string name="aboutFragmentRepositoryHeader">Repository</string>
+    <string name="aboutFragmentArchitectureHeader">Vector</string>
+    <string name="aboutFragmentArchitectureMessage">This app is built with Vector, a Kotlin Coroutines based MVI architecture library for Android</string>
+</resources>
