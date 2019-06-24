@@ -10,8 +10,6 @@
     <string name="launchRocketDetailsButtonText">See details</string>
     <string name="headerLaunchDateHeader">Launch Date</string>
     <string name="launchCardHeaderText">Launch</string>
-    <string name="launchesFragmentErrorMessage">Error getting launches</string>
-    <string name="launchesFragmentLoadingMessage">Loading All Launches</string>
     <string name="nextLaunchFragmentErrorMessage">Error getting next launch</string>
     <string name="nextLaunchFragmentLoadingMessage">Loading next launch</string>
     <string name="fragmentLaunchPadLaunchPadHeader">Launch Pad</string>
@@ -41,4 +39,5 @@
     <string name="title_settings">Settings</string>
     <string name="title_rockets">Rockets</string>
     <string name="title_launch_details">Launch Details</string>
+    <string name="title_launches">Launches</string>
 </resources>

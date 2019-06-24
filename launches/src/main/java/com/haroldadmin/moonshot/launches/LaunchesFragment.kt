@@ -10,14 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
+import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject
@@ -25,24 +24,32 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import com.haroldadmin.moonshot.R as appR
 
 class LaunchesFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentLaunchesBinding
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
     private val viewModel by viewModel<LaunchesViewModel> {
-        parametersOf(LaunchesState(
-            type = safeArgs.type,
-            siteId = safeArgs.siteId
-        ))
+        parametersOf(
+            LaunchesState(
+                type = safeArgs.type,
+                siteId = safeArgs.siteId
+            )
+        )
     }
     private val mainViewModel by sharedViewModel<MainViewModel>()
     private val diffingHandler by inject<Handler>(named("differ"))
     private val buildingHandler by inject<Handler>(named("builder"))
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Launches.init()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fade_in)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvLaunches.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -77,7 +84,9 @@ class LaunchesFragment : MoonShotFragment() {
                             launch(launch)
                             onLaunchClick { model, _, _, _ ->
                                 val flightNumber = model.launch().flightNumber
-                                LaunchesFragmentDirections.launchDetails(flightNumber).let { directions ->
+                                LaunchesFragmentDirections.launchDetails(
+                                    flightNumber
+                                ).let { directions ->
                                     findNavController().navigate(directions)
                                 }
                             }
@@ -87,7 +96,7 @@ class LaunchesFragment : MoonShotFragment() {
                 is Resource.Error<List<LaunchMinimal>, *> -> {
                     itemError {
                         id("launch-error")
-                        error(getString(R.string.launchesFragmentErrorMessage))
+                        error(getString(R.string.fragmentLaunchesErrorMessage))
                     }
                     launches.data?.forEach { launch ->
                         itemLaunchCard {
@@ -95,7 +104,9 @@ class LaunchesFragment : MoonShotFragment() {
                             launch(launch)
                             onLaunchClick { model, _, _, _ ->
                                 val flightNumber = model.launch().flightNumber
-                                LaunchesFragmentDirections.launchDetails(flightNumber).let {
+                                LaunchesFragmentDirections.launchDetails(
+                                    flightNumber
+                                ).let {
                                     findNavController().navigate(it)
                                 }
                             }
@@ -104,7 +115,7 @@ class LaunchesFragment : MoonShotFragment() {
                 }
                 else -> itemLoading {
                     id("launches-loading")
-                    message(getString(R.string.launchesFragmentLoadingMessage))
+                    message(getString(R.string.fragmentLaunchesLoadingMessage))
                 }
             }
         }

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
+import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -26,7 +27,6 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemMapCard
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
-import com.haroldadmin.moonshot.launches.LaunchTypes
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.vector.withState
 import org.koin.android.ext.android.inject

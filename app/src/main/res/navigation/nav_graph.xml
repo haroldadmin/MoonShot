@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_launches">
         <argument
             android:name="type"
-            app:argType="com.haroldadmin.moonshot.launches.LaunchTypes"
+            app:argType="com.haroldadmin.moonshot.LaunchTypes"
             android:defaultValue="RECENT"/>
         <argument
             android:name="siteId"
