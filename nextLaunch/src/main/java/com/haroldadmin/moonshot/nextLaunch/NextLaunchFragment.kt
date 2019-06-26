@@ -23,6 +23,7 @@ import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject

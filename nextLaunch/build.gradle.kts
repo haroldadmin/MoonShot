@@ -58,6 +58,8 @@ dependencies {
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
 
+    implementation(Libs.jodaTime)
+    
     testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)

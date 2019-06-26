@@ -27,6 +27,8 @@ object Versions {
 
     const val room = "2.1.0"
 
+    const val jodaTime = "2.10.2"
+
     const val retrofit = "2.6.0"
     const val okHttp = "3.14.2"
     const val loggingInterceptor = "3.14.1"

@@ -15,7 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Calendar
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDate
 
 class NextLaunchViewModel(
     initState: NextLaunchState,
@@ -25,7 +26,8 @@ class NextLaunchViewModel(
 
     init {
         viewModelScope.launch {
-            getNextLaunch(Calendar.getInstance().timeInMillis)
+            val timeAtStartOfDay = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay().millis
+            getNextLaunch(timeAtStartOfDay)
         }
     }
 

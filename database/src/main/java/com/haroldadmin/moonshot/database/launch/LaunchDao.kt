@@ -49,10 +49,11 @@ abstract class LaunchDao : BaseDao<Launch> {
     @Query("""
         SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
-        WHERE launch_date_utc >= :currentTime
+        WHERE launch_date_utc >= :timeAtStartOfDay
+        ORDER BY launch_date_utc ASC
         LIMIT 1
     """)
-    abstract suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal?
+    abstract suspend fun getNextLaunchMinimal(timeAtStartOfDay: Long): LaunchMinimal?
 
     @Query("""
         SELECT rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count

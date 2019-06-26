@@ -128,16 +128,16 @@ class LaunchesRepository(
         }
     }
 
-    suspend fun flowNextLaunch(currentTime: Long) = flow<Resource<LaunchMinimal>> {
+    suspend fun flowNextLaunch(timeAtStartOfDay: Long) = flow<Resource<LaunchMinimal>> {
         emit(Resource.Loading)
-        val dbLaunch = launchDao.getNextLaunchMinimal(currentTime)
+        val dbLaunch = launchDao.getNextLaunchMinimal(timeAtStartOfDay)
         if (dbLaunch != null) {
             emit(Resource.Success(dbLaunch))
         }
         when (val apiLaunch = launchesService.getNextLaunch().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunch(apiLaunch.body)
-                val launch = launchDao.getNextLaunchMinimal(currentTime)!!
+                val launch = launchDao.getNextLaunchMinimal(timeAtStartOfDay)!!
                 if (launch != dbLaunch) {
                     emit(Resource.Success(launch))
                 }
