@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import androidx.work.WorkManager
 import com.airbnb.epoxy.Carousel
 import com.haroldadmin.moonshot.sync.SyncManager
+import com.haroldadmin.vector.Vector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,10 @@ class MoonShot : Application(), CoroutineScope {
         }
 
         Carousel.setDefaultGlobalSnapHelperFactory(null)
+
+        if (BuildConfig.DEBUG) {
+            Vector.enableLogging()
+        }
 
         launch {
             initializeWorkManager(this@MoonShot)
