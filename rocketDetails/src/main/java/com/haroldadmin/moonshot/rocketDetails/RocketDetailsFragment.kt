@@ -5,13 +5,14 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemLaunchCardBindingModel_
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
@@ -39,14 +40,24 @@ class RocketDetailsFragment : MoonShotFragment() {
     private val builder by inject<Handler>(named("builder"))
     private val differ by inject<Handler>(named("differ"))
     private val viewModel by viewModel<RocketDetailsViewModel> {
-        val initialState = RocketDetailsState(rocketId = safeArgs.rocketId)
+        val initialState =
+            RocketDetailsState(rocketId = safeArgs.rocketId)
         parametersOf(initialState)
     }
     private val mainViewModel by sharedViewModel<MainViewModel>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        RocketDetails.init()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
-        binding.rvRocketDetails.setController(epoxyController)
+        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        binding.rvRocketDetails.apply {
+            setController(epoxyController)
+            layoutAnimation = animation
+        }
         return binding.root
     }
 
@@ -115,7 +126,9 @@ class RocketDetailsFragment : MoonShotFragment() {
                                 .header("Launch")
                                 .launch(launch)
                                 .onLaunchClick { _ ->
-                                    RocketDetailsFragmentDirections.rocketLaunchDetails(launch.flightNumber)
+                                    RocketDetailsFragmentDirections.rocketLaunchDetails(
+                                        launch.flightNumber
+                                    )
                                         .also { action ->
                                             findNavController().navigate(action)
                                         }

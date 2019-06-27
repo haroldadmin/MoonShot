@@ -1,4 +1,4 @@
-apply(from="../ktlint.gradle")
+apply(from = "../ktlint.gradle")
 
 plugins {
     id("com.android.application")
@@ -49,7 +49,16 @@ android {
     androidExtensions {
         isExperimental = true
     }
-    dynamicFeatures = mutableSetOf(":about", ":settings", ":rockets", ":launchDetails", ":launches", ":nextLaunch", ":launchPad")
+    dynamicFeatures = mutableSetOf(
+        ":about",
+        ":settings",
+        ":rockets",
+        ":launchDetails",
+        ":launches",
+        ":nextLaunch",
+        ":launchPad",
+        ":rocketDetails"
+    )
 }
 
 dependencies {
