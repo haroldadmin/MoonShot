@@ -1,6 +1,5 @@
 package com.haroldadmin.moonshot.launchPad
 
-import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.models.common.Location
 
 fun Location.getStaticMapUrl(zoom: Int = 13, size: String = "200x200") =

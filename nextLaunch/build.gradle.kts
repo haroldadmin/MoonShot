@@ -38,6 +38,8 @@ dependencies {
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.kotlinStdLib)
+    implementation (Libs.coroutines)
+    implementation(Libs.coroutinesAndroid)
 
     implementation(Libs.vector)
 
@@ -59,7 +61,7 @@ dependencies {
     kapt(Libs.epoxyProcessor)
 
     implementation(Libs.jodaTime)
-    
+
     testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)

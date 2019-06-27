@@ -26,6 +26,16 @@ android {
     kapt {
         correctErrorTypes = true
     }
+    buildTypes {
+        all {
+            if (project.hasProperty("MAPQUEST_API_KEY")) {
+                val MAPQUEST_API_KEY: String by project
+                buildConfigField("String", "MapQuestApiKey", MAPQUEST_API_KEY)
+            } else {
+                buildConfigField("String", "MapQuestApiKey", "\"mock-key\"")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -50,6 +60,7 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
+    implementation(Libs.preference)
 
     implementation(Libs.koinCore)
     implementation(Libs.koinAndroid)
@@ -58,6 +69,9 @@ dependencies {
     implementation(Libs.epoxy)
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
+
+    implementation(Libs.glide)
+    kapt(Libs.glideCompiler)
 
     testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)

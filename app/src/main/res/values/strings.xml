@@ -10,13 +10,6 @@
     <string name="launchRocketDetailsButtonText">See details</string>
     <string name="headerLaunchDateHeader">Launch Date</string>
     <string name="launchCardHeaderText">Launch</string>
-    <string name="fragmentLaunchPadLaunchPadHeader">Launch Pad</string>
-    <string name="fragmentLaunchPadDetailsHeader">Details</string>
-    <string name="fragmentLaunchPadStatusHeader">Status</string>
-    <string name="fragmentLaunchPadLaunchPadErrorMessage">Unable to fetch Launch Pad Details</string>
-    <string name="fragmentLaunchPadLaunchPadLoadingMessage">Loading Launch Pad details</string>
-    <string name="itemMapCardContentDescription">Static map image of this location</string>
-    <string name="itemMapCardMapHeader">Map</string>
     <string name="shortcutLaunchesShortLabel">Launches</string>
     <string name="shortcutRocketsShortLabel">Rockets</string>
     <string name="shortcutSettingsShortLabel">Settings</string>
@@ -33,4 +26,5 @@
     <string name="title_launch_details">Launch Details</string>
     <string name="title_launches">Launches</string>
     <string name="title_next_launch">Next Launch</string>
+    <string name="title_launchpad">Launch Pad</string>
 </resources>

@@ -17,6 +17,6 @@ class RocketsViewModel(
 
     suspend fun getAllRockets() {
         repository.flowAllRocketsMinimal()
-            .collect { setState { copy(rockets = it) } }
+            .collect { setState { copy(rockets = it)} }
     }
 }

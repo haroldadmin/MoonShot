@@ -23,8 +23,8 @@
         <ImageView
             android:id="@+id/mapImage"
             glideImage="@{mapImageUrl}"
-            glideImageError="@{@drawable/ic_round_place_24px}"
-            glideImageFallback="@{@drawable/ic_round_place_24px}"
+            glideImageError="@{@drawable/ic_map_not_found}"
+            glideImageFallback="@{@drawable/ic_map_not_found}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/itemMapCardContentDescription"

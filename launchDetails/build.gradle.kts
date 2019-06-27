@@ -38,6 +38,8 @@ dependencies {
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.kotlinStdLib)
+    implementation(Libs.coroutines)
+    implementation(Libs.coroutinesAndroid)
 
     implementation(Libs.vector)
 
