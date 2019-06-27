@@ -33,7 +33,7 @@ class NextLaunchViewModel(
 
     suspend fun getNextLaunch(currentTime: Long) =
         launchesRepository.flowNextLaunch(currentTime)
-            .collect { setState { copy(nextLaunch = it)} }
+            .collect { setState { copy(nextLaunch = it) } }
 
     suspend fun persistNextLaunchValues(context: Context) = withContext(Dispatchers.Default) {
         withState { state ->
