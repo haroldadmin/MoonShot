@@ -46,6 +46,7 @@ dependencies {
     implementation(Libs.epoxy)
 
     testImplementation(Libs.junit4)
+    androidTestImplementation(Libs.mockkAndroid)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)
     androidTestImplementation(Libs.androidxTestCore)

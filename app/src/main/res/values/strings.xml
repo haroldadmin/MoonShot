@@ -22,4 +22,10 @@
     <string name="title_next_launch">Next Launch</string>
     <string name="title_launchpad">Launch Pad</string>
     <string name="title_rocket_details">Rocket Details</string>
+    <string name="launchNotificationsJustBeforeLaunchChannelName">Channel for reminders just before a launch</string>
+    <string name="launchNotificationsJustBeforeLaunchChannelDescription">Reminder notifications just before a launch takes place</string>
+    <string name="launchNotificationsWeekBeforeLaunchChannelName">Channel for reminders about launches this week</string>
+    <string name="launchNotificationsWeekBeforeLaunchChannelDescription">Reminder notifications for launches taking place this week</string>
+    <string name="launchNotificationsDayBeforeLaunchChannelName">Channel for reminders a day before the launch</string>
+    <string name="launchNotificationsDayBeforeLaunchChannelDescription">Reminder notifications for launches taking place on that day</string>
 </resources>

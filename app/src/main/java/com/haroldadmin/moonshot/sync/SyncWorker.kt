@@ -7,13 +7,12 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.koin.core.KoinComponent
 
 class SyncWorker(
     appContext: Context,
     params: WorkerParameters,
     private val launchesRepository: LaunchesRepository
-) : CoroutineWorker(appContext, params), KoinComponent {
+) : CoroutineWorker(appContext, params) {
 
     companion object {
         const val NAME = "sync-work"

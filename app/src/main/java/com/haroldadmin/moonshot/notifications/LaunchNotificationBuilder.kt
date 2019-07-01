@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.notifications
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
@@ -11,27 +12,129 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
-import com.haroldadmin.moonshot.MoonShot
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.utils.GlideApp
 
-object LaunchNotificationBuilder {
-    fun create(context: Context): Notification {
+class LaunchNotificationBuilder {
+    fun create(
+        context: Context,
+        type: LaunchNotification,
+        vararg content: LaunchNotificationContent
+    ): List<Notification> {
 
-        val preferences = context.getSharedPreferences(MoonShot.MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
-        val launchName = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_NAME, "A launch")
-        val launchSite = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_SITE, "a launch site")
-        val launchDate = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_DATE, "soon")
-        val missionPatch = preferences.getString(LaunchNotificationManager.KEY_LAUNCH_MISSION_PATCH, "")
-        val flightNumber = preferences.getInt(LaunchNotificationManager.KEY_FLIGHT_NUMBER, -1)
+        createChannels(context)
 
-        val pendingIntent = NavDeepLinkBuilder(context)
+        return when (type) {
+            LaunchNotification.JUST_BEFORE -> {
+                listOf(createJustBeforeLaunchNotification(context, content[0]))
+            }
+            LaunchNotification.DAY_BEFORE -> {
+                listOf(createDayBeforeLaunchNotification(context, content[0]))
+            }
+            LaunchNotification.WEEK_BEFORE -> {
+                createWeekBeforeLaunchNotification(context, *content)
+            }
+        }
+    }
+
+    private fun createJustBeforeLaunchNotification(
+        context: Context,
+        content: LaunchNotificationContent
+    ): Notification {
+        return NotificationCompat.Builder(
+            context,
+            LaunchNotificationsManager.JUST_BEFORE_LAUNCH_CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.ic_round_rocket_small)
+            .setLargeIcon(getMissionPatchIcon(content.missionPatch, context))
+            .setContentTitle("${content.name} Launch")
+            .setContentText("Launches at ${content.site} on ${content.date}")
+            .setContentIntent(getLaunchDetailsPendingIntent(context, content.flightNumber))
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .build()
+    }
+
+    private fun createDayBeforeLaunchNotification(
+        context: Context,
+        content: LaunchNotificationContent
+    ): Notification {
+        return NotificationCompat.Builder(
+            context,
+            LaunchNotificationsManager.DAY_BEFORE_LAUNCH_CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.ic_round_rocket_small)
+            .setLargeIcon(getMissionPatchIcon(content.missionPatch, context))
+            .setContentTitle("${content.name} Launch")
+            .setContentText("Launches at ${content.site} on ${content.date}")
+            .setContentIntent(getLaunchDetailsPendingIntent(context, content.flightNumber))
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .build()
+    }
+
+    private fun createWeekBeforeLaunchNotification(
+        context: Context,
+        vararg contents: LaunchNotificationContent
+    ): List<Notification> {
+
+        val notificationList = mutableListOf<Notification>()
+
+        for (content in contents) {
+            notificationList += NotificationCompat.Builder(
+                context,
+                LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_CHANNEL_ID
+            )
+                .setSmallIcon(R.drawable.ic_round_rocket_small)
+                .setLargeIcon(getMissionPatchIcon(content.missionPatch, context))
+                .setContentTitle("${content.name} Launch")
+                .setContentText("Launches at ${content.site} on ${content.date}")
+                .setContentIntent(getLaunchDetailsPendingIntent(context, content.flightNumber))
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setGroup(LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_GROUP_ID)
+                .build()
+        }
+
+        val notificationStyle = NotificationCompat.InboxStyle().also { style ->
+            contents
+                .take(6)
+                .forEach { content ->
+                    style.addLine(content.name)
+                }
+        }
+
+        notificationList += NotificationCompat.Builder(
+            context,
+            LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.ic_round_rocket_small)
+            .setContentTitle("Launches this week")
+            .setContentText("There are ${contents.size + 1} launches this week")
+            .setStyle(notificationStyle)
+            .setGroup(LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_GROUP_ID)
+            .setGroupSummary(true)
+            .build()
+
+        return notificationList
+    }
+
+    private fun getLaunchDetailsPendingIntent(context: Context, flightNumber: Int): PendingIntent {
+        return NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
             .setDestination(R.id.launchDetails)
             .setArguments(bundleOf("flightNumber" to flightNumber))
             .createPendingIntent()
+    }
 
-        val largeIcon: Bitmap = if (missionPatch.isNullOrBlank()) {
+    private fun getMissionPatchIcon(url: String?, context: Context): Bitmap {
+        return if (url.isNullOrBlank()) {
             GlideApp.with(context)
                 .load(R.drawable.ic_round_rocket_small)
                 .submit()
@@ -40,36 +143,40 @@ object LaunchNotificationBuilder {
         } else {
             GlideApp.with(context)
                 .asBitmap()
-                .load(missionPatch)
+                .load(url)
                 .submit()
                 .get()
         }
-
-        createChannel(context)
-
-        return NotificationCompat.Builder(context, LaunchNotificationManager.PRIMARY_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_round_rocket_small)
-            .setLargeIcon(largeIcon)
-            .setContentTitle("$launchName Launch")
-            .setContentText("Launches at $launchSite, $launchDate")
-            .setContentIntent(pendingIntent)
-            .setCategory(NotificationCompat.CATEGORY_REMINDER)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .build()
     }
 
-    private fun createChannel(context: Context) {
+    private fun createChannels(context: Context) {
         val notificationManager = NotificationManagerCompat.from(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
+
+            val justBeforeLaunchChannel =
                 NotificationChannel(
-                    LaunchNotificationManager.PRIMARY_CHANNEL_ID,
-                    "SpaceX Launch notifications",
+                    LaunchNotificationsManager.JUST_BEFORE_LAUNCH_CHANNEL_ID,
+                    context.getString(R.string.launchNotificationsJustBeforeLaunchChannelName),
                     NotificationManager.IMPORTANCE_HIGH
                 )
-            notificationManager.createNotificationChannel(channel)
+
+            val dayBeforeLaunchChannel =
+                NotificationChannel(
+                    LaunchNotificationsManager.DAY_BEFORE_LAUNCH_CHANNEL_ID,
+                    context.getString(R.string.launchNotificationsDayBeforeLaunchChannelName),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+
+            val weekBeforeLaunchChannel =
+                NotificationChannel(
+                    LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_CHANNEL_ID,
+                    context.getString(R.string.launchNotificationsWeekBeforeLaunchChannelName),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+
+            notificationManager.createNotificationChannel(justBeforeLaunchChannel)
+            notificationManager.createNotificationChannel(dayBeforeLaunchChannel)
+            notificationManager.createNotificationChannel(weekBeforeLaunchChannel)
         }
     }
 }

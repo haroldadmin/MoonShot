@@ -2,7 +2,9 @@ package com.haroldadmin.moonshot
 
 import android.os.Handler
 import android.os.HandlerThread
-import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
+import com.haroldadmin.moonshot.notifications.LaunchNotificationBuilder
+import com.haroldadmin.moonshot.notifications.LaunchNotificationManagerImpl
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
 import org.koin.android.ext.koin.androidApplication
@@ -28,5 +30,6 @@ val appModule = repositoryModule + module {
     single { MoonShotWorkerFactory(getKoin()) }
     single { SyncManager(androidApplication()) }
 
-    factory { LaunchNotificationManager(androidContext()) }
+    single<LaunchNotificationsManager> { LaunchNotificationManagerImpl(androidContext()) }
+    factory<LaunchNotificationBuilder> { LaunchNotificationBuilder() }
 }

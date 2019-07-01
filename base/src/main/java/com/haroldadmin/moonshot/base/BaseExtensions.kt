@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.base
 
+import android.app.Notification
+import android.content.Context
 import android.os.Handler
+import androidx.core.app.NotificationManagerCompat
 import com.airbnb.epoxy.AsyncEpoxyController
 import com.airbnb.epoxy.CarouselModelBuilder
 import com.airbnb.epoxy.CarouselModel_
@@ -86,4 +89,9 @@ inline fun <T, R> CarouselModelBuilder.withModelsFrom(
     modelBuilder: (T, R) -> EpoxyModel<*>
 ) {
     models(items.map { (key, value) -> modelBuilder(key, value) })
+}
+
+fun Notification.notify(context: Context, code: Int) {
+    NotificationManagerCompat.from(context)
+        .notify(code, this)
 }

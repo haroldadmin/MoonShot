@@ -1,15 +1,12 @@
 package com.haroldadmin.moonshot.nextLaunch
 
 import android.content.Context
-import androidx.core.content.edit
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.haroldadmin.moonshot.MoonShot
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
-import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
-import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -21,7 +18,7 @@ import org.joda.time.LocalDate
 class NextLaunchViewModel(
     initState: NextLaunchState,
     private val launchesRepository: LaunchesRepository,
-    private val launchNotificationManager: LaunchNotificationManager
+    private val launchNotificationManager: LaunchNotificationsManager
 ) : MoonShotViewModel<NextLaunchState>(initState) {
 
     init {
@@ -40,27 +37,27 @@ class NextLaunchViewModel(
             if (state.nextLaunch !is Resource.Success) return@withState
 
             val settings = PreferenceManager.getDefaultSharedPreferences(context)
-            if (!settings.getBoolean(LaunchNotificationManager.KEY_LAUNCH_NOTIFICATIONS, true)) {
+            if (!settings.getBoolean(LaunchNotificationsManager.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)) {
                 return@withState
             }
 
             val preferences = context.getSharedPreferences(MoonShot.MOONSHOT_SHARED_PREFS, Context.MODE_PRIVATE)
 
-            preferences.edit(commit = true) {
-                putInt(LaunchNotificationManager.KEY_FLIGHT_NUMBER, state.nextLaunch.data.flightNumber)
-                putString(LaunchNotificationManager.KEY_LAUNCH_NAME, state.nextLaunch.data.missionName)
-                putString(LaunchNotificationManager.KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
-                putString(
-                    LaunchNotificationManager.KEY_LAUNCH_DATE,
-                    state.nextLaunch.data.launchDate?.format(
-                        context.resources.configuration,
-                        LONG_DATE_FORMAT
-                    )
-                )
-                state.nextLaunch.data.launchDate?.let {
-                    putLong(LaunchNotificationManager.KEY_LAUNCH_TIME, it.time)
-                }
-            }
+//            preferences.edit(commit = true) {
+//                putInt(LaunchNotificationsManager.KEY_FLIGHT_NUMBER, state.nextLaunch.data.flightNumber)
+//                putString(LaunchNotificationsManager.KEY_LAUNCH_NAME, state.nextLaunch.data.missionName)
+//                putString(LaunchNotificationsManager.KEY_LAUNCH_SITE, state.nextLaunch.data.siteName)
+//                putString(
+//                    LaunchNotificationsManager.KEY_LAUNCH_DATE,
+//                    state.nextLaunch.data.launchDate?.format(
+//                        context.resources.configuration,
+//                        LONG_DATE_FORMAT
+//                    )
+//                )
+//                state.nextLaunch.data.launchDate?.let {
+//                    putLong(LaunchNotificationsManager.KEY_LAUNCH_TIME, it.time)
+//                }
+//            }
 
             scheduleNotification()
             setState { copy(notificationScheduled = true) }
@@ -70,7 +67,7 @@ class NextLaunchViewModel(
     private suspend fun scheduleNotification() = withContext(Dispatchers.Default) {
         withState { state ->
             if (state.nextLaunch !is Resource.Success) return@withState
-            launchNotificationManager.scheduleNotifications()
+//            launchNotificationManager.scheduleNotifications()
         }
     }
 

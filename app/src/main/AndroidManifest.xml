@@ -35,20 +35,29 @@
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
 
-        <receiver android:name=".notifications.BootCompleteReceiver">
+        <receiver android:name=".notifications.receivers.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notifications.TimeChangedReceiver">
+        <receiver android:name=".notifications.receivers.TimeChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".notifications.LaunchAlarmReceiver"
+            android:name=".notifications.receivers.JustBeforeLaunchAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".notifications.receivers.DayBeforeLaunchAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".notifications.receivers.WeekBeforeLaunchAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
 

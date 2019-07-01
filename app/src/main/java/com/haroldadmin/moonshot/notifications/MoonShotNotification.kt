@@ -1,0 +1,3 @@
+package com.haroldadmin.moonshot.notifications
+
+interface MoonShotNotification

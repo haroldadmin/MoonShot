@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class SyncManager(val context: Context) {
+class SyncManager(private val context: Context) {
 
     companion object {
         const val KEY_BACKGROUND_SYNC = "background-sync"

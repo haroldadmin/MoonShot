@@ -77,9 +77,6 @@ dependencies {
 
     implementation(Libs.vector)
 
-    implementation(Libs.rxJava)
-    implementation(Libs.rxAndroid)
-
     implementation(Libs.appCompat)
     implementation(Libs.lifecycle)
     implementation(Libs.materialComponents)
@@ -89,6 +86,8 @@ dependencies {
     implementation(Libs.navigationUi)
     implementation(Libs.preference)
     implementation(Libs.workManager)
+
+    implementation(Libs.jodaTime)
 
     implementation(Libs.epoxy)
     implementation(Libs.epoxyDatabinding)
@@ -100,6 +99,8 @@ dependencies {
     implementation(Libs.lemniscate)
 
     testImplementation(Libs.junit4)
+    testImplementation(Libs.mockkAndroid)
+
     androidTestImplementation(Libs.mockkAndroid)
     androidTestImplementation(Libs.workManagerTestHelpers)
     androidTestImplementation(Libs.androidxJunitExt)
