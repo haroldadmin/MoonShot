@@ -1,6 +1,5 @@
 package com.haroldadmin.moonshot.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -12,10 +11,13 @@ import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
-import com.haroldadmin.moonshot.MoonShot
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.THEME_MAPPINGS
-import com.haroldadmin.moonshot.notifications.LaunchNotificationManager
+import com.haroldadmin.moonshot.notifications.LaunchNotification
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
+import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.CoroutineScope
@@ -24,20 +26,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
+import com.haroldadmin.moonshot.R as appR
 
 class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
 
     private val job = Job()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
-    private val launchNotificationsManager by inject<LaunchNotificationManager>()
+    private val launchNotificationsManager by inject<LaunchNotificationsManager>()
     private val syncManager by inject<SyncManager>()
-    private val preferences by lazy {
-        requireContext().getSharedPreferences(
-            MoonShot.MOONSHOT_SHARED_PREFS,
-            Context.MODE_PRIVATE
-        )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,18 +44,45 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        findPreference<SwitchPreferenceCompat>(LaunchNotificationManager.KEY_LAUNCH_NOTIFICATIONS)?.setOnPreferenceChangeListener { _, newValue ->
-            if (newValue == false) {
-                log("Disabling launch notifications")
-                launch { launchNotificationsManager.disableNotifications() }
+        findPreference<SwitchPreferenceCompat>(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
+            if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
+
+            if (isEnabled) {
+                launchNotificationsManager.enable()
+            } else {
+                log("Disabling just before launch notifications")
+                launchNotificationsManager.disable(LaunchNotification.JUST_BEFORE)
             }
             true
         }
 
-        findPreference<SeekBarPreference>(LaunchNotificationManager.KEY_NOTIFICATION_PADDING)?.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<SeekBarPreference>(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue !is Int) return@setOnPreferenceChangeListener false
             log("Setting launch notification padding to $newValue minutes")
-            launch { launchNotificationsManager.scheduleNotifications(newValue) }
+            true
+        }
+
+        findPreference<SwitchPreferenceCompat>(KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
+            if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
+
+            if (isEnabled) {
+                launchNotificationsManager.enable()
+            } else {
+                log("Disabling day before launch notifications")
+                launchNotificationsManager.disable(LaunchNotification.DAY_BEFORE)
+            }
+            true
+        }
+
+        findPreference<SwitchPreferenceCompat>(KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
+            if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
+
+            if (isEnabled) {
+                launchNotificationsManager.enable()
+            } else {
+                log("Disabling week before launch notifications")
+                launchNotificationsManager.disable(LaunchNotification.WEEK_BEFORE)
+            }
             true
         }
 
@@ -74,7 +98,11 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
 
         findPreference<SwitchPreferenceCompat>(KEY_CRASH_REPORTS)?.setOnPreferenceChangeListener { _, _ ->
             view?.let { rootView ->
-                Snackbar.make(rootView, R.string.preferencesCrashReportRestartMessage, Snackbar.LENGTH_SHORT)
+                Snackbar.make(
+                    rootView,
+                    R.string.preferencesCrashReportRestartMessage,
+                    Snackbar.LENGTH_SHORT
+                )
                     .setAction("Restart") {
                         activity?.recreate()
                     }

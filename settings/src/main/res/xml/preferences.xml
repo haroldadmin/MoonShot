@@ -41,6 +41,24 @@
             app:min="0"
             app:showSeekBarValue="true" />
 
+        <SwitchPreferenceCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:summary="@string/preferencesNotificationsDayBeforeLaunchSwitchDescription"
+            app:icon="@drawable/ic_round_notifications_24px"
+            app:key="day-before-launch-notifications"
+            app:title="@string/preferencesNotificationsDayBeforeLaunchSwitchTitle" />
+
+        <SwitchPreferenceCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:summary="@string/preferencesNotificationsWeekBeforeLaunchSwitchDescription"
+            app:icon="@drawable/ic_round_notifications_24px"
+            app:key="week-before-launch-notifications"
+            app:title="@string/preferencesNotificationsWeekBeforeLaunchSwitchTitle" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
