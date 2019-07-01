@@ -229,7 +229,12 @@ class LaunchesRepository(
         .flowOn(Dispatchers.IO)
 
     suspend fun syncLaunches(): Resource<Unit> {
-        return when (val apiLaunches = executeWithRetry { launchesService.getAllLaunches().await() }) {
+
+        val apiLaunches = executeWithRetry {
+            launchesService.getAllLaunches().await()
+        }
+
+        return when (apiLaunches) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(apiLaunches.body)
                 Resource.Success(Unit)
@@ -237,6 +242,14 @@ class LaunchesRepository(
             is NetworkResponse.ServerError -> Resource.Error(Unit, null)
             is NetworkResponse.NetworkError -> Resource.Error(Unit, null)
         }
+    }
+
+    suspend fun getNextLaunchFromDatabase(currentTime: Long): DbLaunch? {
+        return launchDao.getNextLaunch(currentTime)
+    }
+
+    suspend fun getLaunchesInTimeRangeFromDatabase(start: Long, end: Long, limit: Int): List<DbLaunch> {
+        return launchDao.getLaunchesInRange(start, end, limit)
     }
 
     private suspend fun saveApiLaunches(apiLaunches: List<Launch>) {
