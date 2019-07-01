@@ -33,7 +33,6 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     private val repository by inject<LaunchesRepository>()
 
     override fun onReceive(context: Context, intent: Intent) {
-        log("Intent received")
         launch {
             val timestamp = LocalDate
                 .now(DateTimeZone.UTC)
@@ -58,8 +57,6 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
                 flightNumber = nextLaunch.flightNumber,
                 time = nextLaunch.launchDate.time
             )
-
-            log("Notification Content: $notificationContent")
 
             notificationBuilder
                 .create(context, LaunchNotification.JUST_BEFORE, notificationContent)

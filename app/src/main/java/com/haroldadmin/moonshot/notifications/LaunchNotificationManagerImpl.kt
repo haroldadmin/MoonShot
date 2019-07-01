@@ -12,7 +12,6 @@ import com.haroldadmin.moonshot.base.broadcastPendingIntent
 import com.haroldadmin.moonshot.base.cancelAlarmWithIntent
 import com.haroldadmin.moonshot.base.exactAlarmAt
 import com.haroldadmin.moonshot.base.intent
-import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.DAY_BEFORE_LAUNCH_NOTIFICATION_ID
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.DAY_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.JUST_BEFORE_LAUNCH_NOTIFICATION_ID
@@ -40,11 +39,10 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
             settings.getBoolean(KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true) ||
             settings.getBoolean(KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)
         ) {
-
             log("Enabling notifications")
             enqueueNotificationWork()
         } else {
-            log("Notifications disabled in settings, not enqueing notification work")
+            log("Notifications disabled in settings, not enqueueing notification work")
         }
     }
 
@@ -129,8 +127,6 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
 
         val notificationTime = LocalDateTime(time).minusMillis(paddingMillis).toDateTime()
 
-        log("Scheduling JBL notification at ${notificationTime.toString(LONG_DATE_FORMAT)}")
-
         context.exactAlarmAt(notificationTime.toDate().time) {
             broadcastPendingIntent(JUST_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
                 intent<JustBeforeLaunchAlarmReceiver>()
@@ -141,8 +137,6 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
     private fun scheduleDayBeforeLaunchNotification(time: Long) {
         val notificationTime = LocalDate(time).minusDays(1).toDateTimeAtStartOfDay()
 
-        log("Scheduling DBL notification at ${notificationTime.toString(LONG_DATE_FORMAT)}")
-
         context.exactAlarmAt(notificationTime.millis) {
             broadcastPendingIntent(DAY_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
                 intent<DayBeforeLaunchAlarmReceiver>()
@@ -152,8 +146,6 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
 
     private fun scheduleWeekBeforeLaunchNotifications() {
         val notificationTime = LocalDate.now().toDateTimeAtStartOfDay()
-
-        log("Scheduling WBL notifications at ${notificationTime.toString(LONG_DATE_FORMAT)}")
 
         context.exactAlarmAt(notificationTime.millis) {
             broadcastPendingIntent(WEEK_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {

@@ -33,7 +33,6 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
     private val repository by inject<LaunchesRepository>()
 
     override fun onReceive(context: Context, intent: Intent) {
-        log("Intent received")
         launch {
             val timeStamp = LocalDate
                 .now()
@@ -59,8 +58,6 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
                 flightNumber = nextLaunch.flightNumber,
                 time = nextLaunch.launchDate.time
             )
-
-            log("Notification Content: $notificationContent")
 
             notificationBuilder
                 .create(context, LaunchNotification.DAY_BEFORE, notificationContent)

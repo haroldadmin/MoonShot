@@ -33,7 +33,6 @@ class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     private val repository by inject<LaunchesRepository>()
 
     override fun onReceive(context: Context, intent: Intent) {
-        log("Intent received")
         launch {
             val start = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay()
             val end = start.plusDays(7)

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
@@ -85,8 +84,6 @@ class NotificationSchedulingWorker(
     private suspend fun scheduleWeekBeforeLaunchNotifications() {
         val start = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay()
         val end = start.plusDays(7)
-
-        log("Start: ${start.toString(LONG_DATE_FORMAT)} and End: ${end.toString(LONG_DATE_FORMAT)}")
 
         launchesRepository
             .getLaunchesInTimeRangeFromDatabase(
