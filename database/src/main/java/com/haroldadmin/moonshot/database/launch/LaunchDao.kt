@@ -31,8 +31,21 @@ abstract class LaunchDao : BaseDao<Launch> {
     @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT :limit")
     abstract suspend fun getUpcomingLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
 
-    @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT 1")
+    @Query("""
+        SELECT * FROM launches
+        WHERE launch_date_utc >= :timestamp
+        ORDER BY launch_date_utc ASC
+        LIMIT 1
+    """)
     abstract suspend fun getNextLaunch(timestamp: Long): Launch?
+
+    @Query("""
+        SELECT * FROM launches
+        WHERE launch_date_utc >= :start AND launch_date_utc <= :end
+        ORDER BY launch_date_utc ASC
+        LIMIT :maxCount
+    """)
+    abstract suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch>
 
     @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp LIMIT :limit")
     abstract suspend fun getPastLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
