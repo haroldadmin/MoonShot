@@ -2,7 +2,7 @@ package com.haroldadmin.moonshot.base
 
 import android.util.Log
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.vector.viewModel.VectorViewModel
+import com.haroldadmin.vector.VectorViewModel
 
 abstract class MoonShotViewModel<S : MoonShotState>(initState: S) : VectorViewModel<S>(initState) {
 

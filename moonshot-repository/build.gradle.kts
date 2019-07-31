@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 apply(from="../ktlint.gradle")
 
@@ -28,6 +29,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        this as KotlinJvmOptions
+        jvmTarget = "1.8"
     }
     packagingOptions {
         exclude("META-INF/LICENSE*")

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
 apply(from = "../ktlint.gradle")
 
 plugins {
@@ -18,6 +20,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        this as KotlinJvmOptions
+        jvmTarget = "1.8"
     }
 }
 

@@ -1,6 +1,6 @@
 object Versions {
 
-    const val coroutines = "1.3.0-M1"
+    const val coroutines = "1.3.0-RC"
 
     const val koin = "2.0.1"
 
@@ -12,9 +12,9 @@ object Versions {
     const val navigation = "2.1.0-alpha05"
     const val paging = "2.1.0"
     const val preference = "1.1.0-beta01"
-    const val workManager = "2.1.0-rc01"
+    const val workManager = "2.2.0-rc01"
 
-    const val vector = "0.2.0"
+    const val vector = "0.3.1"
 
     const val epoxy = "3.5.1"
 

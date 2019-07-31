@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
 apply(from = "../ktlint.gradle")
 
 plugins {
@@ -25,6 +27,10 @@ android {
     }
     kapt {
         correctErrorTypes = true
+    }
+    kotlinOptions {
+        this as KotlinJvmOptions
+        jvmTarget = "1.8"
     }
 }
 

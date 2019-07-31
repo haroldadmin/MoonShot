@@ -12,6 +12,17 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
+    override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch> {
+       return listOf()
+    }
+
+    override suspend fun getLaunchesForLaunchPad(
+        siteId: String,
+        timestamp: Long
+    ): List<LaunchMinimal> {
+        return listOf()
+    }
+
     override suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, limit: Int): List<LaunchMinimal> = listOf()
 
     override suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal? = null
