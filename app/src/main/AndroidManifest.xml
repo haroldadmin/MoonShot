@@ -35,6 +35,11 @@
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
 
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove" />
+
         <receiver android:name=".notifications.receivers.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -59,12 +64,6 @@
         <receiver
             android:name=".notifications.receivers.WeekBeforeLaunchAlarmReceiver"
             android:enabled="true"
-            android:exported="false" />
-
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove"
             android:exported="false" />
 
     </application>
