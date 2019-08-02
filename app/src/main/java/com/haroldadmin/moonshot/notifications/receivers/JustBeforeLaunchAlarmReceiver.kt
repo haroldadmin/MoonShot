@@ -6,7 +6,6 @@ import android.content.Intent
 import com.haroldadmin.moonshot.base.notify
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.LaunchNotification
-import com.haroldadmin.moonshot.notifications.LaunchNotificationBuilder
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.format
@@ -20,6 +19,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.koin.core.qualifier.named
 import kotlin.coroutines.CoroutineContext
 
 class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, CoroutineScope {
@@ -29,8 +29,8 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     }
     override val coroutineContext: CoroutineContext = Dispatchers.Default + exceptionHandler
 
-    private val notificationBuilder by inject<LaunchNotificationBuilder>()
     private val repository by inject<LaunchesRepository>()
+    private val notification by inject<LaunchNotification>(named("just-before-launch"))
 
     override fun onReceive(context: Context, intent: Intent) {
         launch {
@@ -46,7 +46,7 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
                     return@launch
                 }
 
-            val notificationContent = LaunchNotificationContent(
+            val content = LaunchNotificationContent(
                 name = nextLaunch.missionName,
                 site = nextLaunch.launchSite?.siteName ?: "Unknown",
                 date = nextLaunch.launchDate.format(
@@ -58,11 +58,9 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
                 time = nextLaunch.launchDate.time
             )
 
-            notificationBuilder
-                .create(context, LaunchNotification.JUST_BEFORE, notificationContent)
-                .map { notification ->
-                    notification.notify(context, LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_ID)
-                }
+            notification
+                .create(context, content)
+                .notify(context, LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_ID)
         }
     }
 }

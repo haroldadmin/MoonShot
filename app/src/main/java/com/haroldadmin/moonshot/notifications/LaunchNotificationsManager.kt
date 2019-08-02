@@ -1,9 +1,5 @@
 package com.haroldadmin.moonshot.notifications
 
-enum class LaunchNotification : MoonShotNotification {
-    JUST_BEFORE, DAY_BEFORE, WEEK_BEFORE
-}
-
 interface LaunchNotificationsManager {
 
     companion object {

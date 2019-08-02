@@ -2,9 +2,13 @@ package com.haroldadmin.moonshot
 
 import android.os.Handler
 import android.os.HandlerThread
-import com.haroldadmin.moonshot.notifications.LaunchNotificationBuilder
+import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
+import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
+import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManagerImpl
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.notifications.WeekBeforeLaunch
+import com.haroldadmin.moonshot.notifications.workers.MoonShotWorkerFactory
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
 import org.koin.android.ext.koin.androidApplication
@@ -31,5 +35,8 @@ val appModule = repositoryModule + module {
     single { SyncManager(androidApplication()) }
 
     single<LaunchNotificationsManager> { LaunchNotificationManagerImpl(androidContext()) }
-    factory<LaunchNotificationBuilder> { LaunchNotificationBuilder() }
+
+    factory<LaunchNotification>(named("just-before-launch")) { JustBeforeLaunch }
+    factory<LaunchNotification>(named("day-before-launch")) { DayBeforeLaunch }
+    factory<LaunchNotification>(named("week-before-launch")) { WeekBeforeLaunch }
 }

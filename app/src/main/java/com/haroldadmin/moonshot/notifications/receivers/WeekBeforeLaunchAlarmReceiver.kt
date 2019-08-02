@@ -6,7 +6,6 @@ import android.content.Intent
 import com.haroldadmin.moonshot.base.notify
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.LaunchNotification
-import com.haroldadmin.moonshot.notifications.LaunchNotificationBuilder
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.format
@@ -20,6 +19,7 @@ import org.joda.time.DateTimeZone
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.joda.time.LocalDate
+import org.koin.core.qualifier.named
 import kotlin.coroutines.CoroutineContext
 
 class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, CoroutineScope {
@@ -29,7 +29,7 @@ class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     }
     override val coroutineContext: CoroutineContext = Dispatchers.Default + exceptionHandler
 
-    private val notificationBuilder by inject<LaunchNotificationBuilder>()
+    private val notification by inject<LaunchNotification>(named("week-before-launch"))
     private val repository by inject<LaunchesRepository>()
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -60,11 +60,11 @@ class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
                 ?.toTypedArray()
                 ?: return@launch log("No launches this week, not scheduling notifications")
 
-            notificationBuilder
-                .create(context, LaunchNotification.WEEK_BEFORE, *notificationContent)
-                .map { notification ->
-                    notification.notify(context, LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_NOTIFICATION_ID)
-                }
+            notificationContent.forEach { content ->
+                notification
+                    .create(context, content)
+                    .notify(context, LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_NOTIFICATION_ID)
+            }
         }
     }
 }

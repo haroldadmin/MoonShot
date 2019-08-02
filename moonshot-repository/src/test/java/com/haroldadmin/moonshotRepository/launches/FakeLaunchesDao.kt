@@ -13,7 +13,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
     override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch> {
-       return listOf()
+        return listOf()
     }
 
     override suspend fun getLaunchesForLaunchPad(

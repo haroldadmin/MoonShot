@@ -8,6 +8,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.haroldadmin.moonshot.notifications.workers.WeeklyNotificationSchedulingWorker
 import com.haroldadmin.moonshot.base.broadcastPendingIntent
 import com.haroldadmin.moonshot.base.cancelAlarmWithIntent
 import com.haroldadmin.moonshot.base.exactAlarmAt
@@ -25,6 +26,7 @@ import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Compani
 import com.haroldadmin.moonshot.notifications.receivers.DayBeforeLaunchAlarmReceiver
 import com.haroldadmin.moonshot.notifications.receivers.JustBeforeLaunchAlarmReceiver
 import com.haroldadmin.moonshot.notifications.receivers.WeekBeforeLaunchAlarmReceiver
+import com.haroldadmin.moonshot.notifications.workers.DailyNotificationSchedulingWorker
 import com.haroldadmin.moonshot.utils.log
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
@@ -55,24 +57,35 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
             .setRequiresCharging(false)
             .build()
 
-        val workRequest = PeriodicWorkRequestBuilder<NotificationSchedulingWorker>(1, TimeUnit.DAYS)
-            .setConstraints(constraints)
-            .build()
+        val dailyWorkRequest =
+            PeriodicWorkRequestBuilder<DailyNotificationSchedulingWorker>(1, TimeUnit.DAYS)
+                .setConstraints(constraints)
+                .build()
 
-        WorkManager
-            .getInstance(context)
-            .enqueueUniquePeriodicWork(
-                NotificationSchedulingWorker.NAME,
+        val weeklyWorkRequest =
+            PeriodicWorkRequestBuilder<WeeklyNotificationSchedulingWorker>(7, TimeUnit.DAYS)
+                .setConstraints(constraints)
+                .build()
+
+        with(WorkManager.getInstance(context)) {
+            enqueueUniquePeriodicWork(
+                DailyNotificationSchedulingWorker.NAME,
                 ExistingPeriodicWorkPolicy.REPLACE,
-                workRequest
+                dailyWorkRequest
             )
+            enqueueUniquePeriodicWork(
+                WeeklyNotificationSchedulingWorker.NAME,
+                ExistingPeriodicWorkPolicy.KEEP,
+                weeklyWorkRequest
+            )
+        }
     }
 
     override fun schedule(type: LaunchNotification, time: Long) {
         when (type) {
-            LaunchNotification.JUST_BEFORE -> scheduleJustBeforeLaunchNotification(time)
-            LaunchNotification.DAY_BEFORE -> scheduleDayBeforeLaunchNotification(time)
-            LaunchNotification.WEEK_BEFORE -> scheduleWeekBeforeLaunchNotifications()
+            JustBeforeLaunch -> scheduleJustBeforeLaunchNotification(time)
+            DayBeforeLaunch -> scheduleDayBeforeLaunchNotification(time)
+            WeekBeforeLaunch -> scheduleWeekBeforeLaunchNotifications(time)
         }
     }
 
@@ -83,7 +96,7 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
         because LaunchAlarmReceiver checks if notifications are enabled before firing any
         */
         when (type) {
-            LaunchNotification.JUST_BEFORE -> {
+            JustBeforeLaunch -> {
                 log("Cancelling alarm for just-before-launch notification")
                 context.cancelAlarmWithIntent {
                     broadcastPendingIntent(JUST_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
@@ -95,24 +108,26 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
                     .from(context)
                     .cancel(JUST_BEFORE_LAUNCH_NOTIFICATION_ID)
             }
-            LaunchNotification.DAY_BEFORE -> {
+            DayBeforeLaunch -> {
                 log("Cancelling alarm for day-before-launch notification")
                 context.cancelAlarmWithIntent {
                     broadcastPendingIntent(DAY_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
                         intent<DayBeforeLaunchAlarmReceiver>()
                     }
                 }
+                log("Removing existing notifications")
                 NotificationManagerCompat
                     .from(context)
                     .cancel(DAY_BEFORE_LAUNCH_NOTIFICATION_ID)
             }
-            LaunchNotification.WEEK_BEFORE -> {
+            WeekBeforeLaunch -> {
                 log("Cancelling alarm for week-before-launch notification")
                 context.cancelAlarmWithIntent {
                     broadcastPendingIntent(WEEK_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
                         intent<WeekBeforeLaunchAlarmReceiver>()
                     }
                 }
+                log("Removing existing notifications")
                 NotificationManagerCompat
                     .from(context)
                     .cancel(WEEK_BEFORE_LAUNCH_NOTIFICATION_ID)
@@ -144,9 +159,8 @@ class LaunchNotificationManagerImpl(private val context: Context) : LaunchNotifi
         }
     }
 
-    private fun scheduleWeekBeforeLaunchNotifications() {
-        val notificationTime = LocalDate.now().toDateTimeAtStartOfDay()
-
+    private fun scheduleWeekBeforeLaunchNotifications(time: Long) {
+        val notificationTime = LocalDate(time).toDateTimeAtStartOfDay()
         context.exactAlarmAt(notificationTime.millis) {
             broadcastPendingIntent(WEEK_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE) {
                 intent<WeekBeforeLaunchAlarmReceiver>()

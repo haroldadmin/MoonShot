@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters
 import androidx.work.testing.TestListenableWorkerBuilder
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshot.notifications.NotificationSchedulingWorker
+import com.haroldadmin.moonshot.notifications.workers.DailyNotificationSchedulingWorker
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import io.mockk.coEvery
 import io.mockk.every
@@ -46,7 +46,7 @@ class NotificationSchedulingWorkerTest {
                 workerClassName: String,
                 workerParameters: WorkerParameters
             ): ListenableWorker? {
-                return NotificationSchedulingWorker(
+                return DailyNotificationSchedulingWorker(
                     appContext,
                     workerParameters,
                     repo,
@@ -60,9 +60,9 @@ class NotificationSchedulingWorkerTest {
     @Test
     fun notificationsDisabledInSettingsTest() = runBlocking {
         every { settings.getBoolean(any(), any()) } returns false
-        val worker = TestListenableWorkerBuilder<NotificationSchedulingWorker>(context)
+        val worker = TestListenableWorkerBuilder<DailyNotificationSchedulingWorker>(context)
             .setWorkerFactory(workerFactory)
-            .build() as NotificationSchedulingWorker
+            .build() as DailyNotificationSchedulingWorker
 
         val result = worker.doWork()
         assertTrue(result is ListenableWorker.Result.Failure)
@@ -71,9 +71,9 @@ class NotificationSchedulingWorkerTest {
     @Test
     fun notificationsEnabledInSettingsTest() = runBlocking {
         every { settings.getBoolean(any(), any()) } returns true
-        val worker = TestListenableWorkerBuilder<NotificationSchedulingWorker>(context)
+        val worker = TestListenableWorkerBuilder<DailyNotificationSchedulingWorker>(context)
             .setWorkerFactory(workerFactory)
-            .build() as NotificationSchedulingWorker
+            .build() as DailyNotificationSchedulingWorker
 
         val result = worker.doWork()
         assertTrue(result is ListenableWorker.Result.Success)

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.work.Configuration
 import com.airbnb.epoxy.Carousel
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.notifications.workers.MoonShotWorkerFactory
 import com.haroldadmin.moonshot.sync.SyncManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

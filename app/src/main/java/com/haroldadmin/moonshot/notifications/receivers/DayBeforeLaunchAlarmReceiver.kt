@@ -6,7 +6,6 @@ import android.content.Intent
 import com.haroldadmin.moonshot.base.notify
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.notifications.LaunchNotification
-import com.haroldadmin.moonshot.notifications.LaunchNotificationBuilder
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.format
@@ -19,6 +18,7 @@ import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import org.koin.core.qualifier.named
 import kotlin.coroutines.CoroutineContext
 
 class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, CoroutineScope {
@@ -29,7 +29,7 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
 
     override val coroutineContext: CoroutineContext = Dispatchers.Default + exceptionHandler
 
-    private val notificationBuilder by inject<LaunchNotificationBuilder>()
+    private val notification by inject<LaunchNotification>(named("day-before-launch"))
     private val repository by inject<LaunchesRepository>()
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -47,7 +47,7 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
                     return@launch
                 }
 
-            val notificationContent = LaunchNotificationContent(
+            val content = LaunchNotificationContent(
                 name = nextLaunch.missionName,
                 site = nextLaunch.launchSite?.siteName ?: "Unknown",
                 date = nextLaunch.launchDate.format(
@@ -59,11 +59,9 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
                 time = nextLaunch.launchDate.time
             )
 
-            notificationBuilder
-                .create(context, LaunchNotification.DAY_BEFORE, notificationContent)
-                .map { notification ->
-                    notification.notify(context, LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_ID)
-                }
+            notification
+                .create(context, content)
+                .notify(context, LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_ID)
         }
     }
 }
