@@ -1,6 +1,6 @@
 package com.haroldadmin.moonshot.core
 
-data class Consumable <out T> (private val data: T, private var isConsumed: Boolean = false) {
+data class Consumable <out T> (private val data: T?, private var isConsumed: Boolean = false) {
 
     @Synchronized
     fun consume(): T? {

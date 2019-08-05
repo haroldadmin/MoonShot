@@ -17,6 +17,8 @@ import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
 import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -44,7 +46,13 @@ class RocketsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
+        fragmentScope.launch {
+            viewModel.state.collect { state ->
+                renderState(state) {
+                    epoxyController.setData(it)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -86,9 +94,5 @@ class RocketsFragment : MoonShotFragment() {
                 }
             }
         }
-    }
-
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
     }
 }

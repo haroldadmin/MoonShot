@@ -92,6 +92,8 @@ dependencies {
     implementation(Libs.navigationUi)
     implementation(Libs.preference)
     implementation(Libs.workManager)
+    implementation(Libs.fragmentKtx)
+    implementation(Libs.vmSavedState)
 
     implementation(Libs.jodaTime)
 

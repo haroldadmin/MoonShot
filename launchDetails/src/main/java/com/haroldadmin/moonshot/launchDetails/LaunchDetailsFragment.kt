@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,7 +31,8 @@ import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsB
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
-import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -68,19 +68,21 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
+        fragmentScope.launch {
+            viewModel.state.collect {
+                renderState(it) { state ->
+                    epoxyController.setData(state)
+                    if (state.launch is Resource.Success && state.launch.data.missionName != null) {
+                        mainViewModel.setTitle(state.launch.data.missionName!!)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         epoxyController.cancelPendingModelBuild()
-    }
-
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
-        if (state.launch is Resource.Success && state.launch.data.missionName != null) {
-            mainViewModel.setTitle(state.launch.data.missionName!!)
-        }
     }
 
     private val epoxyController by lazy {

@@ -29,10 +29,6 @@ class AboutFragment : MoonShotFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        renderState()
-    }
-
-    override fun renderState() {
         epoxyController.requestModelBuild()
     }
 

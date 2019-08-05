@@ -13,13 +13,10 @@ import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = repositoryModule + module {
-
-    viewModel { (initialState: ScaffoldingState) -> MainViewModel(initialState) }
 
     single(named("diffing-thread")) {
         HandlerThread("epoxy-diffing-thread").apply { start() }

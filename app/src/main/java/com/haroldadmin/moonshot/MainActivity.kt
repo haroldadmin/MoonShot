@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,12 +14,10 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import com.haroldadmin.moonshot.base.MoonShotActivity
-import com.haroldadmin.moonshot.core.Consumable
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
-import com.haroldadmin.vector.withState
 import io.fabric.sdk.android.Fabric
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 const val KEY_THEME_MODE = "theme-mode"
 const val KEY_CRASH_REPORTS = "crash-reports"
@@ -30,17 +28,12 @@ val THEME_MAPPINGS = mapOf(
     "auto" to AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 )
 
-private const val KEY_TOOLBAR_TITLE = "toolbar-title"
 
 class MainActivity : MoonShotActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val viewModel by viewModel<MainViewModel> {
-        parametersOf(
-            ScaffoldingState(toolbarTitle = Consumable(getString(R.string.app_name)))
-        )
-    }
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +43,11 @@ class MainActivity : MoonShotActivity() {
         }
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        viewModel = ViewModelProviders
+            .of(this, MainViewModelFactory(this))
+            .get(MainViewModel::class.java)
+
         navController = findNavController(R.id.navHostFragment)
 
         with(binding) {
@@ -59,21 +57,23 @@ class MainActivity : MoonShotActivity() {
 
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
-                val appBarConfig = AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launches, R.id.rockets))
+                val appBarConfig =
+                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launches, R.id.rockets))
                 setupWithNavController(navController, appBarConfig)
                 inflateMenu(R.menu.menu_main)
                 setOnMenuItemClickListener { menuItem ->
                     menuItem.onNavDestinationSelected(navController)
                 }
-                savedInstanceState?.let { bundle ->
-                    title = bundle.getCharSequence(KEY_TOOLBAR_TITLE)
-                }
             }
         }
-        viewModel.state.observe(this, Observer { renderState() })
+        launch {
+            viewModel.state.collect { state ->
+                renderState(state)
+            }
+        }
     }
 
-    private fun renderState() = withState(viewModel) { state ->
+    private fun renderState(state: ScaffoldingState) {
         state.toolbarTitle()?.let { title ->
             // If title had already been set, invoking toolbarTitle would return null and this block won't run
             binding.mainToolbar.title = title
@@ -97,10 +97,5 @@ class MainActivity : MoonShotActivity() {
         if (crashReportingEnabled && !BuildConfig.DEBUG) {
             Fabric.with(this, Crashlytics())
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putCharSequence(KEY_TOOLBAR_TITLE, binding.mainToolbar.title)
     }
 }

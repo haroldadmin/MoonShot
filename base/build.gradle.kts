@@ -47,6 +47,7 @@ dependencies {
 
     implementation(Libs.vector)
     implementation(Libs.appCompat)
+    implementation(Libs.vmSavedState)
     implementation(Libs.ktxCore)
 
     implementation(Libs.epoxy)

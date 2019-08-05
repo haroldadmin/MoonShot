@@ -15,12 +15,13 @@ object Libs {
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktxCore}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val vmSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.vmSavedState}"
     const val materialComponents = "com.google.android.material:material:${Versions.materialComponents}"
     const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
-    const val paging = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
     const val preference = "androidx.preference:preference-ktx:${Versions.preference}"
     const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
     const val workManagerTestHelpers = "androidx.work:work-testing:${Versions.workManager}"
@@ -35,9 +36,6 @@ object Libs {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
-
-    const val rxJava = "io.reactivex.rxjava2:rxjava:${Versions.rxJava}"
-    const val rxAndroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxAndroid}"
 
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"

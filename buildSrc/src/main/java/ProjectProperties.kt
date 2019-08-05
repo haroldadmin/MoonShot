@@ -8,7 +8,7 @@ object ProjectProperties {
     const val versionName = "0.8.1"
 
     const val kotlinVersion = "1.3.40"
-    const val agpVersion = "3.5.0-rc01"
+    const val agpVersion = "3.5.0-rc02"
 
     const val gmsVersion = "4.3.0"
     const val fabricVersion = "1.31.0"

@@ -19,6 +19,8 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,9 +49,14 @@ class LaunchesFragment : MoonShotFragment() {
         Launches.init()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        val animation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvLaunches.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -59,7 +66,16 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
+        fragmentScope.launch {
+            viewModel.state.collect {
+                renderState(it) { state ->
+                    epoxyController.setData(state)
+                    if (state.siteName != null) {
+                        mainViewModel.setTitle(state.siteName)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -67,15 +83,12 @@ class LaunchesFragment : MoonShotFragment() {
         epoxyController.cancelPendingModelBuild()
     }
 
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
-        if (state.siteName != null) {
-            mainViewModel.setTitle(state.siteName)
-        }
-    }
-
     private val epoxyController by lazy {
-        asyncTypedEpoxyController(buildingHandler, diffingHandler, viewModel) { state: LaunchesState ->
+        asyncTypedEpoxyController(
+            buildingHandler,
+            diffingHandler,
+            viewModel
+        ) { state: LaunchesState ->
             when (val launches = state.launches) {
                 is Resource.Success -> {
                     launches.data.forEach { launch ->

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.R as appR
@@ -24,6 +23,7 @@ import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,9 +47,14 @@ class NextLaunchFragment : MoonShotFragment() {
         NextLaunch.init()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        val animation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvNextLaunch.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -59,7 +64,14 @@ class NextLaunchFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
+        fragmentScope.launch {
+            viewModel.state.collect {
+                renderState(it) { state ->
+                    setupCountdown(state)
+                    epoxyController.setData(state)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -78,18 +90,6 @@ class NextLaunchFragment : MoonShotFragment() {
         super.onStop()
         timer?.cancel()
         timer = null
-    }
-
-    override fun renderState() = withState(viewModel) { state ->
-        setupCountdown(state)
-        epoxyController.setData(state)
-        if (!state.notificationScheduled) {
-            fragmentScope.launch {
-                if (state.nextLaunch is Resource.Success) {
-                    viewModel.persistNextLaunchValues(requireContext())
-                }
-            }
-        }
     }
 
     private val epoxyController by lazy {
@@ -151,14 +151,24 @@ class NextLaunchFragment : MoonShotFragment() {
                     launch.launchDate?.format(resources.configuration, LONG_DATE_FORMAT)
                         ?: getString(R.string.fragmentNextLaunchNoLaunchDateText)
                 )
-                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_date_range_24px))
+                detailIcon(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        appR.drawable.ic_round_date_range_24px
+                    )
+                )
             }
 
             itemLaunchDetail {
                 id("launch-site")
                 detailHeader(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
                 detailName(launch.siteNameLong)
-                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_place_24px))
+                detailIcon(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        appR.drawable.ic_round_place_24px
+                    )
+                )
                 onDetailClick { _ ->
                     launch.siteId?.let { id ->
                         val action = NextLaunchFragmentDirections.launchPadDetails(id)
@@ -181,12 +191,16 @@ class NextLaunchFragment : MoonShotFragment() {
         return countdownTimer(duration = duration, onFinish = {
             viewModel.updateCountdownTime(getString(R.string.fragmentNextLaunchCountdownFinishText))
         }) { millisUntilFinished ->
-            val timeText = calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS).toString()
+            val timeText =
+                calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS).toString()
             viewModel.updateCountdownTime(timeText)
         }
     }
 
-    private fun calculateTimeUntilLaunch(timeUntilFinished: Long, timeUnit: TimeUnit): TimeUntilLaunch {
+    private fun calculateTimeUntilLaunch(
+        timeUntilFinished: Long,
+        timeUnit: TimeUnit
+    ): TimeUntilLaunch {
         var delta = timeUntilFinished
         val days = timeUnit.toDays(delta)
         if (days > 0) {

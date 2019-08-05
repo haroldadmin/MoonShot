@@ -27,6 +27,8 @@ import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -63,13 +65,15 @@ class RocketDetailsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
-    }
-
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
-        if (state.rocket is Resource.Success) {
-            mainViewModel.setTitle(state.rocket.data.rocketName)
+        fragmentScope.launch {
+            viewModel.state.collect {
+                renderState(it) { state ->
+                    epoxyController.setData(state)
+                    if (state.rocket is Resource.Success) {
+                        mainViewModel.setTitle(state.rocket.data.rocketName)
+                    }
+                }
+            }
         }
     }
 

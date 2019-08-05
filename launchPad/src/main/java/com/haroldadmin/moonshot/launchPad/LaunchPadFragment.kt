@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +26,8 @@ import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
-import com.haroldadmin.vector.withState
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,19 +64,21 @@ class LaunchPadFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.state.observe(viewLifecycleOwner, Observer { renderState() })
+        fragmentScope.launch {
+            viewModel.state.collect {
+                renderState(it) { state ->
+                    epoxyController.setData(state)
+                    if (state.launchPad is Resource.Success) {
+                        mainViewModel.setTitle(state.launchPad.data.siteNameLong)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         epoxyController.cancelPendingModelBuild()
-    }
-
-    override fun renderState() = withState(viewModel) { state ->
-        epoxyController.setData(state)
-        if (state.launchPad is Resource.Success) {
-            mainViewModel.setTitle(state.launchPad.data.siteNameLong)
-        }
     }
 
     private val epoxyController by lazy {

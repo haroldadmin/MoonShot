@@ -1,8 +1,13 @@
 package com.haroldadmin.moonshot.base
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.vector.SavedStateVectorViewModel
 import com.haroldadmin.vector.VectorViewModel
+import com.haroldadmin.vector.loggers.androidLogger
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 abstract class MoonShotViewModel<S : MoonShotState>(initState: S) : VectorViewModel<S>(initState) {
 
@@ -19,7 +24,7 @@ abstract class MoonShotViewModel<S : MoonShotState>(initState: S) : VectorViewMo
         val result = try {
             block()
         } catch (e: Exception) {
-            Log.e(javaClass.simpleName, e.localizedMessage)
+            e.printStackTrace()
             Resource.Error(data = null, error = e)
         }
         setState { reducer(this, result) }
@@ -27,3 +32,13 @@ abstract class MoonShotViewModel<S : MoonShotState>(initState: S) : VectorViewMo
         after()
     }
 }
+
+abstract class SavedStateMoonShotViewModel<S : MoonShotState>(
+    initState: S?,
+    savedStateHandle: SavedStateHandle
+) : SavedStateVectorViewModel<S>(
+    initialState = initState,
+    stateStoreContext = Dispatchers.Default + Job(),
+    logger = androidLogger(),
+    savedStateHandle = savedStateHandle
+)
