@@ -6,5 +6,5 @@ import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 
 data class NextLaunchState(
     val nextLaunch: Resource<LaunchMinimal> = Resource.Uninitialized,
-    val countDown: Resource<String> = Resource.Uninitialized
+    val countDown: String = "--:--:--"
 ) : MoonShotState

@@ -40,7 +40,6 @@ class NextLaunchFragment : MoonShotFragment() {
     private val viewModel by viewModel<NextLaunchViewModel> {
         parametersOf(NextLaunchState())
     }
-    private var timer: Timer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,10 +65,7 @@ class NextLaunchFragment : MoonShotFragment() {
         super.onActivityCreated(savedInstanceState)
         fragmentScope.launch {
             viewModel.state.collect {
-                renderState(it) { state ->
-                    setupCountdown(state)
-                    epoxyController.setData(state)
-                }
+                renderState(it) { state -> epoxyController.setData(state) }
             }
         }
     }
@@ -79,25 +75,16 @@ class NextLaunchFragment : MoonShotFragment() {
         epoxyController.cancelPendingModelBuild()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (timer == null) withState(viewModel) { state ->
-            setupCountdown(state)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        timer?.cancel()
-        timer = null
-    }
-
     private val epoxyController by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
             when (val launch = state.nextLaunch) {
 
                 is Resource.Success -> {
                     buildLaunchModels(this, launch.data)
+                    itemCountdown {
+                        id("launch-countdown")
+                        time(state.countDown)
+                    }
                 }
 
                 is Resource.Error<LaunchMinimal, *> -> {
@@ -107,21 +94,16 @@ class NextLaunchFragment : MoonShotFragment() {
                     }
                     if (launch.data != null) {
                         buildLaunchModels(this, launch.data!!)
+                        itemCountdown {
+                            id("launch-countdown")
+                            time(state.countDown)
+                        }
                     }
                 }
                 else -> itemLoading {
                     id("next-launch-loading")
                     message(getString(R.string.fragmentNextLaunchLoadingMessage))
                 }
-            }
-
-            when (val countDown = state.countDown) {
-                is Resource.Success ->
-                    itemCountdown {
-                        id("launch-countdown")
-                        time(countDown.data)
-                    }
-                else -> Unit
             }
         }
     }
@@ -177,56 +159,5 @@ class NextLaunchFragment : MoonShotFragment() {
                 }
             }
         }
-    }
-
-    private fun setupCountdown(state: NextLaunchState) {
-        if (state.nextLaunch is Resource.Success && timer == null) {
-            val launchTime = state.nextLaunch.data.launchDate?.time ?: 0L
-            val duration = launchTime - System.currentTimeMillis()
-            timer = createCountdownTimer(duration)
-        }
-    }
-
-    private fun createCountdownTimer(duration: Long): Timer {
-        return countdownTimer(duration = duration, onFinish = {
-            viewModel.updateCountdownTime(getString(R.string.fragmentNextLaunchCountdownFinishText))
-        }) { millisUntilFinished ->
-            val timeText =
-                calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS).toString()
-            viewModel.updateCountdownTime(timeText)
-        }
-    }
-
-    private fun calculateTimeUntilLaunch(
-        timeUntilFinished: Long,
-        timeUnit: TimeUnit
-    ): TimeUntilLaunch {
-        var delta = timeUntilFinished
-        val days = timeUnit.toDays(delta)
-        if (days > 0) {
-            delta %= days * timeUnit.convert(1, TimeUnit.DAYS)
-        }
-        val hours = timeUnit.toHours(delta)
-        if (hours > 0) {
-            delta %= hours * timeUnit.convert(1, TimeUnit.HOURS)
-        }
-        val minutes = timeUnit.toMinutes(delta)
-        if (minutes > 0) {
-            delta %= minutes * timeUnit.convert(1, TimeUnit.MINUTES)
-        }
-        val seconds = timeUnit.toSeconds(delta)
-
-        return TimeUntilLaunch(days, hours, minutes, seconds)
-    }
-}
-
-private data class TimeUntilLaunch(
-    val days: Long,
-    val hours: Long,
-    val minutes: Long,
-    val seconds: Long
-) {
-    override fun toString(): String {
-        return "${days}D:${hours}H:${minutes}M:${seconds}S"
     }
 }
