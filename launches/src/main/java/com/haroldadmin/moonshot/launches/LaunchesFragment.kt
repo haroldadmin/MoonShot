@@ -128,7 +128,12 @@ class LaunchesFragment : MoonShotFragment() {
                 }
                 else -> itemLoading {
                     id("launches-loading")
-                    message(getString(R.string.fragmentLaunchesLoadingMessage))
+                    val loadingText = when(state.filter) {
+                        LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
+                        LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
+                        LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
+                    }
+                    message(loadingText)
                 }
             }
         }

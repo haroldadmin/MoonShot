@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="fragmentLaunchesErrorMessage">Error getting launches</string>
-    <string name="fragmentLaunchesLoadingMessage">Loading all Launches</string>
+    <string name="fragmentLaunchesLoadingAllMessage">Loading all Launches</string>
+    <string name="fragmentLaunchesLoadingUpcomingMessage">Loading Upcoming launches</string>
+    <string name="fragmentLaunchesLoadingPastMessage">Loading recent launches</string>
 </resources>
