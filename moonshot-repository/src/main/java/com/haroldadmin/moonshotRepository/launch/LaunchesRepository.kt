@@ -210,10 +210,10 @@ class LaunchesRepository(
     }
         .flowOn(Dispatchers.IO)
 
-    suspend fun flowLaunchesForLaunchPad(siteId: String, timestamp: Long) = flow<Resource<List<LaunchMinimal>>> {
+    suspend fun flowLaunchesForLaunchPad(siteId: String, maxTimeStamp: Long, minTimeStamp: Long) = flow<Resource<List<LaunchMinimal>>> {
         emit(Resource.Loading)
 
-        val dbLaunches = launchDao.getLaunchesForLaunchPad(siteId, timestamp)
+        val dbLaunches = launchDao.getLaunchesForLaunchPad(siteId, maxTimeStamp, minTimeStamp)
         if (dbLaunches.isNotEmpty()) {
             emit(Resource.Success(dbLaunches))
         }
@@ -221,7 +221,7 @@ class LaunchesRepository(
         when (val apiLaunches = launchesService.getAllLaunches(siteId = siteId).await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(apiLaunches.body)
-                val launches = launchDao.getLaunchesForLaunchPad(siteId, timestamp)
+                val launches = launchDao.getLaunchesForLaunchPad(siteId, maxTimeStamp, minTimeStamp)
                 if (launches != dbLaunches)
                     emit(Resource.Success(launches))
             }
