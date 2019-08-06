@@ -125,3 +125,23 @@ data class LaunchPictures(
     @ColumnInfo(name = "flickrImages")
     val images: List<String>
 )
+
+fun Launch.toLaunchMinimal(): LaunchMinimal {
+    val dbLaunch = this
+    return LaunchMinimal(
+        flightNumber = dbLaunch.flightNumber,
+        missionName = dbLaunch.missionName,
+        missionPatch = dbLaunch.missionPatch,
+        launchDate = dbLaunch.launchDate,
+        launchSuccess = dbLaunch.launchSuccess,
+        details = dbLaunch.details,
+        siteName = dbLaunch.launchSite?.siteName,
+        siteNameLong = dbLaunch.launchSite?.siteNameLong,
+        siteId = dbLaunch.launchSite?.siteId,
+        youtubeKey = dbLaunch.links?.youtubeKey,
+        redditCampaign = dbLaunch.links?.redditCampaign,
+        redditLaunch = dbLaunch.links?.redditLaunch,
+        redditMedia = dbLaunch.links?.redditMedia,
+        wikipedia = dbLaunch.links?.wikipedia
+    )
+}

@@ -18,12 +18,13 @@ class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
 
     override suspend fun getLaunchesForLaunchPad(
         siteId: String,
-        timestamp: Long
+        maxtimestamp: Long,
+        mintimestamp: Long
     ): List<LaunchMinimal> {
         return listOf()
     }
 
-    override suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, limit: Int): List<LaunchMinimal> = listOf()
+    override suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, minTimeStamp: Long, limit: Int): List<LaunchMinimal> = listOf()
 
     override suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal? = null
 
