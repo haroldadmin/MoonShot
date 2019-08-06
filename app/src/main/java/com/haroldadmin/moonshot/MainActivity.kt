@@ -58,7 +58,7 @@ class MainActivity : MoonShotActivity() {
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
                 val appBarConfig =
-                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launches, R.id.rockets))
+                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets))
                 setupWithNavController(navController, appBarConfig)
                 inflateMenu(R.menu.menu_main)
                 setOnMenuItemClickListener { menuItem ->

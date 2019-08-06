@@ -66,10 +66,14 @@ class LaunchesRepository(
     }
 
     @FlowPreview
-    suspend fun flowAllMinimalLaunches(limit: Int, maxTimestamp: Long = Long.MAX_VALUE) = flow {
+    suspend fun flowAllMinimalLaunches(
+        limit: Int,
+        maxTimestamp: Long = Long.MAX_VALUE,
+        minTimeStamp: Long = Long.MIN_VALUE
+    ) = flow {
         emit(Resource.Loading)
 
-        val dbLaunches = launchDao.getAllLaunchesMinimal(maxTimestamp, limit)
+        val dbLaunches = launchDao.getAllLaunchesMinimal(maxTimestamp, minTimeStamp, limit)
 
         if (!dbLaunches.isNullOrEmpty()) {
             emit(Resource.Success(dbLaunches))
@@ -78,7 +82,7 @@ class LaunchesRepository(
         when (val launches = launchesService.getAllLaunches().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunches(launches()!!)
-                val savedLaunches = launchDao.getAllLaunchesMinimal(maxTimestamp, limit)
+                val savedLaunches = launchDao.getAllLaunchesMinimal(maxTimestamp, minTimeStamp, limit)
                 if (savedLaunches != dbLaunches) {
                     emit(Resource.Success(savedLaunches))
                 }

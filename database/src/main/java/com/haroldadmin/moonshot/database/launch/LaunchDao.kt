@@ -53,11 +53,11 @@ abstract class LaunchDao : BaseDao<Launch> {
     @Query("""
         SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
         FROM launches
-        WHERE launch_date_utc < :maxTimeStamp
+        WHERE launch_date_utc <= :maxTimeStamp AND launch_date_utc >= :minTimeStamp
         ORDER BY launch_date_utc DESC
         LIMIT :limit
     """)
-    abstract suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, limit: Int): List<LaunchMinimal>
+    abstract suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, minTimeStamp: Long, limit: Int): List<LaunchMinimal>
 
     @Query("""
         SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia

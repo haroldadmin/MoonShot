@@ -7,7 +7,7 @@
         android:title="@string/app_name" />
 
     <item
-        android:id="@id/launches"
+        android:id="@id/launchesFlow"
         android:icon="@drawable/ic_round_history_24px"
         android:title="@string/menuLaunchesLabel" />
 

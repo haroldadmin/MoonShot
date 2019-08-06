@@ -6,32 +6,6 @@
     app:startDestination="@id/nextLaunch">
 
     <fragment
-        android:id="@+id/launches"
-        android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
-        android:label="Launches"
-        tools:layout="@layout/fragment_launches">
-        <argument
-            android:name="type"
-            app:argType="com.haroldadmin.moonshot.LaunchTypes"
-            android:defaultValue="RECENT"/>
-        <argument
-            android:name="siteId"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"  />
-        <action
-            android:id="@+id/launchDetails"
-            app:destination="@id/launchDetails"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <deepLink
-            android:id="@+id/launchesDeeplink"
-            app:uri="moonshot://launches" />
-    </fragment>
-
-    <fragment
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
         android:label="Rockets"
@@ -110,7 +84,7 @@
             app:uri="moonshot://launchpad/{siteId}" />
         <action
             android:id="@+id/launchPadLaunches"
-            app:destination="@id/launches"
+            app:destination="@id/launchesFlow"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -156,4 +130,53 @@
             android:id="@+id/aboutDeepLink"
             app:uri="moonshot://about"/>
     </fragment>
+
+    <navigation
+        android:id="@+id/launchesFlow"
+        app:startDestination="@id/launches">
+
+        <argument
+            android:name="type"
+            android:defaultValue="NORMAL"
+            app:argType="com.haroldadmin.moonshot.LaunchTypes" />
+        <argument
+            android:name="siteId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <dialog
+            android:id="@+id/launchFilters"
+            android:name="com.haroldadmin.moonshot.launches.FilterBottomSheetDialogFragment"
+            tools:layout="@layout/fragment_filter_bottom_sheet_dialog" />
+
+        <fragment
+            android:id="@+id/launches"
+            android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
+            android:label="Launches"
+            tools:layout="@layout/fragment_launches">
+            <argument
+                android:name="type"
+                android:defaultValue="NORMAL"
+                app:argType="com.haroldadmin.moonshot.LaunchTypes" />
+            <argument
+                android:name="siteId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <action
+                android:id="@+id/launchDetails"
+                app:destination="@id/launchDetails"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            <action
+                android:id="@+id/showFilters"
+                app:destination="@id/launchFilters" />
+            <deepLink
+                android:id="@+id/launchesDeeplink"
+                app:uri="moonshot://launches" />
+        </fragment>
+    </navigation>
 </navigation>
