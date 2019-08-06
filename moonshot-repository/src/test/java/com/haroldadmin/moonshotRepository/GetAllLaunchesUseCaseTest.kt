@@ -57,18 +57,18 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
                 resource.shouldBeTypeOf<Resource.Loading>()
             }
 
-            it("Should not emit empty resource") {
+            it("Should emit newly fetched launches in the end") {
                 val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                coEvery {
+                    mockDao.getAllLaunchesMinimal(any(), any(), any())
+                } returns fakeApiLaunches.map { it.toDbLaunch().toLaunchMinimal() }
 
                 flow
-                    .drop(1) // Drop Resource.Loading
-                    .onStart {
-                        coEvery {
-                            mockDao.getAllLaunchesMinimal(any(), any(), any())
-                        } returns FakeDataProvider.getDbLaunches(10)
-                    }
+                    .drop(2) // Drop Resource.Loading and cached response
                     .collect { resource ->
                         resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
+                        resource as Resource.Success
+                        resource.isCached shouldBe false
                     }
             }
         }
@@ -144,6 +144,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
                 resource as Resource.Success
 
                 resource.data shouldBe fakeDbLaunches
+                resource.isCached shouldBe true
             }
 
             @Suppress("UNCHECKED_CAST")
@@ -194,6 +195,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
                 resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
                 resource as Resource.Success
                 resource.data shouldBe fakeDbLaunches
+                resource.isCached shouldBe true
             }
 
             it("Should eventually emit newly fetched launches") {
@@ -209,6 +211,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
                         resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
                         resource as Resource.Success
                         resource.data shouldBe fakeApiLaunches.map { it.toDbLaunch().toLaunchMinimal() }
+                        resource.isCached shouldBe false
                     }
             }
         }

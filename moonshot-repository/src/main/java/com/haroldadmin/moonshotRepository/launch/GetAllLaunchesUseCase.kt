@@ -25,9 +25,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class GetAllLaunchesUseCase(
-    private val launchesDao: LaunchDao,
-    private val launchesService: LaunchesService
-) {
+    launchesDao: LaunchDao,
+    launchesService: LaunchesService
+): LaunchesUseCase(launchesDao, launchesService) {
 
     suspend fun getAllLaunches(limit: Int = Integer.MAX_VALUE): Flow<Resource<List<LaunchMinimal>>> {
         return flow {
@@ -44,10 +44,7 @@ class GetAllLaunchesUseCase(
                     val data = apiLaunches.body
                     persistLaunches(data)
                     val refreshedDbLaunches = getLaunchesFromDatabase(limit)
-
-                    if (refreshedDbLaunches != cachedDbLaunches) {
-                        emit(Resource.Success(data = refreshedDbLaunches))
-                    }
+                    emit(Resource.Success(data = refreshedDbLaunches, isCached = false))
                 }
                 is NetworkResponse.NetworkError -> {
                     val error = apiLaunches.error
@@ -76,39 +73,6 @@ class GetAllLaunchesUseCase(
         withContext(Dispatchers.IO) {
             executeWithRetry {
                 launchesService.getAllLaunches().await()
-            }
-        }
-
-    private suspend fun persistLaunches(apiLaunches: List<ApiLaunch>) =
-        withContext(Dispatchers.Default) {
-            val dbLaunches = apiLaunches.map { it.toDbLaunch() }
-
-            val rocketSummaries: List<DbRocketSummary> =
-                apiLaunches.map { launch -> launch.rocket.toDbRocketSummary(launch.flightNumber) }
-
-            val firstStageSummaries: List<DbFirstStageSummary> =
-                apiLaunches.map { launch -> launch.rocket.firstStage.toDbFirstStageSummary(launch.flightNumber) }
-
-            val secondStageSummaries: List<DbSecondStageSummary> =
-                apiLaunches.map { launch -> launch.rocket.secondState.toDbSecondStageSummary(launch.flightNumber) }
-
-            val coreSummaries: List<DbCoreSummary> = apiLaunches.flatMap { launch ->
-                launch.rocket.firstStage.cores.map { core -> core.toDbCoreSummary(launch.flightNumber) }
-            }
-
-            val payloads: List<DbPayload> = apiLaunches.flatMap { launch ->
-                launch.rocket.secondState.payloads.map { payload -> payload.toDbPayload(launch.flightNumber) }
-            }
-
-            withContext(Dispatchers.IO) {
-                launchesDao.saveLaunchesWithSummaries(
-                    dbLaunches,
-                    rocketSummaries,
-                    firstStageSummaries,
-                    coreSummaries,
-                    secondStageSummaries,
-                    payloads
-                )
             }
         }
 }
