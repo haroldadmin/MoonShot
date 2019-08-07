@@ -36,7 +36,7 @@ class GetLaunchesUseCase(
     ): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getPastCachedLaunches(currentTime, limit) },
-            cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastApiLaunches() },
             dataPersister = this::persistLaunches
         )
@@ -48,7 +48,7 @@ class GetLaunchesUseCase(
     ): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getUpcomingCachedLaunches(currentTime, limit) },
-            cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getUpcomingApiLaunches() },
             dataPersister = this::persistLaunches
         )
@@ -58,7 +58,7 @@ class GetLaunchesUseCase(
     internal suspend fun getAllLaunches(limit: Int): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getAllCachedLaunches(limit) },
-            cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getAllApiLaunches() },
             dataPersister = this::persistLaunches
         )

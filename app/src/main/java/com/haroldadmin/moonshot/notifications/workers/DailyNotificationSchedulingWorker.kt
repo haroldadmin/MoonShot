@@ -45,7 +45,7 @@ class DailyNotificationSchedulingWorker(
 
     private suspend fun scheduleJustBeforeLaunchNotification() {
         val currentTime = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay().millis
-        val nextLaunch = launchesRepository.getNextLaunchFromDatabase(currentTime) ?: run {
+        val nextLaunch = launchesRepository.getNextFullLaunchFromDatabase(currentTime) ?: run {
             log("Could not get next launch from database. Not scheduling notification")
             return
         }
@@ -57,7 +57,7 @@ class DailyNotificationSchedulingWorker(
 
     private suspend fun scheduleDayBeforeLaunchNotification() {
         val currentTime = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay().millis
-        val nextLaunch = launchesRepository.getNextLaunchFromDatabase(currentTime) ?: run {
+        val nextLaunch = launchesRepository.getNextFullLaunchFromDatabase(currentTime) ?: run {
             log("Could not get next launch from database. Not scheduling notification")
             return
         }

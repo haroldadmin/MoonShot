@@ -114,7 +114,7 @@ class LaunchesRepository(
     }
         .flowOn(Dispatchers.IO)
 
-    suspend fun getNextLaunch(currentTime: Long): Resource<DbLaunch> = withContext(Dispatchers.IO) {
+    suspend fun getNextLaunch(currentTime: Long): Resource<LaunchMinimal> = withContext(Dispatchers.IO) {
         val launch = executeWithRetry { launchesService.getNextLaunch().await() }
         when (launch) {
             is NetworkResponse.Success -> {
@@ -132,14 +132,14 @@ class LaunchesRepository(
 
     suspend fun flowNextLaunch(timeAtStartOfDay: Long) = flow<Resource<LaunchMinimal>> {
         emit(Resource.Loading)
-        val dbLaunch = launchDao.getNextLaunchMinimal(timeAtStartOfDay)
+        val dbLaunch = launchDao.getNextLaunch(timeAtStartOfDay)
         if (dbLaunch != null) {
             emit(Resource.Success(dbLaunch))
         }
         when (val apiLaunch = launchesService.getNextLaunch().await()) {
             is NetworkResponse.Success -> {
                 saveApiLaunch(apiLaunch.body)
-                val launch = launchDao.getNextLaunchMinimal(timeAtStartOfDay)!!
+                val launch = launchDao.getNextLaunch(timeAtStartOfDay)!!
                 if (launch != dbLaunch) {
                     emit(Resource.Success(launch))
                 }
@@ -246,8 +246,12 @@ class LaunchesRepository(
         }
     }
 
-    suspend fun getNextLaunchFromDatabase(currentTime: Long): DbLaunch? {
+    suspend fun getNextLaunchFromDatabase(currentTime: Long): LaunchMinimal? {
         return launchDao.getNextLaunch(currentTime)
+    }
+
+    suspend fun getNextFullLaunchFromDatabase(currentTime: Long): DbLaunch? {
+        return launchDao.getNextFullLaunch(currentTime)
     }
 
     suspend fun getLaunchesInTimeRangeFromDatabase(start: Long, end: Long, limit: Int): List<DbLaunch> {

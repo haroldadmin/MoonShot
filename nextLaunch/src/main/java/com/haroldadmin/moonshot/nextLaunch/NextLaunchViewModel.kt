@@ -5,7 +5,7 @@ import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.countdownTimer
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
@@ -17,16 +17,16 @@ import java.util.concurrent.TimeUnit
 
 class NextLaunchViewModel(
     initState: NextLaunchState,
-    private val launchesRepository: LaunchesRepository
+    private val nextLaunchUseCase: GetNextLaunchUseCase
 ) : MoonShotViewModel<NextLaunchState>(initState) {
 
     private var timer: Timer? = null
+    private val timeAtStartOfDay: Long
+        get() = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay().millis
 
     init {
         viewModelScope.launch {
-            val timeAtStartOfDay = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay().millis
             getNextLaunch(timeAtStartOfDay)
-
             state
                 .onEach { state ->
                     if (!isActive || timer != null) {
@@ -57,12 +57,13 @@ class NextLaunchViewModel(
         }
     }
 
-    suspend fun getNextLaunch(currentTime: Long) =
-        launchesRepository
-            .flowNextLaunch(currentTime)
-            .collect {
-                setState { copy(nextLaunch = it) }
+    private suspend fun getNextLaunch(timeAtStartOfDay: Long) {
+        nextLaunchUseCase
+            .getNextLaunch(timeAtStartOfDay)
+            .collect { nextLaunchRes ->
+                setState { copy(nextLaunch = nextLaunchRes) }
             }
+    }
 
     override fun onCleared() {
         super.onCleared()

@@ -24,7 +24,7 @@ class NetworkBoundResourceTest: DescribeSpec({
             val resource = networkBoundFlow(
                 dbFetcher = { isRefreshed -> if (isRefreshed) apiData else dbData },
                 apiFetcher = { NetworkResponse.Success(apiData) },
-                cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
             )
 
@@ -55,7 +55,7 @@ class NetworkBoundResourceTest: DescribeSpec({
             val resource = networkBoundFlow(
                 dbFetcher = { dbData },
                 apiFetcher = { NetworkResponse.NetworkError(IOException()) },
-                cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
             )
 
@@ -83,7 +83,7 @@ class NetworkBoundResourceTest: DescribeSpec({
             val resource = networkBoundFlow(
                 dbFetcher = { isRefreshed -> if (isRefreshed) apiData else dbData },
                 apiFetcher = { NetworkResponse.Success(apiData) },
-                cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
             )
 
@@ -120,7 +120,7 @@ class NetworkBoundResourceTest: DescribeSpec({
             val resource = networkBoundFlow(
                 dbFetcher = { dbData },
                 apiFetcher = { NetworkResponse.NetworkError(IOException()) },
-                cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
             )
 

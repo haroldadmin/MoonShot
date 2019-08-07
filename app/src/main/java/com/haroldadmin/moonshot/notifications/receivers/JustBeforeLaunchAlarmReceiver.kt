@@ -40,7 +40,7 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
                 .millis
 
             val nextLaunch = repository
-                .getNextLaunchFromDatabase(timestamp)
+                .getNextFullLaunchFromDatabase(timestamp)
                 ?: run {
                     log("Could not get next launch from database. Not scheduling notification")
                     return@launch

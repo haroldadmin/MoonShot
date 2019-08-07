@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -20,7 +19,6 @@ import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -102,7 +100,6 @@ class LaunchesFragment : MoonShotFragment() {
             when (val launches = state.launches) {
                 is Resource.Success -> {
                     launches.data.forEach { launch ->
-                        log("Launch date for ${launch.missionName} = ${launch.launchDate!!.time}")
                         itemLaunchCard {
                             id(launch.flightNumber)
                             launch(launch)

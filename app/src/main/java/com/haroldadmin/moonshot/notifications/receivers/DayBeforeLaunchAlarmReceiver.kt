@@ -11,6 +11,7 @@ import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshot.models.launch.Launch
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
                 .millis
 
             val nextLaunch = repository
-                .getNextLaunchFromDatabase(timeStamp)
+                .getNextFullLaunchFromDatabase(timeStamp)
                 ?: run {
                     log("Could not get launch for next day from database. Not scheduling notifications")
                     return@launch

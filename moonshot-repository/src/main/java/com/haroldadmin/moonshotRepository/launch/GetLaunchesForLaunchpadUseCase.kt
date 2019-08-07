@@ -40,7 +40,7 @@ class GetLaunchesForLaunchpadUseCase(
     internal suspend fun getAllLaunches(siteId: String, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getAllCachedLaunches(siteId, limit) },
-            cacheValidator = { cachedLaunches -> cachedLaunches.isNotEmpty() },
+            cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getAllLaunchesFromService(siteId) },
             dataPersister = this::persistLaunches
         )
@@ -49,7 +49,7 @@ class GetLaunchesForLaunchpadUseCase(
     internal suspend fun getPastLaunches(siteId: String, currentTime: Long, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getPastCachedLaunches(siteId, currentTime, limit) },
-            cacheValidator = { cachedData -> cachedData.isNotEmpty() },
+            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastLaunchesFromService(siteId) },
             dataPersister = this::persistLaunches
         )
@@ -58,7 +58,7 @@ class GetLaunchesForLaunchpadUseCase(
     internal suspend fun getUpcomingLaunches(siteId: String, currentTime: Long, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getUpcomingCachedLaunches(siteId, currentTime, limit) },
-            cacheValidator = { cachedLaunches -> cachedLaunches.isNotEmpty() },
+            cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getUpcomingLaunchesFromService(siteId) },
             dataPersister = this::persistLaunches
         )

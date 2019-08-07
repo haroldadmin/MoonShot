@@ -10,6 +10,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary
 import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
+import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
 
 class FakeLaunchesDao : LaunchDao() {
 
@@ -40,7 +41,9 @@ class FakeLaunchesDao : LaunchDao() {
         return listOf()
     }
 
-    override suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal? = null
+    override suspend fun getNextLaunch(timeAtStartOfDay: Long): LaunchMinimal {
+        return Launch.getSampleLaunch().toLaunchMinimal()
+    }
 
     override suspend fun getLaunchStats(flightNumber: Int): LaunchStats? = null
 
@@ -85,8 +88,6 @@ class FakeLaunchesDao : LaunchDao() {
     override suspend fun deleteAll(vararg obj: Launch) = Unit
 
     override suspend fun deleteAll(objs: List<Launch>) = Unit
-
-    override suspend fun getNextLaunch(timestamp: Long): Launch = Launch.getSampleLaunch()
 
     override suspend fun getUpcomingLaunches(timestamp: Long, limit: Int): List<LaunchMinimal> = listOf()
 

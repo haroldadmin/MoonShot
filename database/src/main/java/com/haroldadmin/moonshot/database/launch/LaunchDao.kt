@@ -36,16 +36,6 @@ abstract class LaunchDao : BaseDao<Launch> {
 
     @Query(
         """
-        SELECT * FROM launches
-        WHERE launch_date_utc >= :timestamp
-        ORDER BY launch_date_utc ASC
-        LIMIT 1
-        """
-    )
-    abstract suspend fun getNextLaunch(timestamp: Long): Launch?
-
-    @Query(
-        """
         SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches 
         WHERE launch_date_utc <= :timestamp 
@@ -76,7 +66,16 @@ abstract class LaunchDao : BaseDao<Launch> {
         LIMIT 1
         """
     )
-    abstract suspend fun getNextLaunchMinimal(timeAtStartOfDay: Long): LaunchMinimal?
+    abstract suspend fun getNextLaunch(timeAtStartOfDay: Long): LaunchMinimal?
+
+    @Query("""
+        SELECT *
+        FROM launches
+        WHERE launch_date_utc >= :timeAtStartOfDay
+        ORDER BY launch_date_utc ASC
+        LIMIT 1
+    """)
+    abstract suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch?
 
     @Query(
         """

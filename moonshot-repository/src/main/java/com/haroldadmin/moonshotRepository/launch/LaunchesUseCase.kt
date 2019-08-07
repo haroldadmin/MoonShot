@@ -22,6 +22,39 @@ abstract class LaunchesUseCase(
     protected val launchesService: LaunchesService
 ) {
 
+    protected suspend fun persistLaunch(apiLaunch: Launch) = withContext(Dispatchers.Default) {
+        val launch = apiLaunch.toDbLaunch()
+
+        val rocketSummary = apiLaunch.rocket.toDbRocketSummary(apiLaunch.flightNumber)
+
+        val firstStageSummary =
+            apiLaunch.rocket.firstStage.toDbFirstStageSummary(apiLaunch.flightNumber)
+
+        val secondStageSummary =
+            apiLaunch.rocket.secondState.toDbSecondStageSummary(apiLaunch.flightNumber)
+
+        val coreSummaries =
+            apiLaunch.rocket.firstStage.cores.map { coreSummary ->
+                coreSummary.toDbCoreSummary(
+                    apiLaunch.flightNumber
+                )
+            }
+
+        val payloads =
+            apiLaunch.rocket.secondState.payloads.map { payload -> payload.toDbPayload(apiLaunch.flightNumber) }
+
+        withContext(Dispatchers.IO) {
+            launchesDao.saveLaunchWithSummaries(
+                launch,
+                rocketSummary,
+                firstStageSummary,
+                secondStageSummary,
+                coreSummaries,
+                payloads
+            )
+        }
+    }
+
     protected suspend fun persistLaunches(apiLaunches: List<Launch>) {
         withContext(Dispatchers.Default) {
             val dbLaunches = apiLaunches.map { it.toDbLaunch() }
