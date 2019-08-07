@@ -11,20 +11,34 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummar
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
-class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
+class FakeLaunchesDao : LaunchDao() {
+
+    override suspend fun getPastLaunchesForLaunchPad(
+        siteId: String,
+        maxTimeStamp: Long,
+        limit: Int
+    ): List<LaunchMinimal> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getUpcomingLaunchesForLaunchPad(
+        siteId: String,
+        minTimeStamp: Long,
+        limit: Int
+    ): List<LaunchMinimal> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch> {
         return listOf()
     }
 
-    override suspend fun getLaunchesForLaunchPad(
+    override suspend fun getAllLaunchesForLaunchPad(
         siteId: String,
-        maxtimestamp: Long,
-        mintimestamp: Long
+        limit: Int
     ): List<LaunchMinimal> {
         return listOf()
     }
-
-    override suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, minTimeStamp: Long, limit: Int): List<LaunchMinimal> = listOf()
 
     override suspend fun getNextLaunchMinimal(currentTime: Long): LaunchMinimal? = null
 
@@ -72,15 +86,11 @@ class FakeLaunchesDao(val sampleData: List<Launch> = listOf()) : LaunchDao() {
 
     override suspend fun deleteAll(objs: List<Launch>) = Unit
 
-    override suspend fun getAllLaunches(limit: Int): List<Launch> = sampleData
-
-    override suspend fun getAllLaunches(timestamp: Long, limit: Int): List<Launch> = sampleData
-
-    override suspend fun getLaunch(flightNumber: Int): Launch = Launch.getSampleLaunch()
-
-    override suspend fun getUpcomingLaunches(timestamp: Long, limit: Int): List<Launch> = sampleData
-
-    override suspend fun getPastLaunches(timestamp: Long, limit: Int): List<Launch> = sampleData
-
     override suspend fun getNextLaunch(timestamp: Long): Launch = Launch.getSampleLaunch()
+
+    override suspend fun getUpcomingLaunches(timestamp: Long, limit: Int): List<LaunchMinimal> = listOf()
+
+    override suspend fun getPastLaunches(timestamp: Long, limit: Int): List<LaunchMinimal> = listOf()
+
+    override suspend fun getAllLaunches(limit: Int): List<LaunchMinimal> = listOf()
 }

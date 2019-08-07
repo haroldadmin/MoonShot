@@ -4,6 +4,7 @@ import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotState
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 
 data class LaunchesState(
     val type: LaunchTypes = LaunchTypes.NORMAL,
@@ -12,7 +13,3 @@ data class LaunchesState(
     val filter: LaunchesFilter = LaunchesFilter.PAST,
     val launches: Resource<List<LaunchMinimal>> = Resource.Uninitialized
 ) : MoonShotState
-
-enum class LaunchesFilter {
-    PAST, UPCOMING, ALL
-}

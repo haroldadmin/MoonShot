@@ -16,87 +16,153 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummar
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
+private const val LAUNCH_MINIMAL_PROJECTION =
+    """flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia"""
+
 @Dao
 abstract class LaunchDao : BaseDao<Launch> {
 
-    @Query("SELECT * FROM launches ORDER BY launch_date_utc DESC LIMIT :limit")
-    abstract suspend fun getAllLaunches(limit: Int): List<Launch>
-
-    @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp ORDER BY launch_date_utc DESC LIMIT :limit")
-    abstract suspend fun getAllLaunches(timestamp: Long, limit: Int): List<Launch>
-
-    @Query("SELECT * FROM launches WHERE flight_number = :flightNumber")
-    abstract suspend fun getLaunch(flightNumber: Int): Launch?
-
-    @Query("SELECT * FROM launches WHERE launch_date_utc >= :timestamp LIMIT :limit")
-    abstract suspend fun getUpcomingLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
-
     @Query("""
+        SELECT $LAUNCH_MINIMAL_PROJECTION
+        FROM launches 
+        WHERE launch_date_utc >= :timestamp
+        ORDER BY launch_date_utc ASC
+        LIMIT :limit
+        """)
+    abstract suspend fun getUpcomingLaunches(
+        timestamp: Long,
+        limit: Int
+    ): List<LaunchMinimal>
+
+    @Query(
+        """
         SELECT * FROM launches
         WHERE launch_date_utc >= :timestamp
         ORDER BY launch_date_utc ASC
         LIMIT 1
-    """)
+        """
+    )
     abstract suspend fun getNextLaunch(timestamp: Long): Launch?
 
-    @Query("""
-        SELECT * FROM launches
-        WHERE launch_date_utc >= :start AND launch_date_utc <= :end
-        ORDER BY launch_date_utc ASC
-        LIMIT :maxCount
-    """)
-    abstract suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch>
-
-    @Query("SELECT * FROM launches WHERE launch_date_utc < :timestamp LIMIT :limit")
-    abstract suspend fun getPastLaunches(timestamp: Long, limit: Int = Int.MAX_VALUE): List<Launch>
-
-    @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
-        FROM launches
-        WHERE launch_date_utc <= :maxTimeStamp AND launch_date_utc >= :minTimeStamp
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
+        FROM launches 
+        WHERE launch_date_utc <= :timestamp 
         ORDER BY launch_date_utc DESC
         LIMIT :limit
-    """)
-    abstract suspend fun getAllLaunchesMinimal(maxTimeStamp: Long, minTimeStamp: Long, limit: Int): List<LaunchMinimal>
+        """
+    )
+    abstract suspend fun getPastLaunches(timestamp: Long, limit: Int): List<LaunchMinimal>
 
-    @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
+        FROM launches
+        ORDER BY launch_date_utc DESC
+        LIMIT :limit
+        """
+    )
+    abstract suspend fun getAllLaunches(
+        limit: Int
+    ): List<LaunchMinimal>
+
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches
         WHERE launch_date_utc >= :timeAtStartOfDay
         ORDER BY launch_date_utc ASC
         LIMIT 1
-    """)
+        """
+    )
     abstract suspend fun getNextLaunchMinimal(timeAtStartOfDay: Long): LaunchMinimal?
 
-    @Query("""
+    @Query(
+        """
         SELECT rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count
         FROM rocket_summaries
         INNER JOIN core_summaries ON rocket_summaries.launch_flight_number = core_summaries.launch_flight_number
         INNER JOIN payloads ON rocket_summaries.launch_flight_number = payloads.launch_flight_number
-        WHERE rocket_summaries.launch_flight_number = :flightNumber""")
+        WHERE rocket_summaries.launch_flight_number = :flightNumber
+        """
+    )
     abstract suspend fun getLaunchStats(flightNumber: Int): LaunchStats?
 
-    @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches
         WHERE flight_number = :flightNumber
-    """)
+        """
+    )
     abstract suspend fun getLaunchMinimal(flightNumber: Int): LaunchMinimal?
 
-    @Query("""
+    @Query(
+        """
         SELECT flickrImages
         FROM launches
         WHERE flight_number = :flightNumber
-    """)
+        """
+    )
     abstract suspend fun getLaunchPictures(flightNumber: Int): LaunchPictures?
 
-    @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches
-        WHERE siteId = :siteId AND launch_date_utc <= :maxTimeStamp AND launch_date_utc >= :minTimeStamp
+        WHERE siteId = :siteId
         ORDER BY launch_date_utc DESC
-    """)
-    abstract suspend fun getLaunchesForLaunchPad(siteId: String, maxTimeStamp: Long, minTimeStamp: Long): List<LaunchMinimal>
+        LIMIT :limit
+        """
+    )
+    abstract suspend fun getAllLaunchesForLaunchPad(
+        siteId: String,
+        limit: Int
+    ): List<LaunchMinimal>
+
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
+        FROM launches
+        WHERE siteId = :siteId
+        AND launch_date_utc <= :maxTimeStamp
+        ORDER BY launch_date_utc DESC
+        LIMIT :limit
+        """
+    )
+    abstract suspend fun getPastLaunchesForLaunchPad(
+        siteId: String,
+        maxTimeStamp: Long,
+        limit: Int
+    ): List<LaunchMinimal>
+
+    @Query(
+        """
+        SELECT $LAUNCH_MINIMAL_PROJECTION
+        FROM launches
+        WHERE siteId = :siteId
+        AND launch_date_utc >= :minTimeStamp
+        ORDER BY launch_date_utc ASC
+        LIMIT :limit
+    """
+    )
+    abstract suspend fun getUpcomingLaunchesForLaunchPad(
+        siteId: String,
+        minTimeStamp: Long,
+        limit: Int
+    ): List<LaunchMinimal>
+
+    @Query(
+        """
+            SELECT *
+            FROM launches
+            WHERE launch_date_utc <= :end AND launch_date_utc >= :start
+            ORDER BY launch_date_utc ASC
+            LIMIT :limit
+        """
+    )
+    abstract suspend fun getLaunchesInRange(start: Long, end: Long, limit: Int): List<Launch>
 
     @Transaction
     open suspend fun saveLaunchWithSummaries(

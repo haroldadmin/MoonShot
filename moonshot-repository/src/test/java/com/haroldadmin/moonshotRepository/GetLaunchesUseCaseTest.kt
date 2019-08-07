@@ -5,16 +5,18 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
-import com.haroldadmin.moonshotRepository.launch.GetAllLaunchesUseCase
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
+import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 import com.haroldadmin.moonshotRepository.mappers.toDbLaunch
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
-import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -23,11 +25,56 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.reduce
 import java.io.IOException
+import java.util.Date
 
 @ExperimentalCoroutinesApi
-class GetAllLaunchesUseCaseTest : DescribeSpec({
+class GetLaunchesUseCaseTest : DescribeSpec({
 
-    describe("No cached launches") {
+    describe("Selection of launches based on given range of time") {
+
+        val usecase = spyk(GetLaunchesUseCase(mockk(), mockk()))
+
+        context("Get all launches") {
+            val current = Date().time
+            val limit = 10
+
+            usecase.getLaunches(LaunchesFilter.ALL, current, limit)
+
+            it("Should get all launches") {
+                coVerify(exactly = 1) {
+                    usecase.getAllLaunches(limit)
+                }
+            }
+        }
+
+        context("Get past launches") {
+            val currentTime = Date().time
+            val limit = 10
+
+            usecase.getLaunches(LaunchesFilter.PAST, currentTime, limit)
+
+            it("Should get past launches") {
+                coVerify(exactly = 1) {
+                    usecase.getPastLaunches(currentTime, limit)
+                }
+            }
+        }
+
+        context("Get upcoming launches") {
+            val currentTime = Date().time
+            val limit = 10
+
+            usecase.getLaunches(LaunchesFilter.UPCOMING, currentTime, limit)
+
+            it("Should get upcoming launches") {
+                coVerify(exactly = 1) {
+                    usecase.getUpcomingLaunches(currentTime, limit)
+                }
+            }
+        }
+    }
+
+    describe("Emitted events when there are no cached launches") {
 
         context("Network request successful") {
 
@@ -36,7 +83,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
 
             val mockDao = mockk<LaunchDao> {
                 coEvery {
-                    getAllLaunchesMinimal(any(), any(), any())
+                    getAllLaunches(any())
                 } returns fakeDbLaunches
 
                 coEvery {
@@ -51,16 +98,19 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 val resource = flow.first()
 
                 resource.shouldBeTypeOf<Resource.Loading>()
             }
 
             it("Should emit newly fetched launches in the end") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
+
                 coEvery {
-                    mockDao.getAllLaunchesMinimal(any(), any(), any())
+                    mockDao.getAllLaunches(any())
                 } returns fakeApiLaunches.map { it.toDbLaunch().toLaunchMinimal() }
 
                 flow
@@ -77,7 +127,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
             val fakeDbLaunches = FakeDataProvider.getDbLaunches(0)
 
             val mockDao = mockk<LaunchDao> {
-                coEvery { getAllLaunchesMinimal(any(), any(), any()) } returns fakeDbLaunches
+                coEvery { getAllLaunches(any()) } returns fakeDbLaunches
             }
 
             val mockService = mockk<LaunchesService> {
@@ -87,14 +137,16 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 val resource = flow.first()
 
                 resource.shouldBeTypeOf<Resource.Loading>()
             }
 
             it("Should result in Resource.Error") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 flow
                     .drop(1) // Drop Resource.Loading
                     .collect { resource ->
@@ -104,7 +156,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
         }
     }
 
-    describe("Cached Launches present") {
+    describe("Emitted events when cached launches are present") {
 
         context("Network request unsuccessful") {
 
@@ -112,7 +164,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
 
             val mockDao = mockk<LaunchDao> {
                 coEvery {
-                    getAllLaunchesMinimal(any(), any(), any())
+                    getAllLaunches(any())
                 } returns fakeDbLaunches
 
                 coEvery {
@@ -127,35 +179,41 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 val resource = flow.first()
 
                 resource.shouldBeTypeOf<Resource.Loading>()
             }
 
             it("Should emit cached launches after loading") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
 
                 val resource = flow
                     .drop(1) // Drop Resource.Loading
                     .first()
 
-                resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
-                resource as Resource.Success
-
-                resource.data shouldBe fakeDbLaunches
-                resource.isCached shouldBe true
+                with(resource) {
+                    shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
+                    this as Resource.Success
+                    data shouldBe fakeDbLaunches
+                    isCached shouldBe true
+                }
             }
 
             @Suppress("UNCHECKED_CAST")
             it("Should emit Resource.Error with cached data in the end") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
 
                 val lastEmittedResource = flow.reduce { _, value -> value }
 
-                lastEmittedResource.shouldBeTypeOf<Resource.Error<List<LaunchMinimal>, IOException>>()
-                lastEmittedResource as Resource.Error<List<LaunchMinimal>, IOException>
-                lastEmittedResource.data shouldBe fakeDbLaunches
+                with(lastEmittedResource) {
+                    shouldBeTypeOf<Resource.Error<List<LaunchMinimal>, IOException>>()
+                    this as Resource.Error<List<LaunchMinimal>, IOException>
+                    data shouldBe fakeDbLaunches
+                }
             }
         }
 
@@ -165,7 +223,7 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
 
             val mockDao = mockk<LaunchDao> {
                 coEvery {
-                    getAllLaunchesMinimal(any(), any(), any())
+                    getAllLaunches(any())
                 } returns fakeDbLaunches
 
                 coEvery {
@@ -180,38 +238,48 @@ class GetAllLaunchesUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 val resource = flow.first()
 
                 resource.shouldBeTypeOf<Resource.Loading>()
             }
 
             it("Should emit cached launches first") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
                 val resource = flow
                     .drop(1) // Drop Resource.Loading
                     .first()
 
-                resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
-                resource as Resource.Success
-                resource.data shouldBe fakeDbLaunches
-                resource.isCached shouldBe true
+                with(resource) {
+                    shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
+                    this as Resource.Success
+                    data shouldBe fakeDbLaunches
+                    isCached shouldBe true
+                }
             }
 
             it("Should eventually emit newly fetched launches") {
-                val flow = GetAllLaunchesUseCase(mockDao, mockService).getAllLaunches()
+                val flow = GetLaunchesUseCase(mockDao, mockService)
+                    .getLaunches(LaunchesFilter.ALL, Date().time)
+
                 flow
                     .drop(2) // Drop Loading and Cached responses
                     .onStart {
                         coEvery {
-                            mockDao.getAllLaunchesMinimal(any(), any(), any())
+                            mockDao.getAllLaunches(any())
                         } returns fakeApiLaunches.map { it.toDbLaunch().toLaunchMinimal() }
                     }
                     .collect { resource ->
-                        resource.shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
-                        resource as Resource.Success
-                        resource.data shouldBe fakeApiLaunches.map { it.toDbLaunch().toLaunchMinimal() }
-                        resource.isCached shouldBe false
+                        with(resource) {
+                            shouldBeTypeOf<Resource.Success<List<LaunchMinimal>>>()
+                            this as Resource.Success
+                            data shouldBe fakeApiLaunches.map {
+                                it.toDbLaunch().toLaunchMinimal()
+                            }
+                            isCached shouldBe false
+                        }
                     }
             }
         }

@@ -4,4 +4,10 @@
     <string name="fragmentLaunchesLoadingAllMessage">Loading all Launches</string>
     <string name="fragmentLaunchesLoadingUpcomingMessage">Loading Upcoming launches</string>
     <string name="fragmentLaunchesLoadingPastMessage">Loading recent launches</string>
+    <string name="fragmentLaunchesRecentFilterScreenTitle">Recent Launches</string>
+    <string name="fragmentLaunchesUpcomingFilterScreenTitle">Upcoming Launches</string>
+    <string name="fragmentLaunchesAllFilterScreenTitle">All Launches</string>
+    <string name="fragmentFilterSheetAllFilterName">All</string>
+    <string name="fragmentFilterSheetPastFilterName">Recent</string>
+    <string name="fragmentFilterSheetUpcomingFilterName">Upcoming</string>
 </resources>

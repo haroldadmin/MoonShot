@@ -51,7 +51,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
 
                 it("Should call the launchDao") {
                     coVerify {
-                        launchDao.getAllLaunches(any(), any())
+                        launchDao.getAllLaunches(any())
                     }
                 }
 
@@ -77,7 +77,7 @@ internal class LaunchesRepositoryTest : DescribeSpec() {
                 }
 
                 it("Should call the launchDao") {
-                    coVerify { launchDao.getAllLaunches(any(), any()) }
+                    coVerify { launchDao.getAllLaunches(any()) }
                 }
 
                 it("Should return Resource.Error") {

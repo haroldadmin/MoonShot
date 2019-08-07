@@ -7,6 +7,8 @@ import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSumm
 import com.haroldadmin.moonshot.database.launch.rocket.secondStage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import com.haroldadmin.moonshotRepository.launchPad.LaunchPadRepository
 import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
@@ -44,6 +46,9 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
             get<LaunchPadDao>()
         )
     }
+
+    factory { GetLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>()) }
+    factory { GetLaunchesForLaunchpadUseCase(get<LaunchDao>(), get<LaunchesService>()) }
 
     single<Cache> {
         Cache(androidContext().cacheDir, 10 * 1000 * 1000)

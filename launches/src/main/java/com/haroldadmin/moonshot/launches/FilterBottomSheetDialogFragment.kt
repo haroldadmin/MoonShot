@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
+import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 
 class FilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
 
@@ -36,22 +36,25 @@ class FilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
         itemFilterOption {
             id("all")
             filterOption(LaunchesFilter.ALL)
+            filterName(getString(R.string.fragmentFilterSheetAllFilterName))
             onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
         }
         itemFilterOption {
             id("past")
             filterOption(LaunchesFilter.PAST)
+            filterName(getString(R.string.fragmentFilterSheetPastFilterName))
             onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
         }
         itemFilterOption {
             id("upcoming")
             filterOption(LaunchesFilter.UPCOMING)
+            filterName(getString(R.string.fragmentFilterSheetUpcomingFilterName))
             onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
         }
     }
 }
 
-private fun Fragment.simpleController(
+private fun FilterBottomSheetDialogFragment.simpleController(
     buildModelsCallback: EpoxyController.() -> Unit
 ): EpoxyController = object: EpoxyController() {
     override fun buildModels() {

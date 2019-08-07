@@ -4,7 +4,10 @@
     <data>
         <variable
             name="filterOption"
-            type="com.haroldadmin.moonshot.launches.LaunchesFilter"/>
+            type="com.haroldadmin.moonshotRepository.launch.LaunchesFilter"/>
+        <variable
+            name="filterName"
+            type="String" />
         <variable
             name="onFilterSelected"
             type="android.view.View.OnClickListener" />
@@ -17,7 +20,7 @@
             android:id="@+id/btFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{filterOption.name()}"
+            android:text="@{filterName}"
             android:onClick="@{onFilterSelected}"
             tools:text="All Launches"
             android:textSize="18sp"
