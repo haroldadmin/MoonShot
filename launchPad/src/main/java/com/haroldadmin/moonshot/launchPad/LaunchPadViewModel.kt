@@ -2,13 +2,13 @@ package com.haroldadmin.moonshot.launchPad
 
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshotRepository.launchPad.LaunchPadRepository
+import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LaunchPadViewModel(
     initState: LaunchPadState,
-    private val launchPadRepository: LaunchPadRepository
+    private val launchPadUseCase: GetLaunchPadUseCase
 ) : MoonShotViewModel<LaunchPadState>(initState) {
 
     init {
@@ -17,8 +17,11 @@ class LaunchPadViewModel(
         }
     }
 
-    suspend fun getLaunchPad(siteId: String) {
-        launchPadRepository.flowLaunchPad(siteId)
-            .collect { setState { copy(launchPad = it) } }
+    private suspend fun getLaunchPad(siteId: String) {
+        launchPadUseCase
+            .getLaunchPad(siteId)
+            .collect { launchPadRes ->
+                setState { copy(launchPad = launchPadRes) }
+            }
     }
 }

@@ -14,6 +14,10 @@ import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
 
 class FakeLaunchesDao : LaunchDao() {
 
+    override suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun getPastLaunchesForLaunchPad(
         siteId: String,
         maxTimeStamp: Long,

@@ -32,7 +32,7 @@ data class LaunchPad(
     val location: Location
 ) {
     companion object {
-        fun getSampleLanchpad(): LaunchPad {
+        fun getSampleLanchpad(siteId: String?): LaunchPad {
             return LaunchPad(
                 id = 1,
                 status = "retired",
@@ -48,7 +48,7 @@ data class LaunchPad(
                 wikipedia = "https://en.wikipedia.org/wiki/Omelek_Island",
                 details = "SpaceX original launch site, where all of the Falcon 1 launches occured. " +
                         "Abandoned as SpaceX decided against upgrading the pad to support Falcon 9.\"",
-                siteId = "kwajalein_atoll",
+                siteId = siteId ?: "kwajalein_atoll",
                 siteNameLong = "Kwajalein Atoll Omelek Island"
             )
         }
