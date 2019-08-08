@@ -11,8 +11,16 @@ object FakeDataProvider {
         return FakeDbDataProvider.getLaunches(number)
     }
 
+    fun getDbLaunch(): LaunchMinimal {
+        return getDbLaunches(1).first()
+    }
+
     fun getApiLaunches(number: Int): List<Launch> {
         return FakeApiDataProvider.getLaunches(number)
+    }
+
+    fun getApiLaunch(): Launch {
+        return getApiLaunches(1).first()
     }
 
     fun getDbRockets(number: Int): List<RocketMinimal> {

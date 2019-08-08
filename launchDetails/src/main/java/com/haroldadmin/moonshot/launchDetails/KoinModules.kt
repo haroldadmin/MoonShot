@@ -6,8 +6,10 @@ import org.koin.dsl.module
 val launchDetailsModule = module {
     viewModel { (initialState: LaunchDetailsState) ->
         LaunchDetailsViewModel(
-            initialState,
-            get()
+            initState = initialState,
+            launchDetailsUseCase = get(),
+            launchStatsUseCase = get(),
+            launchPicturesUseCase = get()
         )
     }
 }

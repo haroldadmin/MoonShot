@@ -7,6 +7,9 @@ import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSumm
 import com.haroldadmin.moonshot.database.launch.rocket.secondStage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
+import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
+import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
+import com.haroldadmin.moonshotRepository.launch.GetLaunchStatsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
@@ -51,6 +54,9 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     factory { GetLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
     factory { GetLaunchesForLaunchpadUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
     factory { GetNextLaunchUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
+    factory { GetLaunchDetailsUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
+    factory { GetLaunchStatsUseCase(get<LaunchDao>()) }
+    factory { GetLaunchPicturesUseCase(get<LaunchDao>()) }
 
     factory { PersistLaunchPadUseCase(get<LaunchPadDao>()) }
     factory { GetLaunchPadUseCase(get<LaunchPadDao>(), get<LaunchPadService>(), get<PersistLaunchPadUseCase>()) }

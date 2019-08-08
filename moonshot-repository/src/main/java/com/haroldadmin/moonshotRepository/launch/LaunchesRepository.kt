@@ -173,13 +173,13 @@ class LaunchesRepository(
     suspend fun flowLaunch(flightNumber: Int) = flow<Resource<LaunchMinimal>> {
         emit(Resource.Loading)
 
-        val launch = launchDao.getLaunchMinimal(flightNumber)
+        val launch = launchDao.getLaunch(flightNumber)
         if (launch != null) emit(Resource.Success(launch))
 
         when (val launchResponse = executeWithRetry { launchesService.getLaunch(flightNumber).await() }) {
             is NetworkResponse.Success -> {
                 saveApiLaunch(launchResponse()!!)
-                val dbLaunch = launchDao.getLaunchMinimal(flightNumber)!!
+                val dbLaunch = launchDao.getLaunch(flightNumber)!!
                 emit(Resource.Success(dbLaunch))
             }
             is NetworkResponse.ServerError -> {

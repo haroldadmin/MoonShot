@@ -20,6 +20,9 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 const val LAUNCH_MINIMAL_PROJECTION: Projection =
     """flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia"""
 
+const val LAUNCH_STATS_PROJECTION: Projection =
+    """rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count"""
+
 @Dao
 abstract class LaunchDao : BaseDao<Launch> {
 
@@ -80,7 +83,7 @@ abstract class LaunchDao : BaseDao<Launch> {
 
     @Query(
         """
-        SELECT rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count
+        SELECT $LAUNCH_STATS_PROJECTION
         FROM rocket_summaries
         INNER JOIN core_summaries ON rocket_summaries.launch_flight_number = core_summaries.launch_flight_number
         INNER JOIN payloads ON rocket_summaries.launch_flight_number = payloads.launch_flight_number
@@ -96,7 +99,7 @@ abstract class LaunchDao : BaseDao<Launch> {
         WHERE flight_number = :flightNumber
         """
     )
-    abstract suspend fun getLaunchMinimal(flightNumber: Int): LaunchMinimal?
+    abstract suspend fun getLaunch(flightNumber: Int): LaunchMinimal?
 
     @Query(
         """

@@ -51,7 +51,7 @@ class FakeLaunchesDao : LaunchDao() {
 
     override suspend fun getLaunchStats(flightNumber: Int): LaunchStats? = null
 
-    override suspend fun getLaunchMinimal(flightNumber: Int): LaunchMinimal? = null
+    override suspend fun getLaunch(flightNumber: Int): LaunchMinimal? = null
 
     override suspend fun getLaunchPictures(flightNumber: Int): LaunchPictures? = null
 
