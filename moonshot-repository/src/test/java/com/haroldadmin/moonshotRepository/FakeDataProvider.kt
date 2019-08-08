@@ -2,6 +2,9 @@ package com.haroldadmin.moonshotRepository
 
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
+import com.haroldadmin.spacex_api_wrapper.common.Length
+import com.haroldadmin.spacex_api_wrapper.common.Mass
+import com.haroldadmin.spacex_api_wrapper.common.Thrust
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
 import com.haroldadmin.spacex_api_wrapper.launches.Fairing
 import com.haroldadmin.spacex_api_wrapper.launches.FirstStageSummary
@@ -12,6 +15,13 @@ import com.haroldadmin.spacex_api_wrapper.launches.RocketSummary
 import com.haroldadmin.spacex_api_wrapper.launches.SecondStageSummary
 import com.haroldadmin.spacex_api_wrapper.launches.Telemetry
 import com.haroldadmin.spacex_api_wrapper.launches.Timeline
+import com.haroldadmin.spacex_api_wrapper.rocket.CompositeFairing
+import com.haroldadmin.spacex_api_wrapper.rocket.Engines
+import com.haroldadmin.spacex_api_wrapper.rocket.FirstStage
+import com.haroldadmin.spacex_api_wrapper.rocket.LandingLegs
+import com.haroldadmin.spacex_api_wrapper.rocket.Payloads
+import com.haroldadmin.spacex_api_wrapper.rocket.Rocket
+import com.haroldadmin.spacex_api_wrapper.rocket.SecondStage
 import java.util.Date
 
 object FakeDataProvider {
@@ -51,6 +61,36 @@ object FakeDataProvider {
             .take(number)
             .toList()
     }
+
+    fun getApiRockets(number: Int): List<Rocket> {
+        var count = 0
+        return generateSequence {
+            Rocket(
+                rocketId = "Test ID",
+                firstStage = testFirstStage(),
+                engines = testEngines(),
+                wikipedia = "",
+                active = false,
+                boosters = 0,
+                company = "",
+                costPerLaunch = 0,
+                country = "",
+                description = "",
+                diameter = testLength(),
+                firstFlight = "",
+                height = testLength(),
+                id = ++count,
+                landingLegs = testLandingLegs(),
+                mass = testMass(),
+                payloadWeights = listOf(),
+                rocketName = "Test Rocket",
+                rocketType = "Test Type",
+                secondStage = testSecondStage(),
+                stages = 0,
+                successRate = 0.0
+            )
+        }.take(number).toList()
+    }
 }
 
 private fun testLaunchSite(): LaunchSite {
@@ -79,17 +119,17 @@ private fun testRocketSummary(): RocketSummary {
         rocketId = "Test ID",
         name = "Test Name",
         type = "Test Type",
-        firstStage = testFirstStage(),
-        secondState = testSecondStage(),
+        firstStage = testFirstStageSummary(),
+        secondState = testSecondStageSummary(),
         fairing = testFairing()
     )
 }
 
-private fun testFirstStage(): FirstStageSummary {
+private fun testFirstStageSummary(): FirstStageSummary {
     return FirstStageSummary(cores = listOf())
 }
 
-private fun testSecondStage(): SecondStageSummary {
+private fun testSecondStageSummary(): SecondStageSummary {
     return SecondStageSummary(block = null, payloads = listOf())
 }
 
@@ -125,5 +165,84 @@ private fun testTimeline(): Timeline {
         secondStageRestart = null,
         seco2 = null,
         payloadDeploy = null
+    )
+}
+
+private fun testFirstStage(): FirstStage {
+    return FirstStage(
+        reusable = false,
+        engines = 0,
+        fuelAmountTons = 0.0,
+        thrustSeaLevel = testThrust(),
+        thrustVacuum = testThrust(),
+        burnTimeSecs = 0.0
+    )
+}
+
+private fun testThrust(): Thrust {
+    return Thrust(
+        kN = 0.0,
+        lbf = 0.0
+    )
+}
+
+private fun testEngines(): Engines {
+    return Engines(
+        number = 0,
+        thrustVacuum = testThrust(),
+        thrustSeaLevel = testThrust(),
+        type = "Test Type",
+        engineLossMax = 0,
+        layout = "Test Layout",
+        propellant1 = "Test Propellant",
+        propellant2 = "Test Propellant",
+        version = "Test Version",
+        thrustToWeightRatio = 0.0
+    )
+}
+
+private fun testLength(): Length {
+    return Length(
+        meters = 0.0,
+        feet = 0.0
+    )
+}
+
+private fun testMass(): Mass {
+    return Mass(
+        kg = 0.0,
+        lb = 0.0
+    )
+}
+
+private fun testLandingLegs(): LandingLegs {
+    return LandingLegs(
+        number = 1,
+        material = "Test Material"
+    )
+}
+
+private fun testSecondStage(): SecondStage {
+    return SecondStage(
+        burnTimeSecs = 0.0,
+        engines = 0,
+        fuelAmountTons = 0.0,
+        payloads = testPayloads(),
+        thrust = testThrust()
+    )
+}
+
+private fun testPayloads(): Payloads {
+    return Payloads(
+        option1 = null,
+        option2 = null,
+        compositeFairing = testCompositeFairing()
+    )
+}
+
+private fun testCompositeFairing(): CompositeFairing {
+    return CompositeFairing(
+        height = testLength(),
+        diameter = testLength()
     )
 }

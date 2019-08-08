@@ -272,7 +272,7 @@ internal class MappersTest : DescribeSpec({
         context("Rocket") {
             val apiRocket = Rocket(
                 id = 0,
-                rockedId = "Rocket",
+                rocketId = "Rocket",
                 rocketName = "Rocket",
                 rocketType = "Type",
                 active = false,
@@ -320,7 +320,7 @@ internal class MappersTest : DescribeSpec({
             it("Should map values correctly") {
                 with(dbRocket) {
 
-                    rocketId shouldBe apiRocket.rockedId
+                    rocketId shouldBe apiRocket.rocketId
                     rocketName shouldBe apiRocket.rocketName
                     id shouldBe apiRocket.id
                     active shouldBe apiRocket.active

@@ -19,7 +19,7 @@ import com.haroldadmin.moonshot.models.rocket.secondStage.SecondStage as DbSecon
 
 internal fun Rocket.toDbRocket(): DbRocket {
     return DbRocket(
-        rocketId = this.rockedId,
+        rocketId = this.rocketId,
         rocketName = this.rocketName,
         rocketType = this.rocketType,
         id = this.id,

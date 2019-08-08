@@ -12,7 +12,7 @@ class FakeRocketsDao(
     private val sampleRockets: List<DbRocket> = listOf(),
     private val samplePayloadWeights: List<DbPayloadWeight> = listOf()
 ) : RocketsDao() {
-    override suspend fun getAllRocketsMinimal(): List<RocketMinimal> = listOf()
+    override suspend fun getAllRockets(): List<RocketMinimal> = listOf()
 
     override suspend fun getRocketMinimal(rocketId: String): RocketMinimal? = null
 
@@ -38,8 +38,6 @@ class FakeRocketsDao(
     override suspend fun deleteAll(vararg obj: DbRocket) = Unit
 
     override suspend fun deleteAll(objs: List<DbRocket>) = Unit
-
-    override suspend fun getAllRockets(): List<DbRocket> = sampleRockets
 
     override suspend fun getRocket(rocketId: String): DbRocket = DbRocket.getSampleRocket()
 

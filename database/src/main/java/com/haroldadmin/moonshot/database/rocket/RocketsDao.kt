@@ -13,11 +13,11 @@ import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.models.rocket.RocketWithPayloadWeights
 
+private const val ROCKET_MINIMAL_PROJECTION =
+    """rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description"""
+
 @Dao
 abstract class RocketsDao : BaseDao<Rocket> {
-
-    @Query("SELECT * FROM rockets")
-    abstract suspend fun getAllRockets(): List<Rocket>
 
     @Query("SELECT * FROM rockets WHERE rocket_id = :rocketId")
     abstract suspend fun getRocket(rocketId: String): Rocket
@@ -27,15 +27,15 @@ abstract class RocketsDao : BaseDao<Rocket> {
     abstract suspend fun getRocketWithPayloadWeights(rocketId: String): RocketWithPayloadWeights
 
     @Query("""
-        SELECT rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description
+        SELECT $ROCKET_MINIMAL_PROJECTION
         FROM rockets
         ORDER BY rocket_name
         DESC
     """)
-    abstract suspend fun getAllRocketsMinimal(): List<RocketMinimal>
+    abstract suspend fun getAllRockets(): List<RocketMinimal>
 
     @Query("""
-        SELECT rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description
+        SELECT $ROCKET_MINIMAL_PROJECTION
         FROM rockets
         WHERE rocket_id = :rocketId
     """)

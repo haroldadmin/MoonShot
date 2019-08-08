@@ -36,7 +36,7 @@ internal class RocketsTest : BaseApiTest() {
                 }
 
                 it("Should parse sampledata correctly") {
-                    (response as NetworkResponse.Success).body.rockedId shouldBe rocketId
+                    (response as NetworkResponse.Success).body.rocketId shouldBe rocketId
                 }
             }
         }

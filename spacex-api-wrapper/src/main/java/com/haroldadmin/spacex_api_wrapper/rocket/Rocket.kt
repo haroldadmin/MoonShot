@@ -26,7 +26,7 @@ data class Rocket(
     @Json(name = "landing_legs") val landingLegs: LandingLegs,
     @Json(name = "wikipedia") val wikipedia: String,
     @Json(name = "description") val description: String,
-    @Json(name = "rocket_id") val rockedId: String,
+    @Json(name = "rocket_id") val rocketId: String,
     @Json(name = "rocket_name") val rocketName: String,
     @Json(name = "rocket_type") val rocketType: String
 )
