@@ -2,6 +2,7 @@ package com.haroldadmin.moonshotRepository
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
@@ -12,6 +13,7 @@ abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
     abstract suspend fun getFromApi(): NetworkResponse<U, V>
     abstract suspend fun persistData(apiData: U)
 
+    @ExperimentalCoroutinesApi
     fun flow(): Flow<Resource<T>> {
         return flow {
             val cachedData = getFromDatabase(isRefreshed = false)
@@ -34,10 +36,11 @@ abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
                     emit(Resource.Error(cachedData, error))
                 }
             }
-        }
+        }.onStart { emit(Resource.Loading) }
     }
 }
 
+@ExperimentalCoroutinesApi
 inline fun <T : Any, U : Any, V : Any> networkBoundFlow(
     crossinline dbFetcher: suspend (Boolean) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
@@ -61,5 +64,5 @@ inline fun <T : Any, U : Any, V : Any> networkBoundFlow(
             dataPersister(apiData)
         }
     }
-    return resource.flow().onStart { emit(Resource.Loading) }
+    return resource.flow()
 }
