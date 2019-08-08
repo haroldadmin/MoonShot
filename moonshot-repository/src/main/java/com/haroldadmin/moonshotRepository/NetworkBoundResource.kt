@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
-abstract class NetworkBoundResource<T: Any, U: Any, V: Any> {
+abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
     abstract suspend fun getFromDatabase(isRefreshed: Boolean): T?
     abstract suspend fun validateCache(cachedData: T?): Boolean
     abstract suspend fun getFromApi(): NetworkResponse<U, V>
@@ -38,12 +38,12 @@ abstract class NetworkBoundResource<T: Any, U: Any, V: Any> {
     }
 }
 
-inline fun <T: Any, U: Any, V: Any> networkBoundFlow(
+inline fun <T : Any, U : Any, V : Any> networkBoundFlow(
     crossinline dbFetcher: suspend (Boolean) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
     crossinline cacheValidator: suspend (T?) -> Boolean,
     crossinline dataPersister: suspend (U) -> Unit
-    ): Flow<Resource<T>> {
+): Flow<Resource<T>> {
     val resource = object : NetworkBoundResource<T, U, V>() {
         override suspend fun getFromDatabase(isRefreshed: Boolean): T? {
             return dbFetcher(isRefreshed)

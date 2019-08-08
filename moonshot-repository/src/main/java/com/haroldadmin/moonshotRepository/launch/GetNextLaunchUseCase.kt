@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 class GetNextLaunchUseCase(
     launchesDao: LaunchDao,
     launchesService: LaunchesService
-): LaunchesUseCase(launchesDao, launchesService) {
+) : LaunchesUseCase(launchesDao, launchesService) {
 
     suspend fun getNextLaunch(timeAtStartOfDay: Long): Flow<Resource<LaunchMinimal>> {
         return networkBoundFlow(

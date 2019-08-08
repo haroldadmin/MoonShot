@@ -38,7 +38,12 @@ class RocketsRepository(
                 }
             }
             is NetworkResponse.ServerError -> emit(Resource.Error(dbRockets, networkResponse.body))
-            is NetworkResponse.NetworkError -> emit(Resource.Error(dbRockets, networkResponse.error))
+            is NetworkResponse.NetworkError -> emit(
+                Resource.Error(
+                    dbRockets,
+                    networkResponse.error
+                )
+            )
         }
     }
         .flowOn(Dispatchers.IO)
@@ -48,7 +53,8 @@ class RocketsRepository(
         val dbRocket = rocketsDao.getRocketMinimal(rocketId)
         dbRocket?.let { emit(Resource.Success(it)) }
 
-        when (val rocketResponse = executeWithRetry { rocketsService.getRocket(rocketId).await() }) {
+        when (val rocketResponse =
+            executeWithRetry { rocketsService.getRocket(rocketId).await() }) {
             is NetworkResponse.Success -> {
                 rocketsDao.save(rocketResponse.body.toDbRocket())
                 val savedRocket = rocketsDao.getRocketMinimal(rocketId)!!
@@ -62,18 +68,20 @@ class RocketsRepository(
     }
         .flowOn(Dispatchers.IO)
 
-    suspend fun flowLaunchesForRocket(rocketId: String, timestamp: Long) = flow<Resource<List<LaunchMinimal>>> {
-        emit(Resource.Loading)
-        val launches = rocketsDao.getLaunchesForRocket(rocketId, timestamp)
-        emit(Resource.Success(launches))
-    }
+    suspend fun flowLaunchesForRocket(rocketId: String, timestamp: Long) =
+        flow<Resource<List<LaunchMinimal>>> {
+            emit(Resource.Loading)
+            val launches = rocketsDao.getLaunchesForRocket(rocketId, timestamp)
+            emit(Resource.Success(launches))
+        }
 
-   suspend fun getRocket(rocketId: String): Resource<Rocket> = withContext(Dispatchers.IO) {
+    suspend fun getRocket(rocketId: String): Resource<Rocket> = withContext(Dispatchers.IO) {
         when (val rocket = executeWithRetry { rocketsService.getRocket(rocketId).await() }) {
             is NetworkResponse.Success -> {
                 val apiRocket = rocket()!!
                 val dbRocket = apiRocket.toDbRocket()
-                val dbPayloadWeights = apiRocket.payloadWeights.map { it.toDbPayloadWeight(apiRocket.rocketId) }
+                val dbPayloadWeights =
+                    apiRocket.payloadWeights.map { it.toDbPayloadWeight(apiRocket.rocketId) }
 
                 rocketsDao.saveRocketWithPayloadWeights(dbRocket, dbPayloadWeights)
 

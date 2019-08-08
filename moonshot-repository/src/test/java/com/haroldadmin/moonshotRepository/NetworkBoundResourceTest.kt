@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.reduce
 import java.io.IOException
 
 @ExperimentalCoroutinesApi
-class NetworkBoundResourceTest: DescribeSpec({
+class NetworkBoundResourceTest : DescribeSpec({
 
     describe("When cache is invalid") {
         val dbData = emptyList<Unit>()
@@ -39,7 +39,7 @@ class NetworkBoundResourceTest: DescribeSpec({
                     .collect { res ->
                         res.shouldBeTypeOf<Resource.Success<List<Unit>>>()
                         (res as Resource.Success).isCached shouldBe false
-                }
+                    }
             }
 
             it("Should emit API data only") {
@@ -78,7 +78,7 @@ class NetworkBoundResourceTest: DescribeSpec({
         val dbData = listOf(Unit)
 
         context("Successful network call") {
-           val apiData = listOf(Unit, Unit)
+            val apiData = listOf(Unit, Unit)
 
             val resource = networkBoundFlow(
                 dbFetcher = { isRefreshed -> if (isRefreshed) apiData else dbData },
@@ -124,7 +124,7 @@ class NetworkBoundResourceTest: DescribeSpec({
                 dataPersister = { Unit }
             )
 
-            it ("Should emit Resource.Loading first") {
+            it("Should emit Resource.Loading first") {
                 val firstRes = resource.first()
                 firstRes.shouldBeTypeOf<Resource.Loading>()
             }

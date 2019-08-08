@@ -20,7 +20,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetLaunchPadUseCaseTest: DescribeSpec({
+class GetLaunchPadUseCaseTest : DescribeSpec({
 
     describe("Fetching launchpad with given Site ID") {
         val testSiteId = "Test ID"
@@ -30,7 +30,6 @@ class GetLaunchPadUseCaseTest: DescribeSpec({
         val mockDao = mockk<LaunchPadDao> {
             coEvery { getLaunchPad(testSiteId) } returns testDbLaunchPad
             coEvery { save(any()) } returns Unit
-
         }
         val mockService = mockk<LaunchPadService> {
             every {
@@ -53,5 +52,4 @@ class GetLaunchPadUseCaseTest: DescribeSpec({
             }
         }
     }
-
 })

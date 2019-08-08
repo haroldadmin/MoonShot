@@ -20,17 +20,13 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
-import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshot.utils.format
-import com.haroldadmin.vector.withState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
-import java.util.Timer
-import java.util.concurrent.TimeUnit
 
 class NextLaunchFragment : MoonShotFragment() {
 

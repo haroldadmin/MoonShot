@@ -11,7 +11,7 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 
-class FilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
+class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomSheetDialogBinding
     private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow)
@@ -56,7 +56,7 @@ class FilterBottomSheetDialogFragment: BottomSheetDialogFragment() {
 
 private fun FilterBottomSheetDialogFragment.simpleController(
     buildModelsCallback: EpoxyController.() -> Unit
-): EpoxyController = object: EpoxyController() {
+): EpoxyController = object : EpoxyController() {
     override fun buildModels() {
         buildModelsCallback()
     }

@@ -15,7 +15,7 @@ import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
 class FakeLaunchesDao : LaunchDao() {
 
     override suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun getPastLaunchesForLaunchPad(
@@ -23,7 +23,7 @@ class FakeLaunchesDao : LaunchDao() {
         maxTimeStamp: Long,
         limit: Int
     ): List<LaunchMinimal> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun getUpcomingLaunchesForLaunchPad(
@@ -31,7 +31,7 @@ class FakeLaunchesDao : LaunchDao() {
         minTimeStamp: Long,
         limit: Int
     ): List<LaunchMinimal> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch> {

@@ -284,5 +284,4 @@ class GetLaunchesUseCaseTest : DescribeSpec({
             }
         }
     }
-
 })

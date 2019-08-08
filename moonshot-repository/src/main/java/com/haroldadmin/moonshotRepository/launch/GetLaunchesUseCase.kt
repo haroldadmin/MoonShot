@@ -54,7 +54,6 @@ class GetLaunchesUseCase(
         )
     }
 
-
     internal suspend fun getAllLaunches(limit: Int): Flow<Resource<List<LaunchMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getAllCachedLaunches(limit) },

@@ -1,6 +1,5 @@
 package com.haroldadmin.moonshot.base
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.vector.SavedStateVectorViewModel

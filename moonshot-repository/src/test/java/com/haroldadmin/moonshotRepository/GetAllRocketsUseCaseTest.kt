@@ -4,7 +4,6 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
-import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
@@ -18,7 +17,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetAllRocketsUseCaseTest: DescribeSpec({
+class GetAllRocketsUseCaseTest : DescribeSpec({
 
     describe("Fetching all rockets") {
 

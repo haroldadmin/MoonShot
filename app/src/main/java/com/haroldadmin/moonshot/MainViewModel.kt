@@ -39,7 +39,7 @@ class MainViewModel(
 class MainViewModelFactory(
     savedStateRegistryOwner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
-): AbstractSavedStateViewModelFactory(savedStateRegistryOwner, defaultArgs) {
+) : AbstractSavedStateViewModelFactory(savedStateRegistryOwner, defaultArgs) {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(

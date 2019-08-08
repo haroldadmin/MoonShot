@@ -28,7 +28,6 @@ val THEME_MAPPINGS = mapOf(
     "auto" to AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 )
 
-
 class MainActivity : MoonShotActivity() {
 
     private lateinit var binding: ActivityMainBinding

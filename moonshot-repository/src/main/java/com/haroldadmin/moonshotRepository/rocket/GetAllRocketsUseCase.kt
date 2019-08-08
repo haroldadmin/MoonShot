@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 class GetAllRocketsUseCase(
     rocketsDao: RocketsDao,
     rocketsService: RocketsService
-): RocketsUseCase(rocketsDao, rocketsService) {
+) : RocketsUseCase(rocketsDao, rocketsService) {
 
     suspend fun getAllRockets(): Flow<Resource<List<RocketMinimal>>> {
         return networkBoundFlow(
@@ -24,7 +24,7 @@ class GetAllRocketsUseCase(
         )
     }
 
-    private suspend fun getAllRocketsCached() = withContext(Dispatchers.IO){
+    private suspend fun getAllRocketsCached() = withContext(Dispatchers.IO) {
         rocketsDao.getAllRockets()
     }
 

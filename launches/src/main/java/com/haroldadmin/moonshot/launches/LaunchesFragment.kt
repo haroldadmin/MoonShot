@@ -74,7 +74,7 @@ class LaunchesFragment : MoonShotFragment() {
                     if (state.siteName != null) {
                         mainViewModel.setTitle(state.siteName)
                     } else {
-                        val title = when(state.filter) {
+                        val title = when (state.filter) {
                             LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesRecentFilterScreenTitle)
                             LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesUpcomingFilterScreenTitle)
                             LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesAllFilterScreenTitle)
@@ -136,7 +136,7 @@ class LaunchesFragment : MoonShotFragment() {
                 }
                 else -> itemLoading {
                     id("launches-loading")
-                    val loadingText = when(state.filter) {
+                    val loadingText = when (state.filter) {
                         LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
                         LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
                         LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
