@@ -13,6 +13,7 @@ import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
+import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
@@ -48,6 +49,7 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     factory { GetLaunchPadUseCase(get<LaunchPadDao>(), get<LaunchPadService>()) }
 
     factory { GetAllRocketsUseCase(get<RocketsDao>(), get<RocketsService>()) }
+    factory { GetRocketDetailsUseCase(get<RocketsDao>(), get<RocketsService>()) }
 
     single<Cache> {
         Cache(androidContext().cacheDir, 10 * 1000 * 1000)

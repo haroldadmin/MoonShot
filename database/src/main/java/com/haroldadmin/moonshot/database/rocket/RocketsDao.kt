@@ -20,9 +20,6 @@ private const val ROCKET_MINIMAL_PROJECTION =
 abstract class RocketsDao : BaseDao<Rocket> {
 
     @Query("SELECT * FROM rockets WHERE rocket_id = :rocketId")
-    abstract suspend fun getRocket(rocketId: String): Rocket
-
-    @Query("SELECT * FROM rockets WHERE rocket_id = :rocketId")
     @Transaction
     abstract suspend fun getRocketWithPayloadWeights(rocketId: String): RocketWithPayloadWeights
 
@@ -39,7 +36,7 @@ abstract class RocketsDao : BaseDao<Rocket> {
         FROM rockets
         WHERE rocket_id = :rocketId
     """)
-    abstract suspend fun getRocketMinimal(rocketId: String): RocketMinimal?
+    abstract suspend fun getRocket(rocketId: String): RocketMinimal?
 
     @Query("""
         SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia

@@ -172,3 +172,15 @@ data class RocketMinimal(
     @Ignore
     val statusText = if (active) "Active" else "Inactive"
 }
+
+fun Rocket.toRocketMinimal(): RocketMinimal {
+    return RocketMinimal(
+        rocketId = this.rocketId,
+        rocketName = this.rocketName,
+        rocketType = this.rocketType,
+        active = this.active,
+        costPerLaunch = this.costPerLaunch,
+        successRatePercentage = this.successRatePercentage,
+        description = this.description
+    )
+}

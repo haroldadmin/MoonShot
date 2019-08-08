@@ -8,6 +8,7 @@ val rocketDetailsModule = module {
     viewModel { (initialState: RocketDetailsState) ->
         RocketDetailsViewModel(
             initialState,
+            get(),
             get()
         )
     }

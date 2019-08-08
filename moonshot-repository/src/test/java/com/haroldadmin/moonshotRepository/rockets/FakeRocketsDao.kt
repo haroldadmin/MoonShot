@@ -5,16 +5,14 @@ import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.models.rocket.RocketWithPayloadWeights
+import com.haroldadmin.moonshot.models.rocket.toRocketMinimal
 import com.haroldadmin.moonshot.models.rocket.Rocket as DbRocket
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight as DbPayloadWeight
 
 class FakeRocketsDao(
-    private val sampleRockets: List<DbRocket> = listOf(),
     private val samplePayloadWeights: List<DbPayloadWeight> = listOf()
 ) : RocketsDao() {
     override suspend fun getAllRockets(): List<RocketMinimal> = listOf()
-
-    override suspend fun getRocketMinimal(rocketId: String): RocketMinimal? = null
 
     override suspend fun getLaunchesForRocket(
         rocketId: String,
@@ -39,7 +37,8 @@ class FakeRocketsDao(
 
     override suspend fun deleteAll(objs: List<DbRocket>) = Unit
 
-    override suspend fun getRocket(rocketId: String): DbRocket = DbRocket.getSampleRocket()
+    override suspend fun getRocket(rocketId: String): RocketMinimal? =
+        DbRocket.getSampleRocket().toRocketMinimal()
 
     override suspend fun getRocketWithPayloadWeights(rocketId: String): RocketWithPayloadWeights {
         return RocketWithPayloadWeights(
