@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.rocketDetails
 
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
+import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
 import kotlinx.coroutines.flow.collect
@@ -10,8 +11,8 @@ import java.util.Calendar
 
 class RocketDetailsViewModel(
     initState: RocketDetailsState,
-    private val repository: RocketsRepository,
-    private val rocketDetailsUseCase: GetRocketDetailsUseCase
+    private val rocketDetailsUseCase: GetRocketDetailsUseCase,
+    private val launchesForRocketUseCase: GetLaunchesForRocketUseCase
 ) : MoonShotViewModel<RocketDetailsState>(initState) {
 
     init {
@@ -28,10 +29,11 @@ class RocketDetailsViewModel(
             }
     }
 
-    suspend fun getLaunches(rocketId: String, timestamp: Long) {
-        repository.flowLaunchesForRocket(rocketId, timestamp)
-            .collect { launchesResource ->
-                setState { copy(launches = launchesResource) }
+    suspend fun getLaunches(rocketId: String, timestamp: Long, limit: Int = 10) {
+        launchesForRocketUseCase
+            .getLaunchesForRocket(rocketId, timestamp, limit)
+            .collect { launchesRes ->
+                setState { copy(launches = launchesRes) }
             }
     }
 }

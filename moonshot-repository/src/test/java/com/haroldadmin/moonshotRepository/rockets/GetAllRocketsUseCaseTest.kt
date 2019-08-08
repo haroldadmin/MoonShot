@@ -1,11 +1,13 @@
-package com.haroldadmin.moonshotRepository
+package com.haroldadmin.moonshotRepository.rockets
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshotRepository.FakeDataProvider
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
+import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
@@ -34,7 +36,11 @@ class GetAllRocketsUseCaseTest : DescribeSpec({
                 } returns CompletableDeferred(NetworkResponse.Success(apiRockets))
             }
 
-            val usecase = GetAllRocketsUseCase(mockDao, mockService)
+            val mockPersistUseCase = mockk<PersistRocketsUseCase> {
+                coEvery { persistApiRockets(any()) } returns Unit
+            }
+
+            val usecase = GetAllRocketsUseCase(mockDao, mockService, mockPersistUseCase)
 
             it("Should eventually return refreshed data") {
                 val resource = usecase.getAllRockets().last()

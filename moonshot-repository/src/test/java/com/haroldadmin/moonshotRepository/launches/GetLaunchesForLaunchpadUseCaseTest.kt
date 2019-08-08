@@ -1,10 +1,12 @@
-package com.haroldadmin.moonshotRepository
+package com.haroldadmin.moonshotRepository.launches
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshotRepository.FakeDataProvider
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
+import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
@@ -27,9 +29,13 @@ import java.util.Date
 @ExperimentalCoroutinesApi
 class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
 
+    val mockPersistUseCase = mockk<PersistLaunchesUseCase> {
+        coEvery { persistLaunches(any()) } returns Unit
+    }
+
     describe("Selection of launches based on given range of time") {
 
-        val usecase = spyk(GetLaunchesForLaunchpadUseCase(mockk(), mockk()))
+        val usecase = spyk(GetLaunchesForLaunchpadUseCase(mockk(), mockk(), mockPersistUseCase))
 
         context("Get all launches") {
             val from = Long.MIN_VALUE
@@ -82,13 +88,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
     describe("Emitted events when there are no cached launches") {
         val fakeApiLaunches = FakeDataProvider.getApiLaunches(10)
         val mockDao = mockk<LaunchDao> {
-            coEvery {
-                getAllLaunchesForLaunchPad(any(), any())
-            } returns listOf()
-
-            coEvery {
-                saveLaunchesWithSummaries(any(), any(), any(), any(), any(), any())
-            } returns Unit
+            coEvery { getAllLaunchesForLaunchPad(any(), any()) } returns listOf()
         }
 
         context("Network request is successful") {
@@ -100,7 +100,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
 
                 val firstEmittedResource = flow.first()
@@ -109,7 +109,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should not emit cached launches") {
-                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
                     .drop(1) // Drop Resource.Loading
 
@@ -129,7 +129,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
 
                 val firstEmittedResource = flow.first()
@@ -138,7 +138,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Error eventually") {
-                val resource = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val resource = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
                     .reduce { _, value -> value } // Get Last emitted resource
 
@@ -174,7 +174,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should emit Resource.Loading first") {
-                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
 
                 val firstEmittedResource = flow.first()
@@ -183,7 +183,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should emit cached launches") {
-                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val flow = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
                     .drop(1) // Drop Resource.Loading
 
@@ -194,7 +194,7 @@ class GetLaunchesForLaunchpadUseCaseTest : DescribeSpec({
             }
 
             it("Should eventually emit refreshed launches") {
-                val lastEmittedResource = GetLaunchesForLaunchpadUseCase(mockDao, mockApi)
+                val lastEmittedResource = GetLaunchesForLaunchpadUseCase(mockDao, mockApi, mockPersistUseCase)
                     .getLaunchesForLaunchpad("test-id", Long.MIN_VALUE, Long.MAX_VALUE, Date().time)
                     .reduce { _, value -> value } // Get last emitted value
 

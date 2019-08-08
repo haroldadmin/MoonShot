@@ -10,8 +10,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class GetRocketDetailsUseCase(rocketsDao: RocketsDao, rocketsService: RocketsService) :
-    RocketsUseCase(rocketsDao, rocketsService) {
+class GetRocketDetailsUseCase(
+    private val rocketsDao: RocketsDao,
+    private val rocketsService: RocketsService,
+    private val persistRocketsUseCase: PersistRocketsUseCase
+) {
 
     private suspend fun getCached(rocketId: String) = withContext(Dispatchers.IO) {
         rocketsDao.getRocket(rocketId)
@@ -28,7 +31,7 @@ class GetRocketDetailsUseCase(rocketsDao: RocketsDao, rocketsService: RocketsSer
             dbFetcher = { getCached(rocketId) },
             cacheValidator = { cached -> cached != null },
             apiFetcher = { getFromApi(rocketId) },
-            dataPersister = this::persistApiRocket
+            dataPersister = persistRocketsUseCase::persistApiRocket
         )
     }
 }

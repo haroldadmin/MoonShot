@@ -17,12 +17,9 @@ import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-abstract class LaunchesUseCase(
-    protected val launchesDao: LaunchDao,
-    protected val launchesService: LaunchesService
-) {
+class PersistLaunchesUseCase(private val launchesDao: LaunchDao) {
 
-    protected suspend fun persistLaunch(apiLaunch: Launch) = withContext(Dispatchers.Default) {
+    suspend fun persistLaunch(apiLaunch: Launch) = withContext(Dispatchers.Default) {
         val launch = apiLaunch.toDbLaunch()
 
         val rocketSummary = apiLaunch.rocket.toDbRocketSummary(apiLaunch.flightNumber)
@@ -55,7 +52,7 @@ abstract class LaunchesUseCase(
         }
     }
 
-    protected suspend fun persistLaunches(apiLaunches: List<Launch>) {
+    suspend fun persistLaunches(apiLaunches: List<Launch>) {
         withContext(Dispatchers.Default) {
             val dbLaunches = apiLaunches.map { it.toDbLaunch() }
 

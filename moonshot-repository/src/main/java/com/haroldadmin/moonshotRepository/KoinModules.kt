@@ -11,9 +11,13 @@ import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
+import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
+import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
+import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
 import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
@@ -43,13 +47,18 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
         )
     }
 
-    factory { GetLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>()) }
-    factory { GetLaunchesForLaunchpadUseCase(get<LaunchDao>(), get<LaunchesService>()) }
-    factory { GetNextLaunchUseCase(get<LaunchDao>(), get<LaunchesService>()) }
-    factory { GetLaunchPadUseCase(get<LaunchPadDao>(), get<LaunchPadService>()) }
+    factory { PersistLaunchesUseCase(get<LaunchDao>()) }
+    factory { GetLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
+    factory { GetLaunchesForLaunchpadUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
+    factory { GetNextLaunchUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
 
-    factory { GetAllRocketsUseCase(get<RocketsDao>(), get<RocketsService>()) }
-    factory { GetRocketDetailsUseCase(get<RocketsDao>(), get<RocketsService>()) }
+    factory { PersistLaunchPadUseCase(get<LaunchPadDao>()) }
+    factory { GetLaunchPadUseCase(get<LaunchPadDao>(), get<LaunchPadService>(), get<PersistLaunchPadUseCase>()) }
+
+    factory { PersistRocketsUseCase(get<RocketsDao>()) }
+    factory { GetAllRocketsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
+    factory { GetRocketDetailsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
+    factory { GetLaunchesForRocketUseCase(get<RocketsDao>(), get<PersistLaunchesUseCase>(), get<LaunchesService>()) }
 
     single<Cache> {
         Cache(androidContext().cacheDir, 10 * 1000 * 1000)

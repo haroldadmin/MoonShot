@@ -11,16 +11,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class GetNextLaunchUseCase(
-    launchesDao: LaunchDao,
-    launchesService: LaunchesService
-) : LaunchesUseCase(launchesDao, launchesService) {
+    private val launchesDao: LaunchDao,
+    private val launchesService: LaunchesService,
+    private val persistLaunchesUseCase: PersistLaunchesUseCase
+) {
 
     suspend fun getNextLaunch(timeAtStartOfDay: Long): Flow<Resource<LaunchMinimal>> {
         return networkBoundFlow(
             dbFetcher = { getNextLaunchCached(timeAtStartOfDay) },
             cacheValidator = { cachedData -> cachedData != null },
             apiFetcher = { getNextLaunchFromService() },
-            dataPersister = this::persistLaunch
+            dataPersister = persistLaunchesUseCase::persistLaunch
         )
     }
 

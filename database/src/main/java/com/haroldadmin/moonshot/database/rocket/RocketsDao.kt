@@ -7,13 +7,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.haroldadmin.moonshot.database.BaseDao
+import com.haroldadmin.moonshot.database.Projection
+import com.haroldadmin.moonshot.database.launch.LAUNCH_MINIMAL_PROJECTION
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.rocket.Rocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.models.rocket.RocketWithPayloadWeights
 
-private const val ROCKET_MINIMAL_PROJECTION =
+private const val ROCKET_MINIMAL_PROJECTION: Projection =
     """rocket_id, rocket_name, rocket_type, active, cost_per_launch, success_rate, description"""
 
 @Dao
@@ -39,16 +41,16 @@ abstract class RocketsDao : BaseDao<Rocket> {
     abstract suspend fun getRocket(rocketId: String): RocketMinimal?
 
     @Query("""
-        SELECT flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia
+        SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches
         WHERE flight_number IN
         (SELECT launch_flight_number
         FROM rocket_summaries
-        WHERE rocket_id = :rocketId) AND launch_date_utc <= :timestamp
+        WHERE rocket_id = :rocketId) AND launch_date_utc <= :currentTime
         ORDER BY launch_date_utc DESC
-        LIMIT 10
+        LIMIT :limit
     """)
-    abstract suspend fun getLaunchesForRocket(rocketId: String, timestamp: Long): List<LaunchMinimal>
+    abstract suspend fun getLaunchesForRocket(rocketId: String, currentTime: Long, limit: Int): List<LaunchMinimal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>)

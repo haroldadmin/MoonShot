@@ -51,7 +51,7 @@ class RocketsRepository(
     suspend fun flowLaunchesForRocket(rocketId: String, timestamp: Long) =
         flow<Resource<List<LaunchMinimal>>> {
             emit(Resource.Loading)
-            val launches = rocketsDao.getLaunchesForRocket(rocketId, timestamp)
+            val launches = rocketsDao.getLaunchesForRocket(rocketId, timestamp, 10)
             emit(Resource.Success(launches))
         }
 }

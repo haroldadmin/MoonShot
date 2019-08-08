@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.haroldadmin.moonshot.database.BaseDao
+import com.haroldadmin.moonshot.database.Projection
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchPictures
@@ -16,7 +17,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummar
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
-private const val LAUNCH_MINIMAL_PROJECTION =
+const val LAUNCH_MINIMAL_PROJECTION: Projection =
     """flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia"""
 
 @Dao

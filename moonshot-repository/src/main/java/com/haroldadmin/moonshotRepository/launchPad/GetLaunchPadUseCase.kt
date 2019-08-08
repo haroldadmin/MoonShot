@@ -14,7 +14,8 @@ import kotlinx.coroutines.withContext
 
 class GetLaunchPadUseCase(
     private val launchPadDao: LaunchPadDao,
-    private val launchPadService: LaunchPadService
+    private val launchPadService: LaunchPadService,
+    private val persistLaunchPadUseCase: PersistLaunchPadUseCase
 ) {
 
     suspend fun getLaunchPad(siteId: String): Flow<Resource<LaunchPad>> {
@@ -22,7 +23,7 @@ class GetLaunchPadUseCase(
             dbFetcher = { getLaunchPadCached(siteId) },
             cacheValidator = { cached -> cached != null },
             apiFetcher = { getLaunchPadFromApi(siteId) },
-            dataPersister = { apiLaunchPad -> saveLaunchPad(apiLaunchPad) }
+            dataPersister = persistLaunchPadUseCase::persistLaunchPad
         )
     }
 
@@ -34,9 +35,5 @@ class GetLaunchPadUseCase(
 
     private suspend fun getLaunchPadCached(siteId: String) = withContext(Dispatchers.IO) {
         launchPadDao.getLaunchPad(siteId)
-    }
-
-    private suspend fun saveLaunchPad(launchPad: ApiLaunchPad) = withContext(Dispatchers.IO) {
-        launchPadDao.save(launchPad.toDbLaunchPad())
     }
 }

@@ -11,16 +11,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class GetAllRocketsUseCase(
-    rocketsDao: RocketsDao,
-    rocketsService: RocketsService
-) : RocketsUseCase(rocketsDao, rocketsService) {
+    private val rocketsDao: RocketsDao,
+    private val rocketsService: RocketsService,
+    private val persistRocketsUseCase: PersistRocketsUseCase
+) {
 
     suspend fun getAllRockets(): Flow<Resource<List<RocketMinimal>>> {
         return networkBoundFlow(
             dbFetcher = { getAllRocketsCached() },
             cacheValidator = { cached -> !cached.isNullOrEmpty() },
             apiFetcher = { getAllRocketsFromApi() },
-            dataPersister = this::persistApiRockets
+            dataPersister = persistRocketsUseCase::persistApiRockets
         )
     }
 

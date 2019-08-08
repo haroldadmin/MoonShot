@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class GetLaunchesForLaunchpadUseCase(
-    dao: LaunchDao,
-    service: LaunchesService
-) : LaunchesUseCase(dao, service) {
+    private val launchesDao: LaunchDao,
+    private val launchesService: LaunchesService,
+    private val persistLaunchesUseCase: PersistLaunchesUseCase) {
 
     suspend fun getLaunchesForLaunchpad(
         siteId: String,
@@ -42,7 +42,7 @@ class GetLaunchesForLaunchpadUseCase(
             dbFetcher = { getAllCachedLaunches(siteId, limit) },
             cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getAllLaunchesFromService(siteId) },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 
@@ -51,7 +51,7 @@ class GetLaunchesForLaunchpadUseCase(
             dbFetcher = { getPastCachedLaunches(siteId, currentTime, limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastLaunchesFromService(siteId) },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 
@@ -60,7 +60,7 @@ class GetLaunchesForLaunchpadUseCase(
             dbFetcher = { getUpcomingCachedLaunches(siteId, currentTime, limit) },
             cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getUpcomingLaunchesFromService(siteId) },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 

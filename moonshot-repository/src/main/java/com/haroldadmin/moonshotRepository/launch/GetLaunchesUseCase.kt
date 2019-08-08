@@ -14,9 +14,10 @@ enum class LaunchesFilter {
     PAST, UPCOMING, ALL
 }
 class GetLaunchesUseCase(
-    launchesDao: LaunchDao,
-    launchesService: LaunchesService
-) : LaunchesUseCase(launchesDao, launchesService) {
+    private val launchesDao: LaunchDao,
+    private val launchesService: LaunchesService,
+    private val persistLaunchesUseCase: PersistLaunchesUseCase
+) {
 
     suspend fun getLaunches(
         filter: LaunchesFilter,
@@ -38,7 +39,7 @@ class GetLaunchesUseCase(
             dbFetcher = { getPastCachedLaunches(currentTime, limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastApiLaunches() },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 
@@ -50,7 +51,7 @@ class GetLaunchesUseCase(
             dbFetcher = { getUpcomingCachedLaunches(currentTime, limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getUpcomingApiLaunches() },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 
@@ -59,7 +60,7 @@ class GetLaunchesUseCase(
             dbFetcher = { getAllCachedLaunches(limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getAllApiLaunches() },
-            dataPersister = this::persistLaunches
+            dataPersister = persistLaunchesUseCase::persistLaunches
         )
     }
 

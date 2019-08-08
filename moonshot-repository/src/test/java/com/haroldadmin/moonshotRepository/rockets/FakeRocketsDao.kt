@@ -16,7 +16,8 @@ class FakeRocketsDao(
 
     override suspend fun getLaunchesForRocket(
         rocketId: String,
-        timestamp: Long
+        timestamp: Long,
+        limit: Int
     ): List<LaunchMinimal> = listOf()
 
     override suspend fun save(obj: DbRocket) = Unit

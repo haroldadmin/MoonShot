@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshotRepository
+package com.haroldadmin.moonshotRepository.launchPad
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
@@ -37,10 +37,11 @@ class GetLaunchPadUseCaseTest : DescribeSpec({
             } returns CompletableDeferred(NetworkResponse.Success(testApiLaunchPad))
         }
 
-        mockkStatic("com.haroldadmin.moonshotRepository.mappers.LaunchPadKt")
-        every { testApiLaunchPad.toDbLaunchPad() } returns testDbLaunchPad
+        val mockPersistUseCase = mockk<PersistLaunchPadUseCase> {
+            coEvery { persistLaunchPad(any()) } returns Unit
+        }
 
-        val useCase = GetLaunchPadUseCase(mockDao, mockService)
+        val useCase = GetLaunchPadUseCase(mockDao, mockService, mockPersistUseCase)
 
         it("Should return launchpad with requested Site ID") {
             val resource = useCase.getLaunchPad(testSiteId).last()

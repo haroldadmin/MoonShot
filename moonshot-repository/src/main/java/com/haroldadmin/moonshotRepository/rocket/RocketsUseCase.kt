@@ -8,12 +8,9 @@ import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-abstract class RocketsUseCase(
-    protected val rocketsDao: RocketsDao,
-    protected val rocketsService: RocketsService
-) {
+class PersistRocketsUseCase(private val rocketsDao: RocketsDao) {
 
-    protected suspend fun persistApiRocket(apiRocket: Rocket) =
+    suspend fun persistApiRocket(apiRocket: Rocket) =
         withContext(Dispatchers.Default) {
             val dbRocket = apiRocket.toDbRocket()
             val dbPayloadWeights = apiRocket
@@ -25,7 +22,7 @@ abstract class RocketsUseCase(
             }
         }
 
-    protected suspend fun persistApiRockets(apiRockets: List<Rocket>) =
+    suspend fun persistApiRockets(apiRockets: List<Rocket>) =
         withContext(Dispatchers.Default) {
             val dbRockets = apiRockets.map { it.toDbRocket() }
             val dbPayloadWeights = apiRockets
