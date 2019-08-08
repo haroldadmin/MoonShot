@@ -18,7 +18,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CompletableDeferred
 
-class GetLaunchDetailsUseCaseTest: DescribeSpec({
+class GetLaunchDetailsUseCaseTest : DescribeSpec({
     describe("Fetching launch details") {
         val testID = 1
         val dbLaunch = FakeDataProvider.getDbLaunch()

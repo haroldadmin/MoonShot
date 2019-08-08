@@ -17,11 +17,11 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.CompletableDeferred
 
-class GetRocketDetailsUseCaseTest: DescribeSpec({
+class GetRocketDetailsUseCaseTest : DescribeSpec({
 
     describe("Fetching rocket details with the given Rocket ID") {
         val testID = "Test ID"
-        val mockDao =  mockk<RocketsDao> {
+        val mockDao = mockk<RocketsDao> {
             coEvery { getRocket(any()) } returns FakeDataProvider.getDbRockets(
                 1
             ).first()
@@ -52,5 +52,4 @@ class GetRocketDetailsUseCaseTest: DescribeSpec({
             }
         }
     }
-
 })

@@ -20,7 +20,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetLaunchesForRocketUseCastTest: DescribeSpec({
+class GetLaunchesForRocketUseCastTest : DescribeSpec({
 
     describe("Fetching launches for a rocket") {
         val testID = "Test ID"
@@ -54,5 +54,4 @@ class GetLaunchesForRocketUseCastTest: DescribeSpec({
             coVerify { mockDao.getLaunchesForRocket(testID, any(), any()) }
         }
     }
-
 })

@@ -10,4 +10,5 @@
     <string name="fragmentFilterSheetAllFilterName">All</string>
     <string name="fragmentFilterSheetPastFilterName">Recent</string>
     <string name="fragmentFilterSheetUpcomingFilterName">Upcoming</string>
+    <string name="fragmentFilterSheetHeaderText">Filters</string>
 </resources>

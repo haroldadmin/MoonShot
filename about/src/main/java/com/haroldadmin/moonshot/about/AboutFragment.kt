@@ -58,7 +58,7 @@ class AboutFragment : MoonShotFragment() {
                 message(getString(R.string.aboutFragmentAuthorName))
                 icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_github_round))
                 onDetailClick { _ ->
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://haroldadmin.github.io"))
+                    Intent(Intent.ACTION_VIEW, Uri.parse(Links.AUTHOR))
                         .also { intent ->
                             startActivity(intent)
                         }
@@ -71,7 +71,7 @@ class AboutFragment : MoonShotFragment() {
                 message(getString(appR.string.app_name))
                 icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_github_round))
                 onDetailClick { _ ->
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/haroldadmin/MoonShot")).also { intent ->
+                    Intent(Intent.ACTION_VIEW, Uri.parse(Links.APP_REPO)).also { intent ->
                         startActivity(intent)
                     }
                 }
@@ -83,7 +83,31 @@ class AboutFragment : MoonShotFragment() {
                 message(getString(R.string.aboutFragmentArchitectureMessage))
                 icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_details_24px))
                 onDetailClick { _ ->
-                    Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/haroldadmin/Vector")).also { intent ->
+                    Intent(Intent.ACTION_VIEW, Uri.parse(Links.VECTOR)).also { intent ->
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            itemAboutDetail {
+                id("spacex-api-credits")
+                header(getString(R.string.aboutFragmentApiCreditsHeader))
+                message(getString(R.string.aboutFragmentApiCreditsMessage))
+                icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_github_round))
+                onDetailClick { _ ->
+                    Intent(Intent.ACTION_VIEW, Uri.parse(Links.SPACEX_API)).also { intent ->
+                        startActivity(intent)
+                    }
+                }
+            }
+
+            itemAboutDetail {
+                id("privacy-policy")
+                header(getString(R.string.aboutFragmentPrivacyPolicyHeader))
+                message(getString(R.string.aboutFragmentPrivacyPolicyMessage))
+                icon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_insert_drive_file_24px))
+                onDetailClick { _ ->
+                    Intent(Intent.ACTION_VIEW, Uri.parse(Links.PRIVACY_POLICY)).also { intent ->
                         startActivity(intent)
                     }
                 }

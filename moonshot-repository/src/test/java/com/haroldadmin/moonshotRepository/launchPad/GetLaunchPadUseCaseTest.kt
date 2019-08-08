@@ -5,8 +5,6 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
-import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
-import com.haroldadmin.moonshotRepository.mappers.toDbLaunchPad
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad as ApiLaunchPad
 import io.kotlintest.matchers.types.shouldBeTypeOf
@@ -15,7 +13,6 @@ import io.kotlintest.specs.DescribeSpec
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

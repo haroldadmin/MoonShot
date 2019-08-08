@@ -13,7 +13,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetLaunchStatsUseCaseTest: DescribeSpec({
+class GetLaunchStatsUseCaseTest : DescribeSpec({
     describe("Fetching launch stats") {
         val testID = 1
         val mockDao = mockk<LaunchDao> {

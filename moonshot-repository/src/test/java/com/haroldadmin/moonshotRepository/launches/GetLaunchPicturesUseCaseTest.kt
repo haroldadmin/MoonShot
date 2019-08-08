@@ -13,7 +13,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class GetLaunchPicturesUseCaseTest: DescribeSpec({
+class GetLaunchPicturesUseCaseTest : DescribeSpec({
     describe("Fetching pictures for requested launch") {
         val testID = 1
 

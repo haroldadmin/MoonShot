@@ -16,7 +16,8 @@ import kotlinx.coroutines.withContext
 class GetLaunchesForLaunchpadUseCase(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
-    private val persistLaunchesUseCase: PersistLaunchesUseCase) {
+    private val persistLaunchesUseCase: PersistLaunchesUseCase
+) {
 
     suspend fun getLaunchesForLaunchpad(
         siteId: String,

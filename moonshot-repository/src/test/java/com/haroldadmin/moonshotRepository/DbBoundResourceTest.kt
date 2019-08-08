@@ -9,7 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 
 @ExperimentalCoroutinesApi
-class DbBoundResourceTest: DescribeSpec({
+class DbBoundResourceTest : DescribeSpec({
     describe("Emission sequence") {
         context("When db cache is invalid") {
             val dbData: Unit? = null
@@ -18,7 +18,7 @@ class DbBoundResourceTest: DescribeSpec({
                 validator = { data -> data != null }
             )
 
-            it ("Should emit Resource.Loading first") {
+            it("Should emit Resource.Loading first") {
                 resource.first().shouldBeTypeOf<Resource.Loading>()
             }
 

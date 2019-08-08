@@ -21,7 +21,6 @@ import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
-import com.haroldadmin.moonshotRepository.rocket.RocketsRepository
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.networkModule
@@ -40,13 +39,6 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
             get<FirstStageSummaryDao>(),
             get<SecondStageSummaryDao>(),
             get<LaunchesService>()
-        )
-    }
-
-    single<RocketsRepository> {
-        RocketsRepository(
-            get<RocketsService>(),
-            get<RocketsDao>()
         )
     }
 

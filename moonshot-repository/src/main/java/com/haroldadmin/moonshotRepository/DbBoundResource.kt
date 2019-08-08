@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
-abstract class DbBoundResource<T: Any> {
+abstract class DbBoundResource<T : Any> {
     abstract suspend fun fetchFromDb(): T?
     abstract suspend fun validateData(data: T?): Boolean
 
@@ -22,7 +22,7 @@ abstract class DbBoundResource<T: Any> {
 }
 
 @ExperimentalCoroutinesApi
-suspend inline fun <T: Any> dbBoundResource(
+suspend inline fun <T : Any> dbBoundResource(
     crossinline dbFetcher: suspend () -> T?,
     crossinline validator: suspend (T?) -> Boolean
 ): Flow<Resource<T>> {
