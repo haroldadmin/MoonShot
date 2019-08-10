@@ -22,3 +22,10 @@ sealed class Resource<out T> {
 
     object Uninitialized : Resource<Nothing>()
 }
+
+operator fun <T> Resource<T>.invoke(): T? {
+    return if (this is Resource.Success)
+        this.data
+    else
+        null
+}

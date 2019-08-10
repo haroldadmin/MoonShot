@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.nextLaunch
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
@@ -75,12 +76,21 @@ class NextLaunchViewModel(
 
         return countdownTimer(
             duration = countDownDuration,
-            onFinish = { setState { copy(countDown = "Happening Now") } }
+            onFinish = this::onCountDownFinish
         ) { millisUntilFinished ->
             val timeText = calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS)
             setState {
                 copy(countDown = timeText.toString())
             }
+        }
+    }
+
+    private fun onCountDownFinish() = withState { state ->
+        state.nextLaunch()?.let { launch ->
+            if (launch.launchSuccess == true)
+                setState { copy(countDown = "Launch Successful") }
+            else
+                setState { copy(countDown = "Happening Now") }
         }
     }
 
