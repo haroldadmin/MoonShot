@@ -7,8 +7,12 @@ import com.haroldadmin.vector.VectorViewModel
 import com.haroldadmin.vector.loggers.androidLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-abstract class MoonShotViewModel<S : MoonShotState>(initState: S) : VectorViewModel<S>(initState) {
+abstract class MoonShotViewModel<S : MoonShotState>(
+    initState: S,
+    stateStoreContext: CoroutineContext = Dispatchers.Default + Job()
+) : VectorViewModel<S>(initState, stateStoreContext) {
 
     suspend fun <T : Any> executeAsResource(
         reducer: S.(Resource<T>) -> S,
