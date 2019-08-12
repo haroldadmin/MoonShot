@@ -17,16 +17,16 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class RocketDetailsViewModelTest {
+internal class RocketDetailsViewModelTest {
 
-    val mainThreadSurrogate = newSingleThreadContext("Main Thread")
-    val initialState = RocketDetailsState("test-id")
-    val rocket = mockk<Resource.Success<RocketMinimal>>()
-    val launches = mockk<Resource.Success<List<LaunchMinimal>>>()
-    val rocketDetailsUseCase = mockk<GetRocketDetailsUseCase> {
+    private val mainThreadSurrogate = newSingleThreadContext("Main Thread")
+    private val initialState = RocketDetailsState("test-id")
+    private val rocket = mockk<Resource.Success<RocketMinimal>>()
+    private val launches = mockk<Resource.Success<List<LaunchMinimal>>>()
+    private val rocketDetailsUseCase = mockk<GetRocketDetailsUseCase> {
         coEvery { getRocketDetails(any()) } returns flowOf(rocket)
     }
-    val launchesForRocketUseCase = mockk<GetLaunchesForRocketUseCase> {
+    private val launchesForRocketUseCase = mockk<GetLaunchesForRocketUseCase> {
         coEvery { getLaunchesForRocket(any(), any(), any()) } returns flowOf(launches)
     }
 

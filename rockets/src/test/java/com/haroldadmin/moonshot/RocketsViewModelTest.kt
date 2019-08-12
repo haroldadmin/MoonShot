@@ -18,12 +18,12 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class RocketsViewModelTest {
+internal class RocketsViewModelTest {
 
-    val mainThreadSurrogate = newSingleThreadContext("Main Thread")
-    val rockets = flowOf(Resource.Success(listOf<RocketMinimal>()))
-    val initialState = RocketsState()
-    val rocketsUseCase = mockk<GetAllRocketsUseCase> {
+    private val mainThreadSurrogate = newSingleThreadContext("Main Thread")
+    private val rockets = flowOf(Resource.Success(listOf<RocketMinimal>()))
+    private val initialState = RocketsState()
+    private val rocketsUseCase = mockk<GetAllRocketsUseCase> {
         coEvery { getAllRockets() } returns rockets
     }
 
