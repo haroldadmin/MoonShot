@@ -66,6 +66,8 @@ dependencies {
     kapt(Libs.epoxyProcessor)
 
     testImplementation(Libs.junit4)
+    testImplementation(Libs.mockk)
+    testImplementation(Libs.coroutinesTest)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)
 }

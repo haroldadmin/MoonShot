@@ -5,5 +5,8 @@ import org.koin.dsl.module
 
 val rocketsModule = module {
 
-    viewModel { (initialState: RocketsState) -> RocketsViewModel(initialState, get()) }
+    viewModel { (initialState: RocketsState) -> RocketsViewModel(
+        initState = initialState,
+        allRocketsUseCase = get()
+    ) }
 }
