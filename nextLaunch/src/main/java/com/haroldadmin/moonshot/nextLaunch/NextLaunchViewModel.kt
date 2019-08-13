@@ -58,7 +58,7 @@ class NextLaunchViewModel(
         }
     }
 
-    private suspend fun getNextLaunch(timeAtStartOfDay: Long) {
+    suspend fun getNextLaunch(timeAtStartOfDay: Long) {
         nextLaunchUseCase
             .getNextLaunch(timeAtStartOfDay)
             .collect { nextLaunchRes ->
