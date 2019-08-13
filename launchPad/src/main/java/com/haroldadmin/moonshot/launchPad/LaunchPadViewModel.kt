@@ -17,7 +17,7 @@ class LaunchPadViewModel(
         }
     }
 
-    private suspend fun getLaunchPad(siteId: String) {
+    suspend fun getLaunchPad(siteId: String) {
         launchPadUseCase
             .getLaunchPad(siteId)
             .collect { launchPadRes ->
