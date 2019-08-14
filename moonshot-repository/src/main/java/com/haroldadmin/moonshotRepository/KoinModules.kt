@@ -21,6 +21,9 @@ import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
+import com.haroldadmin.moonshotRepository.search.SearchLaunchesUseCase
+import com.haroldadmin.moonshotRepository.search.SearchLaunchpadsUseCase
+import com.haroldadmin.moonshotRepository.search.SearchRocketsUseCase
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.networkModule
@@ -57,6 +60,10 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     factory { GetAllRocketsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
     factory { GetRocketDetailsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
     factory { GetLaunchesForRocketUseCase(get<RocketsDao>(), get<PersistLaunchesUseCase>(), get<LaunchesService>()) }
+
+    factory { SearchLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
+    factory { SearchLaunchpadsUseCase(get<LaunchPadDao>(), get<LaunchPadService>(), get<PersistLaunchPadUseCase>()) }
+    factory { SearchRocketsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
 
     single<Cache> {
         Cache(androidContext().cacheDir, 10 * 1000 * 1000)

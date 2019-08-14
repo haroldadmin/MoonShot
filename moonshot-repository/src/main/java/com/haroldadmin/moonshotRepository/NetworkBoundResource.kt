@@ -14,7 +14,7 @@ abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
     abstract suspend fun persistData(apiData: U)
 
     @ExperimentalCoroutinesApi
-    fun flow(): Flow<Resource<T>> {
+    open fun flow(): Flow<Resource<T>> {
         return flow {
             val cachedData = getFromDatabase(isRefreshed = false)
             if (validateCache(cachedData)) {
