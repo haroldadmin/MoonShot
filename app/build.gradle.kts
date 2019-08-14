@@ -63,7 +63,8 @@ android {
         ":launches",
         ":nextLaunch",
         ":launchPad",
-        ":rocketDetails"
+        ":rocketDetails",
+        ":search"
     )
 }
 

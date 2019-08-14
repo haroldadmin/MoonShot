@@ -28,4 +28,5 @@
     <string name="launchNotificationsWeekBeforeLaunchChannelDescription">Reminder notifications for launches taking place this week</string>
     <string name="launchNotificationsDayBeforeLaunchChannelName">Channel for reminders a day before the launch</string>
     <string name="launchNotificationsDayBeforeLaunchChannelDescription">Reminder notifications for launches taking place on that day</string>
+    <string name="title_search">Search</string>
 </resources>

@@ -179,4 +179,10 @@
                 app:uri="moonshot://launches" />
         </fragment>
     </navigation>
+
+    <dialog
+        android:id="@+id/search"
+        android:name="com.haroldadmin.moonshot.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search"/>
 </navigation>

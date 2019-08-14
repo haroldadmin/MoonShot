@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/settings"
@@ -10,4 +11,11 @@
         android:id="@+id/about"
         android:title="About"
         android:icon="@drawable/ic_round_bubble_chart_24px"/>
+
+    <item
+        android:id="@id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_round_search_24px"
+        android:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="always"/>
 </menu>
