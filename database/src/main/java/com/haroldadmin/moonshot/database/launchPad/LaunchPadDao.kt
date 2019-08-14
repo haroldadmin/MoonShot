@@ -13,4 +13,16 @@ abstract class LaunchPadDao : BaseDao<LaunchPad> {
 
     @Query("SELECT * FROM launch_pads WHERE site_id = :siteId")
     abstract suspend fun getLaunchPad(siteId: String): LaunchPad?
+
+    @Query(
+        """
+            SELECT *
+            FROM launch_pads
+            WHERE site_name_long LIKE :query
+            OR name LIKE :query
+            ORDER BY name
+            LIMIT :limit
+        """
+    )
+    abstract suspend fun getLaunchPadsForQuery(query: String, limit: Int): List<LaunchPad>
 }

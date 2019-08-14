@@ -167,6 +167,17 @@ abstract class LaunchDao : BaseDao<Launch> {
     )
     abstract suspend fun getLaunchesInRange(start: Long, end: Long, limit: Int): List<Launch>
 
+    @Query(
+        """
+            SELECT $LAUNCH_MINIMAL_PROJECTION
+            FROM launches
+            WHERE mission_name LIKE :query
+            ORDER BY mission_name
+            LIMIT :limit
+        """
+    )
+    abstract suspend fun getLaunchesForQuery(query: String, limit: Int): List<LaunchMinimal>
+
     @Transaction
     open suspend fun saveLaunchWithSummaries(
         launch: Launch,

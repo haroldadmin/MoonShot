@@ -52,6 +52,17 @@ abstract class RocketsDao : BaseDao<Rocket> {
     """)
     abstract suspend fun getLaunchesForRocket(rocketId: String, currentTime: Long, limit: Int): List<LaunchMinimal>
 
+    @Query(
+        """
+            SELECT $ROCKET_MINIMAL_PROJECTION
+            FROM rockets
+            WHERE rocket_name LIKE :query
+            ORDER BY rocket_name
+            LIMIT :limit
+        """
+    )
+    abstract suspend fun getRocketsForQuery(query: String, limit: Int): List<RocketMinimal>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun savePayloadWeights(payloadWeights: List<PayloadWeight>)
 
