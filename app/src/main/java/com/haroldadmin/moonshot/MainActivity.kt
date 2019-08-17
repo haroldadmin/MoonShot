@@ -57,11 +57,19 @@ class MainActivity : MoonShotActivity() {
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
                 val appBarConfig =
-                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets))
+                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
                 setupWithNavController(navController, appBarConfig)
                 inflateMenu(R.menu.menu_main)
                 setOnMenuItemClickListener { menuItem ->
-                    menuItem.onNavDestinationSelected(navController)
+                    when (menuItem.itemId) {
+                        R.id.menuSearch -> {
+                            // Navigating to Search as a menu item navigation destination resets the
+                            //  backstack, so we handle it separately here
+                            navController.navigate(R.id.search)
+                            true
+                        }
+                        else -> menuItem.onNavDestinationSelected(navController)
+                    }
                 }
             }
         }

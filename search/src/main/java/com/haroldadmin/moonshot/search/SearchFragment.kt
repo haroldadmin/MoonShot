@@ -99,7 +99,6 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
         binding.container.updateLayoutParams<FrameLayout.LayoutParams> {
             height = screenHeight
         }
-        behaviour?.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private val controller by lazy {

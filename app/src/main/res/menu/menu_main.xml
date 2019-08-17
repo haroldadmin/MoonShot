@@ -13,9 +13,8 @@
         android:icon="@drawable/ic_round_bubble_chart_24px"/>
 
     <item
-        android:id="@id/search"
+        android:id="@+id/menuSearch"
         android:title="Search"
         android:icon="@drawable/ic_round_search_24px"
-        android:iconTint="?attr/colorOnPrimary"
         app:showAsAction="always"/>
 </menu>
