@@ -13,9 +13,9 @@ object Versions {
     const val materialComponents = "1.1.0-alpha07"
     const val navigation = "2.1.0-alpha05"
     const val preference = "1.1.0-beta01"
-    const val workManager = "2.2.0-rc01"
+    const val workManager = "2.2.0"
 
-    const val vector = "0.4.1"
+    const val vector = "-SNAPSHOT"
 
     const val epoxy = "3.5.1"
 

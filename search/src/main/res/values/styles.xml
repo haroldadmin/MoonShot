@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.MoonShot.Search.Main" parent="TextAppearance.MoonShot.Headline6">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MoonShot.Search.Hint" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/search_text_box_hint_color</item>
+    </style>
+
+    <style name="Widget.MoonShot.Search.SearchBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/search_text_box_border_color</item>
+        <item name="hintTextAppearance">@style/TextAppearance.MoonShot.Search.Hint</item>
+        <item name="hintTextColor">@color/search_text_box_hint_color</item>
+    </style>
+</resources>
