@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
@@ -16,6 +17,7 @@ import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
@@ -44,16 +46,22 @@ class RocketDetailsFragment : MoonShotFragment() {
             RocketDetailsState(rocketId = safeArgs.rocketId)
         parametersOf(initialState)
     }
-    private val mainViewModel by sharedViewModel<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         RocketDetails.init()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        mainViewModel.setTitle(getString(appR.string.title_rocket_details))
+        val animation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvRocketDetails.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -63,15 +71,9 @@ class RocketDetailsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect {
-                renderState(it) { state ->
-                    epoxyController.setData(state)
-                    if (state.rocket is Resource.Success) {
-                        mainViewModel.setTitle(state.rocket.data.rocketName)
-                    }
-                }
-            }
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            state.rocket()?.let { mainViewModel.setTitle(it.rocketName) }
         }
     }
 

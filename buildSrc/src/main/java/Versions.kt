@@ -7,7 +7,7 @@ object Versions {
     const val appCompat = "1.1.0-beta01"
     const val lifecycle = "2.2.0-alpha01"
     const val ktxCore = "1.0.2"
-    const val fragmentKtx = "1.2.0-alpha01"
+    const val fragmentKtx = "1.2.0-alpha02"
     const val vmSavedState = "1.0.0-alpha02"
     const val constraintLayout = "2.0.0-beta2"
     const val materialComponents = "1.1.0-alpha07"

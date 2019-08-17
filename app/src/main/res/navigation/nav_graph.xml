@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/rockets"
         android:name="com.haroldadmin.moonshot.rockets.RocketsFragment"
-        android:label="Rockets"
         tools:layout="@layout/fragment_rockets">
         <deepLink
             android:id="@+id/rocketsDeeplink"
@@ -25,7 +24,6 @@
     <fragment
         android:id="@+id/launchDetails"
         android:name="com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragment"
-        android:label="Launch"
         tools:layout="@layout/fragment_launch_details">
         <argument
             android:name="flightNumber"
@@ -73,7 +71,6 @@
     <fragment
         android:id="@+id/launchPad"
         android:name="com.haroldadmin.moonshot.launchPad.LaunchPadFragment"
-        android:label="Launch Pad"
         tools:layout="@layout/fragment_launchpad">
         <argument
             android:name="siteId"
@@ -93,8 +90,8 @@
 
     <fragment
         android:id="@+id/settings"
-        android:name="com.haroldadmin.moonshot.settings.SettingsFragment"
-        android:label="Settings">
+        android:label="@string/title_settings"
+        android:name="com.haroldadmin.moonshot.settings.SettingsFragment">
         <deepLink
             android:id="@+id/settingsDeeplink"
             app:uri="moonshot://settings" />
@@ -103,7 +100,6 @@
     <fragment
         android:id="@+id/rocketDetails"
         android:name="com.haroldadmin.moonshot.rocketDetails.RocketDetailsFragment"
-        android:label="Rocket"
         tools:layout="@layout/fragment_rocket_details">
         <argument
             android:name="rocketId"
@@ -124,7 +120,7 @@
     <fragment
         android:id="@+id/about"
         android:name="com.haroldadmin.moonshot.about.AboutFragment"
-        android:label="About"
+        android:label="@string/title_about"
         tools:layout="@layout/fragment_about">
         <deepLink
             android:id="@+id/aboutDeepLink"
@@ -153,7 +149,6 @@
         <fragment
             android:id="@+id/launches"
             android:name="com.haroldadmin.moonshot.launches.LaunchesFragment"
-            android:label="Launches"
             tools:layout="@layout/fragment_launches">
             <argument
                 android:name="type"
@@ -183,7 +178,6 @@
     <dialog
         android:id="@+id/search"
         android:name="com.haroldadmin.moonshot.search.SearchFragment"
-        android:label="@null"
         tools:layout="@layout/fragment_search" />
 
 </navigation>

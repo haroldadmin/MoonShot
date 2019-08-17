@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -36,6 +38,7 @@ class NextLaunchFragment : MoonShotFragment() {
     private val viewModel by viewModel<NextLaunchViewModel> {
         parametersOf(NextLaunchState())
     }
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,7 @@ class NextLaunchFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
+        mainViewModel.setTitle(getString(appR.string.title_next_launch))
         val animation =
             AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvNextLaunch.apply {
@@ -59,11 +63,7 @@ class NextLaunchFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect {
-                renderState(it) { state -> epoxyController.setData(state) }
-            }
-        }
+        renderState(viewModel) { state -> epoxyController.setData(state) }
     }
 
     override fun onDestroyView() {

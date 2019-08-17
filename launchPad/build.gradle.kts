@@ -63,6 +63,7 @@ dependencies {
     implementation(Libs.lifecycle)
     implementation(Libs.materialComponents)
     implementation(Libs.ktxCore)
+    implementation(Libs.fragmentKtx)
     implementation(Libs.constraintLayout)
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)

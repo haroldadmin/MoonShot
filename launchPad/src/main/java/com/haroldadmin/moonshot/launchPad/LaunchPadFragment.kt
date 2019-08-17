@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,16 +45,22 @@ class LaunchPadFragment : MoonShotFragment() {
         val initialState = LaunchPadState(safeArgs.siteId)
         parametersOf(initialState)
     }
-    private val mainViewModel by sharedViewModel<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Launchpad.init()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        mainViewModel.setTitle(getString(appR.string.title_launchpad))
+        val animation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvLaunchPad.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -64,14 +71,10 @@ class LaunchPadFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect {
-                renderState(it) { state ->
-                    epoxyController.setData(state)
-                    if (state.launchPad is Resource.Success) {
-                        mainViewModel.setTitle(state.launchPad.data.siteNameLong)
-                    }
-                }
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            if (state.launchPad is Resource.Success) {
+                mainViewModel.setTitle(state.launchPad.data.siteNameLong)
             }
         }
     }
@@ -108,54 +111,56 @@ class LaunchPadFragment : MoonShotFragment() {
         }
     }
 
-    private fun buildLaunchPadModels(controller: EpoxyController, launchpad: LaunchPad) = with(controller) {
-        itemLaunchDetail {
-            id("launch-pad")
-            detailHeader(getString(R.string.fragmentLaunchPadLaunchPadHeader))
-            detailName(launchpad.siteNameLong)
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-        }
-        itemExpandableTextWithHeading {
-            id("launch-pad-detail")
-            heading(getString(R.string.fragmentLaunchPadDetailsHeader))
-            text(launchpad.details)
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-        }
-        itemTextWithHeading {
-            id("status")
-            heading(getString(R.string.fragmentLaunchPadStatusHeader))
-            text(launchpad.status.capitalize())
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-        }
-        itemTextWithHeading {
-            id("success-percentage")
-            heading("Success Rate")
-            text(launchpad.successPercentage)
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-            onTextWithDetailClick { _ ->
-                LaunchPadFragmentDirections.launchPadLaunches(
-                    type = LaunchTypes.LAUNCHPAD,
-                    siteId = launchpad.siteId
-                ).also { action ->
-                    findNavController().navigate(action)
+    private fun buildLaunchPadModels(controller: EpoxyController, launchpad: LaunchPad) =
+        with(controller) {
+            itemLaunchDetail {
+                id("launch-pad")
+                detailHeader(getString(R.string.fragmentLaunchPadLaunchPadHeader))
+                detailName(launchpad.siteNameLong)
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            }
+            itemExpandableTextWithHeading {
+                id("launch-pad-detail")
+                heading(getString(R.string.fragmentLaunchPadDetailsHeader))
+                text(launchpad.details)
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            }
+            itemTextWithHeading {
+                id("status")
+                heading(getString(R.string.fragmentLaunchPadStatusHeader))
+                text(launchpad.status.capitalize())
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+            }
+            itemTextWithHeading {
+                id("success-percentage")
+                heading("Success Rate")
+                text(launchpad.successPercentage)
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+                onTextWithDetailClick { _ ->
+                    LaunchPadFragmentDirections.launchPadLaunches(
+                        type = LaunchTypes.LAUNCHPAD,
+                        siteId = launchpad.siteId
+                    ).also { action ->
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+            itemTextHeader {
+                id("map")
+                header(getString(R.string.itemMapCardMapHeader))
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            }
+            itemMapCard {
+                id("map")
+                mapImageUrl(launchpad.location.getStaticMapUrl())
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                onMapClick { _ ->
+                    val mapIntent = Intent(Intent.ACTION_VIEW).apply {
+                        data =
+                            Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
+                    }
+                    startActivity(mapIntent)
                 }
             }
         }
-        itemTextHeader {
-            id("map")
-            header(getString(R.string.itemMapCardMapHeader))
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-        }
-        itemMapCard {
-            id("map")
-            mapImageUrl(launchpad.location.getStaticMapUrl())
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-            onMapClick { _ ->
-                val mapIntent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
-                }
-                startActivity(mapIntent)
-            }
-        }
-    }
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchCard
@@ -31,6 +33,7 @@ import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsB
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -39,6 +42,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
+@ExperimentalCoroutinesApi
 class LaunchDetailsFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentLaunchDetailsBinding
@@ -46,7 +50,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val viewModel by viewModel<LaunchDetailsViewModel> {
         parametersOf(LaunchDetailsState(safeArgs.flightNumber), safeArgs.flightNumber)
     }
-    private val mainViewModel by sharedViewModel<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
 
@@ -58,6 +62,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
         val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        mainViewModel.setTitle(getString(appR.string.title_launch_details))
         binding.rvLaunchDetails.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -68,14 +73,10 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect {
-                renderState(it) { state ->
-                    epoxyController.setData(state)
-                    if (state.launch is Resource.Success && state.launch.data.missionName != null) {
-                        mainViewModel.setTitle(state.launch.data.missionName!!)
-                    }
-                }
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            state.launch()?.let { launch ->
+                mainViewModel.setTitle(launch.missionName)
             }
         }
     }

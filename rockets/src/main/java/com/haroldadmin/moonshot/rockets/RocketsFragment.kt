@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.typedEpoxyController
@@ -17,6 +19,7 @@ import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,15 +29,22 @@ class RocketsFragment : MoonShotFragment() {
     private val viewModel by viewModel<RocketsViewModel> {
         parametersOf(RocketsState())
     }
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Rockets.init()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentRocketsBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+        mainViewModel.setTitle(getString(appR.string.title_rockets))
+        val animation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvRockets.apply {
             setController(epoxyController)
             layoutAnimation = animation
@@ -44,12 +54,8 @@ class RocketsFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect { state ->
-                renderState(state) {
-                    epoxyController.setData(it)
-                }
-            }
+        renderState(viewModel) {
+            epoxyController.setData(it)
         }
     }
 
@@ -67,9 +73,10 @@ class RocketsFragment : MoonShotFragment() {
                             id(rocket.rocketId)
                             rocket(rocket)
                             onRocketClick { _ ->
-                                RocketsFragmentDirections.rocketDetails(rocket.rocketId).also { action ->
-                                    findNavController().navigate(action)
-                                }
+                                RocketsFragmentDirections.rocketDetails(rocket.rocketId)
+                                    .also { action ->
+                                        findNavController().navigate(action)
+                                    }
                             }
                         }
                     }

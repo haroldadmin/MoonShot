@@ -27,7 +27,8 @@ class MainViewModel(
         }
     }
 
-    fun setTitle(title: String) = viewModelScope.launch {
+    fun setTitle(title: String?) = viewModelScope.launch {
+        if (title == null) return@launch
         val toolbarTitle = title.asConsumable()
         setState {
             copy(toolbarTitle = toolbarTitle)

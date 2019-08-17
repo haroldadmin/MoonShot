@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -31,12 +32,14 @@ class LaunchesFragment : MoonShotFragment() {
     private lateinit var binding: FragmentLaunchesBinding
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
     private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
-        LaunchesViewModelFactory(LaunchesState(
-            type = safeArgs.type,
-            siteId = safeArgs.siteId
-        ))
+        LaunchesViewModelFactory(
+            LaunchesState(
+                type = safeArgs.type,
+                siteId = safeArgs.siteId
+            )
+        )
     }
-    private val mainViewModel by sharedViewModel<MainViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val diffingHandler by inject<Handler>(named("differ"))
     private val buildingHandler by inject<Handler>(named("builder"))
 
@@ -51,6 +54,7 @@ class LaunchesFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
+        mainViewModel.setTitle(getString(appR.string.title_launches))
         val animation =
             AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
         binding.rvLaunches.apply {
@@ -67,21 +71,17 @@ class LaunchesFragment : MoonShotFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        fragmentScope.launch {
-            viewModel.state.collect {
-                renderState(it) { state ->
-                    epoxyController.setData(state)
-                    if (state.siteName != null) {
-                        mainViewModel.setTitle(state.siteName)
-                    } else {
-                        val title = when (state.filter) {
-                            LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesRecentFilterScreenTitle)
-                            LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesUpcomingFilterScreenTitle)
-                            LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesAllFilterScreenTitle)
-                        }
-                        mainViewModel.setTitle(title)
-                    }
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            if (state.siteName != null) {
+                mainViewModel.setTitle(state.siteName)
+            } else {
+                val title = when (state.filter) {
+                    LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesRecentFilterScreenTitle)
+                    LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesUpcomingFilterScreenTitle)
+                    LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesAllFilterScreenTitle)
                 }
+                mainViewModel.setTitle(title)
             }
         }
     }
