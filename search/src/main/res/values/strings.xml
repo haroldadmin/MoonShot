@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="searchSearchBoxHint">Search</string>
+    <string name="searchResultTypeLaunch">Launch</string>
+    <string name="searchResultTypeRocket">Rocket</string>
+    <string name="searchResultTypeLaunchPad">Launch Pad</string>
 </resources>

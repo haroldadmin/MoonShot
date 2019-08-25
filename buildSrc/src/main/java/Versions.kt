@@ -1,6 +1,6 @@
 object Versions {
 
-    const val coroutines = "1.3.0-RC"
+    const val coroutines = "1.3.0"
 
     const val koin = "2.0.1"
 
@@ -22,6 +22,7 @@ object Versions {
     const val glide = "4.9.0"
 
     const val lemniscate = "2.0.0"
+    const val lottie = "3.0.7"
 
     const val room = "2.1.0"
 

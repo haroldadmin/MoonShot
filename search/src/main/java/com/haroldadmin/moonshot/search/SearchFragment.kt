@@ -11,18 +11,15 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.haroldadmin.moonshot.base.MoonShotAsyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.MoonShotState
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemLaunchCard
-import com.haroldadmin.moonshot.itemRocket
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.search.databinding.FragmentSearchBinding
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.CoroutineScope
@@ -44,7 +41,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import kotlin.coroutines.CoroutineContext
-import com.google.android.material.R as materialR
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -81,7 +77,9 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
 
         binding.rvSearchResults.apply {
             setController(controller)
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
+
         return binding.root
     }
 
@@ -103,45 +101,53 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
 
     private val controller by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
-            if (state.launches is Resource.Uninitialized
-                && state.rockets is Resource.Uninitialized
-                && state.launchPads is Resource.Uninitialized
-            ) {
+            if (state.isUninitialized) {
                 itemSearchUninitialized {
-                    id("search-uninit")
+                    id("search-uninitialized")
                 }
+
             } else {
-                buildLaunchModels(state.launches)
-                buildRocketModels(state.rockets)
-            }
-        }
-    }
 
-    private fun EpoxyController.buildLaunchModels(launches: Resource<List<LaunchMinimal>>) {
-        when (launches) {
-            is Resource.Success -> {
-                launches()?.forEach { launch ->
-                    itemLaunchCard {
+                state.launches()?.forEach { launch ->
+                    itemSearchResult {
                         id(launch.flightNumber)
-                        launch(launch)
+                        resultType(R.string.searchResultTypeLaunch)
+                        result(launch.missionName ?: "Unknown")
+                        onClick { _ ->
+                            SearchFragmentDirections.launchDetails(launch.flightNumber).let {
+                                findNavController().navigate(it)
+                            }
+                        }
                     }
-                }
-            }
-            else -> Unit
-        }
-    }
 
-    private fun EpoxyController.buildRocketModels(rockets: Resource<List<RocketMinimal>>) {
-        when (rockets) {
-            is Resource.Success -> {
-                rockets()?.forEach { rocket ->
-                    itemRocket {
+                }
+
+                state.rockets()?.forEach { rocket ->
+                    itemSearchResult {
                         id(rocket.rocketId)
-                        rocket(rocket)
+                        resultType(R.string.searchResultTypeRocket)
+                        result(rocket.rocketName)
+                        onClick { _ ->
+                            SearchFragmentDirections.rocketDetails(rocket.rocketId).let {
+                                findNavController().navigate(it)
+                            }
+                        }
+                    }
+                }
+
+                state.launchPads()?.forEach { launchPad ->
+                    itemSearchResult {
+                        id(launchPad.id)
+                        resultType(R.string.searchResultTypeLaunchPad)
+                        result(launchPad.siteNameLong)
+                        onClick { _ ->
+                            SearchFragmentDirections.launchPadDetails(launchPad.siteId).let {
+                                findNavController().navigate(it)
+                            }
+                        }
                     }
                 }
             }
-            else -> Unit
         }
     }
 }
@@ -178,11 +184,6 @@ private fun <S : MoonShotState> Fragment.asyncTypedEpoxyController(
         buildModels(state)
     }
 }
-
-private val BottomSheetDialogFragment.behaviour: BottomSheetBehavior<View>?
-    get() = this.dialog?.findViewById<View>(materialR.id.design_bottom_sheet)?.let {
-        BottomSheetBehavior.from(it)
-    }
 
 private val BottomSheetDialogFragment.screenHeight: Int
     get() = resources.displayMetrics.heightPixels

@@ -58,6 +58,8 @@ dependencies {
     implementation(Libs.navigationUi)
     implementation(Libs.preference)
 
+    implementation(Libs.lottie)
+
     implementation(Libs.koinCore)
     implementation(Libs.koinAndroid)
     implementation(Libs.koinViewModel)

@@ -36,6 +36,7 @@ object Libs {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
+    const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
 
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"

@@ -11,4 +11,12 @@ data class SearchState(
     val launches: Resource<List<LaunchMinimal>> = Resource.Uninitialized,
     val rockets: Resource<List<RocketMinimal>> = Resource.Uninitialized,
     val launchPads: Resource<List<LaunchPad>> = Resource.Uninitialized
-) : MoonShotState
+) : MoonShotState {
+
+    val isUninitialized: Boolean
+        get() {
+            return launches is Resource.Loading
+                    && rockets is Resource.Loading
+                    && launchPads is Resource.Loading
+        }
+}
