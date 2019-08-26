@@ -11,7 +11,7 @@ object Versions {
     const val vmSavedState = "1.0.0-alpha02"
     const val constraintLayout = "2.0.0-beta2"
     const val materialComponents = "1.1.0-alpha07"
-    const val navigation = "2.1.0-alpha05"
+    const val navigation = "2.1.0-rc01"
     const val preference = "1.1.0-beta01"
     const val workManager = "2.2.0"
 

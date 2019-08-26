@@ -16,10 +16,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotAsyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.MoonShotState
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragmentArgs
+import com.haroldadmin.moonshot.launchPad.LaunchPadFragmentArgs
+import com.haroldadmin.moonshot.rocketDetails.RocketDetailsFragmentArgs
 import com.haroldadmin.moonshot.search.databinding.FragmentSearchBinding
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.CoroutineScope
@@ -114,9 +118,8 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                         resultType(R.string.searchResultTypeLaunch)
                         result(launch.missionName ?: "Unknown")
                         onClick { _ ->
-                            SearchFragmentDirections.launchDetails(launch.flightNumber).let {
-                                findNavController().navigate(it)
-                            }
+                            val args = LaunchDetailsFragmentArgs(launch.flightNumber)
+                            findNavController().navigate(appR.id.launchDetails, args.toBundle())
                         }
                     }
 
@@ -128,9 +131,8 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                         resultType(R.string.searchResultTypeRocket)
                         result(rocket.rocketName)
                         onClick { _ ->
-                            SearchFragmentDirections.rocketDetails(rocket.rocketId).let {
-                                findNavController().navigate(it)
-                            }
+                            val args = RocketDetailsFragmentArgs(rocket.rocketId)
+                            findNavController().navigate(appR.id.rocketDetails, args.toBundle())
                         }
                     }
                 }
@@ -141,9 +143,8 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                         resultType(R.string.searchResultTypeLaunchPad)
                         result(launchPad.siteNameLong)
                         onClick { _ ->
-                            SearchFragmentDirections.launchPadDetails(launchPad.siteId).let {
-                                findNavController().navigate(it)
-                            }
+                            val args = LaunchPadFragmentArgs(launchPad.siteId)
+                            findNavController().navigate(appR.id.launchPad, args.toBundle())
                         }
                     }
                 }

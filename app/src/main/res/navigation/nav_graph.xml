@@ -51,7 +51,6 @@
     <fragment
         android:id="@+id/nextLaunch"
         android:name="com.haroldadmin.moonshot.nextLaunch.NextLaunchFragment"
-        android:label="@string/app_name"
         tools:layout="@layout/fragment_next_launch">
         <action
             android:id="@+id/launchDetails"
@@ -178,22 +177,6 @@
     <dialog
         android:id="@+id/search"
         android:name="com.haroldadmin.moonshot.search.SearchFragment"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/rocketDetails"
-            app:destination="@id/rocketDetails"
-            app:popUpTo="@+id/rocketDetails"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/launchPadDetails"
-            app:destination="@id/launchPad"
-            app:popUpTo="@+id/launchPad"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/launchDetails"
-            app:destination="@id/launchDetails"
-            app:popUpTo="@+id/launchDetails"
-            app:popUpToInclusive="false" />
-    </dialog>
+        tools:layout="@layout/fragment_search" />
 
 </navigation>
