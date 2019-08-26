@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.search
 
+import android.util.Log
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
@@ -37,7 +38,7 @@ class SearchLaunchpadsUseCase(
     }
 
     private suspend fun getSearchResultsCached(query: String, limit: Int) = withContext(Dispatchers.IO) {
-        launchPadDao.getLaunchPadsForQuery(query, limit)
+        launchPadDao.getLaunchPadsForQuery("%$query%", limit)
     }
 
     private suspend fun getAllLaunchPadsFromApi() = withContext(Dispatchers.IO) {
