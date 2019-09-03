@@ -8,7 +8,6 @@ import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationManagerImpl
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.notifications.WeekBeforeLaunch
-import com.haroldadmin.moonshot.notifications.workers.MoonShotWorkerFactory
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.repositoryModule
 import org.koin.android.ext.koin.androidApplication
@@ -28,7 +27,6 @@ val appModule = repositoryModule + module {
     single(named("differ")) { Handler(get<HandlerThread>(named("diffing-thread")).looper) }
     single(named("builder")) { Handler(get<HandlerThread>(named("building-thread")).looper) }
 
-    single { MoonShotWorkerFactory(getKoin()) }
     single { SyncManager(androidApplication()) }
 
     single<LaunchNotificationsManager> { LaunchNotificationManagerImpl(androidContext()) }

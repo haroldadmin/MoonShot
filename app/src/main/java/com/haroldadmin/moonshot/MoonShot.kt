@@ -24,7 +24,7 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     override fun getWorkManagerConfiguration(): Configuration {
-        val workerFactory = get<MoonShotWorkerFactory>()
+        val workerFactory = MoonShotWorkerFactory()
         return Configuration.Builder().setWorkerFactory(workerFactory).build()
     }
 
