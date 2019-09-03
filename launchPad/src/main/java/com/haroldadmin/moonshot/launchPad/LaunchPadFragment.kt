@@ -27,10 +27,7 @@ import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named

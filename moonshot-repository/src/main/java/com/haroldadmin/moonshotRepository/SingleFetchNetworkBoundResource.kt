@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onStart
  * A class that fetches data from the network just once, and then returns
  * cached data on subsequent requests
  */
-abstract class SingleFetchNetworkBoundResource<T: Any, U: Any, V: Any>: NetworkBoundResource<T, U, V>() {
+abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : NetworkBoundResource<T, U, V>() {
 
     private var hasDataBeenFetched: Boolean = false
 

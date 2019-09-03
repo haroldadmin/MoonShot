@@ -1,13 +1,10 @@
 package com.haroldadmin.moonshotRepository.search
 
-import android.util.Log
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
-import com.haroldadmin.moonshotRepository.networkBoundFlow
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,12 +15,12 @@ class SearchLaunchpadsUseCase(
     private val launchPadDao: LaunchPadDao,
     private val launchPadService: LaunchPadService,
     persistLaunchPadUseCase: PersistLaunchPadUseCase
-): SearchUseCase() {
+) : SearchUseCase() {
 
     @ExperimentalCoroutinesApi
     private val resource = searchResource(
         dbQuery = { _query },
-        dbLimit =  { _limit },
+        dbLimit = { _limit },
         dbFetcher = { _, query, limit -> getSearchResultsCached(query, limit) },
         cacheValidator = { cached -> !cached.isNullOrEmpty() },
         apiFetcher = { getAllLaunchPadsFromApi() },

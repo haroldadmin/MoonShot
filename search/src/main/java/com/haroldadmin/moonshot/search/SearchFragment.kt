@@ -109,7 +109,6 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                 itemSearchUninitialized {
                     id("search-uninitialized")
                 }
-
             } else {
 
                 state.launches()?.forEach { launch ->
@@ -122,7 +121,6 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                             findNavController().navigate(appR.id.launchDetails, args.toBundle())
                         }
                     }
-
                 }
 
                 state.rockets()?.forEach { rocket ->
@@ -152,7 +150,6 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
         }
     }
 }
-
 
 @FlowPreview
 @ExperimentalCoroutinesApi

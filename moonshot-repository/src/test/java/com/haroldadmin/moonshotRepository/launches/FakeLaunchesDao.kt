@@ -14,7 +14,7 @@ import com.haroldadmin.moonshot.models.launch.toLaunchMinimal
 
 class FakeLaunchesDao : LaunchDao() {
     override suspend fun getLaunchesForQuery(query: String, limit: Int): List<LaunchMinimal> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch? {

@@ -48,5 +48,4 @@ internal class RocketDetailsViewModelTest {
             launchesForRocketUseCase.getLaunchesForRocket("test-id", any(), any())
         }
     }
-
 }

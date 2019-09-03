@@ -9,7 +9,7 @@ import com.haroldadmin.moonshot.sync.SyncWorker
 import com.haroldadmin.moonshot.utils.log
 import org.koin.core.KoinComponent
 
-class MoonShotWorkerFactory: WorkerFactory(), KoinComponent {
+class MoonShotWorkerFactory : WorkerFactory(), KoinComponent {
 
     private val koinRef = getKoin()
 

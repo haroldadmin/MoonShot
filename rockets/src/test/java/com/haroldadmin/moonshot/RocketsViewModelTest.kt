@@ -1,7 +1,6 @@
 package com.haroldadmin.moonshot
 
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.RocketsState
 import com.haroldadmin.moonshot.rockets.RocketsViewModel
@@ -44,5 +43,4 @@ internal class RocketsViewModelTest {
             rocketsUseCase.getAllRockets()
         }
     }
-
 }

@@ -17,9 +17,6 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

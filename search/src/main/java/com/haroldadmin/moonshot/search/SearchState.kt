@@ -15,8 +15,8 @@ data class SearchState(
 
     val isUninitialized: Boolean
         get() {
-            return launches is Resource.Loading
-                    && rockets is Resource.Loading
-                    && launchPads is Resource.Loading
+            return launches is Resource.Loading &&
+                    rockets is Resource.Loading &&
+                    launchPads is Resource.Loading
         }
 }

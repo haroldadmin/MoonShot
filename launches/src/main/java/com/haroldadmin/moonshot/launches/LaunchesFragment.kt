@@ -21,10 +21,8 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.qualifier.named
 
 class LaunchesFragment : MoonShotFragment() {

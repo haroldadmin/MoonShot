@@ -24,8 +24,7 @@ private class Api {
             fetchErrorCount++
             fetchCount++
             NetworkResponse.NetworkError(IOException())
-        }
-        else {
+        } else {
             fetchCount++
             NetworkResponse.Success(Unit)
         }
@@ -33,7 +32,7 @@ private class Api {
 }
 
 @ExperimentalCoroutinesApi
-internal class SingleFetchNetworkBoundResourceTest: DescribeSpec({
+internal class SingleFetchNetworkBoundResourceTest : DescribeSpec({
 
     describe("Single fetch behaviour") {
 
@@ -66,18 +65,17 @@ internal class SingleFetchNetworkBoundResourceTest: DescribeSpec({
                 dataPersister = { Unit }
             )
 
-            it ("Should fetch data from API when invoked") {
+            it("Should fetch data from API when invoked") {
                 val res = resource.last()
                 api.fetchCount shouldBe 1
                 res.shouldBeTypeOf<Resource.Error<Unit, IOException>>()
             }
 
-            it ("Should fetch data again from API when invoked") {
+            it("Should fetch data again from API when invoked") {
                 val res = resource.last()
                 api.fetchCount shouldBe 2
                 res.shouldBeTypeOf<Resource.Success<Unit>>()
             }
         }
     }
-
 })

@@ -23,7 +23,6 @@ import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
