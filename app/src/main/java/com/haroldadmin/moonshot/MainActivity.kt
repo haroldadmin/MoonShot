@@ -15,6 +15,7 @@ import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
+import com.haroldadmin.vector.viewModel
 import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class MainActivity : MoonShotActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +44,6 @@ class MainActivity : MoonShotActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        viewModel = ViewModelProviders
-            .of(this, MainViewModelFactory(this))
-            .get(MainViewModel::class.java)
-
         navController = findNavController(R.id.navHostFragment)
 
         with(binding) {
@@ -56,8 +53,7 @@ class MainActivity : MoonShotActivity() {
 
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
-                val appBarConfig =
-                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
+                val appBarConfig = AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
                 setupWithNavController(navController, appBarConfig)
                 inflateMenu(R.menu.menu_main)
                 setOnMenuItemClickListener { menuItem ->

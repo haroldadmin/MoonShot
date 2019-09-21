@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -21,9 +19,10 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
-import kotlinx.coroutines.launch
+import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.qualifier.named
+import com.haroldadmin.moonshot.R as appR
 
 class LaunchesFragment : MoonShotFragment() {
 
@@ -37,7 +36,7 @@ class LaunchesFragment : MoonShotFragment() {
             )
         )
     }
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModel()
     private val diffingHandler by inject<Handler>(named("differ"))
     private val buildingHandler by inject<Handler>(named("builder"))
 

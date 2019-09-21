@@ -1,6 +1,8 @@
 package com.haroldadmin.moonshot.core
 
-data class Consumable <out T> (private val data: T?, private var isConsumed: Boolean = false) {
+import java.io.Serializable
+
+data class Consumable <out T> (private val data: T?, private var isConsumed: Boolean = false): Serializable {
 
     @Synchronized
     fun consume(): T? {

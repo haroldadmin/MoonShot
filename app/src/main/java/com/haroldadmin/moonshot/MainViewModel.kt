@@ -1,53 +1,46 @@
 package com.haroldadmin.moonshot
 
-import android.os.Bundle
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
 import com.haroldadmin.moonshot.base.SavedStateMoonShotViewModel
 import com.haroldadmin.moonshot.core.Consumable
 import com.haroldadmin.moonshot.core.asConsumable
+import com.haroldadmin.vector.VectorViewModelFactory
+import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.launch
 
-private const val KEY_TOOLBAR_TITLE = "toolbar-title"
-
 class MainViewModel(
-    savedStateHandle: SavedStateHandle,
-    initState: ScaffoldingState? = null
+    initState: ScaffoldingState,
+    savedStateHandle: SavedStateHandle
 ) : SavedStateMoonShotViewModel<ScaffoldingState>(initState, savedStateHandle) {
-
-    init {
-        val persistedTitle: String? = savedStateHandle[KEY_TOOLBAR_TITLE]
-        if (persistedTitle == null) {
-            setInitialState(ScaffoldingState(Consumable(null)))
-        } else {
-            setInitialState(ScaffoldingState(persistedTitle.asConsumable()))
-        }
-    }
 
     fun setTitle(title: String?) = viewModelScope.launch {
         if (title == null) return@launch
         val toolbarTitle = title.asConsumable()
-        setState {
+        setStateAndPersist {
             copy(toolbarTitle = toolbarTitle)
         }
-        savedStateHandle.set(KEY_TOOLBAR_TITLE, title)
     }
-}
 
-class MainViewModelFactory(
-    savedStateRegistryOwner: SavedStateRegistryOwner,
-    defaultArgs: Bundle? = null
-) : AbstractSavedStateViewModelFactory(savedStateRegistryOwner, defaultArgs) {
+    companion object: VectorViewModelFactory<MainViewModel, ScaffoldingState> {
+        override fun initialState(
+            handle: SavedStateHandle,
+            owner: ViewModelOwner
+        ): ScaffoldingState? {
+            val persistedState: ScaffoldingState? = handle[KEY_SAVED_STATE]
+            return if (persistedState == null) {
+                ScaffoldingState(Consumable(null))
+            } else {
+                ScaffoldingState(persistedState.toolbarTitle)
+            }
+        }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(
-        key: String,
-        modelClass: Class<T>,
-        handle: SavedStateHandle
-    ): T {
-        return MainViewModel(handle) as T
+        override fun create(
+            initialState: ScaffoldingState,
+            owner: ViewModelOwner,
+            handle: SavedStateHandle
+        ): MainViewModel? {
+            return MainViewModel(initialState, handle)
+        }
     }
 }

@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.ItemLaunchCardBindingModel_
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
@@ -27,11 +25,12 @@ import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
-import kotlinx.coroutines.launch
+import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import com.haroldadmin.moonshot.R as appR
 
 class RocketDetailsFragment : MoonShotFragment() {
 
@@ -44,7 +43,7 @@ class RocketDetailsFragment : MoonShotFragment() {
             RocketDetailsState(rocketId = safeArgs.rocketId)
         parametersOf(initialState)
     }
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

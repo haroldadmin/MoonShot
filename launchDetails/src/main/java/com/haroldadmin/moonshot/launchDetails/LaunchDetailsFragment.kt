@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,8 +32,8 @@ import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsB
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -48,7 +47,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
     private val viewModel by viewModel<LaunchDetailsViewModel> {
         parametersOf(LaunchDetailsState(safeArgs.flightNumber), safeArgs.flightNumber)
     }
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModel()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
 

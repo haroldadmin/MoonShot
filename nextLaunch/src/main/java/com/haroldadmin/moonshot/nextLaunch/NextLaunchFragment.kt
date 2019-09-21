@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
@@ -23,11 +21,12 @@ import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
-import kotlinx.coroutines.launch
+import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import com.haroldadmin.moonshot.R as appR
 
 class NextLaunchFragment : MoonShotFragment() {
 
@@ -37,7 +36,7 @@ class NextLaunchFragment : MoonShotFragment() {
     private val viewModel by viewModel<NextLaunchViewModel> {
         parametersOf(NextLaunchState())
     }
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.typedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
@@ -17,8 +15,10 @@ import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
+import com.haroldadmin.vector.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import com.haroldadmin.moonshot.R as appR
 
 class RocketsFragment : MoonShotFragment() {
 
@@ -26,7 +26,7 @@ class RocketsFragment : MoonShotFragment() {
     private val viewModel by viewModel<RocketsViewModel> {
         parametersOf(RocketsState())
     }
-    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
