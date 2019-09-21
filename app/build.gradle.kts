@@ -66,6 +66,9 @@ android {
         ":rocketDetails",
         ":search"
     )
+    googleServices {
+        disableVersionCheck = true
+    }
 }
 
 dependencies {

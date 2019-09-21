@@ -10,6 +10,6 @@ object ProjectProperties {
     const val kotlinVersion = "1.3.50"
     const val agpVersion = "3.5.0"
 
-    const val gmsVersion = "4.3.0"
+    const val gmsVersion = "4.3.2"
     const val fabricVersion = "1.31.0"
 }
