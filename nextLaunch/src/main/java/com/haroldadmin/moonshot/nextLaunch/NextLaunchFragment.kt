@@ -75,9 +75,9 @@ class NextLaunchFragment : MoonShotFragment() {
 
                 is Resource.Success -> {
                     buildLaunchModels(this, launch.data)
-                    itemCountdown {
+                    countdownView {
                         id("launch-countdown")
-                        time(state.countDown)
+                        launchState(state)
                     }
                 }
 
@@ -88,9 +88,9 @@ class NextLaunchFragment : MoonShotFragment() {
                     }
                     if (launch.data != null) {
                         buildLaunchModels(this, launch.data!!)
-                        itemCountdown {
+                        countdownView {
                             id("launch-countdown")
-                            time(state.countDown)
+                            launchState(state)
                         }
                     }
                 }
