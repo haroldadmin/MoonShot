@@ -15,7 +15,7 @@ object Versions {
     const val preference = "1.1.0"
     const val workManager = "2.2.0"
 
-    const val vector = "0.5.1"
+    const val vector = "-SNAPSHOT"
 
     const val epoxy = "3.8.0"
 

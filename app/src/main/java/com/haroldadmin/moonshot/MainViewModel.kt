@@ -34,13 +34,5 @@ class MainViewModel(
                 ScaffoldingState(persistedState.toolbarTitle)
             }
         }
-
-        override fun create(
-            initialState: ScaffoldingState,
-            owner: ViewModelOwner,
-            handle: SavedStateHandle
-        ): MainViewModel? {
-            return MainViewModel(initialState, handle)
-        }
     }
 }
