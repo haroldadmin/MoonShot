@@ -18,13 +18,13 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -116,13 +116,13 @@ class LaunchPadFragment : MoonShotFragment() {
                 detailName(launchpad.siteNameLong)
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemExpandableTextWithHeading {
+            expandableTextView {
                 id("launch-pad-detail")
-                heading(getString(R.string.fragmentLaunchPadDetailsHeader))
-                text(launchpad.details)
+                header(getString(R.string.fragmentLaunchPadDetailsHeader))
+                content(launchpad.details)
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemTextWithHeading {
+           itemTextWithHeading {
                 id("status")
                 heading(getString(R.string.fragmentLaunchPadStatusHeader))
                 text(launchpad.status.capitalize())

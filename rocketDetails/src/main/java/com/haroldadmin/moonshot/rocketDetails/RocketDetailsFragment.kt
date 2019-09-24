@@ -17,13 +17,13 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
-import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -82,10 +82,10 @@ class RocketDetailsFragment : MoonShotFragment() {
                         id(rocket.data.rocketId)
                         this.rocket(rocket.data)
                     }
-                    itemExpandableTextWithHeading {
+                    expandableTextView {
                         id("description")
-                        heading(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
-                        text(rocket.data.description)
+                        header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
+                        content(rocket.data.description)
                     }
                     itemLaunchDetail {
                         id("cost-per-launch")

@@ -21,7 +21,6 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemTextHeader
@@ -31,6 +30,7 @@ import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -194,14 +194,13 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_flight_takeoff_24px))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemExpandableTextWithHeading {
+            expandableTextView {
                 id("launch-details")
-                heading(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
-                text(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
+                header(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
+                content(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-
-            launch
+           launch
                 .links
                 .filterValues { !it.isNullOrBlank() }
                 .takeIf { it.isNotEmpty() }
