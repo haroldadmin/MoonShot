@@ -10,6 +10,7 @@ import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
+import com.airbnb.epoxy.OnViewRecycled
 import com.airbnb.epoxy.TextProp
 import com.google.android.material.card.MaterialCardView
 import com.haroldadmin.moonshot.R
@@ -70,7 +71,23 @@ class LaunchCard @JvmOverloads constructor(
 
         site.asyncText { launch.siteName ?: context.getString(R.string.launchCardNoSiteNameText) }
 
-        card.setOnClickListener(onLaunchClick)
+        onLaunchClick?.let {
+            card.apply {
+                setOnClickListener(it)
+                isClickable = true
+            }
+        } ?: run {
+            card.isClickable = false
+        }
+    }
+
+    @OnViewRecycled
+    fun cleanup() {
+        card.apply {
+            setOnClickListener(null)
+            isClickable = false
+        }
+        onLaunchClick = null
     }
 }
 

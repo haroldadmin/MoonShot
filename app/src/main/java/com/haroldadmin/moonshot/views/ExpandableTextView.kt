@@ -15,6 +15,7 @@ import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.ModelView
+import com.airbnb.epoxy.OnViewRecycled
 import com.airbnb.epoxy.TextProp
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.base.gone
@@ -105,12 +106,23 @@ class ExpandableTextView @JvmOverloads constructor(
                 setImageDrawable(collapsedIcon)
             }
             isExpanded = false
-            rootView.setOnClickListener(toggleClickListener)
+            rootView.apply {
+                setOnClickListener(toggleClickListener)
+                isClickable = true
+            }
         } else {
             isExpanded = true
             toggleIcon.apply {
                 gone()
             }
+        }
+    }
+
+    @OnViewRecycled
+    fun cleanup() {
+        rootView.apply {
+            setOnClickListener(null)
+            isClickable = false
         }
     }
 

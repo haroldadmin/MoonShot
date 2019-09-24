@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MoonShot.Launch.DetailCard"
+    android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/marginMedium"
@@ -15,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/headingText"
+            android:id="@+id/headerText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginLarge"
@@ -39,21 +40,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headingText"
-            app:layout_constraintVertical_bias="0.0"
-            tools:maxLines="5"
+            app:layout_constraintTop_toBottomOf="@id/headerText"
+            tools:maxLines="4"
             tools:text="@tools:sample/lorem/random" />
-
-        <ImageView
-            android:id="@+id/toggleIcon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contentText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:src="@drawable/ic_round_expand_more_24px"
-            android:layout_margin="@dimen/marginMedium"
-            android:tint="?attr/colorOnPrimary"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

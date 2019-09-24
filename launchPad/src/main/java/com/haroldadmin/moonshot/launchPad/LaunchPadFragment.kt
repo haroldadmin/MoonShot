@@ -19,13 +19,13 @@ import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.itemTextHeader
-import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -119,20 +119,18 @@ class LaunchPadFragment : MoonShotFragment() {
                 id("launch-pad-detail")
                 header(getString(R.string.fragmentLaunchPadDetailsHeader))
                 content(launchpad.details)
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemTextWithHeading {
+            textCard {
                 id("status")
-                heading(getString(R.string.fragmentLaunchPadStatusHeader))
-                text(launchpad.status.capitalize())
+                header(getString(R.string.fragmentLaunchPadStatusHeader))
+                content(launchpad.status.capitalize())
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
             }
-            itemTextWithHeading {
+            textCard {
                 id("success-percentage")
-                heading("Success Rate")
-                text(launchpad.successPercentage)
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-                onTextWithDetailClick { _ ->
+                header("Success Rate")
+                content(launchpad.successPercentage)
+                onTextClick { _ ->
                     LaunchPadFragmentDirections.launchPadLaunches(
                         type = LaunchTypes.LAUNCHPAD,
                         siteId = launchpad.siteId
@@ -140,6 +138,7 @@ class LaunchPadFragment : MoonShotFragment() {
                         findNavController().navigate(action)
                     }
                 }
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
             }
             itemTextHeader {
                 id("map")

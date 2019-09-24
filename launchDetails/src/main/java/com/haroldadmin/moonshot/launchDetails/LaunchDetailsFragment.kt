@@ -22,7 +22,6 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.itemTextHeader
-import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
@@ -32,6 +31,7 @@ import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
@@ -224,17 +224,17 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 }
             }
         }
-        itemTextWithHeading {
+        textCard {
             id("first-stage-summary")
-            heading(getString(R.string.fragmentLaunchDetailsFirstStageSummaryHeader))
+            header(getString(R.string.fragmentLaunchDetailsFirstStageSummaryHeader))
+            content("Cores: ${stats.firstStageCoreCounts}")
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-            text("Cores: ${stats.firstStageCoreCounts}")
         }
-        itemTextWithHeading {
+        textCard {
             id("second-stage-summary")
-            heading(getString(R.string.fragmentLaunchDetailsSecondStageSummaryHeader))
+            header(getString(R.string.fragmentLaunchDetailsSecondStageSummaryHeader))
+            content("Payloads: ${stats.secondStagePayloadCounts}")
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-            text("Payloads: ${stats.secondStagePayloadCounts}")
         }
     }
 
