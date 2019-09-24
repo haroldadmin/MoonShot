@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
-import com.haroldadmin.moonshot.ItemLaunchCardBindingModel_
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
@@ -22,6 +21,7 @@ import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.views.LaunchCardModel_
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
@@ -122,7 +122,7 @@ class RocketDetailsFragment : MoonShotFragment() {
                     carousel {
                         id("rocket-launches")
                         withModelsFrom(launches.data) { launch ->
-                            ItemLaunchCardBindingModel_()
+                            LaunchCardModel_()
                                 .id(launch.flightNumber)
                                 .header("Launch")
                                 .launch(launch)

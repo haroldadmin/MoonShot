@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MoonShot.Launch.Card"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/marginMedium"
+    android:layout_marginTop="@dimen/marginSmall"
+    android:layout_marginEnd="@dimen/marginMedium"
+    android:layout_marginBottom="@dimen/marginSmall">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Launch" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/launchName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginSmall"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
+            app:layout_constraintEnd_toStartOf="@id/missionPatch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerText"
+            tools:text="Starlink v1 (0.9)" />
+
+        <ImageView
+            android:id="@+id/missionPatch"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="@dimen/marginSmall"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:contentDescription="@string/headerLaunchMissionPatchContentDescription"
+            app:layout_constraintBottom_toBottomOf="@id/launchName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/launchName"
+            app:layout_constraintTop_toTopOf="@id/launchName"
+            tools:src="@drawable/ic_rocket" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/launchDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginMedium"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/launchName"
+            tools:text="2019" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/launchSite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginSmall"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:layout_marginBottom="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Subtitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/launchDate"
+            tools:text="CCAFS SLC 40" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -20,6 +20,7 @@ object Versions {
     const val epoxy = "3.8.0"
 
     const val glide = "4.10.0"
+    const val coil = "0.7.0"
 
     const val lemniscate = "2.0.2"
     const val lottie = "3.0.7"

@@ -2,10 +2,14 @@ package com.haroldadmin.moonshot.utils
 
 import android.content.res.Configuration
 import android.util.Log
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.ConfigurationCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import coil.api.load
+import coil.request.LoadRequestBuilder
 import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
 import java.text.NumberFormat
@@ -54,4 +58,19 @@ fun AppCompatTextView.asyncText(text: CharSequence, executor: Executor? = null) 
     this.setTextFuture(
         PrecomputedTextCompat.getTextFuture(text, TextViewCompat.getTextMetricsParams(this), executor)
     )
+}
+
+inline fun AppCompatTextView.asyncText(executor: Executor? = null, crossinline textProducer: () -> CharSequence) {
+    this.setTextFuture(
+        PrecomputedTextCompat.getTextFuture(textProducer(), TextViewCompat.getTextMetricsParams(this), executor)
+    )
+}
+
+// https://github.com/coil-kt/coil/issues/61
+inline fun ImageView.loadNullable(url: String?, @DrawableRes errorRes: Int, builder: LoadRequestBuilder.() -> Unit = {}) {
+    if (url == null) {
+        load(errorRes)
+    } else {
+        load(url, builder = builder)
+    }
 }

@@ -108,6 +108,8 @@ dependencies {
     implementation(Libs.glide)
     kapt(Libs.glideCompiler)
 
+    implementation(Libs.coil)
+
     implementation(Libs.lemniscate)
 
     testImplementation(Libs.junit4)

@@ -12,7 +12,7 @@
             android:id="@+id/rvLaunchDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_launch_card"
+            tools:listitem="@layout/card_launch"
             tools:itemCount="1"/>
 
     </FrameLayout>

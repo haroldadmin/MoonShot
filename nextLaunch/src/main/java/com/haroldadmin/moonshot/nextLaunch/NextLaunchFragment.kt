@@ -13,13 +13,13 @@ import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -113,7 +113,7 @@ class NextLaunchFragment : MoonShotFragment() {
         launch: LaunchMinimal
     ) {
         with(controller) {
-            itemLaunchCard {
+            launchCard {
                 id(launch.flightNumber)
                 launch(launch)
                 header(getString(R.string.fragmentNextLaunchNextLaunchHeaderText))

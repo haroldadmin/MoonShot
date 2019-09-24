@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_launch_card"
+            tools:listitem="@layout/card_launch"
             tools:orientation="horizontal" />
 
     </FrameLayout>

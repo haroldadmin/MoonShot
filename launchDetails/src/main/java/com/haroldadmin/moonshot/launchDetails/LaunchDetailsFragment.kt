@@ -21,7 +21,6 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
@@ -31,6 +30,7 @@ import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
+import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -164,7 +164,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     private fun buildLaunchModels(controller: EpoxyController, launch: LaunchMinimal) {
         with(controller) {
-            itemLaunchCard {
+            launchCard {
                 id("header")
                 launch(launch)
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }

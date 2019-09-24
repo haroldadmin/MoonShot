@@ -35,6 +35,8 @@ object Libs {
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
+    const val coil = "io.coil-kt:coil:${Versions.coil}"
+
     const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
     const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
 

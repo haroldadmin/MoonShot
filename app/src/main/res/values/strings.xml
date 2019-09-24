@@ -9,7 +9,6 @@
     <string name="launchRocketTypeLabel">Type</string>
     <string name="launchRocketDetailsButtonText">See details</string>
     <string name="headerLaunchDateHeader">Launch Date</string>
-    <string name="launchCardHeaderText">Launch</string>
     <string name="shortcutLaunchesShortLabel">Launches</string>
     <string name="shortcutRocketsShortLabel">Rockets</string>
     <string name="shortcutSettingsShortLabel">Settings</string>
@@ -29,4 +28,8 @@
     <string name="launchNotificationsDayBeforeLaunchChannelName">Channel for reminders a day before the launch</string>
     <string name="launchNotificationsDayBeforeLaunchChannelDescription">Reminder notifications for launches taking place on that day</string>
     <string name="title_search">Search</string>
+
+    <string name="launchCardHeaderText">Launch</string>
+    <string name="launchCardNoMissionNameText">Unknown</string>
+    <string name="launchCardNoSiteNameText">Unknown</string>
 </resources>

@@ -13,10 +13,10 @@ import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 import com.haroldadmin.vector.activityViewModel
@@ -97,7 +97,7 @@ class LaunchesFragment : MoonShotFragment() {
             when (val launches = state.launches) {
                 is Resource.Success -> {
                     launches.data.forEach { launch ->
-                        itemLaunchCard {
+                        launchCard {
                             id(launch.flightNumber)
                             launch(launch)
                             onLaunchClick { model, _, _, _ ->
@@ -117,7 +117,7 @@ class LaunchesFragment : MoonShotFragment() {
                         errorText(getString(R.string.fragmentLaunchesErrorMessage))
                     }
                     launches.data?.forEach { launch ->
-                        itemLaunchCard {
+                        launchCard {
                             id(launch.flightNumber)
                             launch(launch)
                             onLaunchClick { model, _, _, _ ->
