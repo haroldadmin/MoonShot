@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MoonShot.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/marginMedium"
+    android:clickable="false"
+    app:cardBackgroundColor="@color/colorPrimaryVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginLarge"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.vlad1m1r.lemniscate.roulette.HypotrochoidProgressView
+            android:id="@+id/lemniscate"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/marginLarge"
+            app:distanceFromCenter="2"
+            app:duration="1250"
+            app:lineColor="@color/colorOnPrimaryMediumEmp"
+            app:maxLineLength="0.8"
+            app:minLineLength="0.8"
+            app:numberOfCycles="2"
+            app:radiusFixed="5"
+            app:radiusMoving="2"
+            app:strokeWidth="2dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loadingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/marginMedium"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.MoonShot.Loading.Main"
+            android:textColor="@color/colorOnPrimaryHighEmp"
+            tools:text="Loading Resource" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

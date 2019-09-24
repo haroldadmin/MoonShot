@@ -17,14 +17,14 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
-import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchDetail
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -99,14 +99,14 @@ class RocketDetailsFragment : MoonShotFragment() {
                     }
                 }
                 is Resource.Error<RocketMinimal, *> -> {
-                    itemError {
+                    errorView {
                         id("rocket-details-error")
-                        error(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
+                        errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
                     }
                 }
-                else -> itemLoading {
+                else -> loadingView {
                     id("rocket-details-loading")
-                    message(getString(R.string.rocketDetailsFragmentRocketLoadingMessage))
+                    loadingText(getString(R.string.rocketDetailsFragmentRocketLoadingMessage))
                 }
             }
 

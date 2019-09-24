@@ -18,14 +18,14 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchDetail
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
+import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -91,17 +91,17 @@ class LaunchPadFragment : MoonShotFragment() {
                         header(getString(R.string.itemMapCardMapHeader))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
-                    itemError {
+                    errorView {
                         id("launchpad-error")
-                        error(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
+                        errorText(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
 
-                    launchpad.data?.let { lp -> buildLaunchPadModels(this, lp) }
+                    launchpad.data?.let { lp -> buildLaunchPadModels(this, lp) } ?: Unit
                 }
-                else -> itemLoading {
+                else -> loadingView {
                     id("launchpad-loading")
-                    message(getString(R.string.fragmentLaunchPadLaunchPadLoadingMessage))
+                    loadingText(getString(R.string.fragmentLaunchPadLaunchPadLoadingMessage))
                     spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
             }

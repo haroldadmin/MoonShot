@@ -21,17 +21,17 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemExpandableTextWithHeading
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
@@ -92,9 +92,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 }
 
                 is Resource.Error<LaunchMinimal, *> -> {
-                    itemError {
+                    errorView {
                         id("launch-error")
-                        error(getString(R.string.fragmentLaunchDetailsErrorMessage))
+                        errorText(getString(R.string.fragmentLaunchDetailsErrorMessage))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
 
@@ -102,9 +102,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         buildLaunchModels(this, launch.data!!)
                     }
                 }
-                else -> itemLoading {
+                else -> loadingView {
                     id("launch-loading")
-                    message(getString(R.string.fragmentLaunchDetailsLoadingMessage))
+                    loadingText(getString(R.string.fragmentLaunchDetailsLoadingMessage))
                     spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
             }
@@ -126,9 +126,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
                         header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
-                    itemError {
+                    errorView {
                         id("rocket-summary-error")
-                        error(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
+                        errorText(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     if (stats.data != null) {

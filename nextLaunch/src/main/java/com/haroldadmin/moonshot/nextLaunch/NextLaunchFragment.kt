@@ -13,14 +13,14 @@ import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
 import com.haroldadmin.moonshot.itemLaunchDetail
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -82,9 +82,9 @@ class NextLaunchFragment : MoonShotFragment() {
                 }
 
                 is Resource.Error<LaunchMinimal, *> -> {
-                    itemError {
+                    errorView {
                         id("next-launch-error")
-                        error(getString(R.string.fragmentNextLaunchErrorMessage))
+                        errorText(getString(R.string.fragmentNextLaunchErrorMessage))
                     }
                     if (launch.data != null) {
                         buildLaunchModels(this, launch.data!!)
@@ -94,9 +94,9 @@ class NextLaunchFragment : MoonShotFragment() {
                         }
                     }
                 }
-                else -> itemLoading {
+                else -> loadingView {
                     id("next-launch-loading")
-                    message(getString(R.string.fragmentNextLaunchLoadingMessage))
+                    loadingText(getString(R.string.fragmentNextLaunchLoadingMessage))
                 }
             }
         }

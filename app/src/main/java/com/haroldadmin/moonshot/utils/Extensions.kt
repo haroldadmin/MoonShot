@@ -2,13 +2,17 @@ package com.haroldadmin.moonshot.utils
 
 import android.content.res.Configuration
 import android.util.Log
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.ConfigurationCompat
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Timer
+import java.util.concurrent.Executor
 import kotlin.concurrent.fixedRateTimer
 
 fun Date.format(configuration: Configuration, pattern: String = SHORT_DATE_FORMAT): String {
@@ -44,4 +48,10 @@ fun countdownTimer(
             currentTime += period
         }
     }
+}
+
+fun AppCompatTextView.asyncText(text: CharSequence, executor: Executor? = null) {
+    this.setTextFuture(
+        PrecomputedTextCompat.getTextFuture(text, TextViewCompat.getTextMetricsParams(this), executor)
+    )
 }

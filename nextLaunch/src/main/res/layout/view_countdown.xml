@@ -35,7 +35,6 @@
             android:layout_marginStart="@dimen/marginLarge"
             android:layout_marginEnd="@dimen/marginSmall"
             android:layout_marginBottom="@dimen/marginLarge"
-            android:text="@{time}"
             android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/countdownIcon"

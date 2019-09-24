@@ -13,11 +13,11 @@ import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemError
 import com.haroldadmin.moonshot.itemLaunchCard
-import com.haroldadmin.moonshot.itemLoading
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.views.errorView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -112,9 +112,9 @@ class LaunchesFragment : MoonShotFragment() {
                     }
                 }
                 is Resource.Error<List<LaunchMinimal>, *> -> {
-                    itemError {
+                    errorView {
                         id("launch-error")
-                        error(getString(R.string.fragmentLaunchesErrorMessage))
+                        errorText(getString(R.string.fragmentLaunchesErrorMessage))
                     }
                     launches.data?.forEach { launch ->
                         itemLaunchCard {
@@ -131,14 +131,13 @@ class LaunchesFragment : MoonShotFragment() {
                         }
                     }
                 }
-                else -> itemLoading {
+                else -> loadingView {
                     id("launches-loading")
-                    val loadingText = when (state.filter) {
+                    loadingText(when (state.filter) {
                         LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
                         LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
                         LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
-                    }
-                    message(loadingText)
+                    })
                 }
             }
         }
