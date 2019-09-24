@@ -133,7 +133,7 @@ class NextLaunchFragment : MoonShotFragment() {
                 id("launch-site")
                 header(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
                 content(launch.siteNameLong ?: getString(R.string.siteUnknownText))
-                icon(appR.drawable.ic_round_date_range_24px)
+                icon(appR.drawable.ic_round_place_24px)
                 onDetailClick { _ ->
                     launch.siteId?.let { id ->
                         val action = NextLaunchFragmentDirections.launchPadDetails(id)
