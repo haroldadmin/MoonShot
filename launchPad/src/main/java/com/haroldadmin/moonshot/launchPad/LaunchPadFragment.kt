@@ -18,13 +18,13 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -86,10 +86,9 @@ class LaunchPadFragment : MoonShotFragment() {
             when (val launchpad = state.launchPad) {
                 is Resource.Success -> buildLaunchPadModels(this, launchpad.data)
                 is Resource.Error<LaunchPad, *> -> {
-                    itemTextHeader {
+                    sectionHeaderView {
                         id("map")
                         header(getString(R.string.itemMapCardMapHeader))
-                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     errorView {
                         id("launchpad-error")
@@ -140,10 +139,9 @@ class LaunchPadFragment : MoonShotFragment() {
                 }
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
             }
-            itemTextHeader {
+            sectionHeaderView {
                 id("map")
                 header(getString(R.string.itemMapCardMapHeader))
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
             itemMapCard {
                 id("map")

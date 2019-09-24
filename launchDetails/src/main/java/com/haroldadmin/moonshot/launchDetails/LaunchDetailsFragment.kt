@@ -21,7 +21,6 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
@@ -31,6 +30,7 @@ import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -111,20 +111,18 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
             when (val stats = state.launchStats) {
                 is Resource.Success -> {
-                    itemTextHeader {
+                    sectionHeaderView {
                         id("rocket")
                         header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
-                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     if (stats.data.rocket != null) {
                         buildLaunchStats(stats.data, this)
                     }
                 }
                 is Resource.Error<LaunchStats, *> -> {
-                    itemTextHeader {
+                    sectionHeaderView {
                         id("rocket")
                         header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
-                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                     }
                     errorView {
                         id("rocket-summary-error")
@@ -141,10 +139,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
             when (val pictures = state.launchPictures) {
                 is Resource.Success -> {
                     if (pictures.data.images.isNotEmpty()) {
-                        itemTextHeader {
+                        sectionHeaderView {
                             id("photos")
                             header("Photos")
-                            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                         }
                         carousel {
                             id("launch-pictures")
@@ -239,10 +236,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
     }
 
     private fun buildLinks(links: Map<String, String>, controller: EpoxyController) = with(controller) {
-        itemTextHeader {
+        sectionHeaderView {
             id("links")
             header(getString(R.string.fragmentLaunchDetailsLinksHeader))
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
         }
 
         carousel {

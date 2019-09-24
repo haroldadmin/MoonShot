@@ -17,7 +17,6 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
 import com.haroldadmin.moonshot.itemRocket
-import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.LaunchCardModel_
@@ -25,6 +24,7 @@ import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -114,7 +114,7 @@ class RocketDetailsFragment : MoonShotFragment() {
                 is Resource.Success -> {
                     if (launches.data.isEmpty()) return@asyncTypedEpoxyController
 
-                    itemTextHeader {
+                    sectionHeaderView {
                         id("launches-header")
                         header(getString(R.string.rocketDetailsFragmentLaunchesHeader))
                     }

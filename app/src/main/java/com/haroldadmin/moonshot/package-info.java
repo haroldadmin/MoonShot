@@ -1,7 +1,6 @@
 @EpoxyDataBindingLayouts(
         {
-                R.layout.item_rocket,
-                R.layout.item_text_header,
+                R.layout.item_rocket
         }
 )
 package com.haroldadmin.moonshot;

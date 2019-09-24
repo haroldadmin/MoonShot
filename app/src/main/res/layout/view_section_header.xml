@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/headerText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/marginLarge"
+    android:layout_marginTop="@dimen/marginLarge"
+    android:layout_marginEnd="@dimen/marginMedium"
+    android:layout_marginBottom="@dimen/marginSmall"
+    android:textAppearance="@style/TextAppearance.MoonShot.Overline1"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    tools:text="Rocket Summary" />
+
