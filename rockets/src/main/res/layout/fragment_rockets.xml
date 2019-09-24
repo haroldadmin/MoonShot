@@ -11,7 +11,7 @@
             android:id="@+id/rvRockets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_rocket"/>
+            tools:listitem="@layout/card_rocket"/>
 
     </FrameLayout>
 

@@ -10,11 +10,11 @@ import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.typedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.loadingView
+import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.vector.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -66,7 +66,7 @@ class RocketsFragment : MoonShotFragment() {
             when (val rockets = state.rockets) {
                 is Resource.Success -> {
                     rockets.data.forEach { rocket ->
-                        itemRocket {
+                        rocketCard {
                             id(rocket.rocketId)
                             rocket(rocket)
                             onRocketClick { _ ->
@@ -84,7 +84,7 @@ class RocketsFragment : MoonShotFragment() {
                         errorText(getString(R.string.fragmentRocketsErrorText))
                     }
                     rockets.data?.forEach { rocket ->
-                        itemRocket {
+                        rocketCard {
                             id(rocket.rocketId)
                             rocket(rocket)
                         }
