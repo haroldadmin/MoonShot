@@ -16,12 +16,12 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
-import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemRocket
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.LaunchCardModel_
+import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
@@ -87,15 +87,15 @@ class RocketDetailsFragment : MoonShotFragment() {
                         header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
                         content(rocket.data.description)
                     }
-                    itemLaunchDetail {
+                    detailCard {
                         id("cost-per-launch")
-                        detailHeader(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
-                        detailName("$ ${rocket.data.costPerLaunch.format(resources.configuration)}")
+                        header(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
+                        content("$ ${rocket.data.costPerLaunch.format(resources.configuration)}")
                     }
-                    itemLaunchDetail {
+                    detailCard {
                         id("success-percentage")
-                        detailHeader(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
-                        detailName(rocket.data.successRatePercentage.toString())
+                        header(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
+                        content(rocket.data.successRatePercentage.toString())
                     }
                 }
                 is Resource.Error<RocketMinimal, *> -> {

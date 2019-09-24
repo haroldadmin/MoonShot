@@ -18,11 +18,11 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
+import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.loadingView
@@ -110,11 +110,10 @@ class LaunchPadFragment : MoonShotFragment() {
 
     private fun buildLaunchPadModels(controller: EpoxyController, launchpad: LaunchPad) =
         with(controller) {
-            itemLaunchDetail {
+            detailCard {
                 id("launch-pad")
-                detailHeader(getString(R.string.fragmentLaunchPadLaunchPadHeader))
-                detailName(launchpad.siteNameLong)
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                header(getString(R.string.fragmentLaunchPadLaunchPadHeader))
+                content(launchpad.siteNameLong)
             }
             expandableTextView {
                 id("launch-pad-detail")
@@ -122,7 +121,7 @@ class LaunchPadFragment : MoonShotFragment() {
                 content(launchpad.details)
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-           itemTextWithHeading {
+            itemTextWithHeading {
                 id("status")
                 heading(getString(R.string.fragmentLaunchPadStatusHeader))
                 text(launchpad.status.capitalize())

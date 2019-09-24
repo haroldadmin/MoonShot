@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MoonShot.Launch.DetailCard"
+    android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/marginMedium"
@@ -16,20 +16,21 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/countdownHeader"
+            android:id="@+id/headerText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginLarge"
             android:layout_marginTop="@dimen/marginLarge"
             android:layout_marginEnd="@dimen/marginLarge"
-            android:text="@string/fragmentNextLaunchCountdownHeaderText"
             android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Launch Site" />
+
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/countdownText"
+            android:id="@+id/contentText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginLarge"
@@ -38,26 +39,23 @@
             android:layout_marginBottom="@dimen/marginLarge"
             android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/countdownIcon"
+            app:layout_constraintEnd_toStartOf="@id/detailIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/countdownHeader"
+            app:layout_constraintTop_toBottomOf="@id/headerText"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="2D:14H:12M:22S" />
+            tools:text="Cape Canaveral" />
 
         <ImageView
-            android:id="@+id/countdownIcon"
+            android:id="@+id/detailIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="@dimen/marginSmall"
-            android:layout_marginTop="@dimen/marginLarge"
             android:layout_marginEnd="@dimen/marginLarge"
-            android:layout_marginBottom="@dimen/marginLarge"
-            android:src="@drawable/ic_round_timer_24px"
             android:tint="@color/colorOnPrimaryHighEmp"
+            app:layout_constraintBottom_toBottomOf="@+id/headerText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/headerText"
+            tools:src="@drawable/ic_rocket" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
-

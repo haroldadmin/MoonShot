@@ -21,7 +21,6 @@ import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.itemTextHeader
 import com.haroldadmin.moonshot.itemTextWithHeading
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
@@ -31,6 +30,7 @@ import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
+import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -167,44 +167,45 @@ class LaunchDetailsFragment : MoonShotFragment() {
             launchCard {
                 id("header")
                 launch(launch)
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemLaunchDetail {
+            
+            detailCard {
                 id("launch-date")
-                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                detailName(
+                header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
+                content(
                     launch.launchDate?.format(resources.configuration)
                         ?: getString(R.string.fragmentLaunchDetailsNoLaunchDateMessage)
                 )
-                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_date_range_24px))
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                icon(appR.drawable.ic_round_date_range_24px)
             }
-            itemLaunchDetail {
+
+            detailCard {
                 id("launch-site")
-                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
-                detailName(launch.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
-                detailIcon(ContextCompat.getDrawable(requireContext(), appR.drawable.ic_round_place_24px))
+                header(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
+                content(launch.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
+                icon(appR.drawable.ic_round_place_24px)
                 onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            itemLaunchDetail {
+           
+            detailCard {
                 id("launch-success")
-                detailHeader(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
-                detailName(launch.launchSuccessText)
-                detailIcon(ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_flight_takeoff_24px))
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                header(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
+                content(launch.launchSuccessText)
+                icon(R.drawable.ic_round_flight_takeoff_24px)
             }
+            
             expandableTextView {
                 id("launch-details")
                 header(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
                 content(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-           launch
+            launch
                 .links
                 .filterValues { !it.isNullOrBlank() }
                 .takeIf { it.isNotEmpty() }
                 ?.let { map ->
+                    @Suppress("UNCHECKED_CAST")
                     buildLinks(map as Map<String, String>, this)
                 }
         }

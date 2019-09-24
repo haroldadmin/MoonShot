@@ -6,20 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.itemLaunchDetail
 import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
+import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import org.koin.android.ext.android.inject
@@ -120,31 +119,21 @@ class NextLaunchFragment : MoonShotFragment() {
                 onLaunchClick { _ -> showLaunchDetails(launch.flightNumber) }
             }
 
-            itemLaunchDetail {
+            detailCard {
                 id("launch-date")
-                detailHeader(getString(R.string.fragmentNextLaunchDateHeader))
-                detailName(
+                header(getString(R.string.fragmentNextLaunchDateHeader))
+                content(
                     launch.launchDate?.format(resources.configuration, LONG_DATE_FORMAT)
                         ?: getString(R.string.fragmentNextLaunchNoLaunchDateText)
                 )
-                detailIcon(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        appR.drawable.ic_round_date_range_24px
-                    )
-                )
+                icon(appR.drawable.ic_round_date_range_24px)
             }
 
-            itemLaunchDetail {
+            detailCard {
                 id("launch-site")
-                detailHeader(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
-                detailName(launch.siteNameLong)
-                detailIcon(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        appR.drawable.ic_round_place_24px
-                    )
-                )
+                header(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
+                content(launch.siteNameLong ?: getString(R.string.siteUnknownText))
+                icon(appR.drawable.ic_round_date_range_24px)
                 onDetailClick { _ ->
                     launch.siteId?.let { id ->
                         val action = NextLaunchFragmentDirections.launchPadDetails(id)

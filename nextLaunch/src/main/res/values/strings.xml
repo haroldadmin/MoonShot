@@ -11,4 +11,5 @@
     <string name="fragmentNextLaunchCountdownSuccessfulText">Happening now</string>
     <string name="fragmentNextLaunchCountdownErrorText">Error</string>
     <string name="fragmentNextLaunchCountdownUnknownText">Unknown</string>
+    <string name="siteUnknownText">Unknown</string>
 </resources>
