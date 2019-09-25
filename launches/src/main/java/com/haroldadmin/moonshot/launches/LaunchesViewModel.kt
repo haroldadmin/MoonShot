@@ -61,10 +61,12 @@ class LaunchesViewModel(
 
     fun setFilter(filter: LaunchesFilter) = viewModelScope.launch {
         withState { state ->
-            setState { copy(filter = filter, launches = Resource.Loading) }
-            when (state.type) {
-                LaunchTypes.NORMAL -> getAllLaunches()
-                LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(state.siteId)
+            if (state.filter != filter) {
+                setState { copy(filter = filter, launches = Resource.Loading) }
+                when (state.type) {
+                    LaunchTypes.NORMAL -> getAllLaunches()
+                    LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(state.siteId)
+                }
             }
         }
     }

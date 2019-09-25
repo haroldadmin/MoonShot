@@ -9,6 +9,7 @@ import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
+import com.haroldadmin.moonshot.launches.views.filterOptionView
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -33,23 +34,20 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private val epoxyController = simpleController {
-        itemFilterOption {
+        filterOptionView {
             id("all")
-            filterOption(LaunchesFilter.ALL)
-            filterName(getString(R.string.fragmentFilterSheetAllFilterName))
-            onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
+            name(getString(R.string.fragmentFilterSheetAllFilterName))
+            onFilterSelected { _ -> onFilterClick(LaunchesFilter.ALL) }
         }
-        itemFilterOption {
+        filterOptionView {
             id("past")
-            filterOption(LaunchesFilter.PAST)
-            filterName(getString(R.string.fragmentFilterSheetPastFilterName))
-            onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
+            name(getString(R.string.fragmentFilterSheetPastFilterName))
+            onFilterSelected { _ -> onFilterClick(LaunchesFilter.PAST) }
         }
-        itemFilterOption {
+        filterOptionView {
             id("upcoming")
-            filterOption(LaunchesFilter.UPCOMING)
-            filterName(getString(R.string.fragmentFilterSheetUpcomingFilterName))
-            onFilterSelected { model, _, _, _ -> onFilterClick(model.filterOption()) }
+            name(getString(R.string.fragmentFilterSheetUpcomingFilterName))
+            onFilterSelected { _ -> onFilterClick(LaunchesFilter.UPCOMING) }
         }
     }
 }
