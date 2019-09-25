@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.MoonShot.CardView"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/cardHeightLong"
+    android:layout_marginStart="@dimen/marginMedium"
+    android:layout_marginTop="@dimen/marginSmall"
+    android:layout_marginEnd="@dimen/marginMedium"
+    android:layout_marginBottom="@dimen/marginSmall"
+    android:clickable="false">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+</com.google.android.material.card.MaterialCardView>

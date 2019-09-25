@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MoonShot.CardView"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/cardHeightDefault"
+    android:layout_margin="@dimen/marginMedium"
+    android:foreground="?attr/selectableItemBackground">
+
+    <FrameLayout
+        android:id="@+id/gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@drawable/gradient_wikipedia">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/linkText"
+            style="@style/TextAppearance.MoonShot.Launch.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginBottom="@dimen/marginLarge"
+            tools:text="Wikipedia" />
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.MoonShot.Launch.Card"
+    android:id="@+id/cardRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/marginMedium"
+    android:layout_marginTop="@dimen/marginSmall"
+    android:layout_marginEnd="@dimen/marginMedium"
+    android:layout_marginBottom="@dimen/marginSmall">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/launchRocketHeaderText" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerText"
+            tools:text="Falcon 9" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketTypeLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginSmall"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:text="@string/launchRocketTypeLabel"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rocketName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rocketType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginMedium"
+            android:layout_marginBottom="@dimen/marginLarge"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Body"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rocketTypeLabel"
+            tools:text="Merlin A" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

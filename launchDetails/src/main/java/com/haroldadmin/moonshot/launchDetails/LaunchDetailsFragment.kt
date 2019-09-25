@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +21,10 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
+import com.haroldadmin.moonshot.launchDetails.views.LinkCardModel_
+import com.haroldadmin.moonshot.launchDetails.views.PictureCardModel_
+import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
+import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
 import com.haroldadmin.moonshot.utils.format
@@ -147,7 +150,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
                             id("launch-pictures")
                             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                             withModelsFrom(pictures.data.images) { url ->
-                                ItemLaunchPictureBindingModel_()
+                                PictureCardModel_()
                                     .id(url)
                                     .imageUrl(url)
                             }
@@ -209,9 +212,12 @@ class LaunchDetailsFragment : MoonShotFragment() {
     }
 
     private fun buildLaunchStats(stats: LaunchStats, controller: EpoxyController) = with(controller) {
-        itemLaunchRocket {
+
+        if (stats.rocket == null) { return@with }
+
+        rocketSummaryCard {
             id("rocket-summary")
-            rocketSummary(stats.rocket)
+            rocket(stats.rocket!!)
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             onRocketClick { _ ->
                 LaunchDetailsFragmentDirections.launchRocketDetails(
@@ -247,7 +253,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
             withModelsFrom(links) { name, link ->
                 when {
                     name.contains("YouTube") -> {
-                        ItemYoutubeLinkBindingModel_()
+                        YouTubeCardModel_()
                             .id(link)
                             .thumbnailUrl(link.youtubeThumbnail())
                             .onYoutubeClick { _ ->
@@ -258,22 +264,20 @@ class LaunchDetailsFragment : MoonShotFragment() {
                             }
                     }
                     name.contains("Reddit") -> {
-                        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.gradient_reddit)
-                        ItemInternetLinkBindingModel_()
+                        LinkCardModel_()
                             .id(link)
                             .title(name)
-                            .backgroundGradient(drawable)
+                            .gradient(R.drawable.gradient_reddit)
                             .onLinkClick { _ ->
                                 Intent(Intent.ACTION_VIEW, Uri.parse(link))
                                     .also { startActivity(it) }
                             }
                     }
                     else -> {
-                        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.gradient_wikipedia)
-                        ItemInternetLinkBindingModel_()
+                        LinkCardModel_()
                             .id(link)
                             .title(name)
-                            .backgroundGradient(drawable)
+                            .gradient(R.drawable.gradient_wikipedia)
                             .onLinkClick { _ ->
                                 Intent(Intent.ACTION_VIEW, Uri.parse(link))
                                     .also { startActivity(it) }
