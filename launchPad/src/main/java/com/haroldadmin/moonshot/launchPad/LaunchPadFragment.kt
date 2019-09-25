@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
+import com.haroldadmin.moonshot.launchPad.views.mapCard
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
@@ -31,6 +31,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import com.haroldadmin.moonshot.R as appR
 
 class LaunchPadFragment : MoonShotFragment() {
 
@@ -143,14 +144,13 @@ class LaunchPadFragment : MoonShotFragment() {
                 id("map")
                 header(getString(R.string.itemMapCardMapHeader))
             }
-            itemMapCard {
+            mapCard {
                 id("map")
                 mapImageUrl(launchpad.location.getStaticMapUrl())
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 onMapClick { _ ->
+                    val uri = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
                     val mapIntent = Intent(Intent.ACTION_VIEW).apply {
-                        data =
-                            Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
+                        data = uri
                     }
                     startActivity(mapIntent)
                 }

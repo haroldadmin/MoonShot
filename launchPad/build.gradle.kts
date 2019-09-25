@@ -77,8 +77,7 @@ dependencies {
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
 
-    implementation(Libs.glide)
-    kapt(Libs.glideCompiler)
+    implementation(Libs.coil)
 
     testImplementation(Libs.junit4)
     testImplementation(Libs.mockk)
