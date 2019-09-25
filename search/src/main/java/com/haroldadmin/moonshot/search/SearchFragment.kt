@@ -25,6 +25,9 @@ import com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragmentArgs
 import com.haroldadmin.moonshot.launchPad.LaunchPadFragmentArgs
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsFragmentArgs
 import com.haroldadmin.moonshot.search.databinding.FragmentSearchBinding
+import com.haroldadmin.moonshot.search.views.searchResultView
+import com.haroldadmin.moonshot.search.views.searchUninitializedView
+import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +35,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
@@ -105,14 +110,13 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
 
     private val controller by lazy {
         asyncTypedEpoxyController(builder, differ, viewModel) { state ->
-            if (state.isUninitialized) {
-                itemSearchUninitialized {
+            if (state.isUninitialized || state.isLoading) {
+                searchUninitializedView {
                     id("search-uninitialized")
                 }
             } else {
-
                 state.launches()?.forEach { launch ->
-                    itemSearchResult {
+                    searchResultView {
                         id(launch.flightNumber)
                         resultType(R.string.searchResultTypeLaunch)
                         result(launch.missionName ?: "Unknown")
@@ -124,7 +128,7 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                 }
 
                 state.rockets()?.forEach { rocket ->
-                    itemSearchResult {
+                    searchResultView {
                         id(rocket.rocketId)
                         resultType(R.string.searchResultTypeRocket)
                         result(rocket.rocketName)
@@ -136,7 +140,7 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
                 }
 
                 state.launchPads()?.forEach { launchPad ->
-                    itemSearchResult {
+                    searchResultView {
                         id(launchPad.id)
                         resultType(R.string.searchResultTypeLaunchPad)
                         result(launchPad.siteNameLong)
@@ -153,9 +157,8 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-private fun EditText.textChanges(): Flow<String> {
-    val channel = ConflatedBroadcastChannel<CharSequence>()
-    addTextChangedListener(object : TextWatcher {
+private fun EditText.textChanges(): Flow<String> = callbackFlow<CharSequence> {
+    val textWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) = Unit
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
@@ -163,13 +166,11 @@ private fun EditText.textChanges(): Flow<String> {
         override fun onTextChanged(text: CharSequence, p1: Int, p2: Int, p3: Int) {
             channel.offer(text)
         }
-    })
-    return channel
-        .asFlow()
-        .filterNot { it.isBlank() }
-        .map { seq -> seq.toString() }
-        .onCompletion { channel.close() }
-}
+    }
+
+    this@textChanges.addTextChangedListener(textWatcher)
+    awaitClose { this@textChanges.removeTextChangedListener(textWatcher) }
+}.filterNot { it.isBlank() }.map { seq -> seq.toString() }
 
 private fun <S : MoonShotState> Fragment.asyncTypedEpoxyController(
     modelBuildingHandler: Handler,
