@@ -55,6 +55,8 @@ dependencies {
     implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
 
+    implementation(Libs.coil)
+
     testImplementation(Libs.junit4)
     androidTestImplementation(Libs.androidxJunitExt)
     androidTestImplementation(Libs.espressoCore)

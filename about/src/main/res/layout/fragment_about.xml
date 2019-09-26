@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:itemCount="1"
-            tools:listitem="@layout/item_about_app" />
+            tools:listitem="@layout/card_about_app" />
 
     </FrameLayout>
 </layout>
