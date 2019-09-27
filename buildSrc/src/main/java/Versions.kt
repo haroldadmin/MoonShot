@@ -1,6 +1,6 @@
 object Versions {
 
-    const val coroutines = "1.3.0"
+    const val coroutines = "1.3.2"
 
     const val koin = "2.0.1"
 
