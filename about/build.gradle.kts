@@ -52,7 +52,6 @@ dependencies {
     implementation(Libs.constraintLayout)
 
     implementation(Libs.epoxy)
-    implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
 
     implementation(Libs.coil)

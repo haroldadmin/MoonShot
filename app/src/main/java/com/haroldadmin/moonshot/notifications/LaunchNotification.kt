@@ -12,31 +12,25 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
+import coil.Coil
+import coil.api.get
 import com.haroldadmin.moonshot.R
-import com.haroldadmin.moonshot.utils.GlideApp
-import com.haroldadmin.moonshot.utils.GlideRequests
+import kotlinx.coroutines.runBlocking
 
 sealed class LaunchNotification : MoonShotNotification {
 
-    fun getMissionPatch(url: String?, glide: GlideRequests): Bitmap {
-        return if (url.isNullOrBlank()) {
-            glide.load(R.drawable.ic_round_rocket_small)
-                .submit()
-                .get()
-                .toBitmap()
+    fun getMissionPatch(url: String?): Bitmap = runBlocking {
+        if (url.isNullOrBlank()) {
+            Coil.get(R.drawable.ic_round_rocket_small)
         } else {
-            glide.asBitmap()
-                .load(url)
-                .submit()
-                .get()
-        }
+            Coil.get(url)
+        }.toBitmap()
     }
 }
 
 object JustBeforeLaunch : LaunchNotification() {
     override fun create(context: Context, content: LaunchNotificationContent): Notification {
-        val glide = GlideApp.with(context)
-        val icon = getMissionPatch(content.missionPatch, glide)
+        val icon = getMissionPatch(content.missionPatch)
 
         createChannel(context)
 
@@ -86,7 +80,7 @@ object DayBeforeLaunch : LaunchNotification() {
             LaunchNotificationsManager.DAY_BEFORE_LAUNCH_CHANNEL_ID
         )
             .setSmallIcon(R.drawable.ic_round_rocket_small)
-            .setLargeIcon(getMissionPatch(content.missionPatch, GlideApp.with(context)))
+            .setLargeIcon(getMissionPatch(content.missionPatch))
             .setContentTitle("${content.name} Launch")
             .setContentText("Launches tomorrow at ${content.site} on ${content.date}")
             .setContentIntent(getLaunchDetailsPendingIntent(context, content.flightNumber))
@@ -130,7 +124,7 @@ object WeekBeforeLaunch : LaunchNotification() {
             LaunchNotificationsManager.WEEK_BEFORE_LAUNCH_CHANNEL_ID
         )
             .setSmallIcon(R.drawable.ic_round_rocket_small)
-            .setLargeIcon(getMissionPatch(content.missionPatch, GlideApp.with(context)))
+            .setLargeIcon(getMissionPatch(content.missionPatch))
             .setContentTitle("${content.name} Launch")
             .setContentText("Launches this week")
             .setContentIntent(getLaunchDetailsPendingIntent(context, content.flightNumber))

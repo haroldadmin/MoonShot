@@ -30,10 +30,6 @@ object Libs {
 
     const val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
     const val epoxyProcessor = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
-    const val epoxyDatabinding ="com.airbnb.android:epoxy-databinding:${Versions.epoxy}"
-
-    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
 
     const val coil = "io.coil-kt:coil:${Versions.coil}"
 

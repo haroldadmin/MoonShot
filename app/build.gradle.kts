@@ -24,8 +24,14 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            postprocessing {
+                this.isObfuscate = false
+                this.isRemoveUnusedCode = true
+                this.isOptimizeCode = true
+                this.proguardFile("proguard-rules.pro")
+            }
+//            isMinifyEnabled = true
+//            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
@@ -102,11 +108,7 @@ dependencies {
     implementation(Libs.jodaTime)
 
     implementation(Libs.epoxy)
-    implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
-
-    implementation(Libs.glide)
-    kapt(Libs.glideCompiler)
 
     implementation(Libs.coil)
 

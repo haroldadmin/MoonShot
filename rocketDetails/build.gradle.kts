@@ -64,7 +64,6 @@ dependencies {
     implementation(Libs.koinViewModel)
 
     implementation(Libs.epoxy)
-    implementation(Libs.epoxyDatabinding)
     kapt(Libs.epoxyProcessor)
 
     testImplementation(Libs.junit4)

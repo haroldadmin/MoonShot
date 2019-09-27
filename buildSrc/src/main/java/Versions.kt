@@ -15,11 +15,10 @@ object Versions {
     const val preference = "1.1.0"
     const val workManager = "2.2.0"
 
-    const val vector = "-SNAPSHOT"
+    const val vector = "master-SNAPSHOT"
 
     const val epoxy = "3.8.0"
 
-    const val glide = "4.10.0"
     const val coil = "0.7.0"
 
     const val lemniscate = "2.0.2"

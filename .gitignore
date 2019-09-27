@@ -87,4 +87,4 @@ app/release
 
 .kotlintest
 .DS_Store
-
+*.apks
