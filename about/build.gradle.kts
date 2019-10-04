@@ -50,6 +50,7 @@ dependencies {
     implementation(Libs.materialComponents)
     implementation(Libs.ktxCore)
     implementation(Libs.constraintLayout)
+    implementation(Libs.navigation)
 
     implementation(Libs.epoxy)
     kapt(Libs.epoxyProcessor)

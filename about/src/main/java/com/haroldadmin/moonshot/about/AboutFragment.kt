@@ -13,6 +13,7 @@ import com.haroldadmin.moonshot.about.views.aboutDetailCard
 import com.haroldadmin.moonshot.base.MoonShotFragment
 import com.haroldadmin.moonshot.base.simpleController
 import com.haroldadmin.moonshot.R as appR
+import androidx.navigation.fragment.findNavController
 
 class AboutFragment : MoonShotFragment() {
 
@@ -110,6 +111,18 @@ class AboutFragment : MoonShotFragment() {
                 onDetailClick { _ ->
                     Intent(Intent.ACTION_VIEW, Uri.parse(Links.PRIVACY_POLICY)).also { intent ->
                         startActivity(intent)
+                    }
+                }
+            }
+
+            aboutDetailCard {
+                id("licenses")
+                header(R.string.openSourceLicensesDetailHeader)
+                message(R.string.openSourceLicensesDetailMessage)
+                icon(R.drawable.ic_law)
+                onDetailClick { _ ->
+                    AboutFragmentDirections.viewLicenses().let {
+                        findNavController().navigate(it)
                     }
                 }
             }

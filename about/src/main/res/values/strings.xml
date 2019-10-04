@@ -12,4 +12,7 @@
     <string name="aboutFragmentApiCreditsMessage">MoonShot is powered by the open source SpaceX API</string>
     <string name="aboutFragmentPrivacyPolicyHeader">Privacy Policy</string>
     <string name="aboutFragmentPrivacyPolicyMessage">Click here to read our privacy policy</string>
+    <string name="openSourceLicensesHeader">Open Source Licenses</string>
+    <string name="openSourceLicensesDetailMessage">Licenses for Open Source libraries used in the app</string>
+    <string name="openSourceLicensesDetailHeader">Open Source Licenses</string>
 </resources>
