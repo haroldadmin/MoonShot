@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -26,23 +25,17 @@ import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
 class RocketDetailsFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentRocketDetailsBinding
-    private val safeArgs by navArgs<RocketDetailsFragmentArgs>()
     private val builder by inject<Handler>(named("builder"))
     private val differ by inject<Handler>(named("differ"))
-    private val viewModel by viewModel<RocketDetailsViewModel> {
-        val initialState =
-            RocketDetailsState(rocketId = safeArgs.rocketId)
-        parametersOf(initialState)
-    }
+    private val viewModel: RocketDetailsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -8,7 +8,7 @@
     <string name="fragmentNextLaunchLaunchSiteHeader">Launch Site</string>
     <string name="fragmentNextLaunchCountdownHeaderText">Count Down</string>
     <string name="fragmentNextLaunchCountdownFinishText">Happening now</string>
-    <string name="fragmentNextLaunchCountdownSuccessfulText">Happening now</string>
+    <string name="fragmentNextLaunchCountdownSuccessfulText">Launch Successful</string>
     <string name="fragmentNextLaunchCountdownErrorText">Error</string>
     <string name="fragmentNextLaunchCountdownUnknownText">Unknown</string>
     <string name="siteUnknownText">Unknown</string>

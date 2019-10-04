@@ -1,13 +1,21 @@
 package com.haroldadmin.moonshot.launchDetails
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
+import com.haroldadmin.moonshot.base.koin
+import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchStatsUseCase
+import com.haroldadmin.vector.ActivityViewModelOwner
+import com.haroldadmin.vector.FragmentViewModelOwner
+import com.haroldadmin.vector.VectorViewModelFactory
+import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.getKoin
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsViewModel(
@@ -53,5 +61,20 @@ class LaunchDetailsViewModel(
                     copy(launchPictures = picturesRes)
                 }
             }
+    }
+
+    companion object : VectorViewModelFactory<LaunchDetailsViewModel, LaunchDetailsState> {
+        override fun initialState(handle: SavedStateHandle, owner: ViewModelOwner): LaunchDetailsState? {
+            val safeArgs = owner.safeArgs<LaunchDetailsFragmentArgs>()
+            return LaunchDetailsState(safeArgs.flightNumber)
+        }
+
+        override fun create(
+            initialState: LaunchDetailsState,
+            owner: ViewModelOwner,
+            handle: SavedStateHandle
+        ): LaunchDetailsViewModel? = with(owner.koin()) {
+            LaunchDetailsViewModel(initialState, get(), get(), get())
+        }
     }
 }

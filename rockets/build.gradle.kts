@@ -57,6 +57,7 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
+    implementation(Libs.vmSavedState)
 
     implementation(Libs.koinCore)
     implementation(Libs.koinAndroid)

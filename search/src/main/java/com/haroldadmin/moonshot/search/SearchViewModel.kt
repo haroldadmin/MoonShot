@@ -1,10 +1,14 @@
 package com.haroldadmin.moonshot.search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
+import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshotRepository.search.SearchLaunchesUseCase
 import com.haroldadmin.moonshotRepository.search.SearchLaunchpadsUseCase
 import com.haroldadmin.moonshotRepository.search.SearchRocketsUseCase
+import com.haroldadmin.vector.VectorViewModelFactory
+import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -50,5 +54,15 @@ class SearchViewModel(
             .collect { launchPadsRes ->
                 setState { copy(launchPads = launchPadsRes) }
             }
+    }
+
+    companion object: VectorViewModelFactory<SearchViewModel, SearchState> {
+        override fun create(
+            initialState: SearchState,
+            owner: ViewModelOwner,
+            handle: SavedStateHandle
+        ): SearchViewModel? = with(owner.koin()) {
+            SearchViewModel(initialState, get(), get(), get())
+        }
     }
 }

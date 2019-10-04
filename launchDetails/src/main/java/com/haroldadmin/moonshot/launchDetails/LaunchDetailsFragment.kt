@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
@@ -36,20 +35,16 @@ import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentLaunchDetailsBinding
-    private val safeArgs by navArgs<LaunchDetailsFragmentArgs>()
-    private val viewModel by viewModel<LaunchDetailsViewModel> {
-        parametersOf(LaunchDetailsState(safeArgs.flightNumber), safeArgs.flightNumber)
-    }
+    private val viewModel: LaunchDetailsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
@@ -57,6 +52,12 @@ class LaunchDetailsFragment : MoonShotFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LaunchDetails.init()
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            state.launch()?.let { launch ->
+                mainViewModel.setTitle(launch.missionName)
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,17 +72,7 @@ class LaunchDetailsFragment : MoonShotFragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            state.launch()?.let { launch ->
-                mainViewModel.setTitle(launch.missionName)
-            }
-        }
-    }
-
-    override fun onDestroyView() {
+   override fun onDestroyView() {
         super.onDestroyView()
         epoxyController.cancelPendingModelBuild()
     }

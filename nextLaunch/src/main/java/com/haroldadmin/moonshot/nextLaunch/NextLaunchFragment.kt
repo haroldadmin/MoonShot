@@ -16,14 +16,14 @@ import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
 import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
@@ -32,14 +32,15 @@ class NextLaunchFragment : MoonShotFragment() {
     private lateinit var binding: FragmentNextLaunchBinding
     private val builder by inject<Handler>(named("builder"))
     private val differ by inject<Handler>(named("differ"))
-    private val viewModel by viewModel<NextLaunchViewModel> {
-        parametersOf(NextLaunchState())
-    }
+    private val viewModel: NextLaunchViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NextLaunch.init()
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+        }
     }
 
     override fun onCreateView(
@@ -56,11 +57,6 @@ class NextLaunchFragment : MoonShotFragment() {
             layoutAnimation = animation
         }
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) { state -> epoxyController.setData(state) }
     }
 
     override fun onDestroyView() {

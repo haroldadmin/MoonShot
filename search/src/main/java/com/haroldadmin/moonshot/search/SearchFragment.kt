@@ -28,6 +28,7 @@ import com.haroldadmin.moonshot.search.databinding.FragmentSearchBinding
 import com.haroldadmin.moonshot.search.views.searchResultView
 import com.haroldadmin.moonshot.search.views.searchUninitializedView
 import com.haroldadmin.moonshot.utils.log
+import com.haroldadmin.vector.fragmentViewModel
 import com.haroldadmin.vector.withState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,15 +59,18 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext = Dispatchers.Main + Job()
 
     private lateinit var binding: FragmentSearchBinding
-    private val viewModel by viewModel<SearchViewModel> {
-        parametersOf(SearchState())
-    }
+    private val viewModel: SearchViewModel by fragmentViewModel()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Search.init()
+        launch {
+            viewModel.state.collect { state ->
+                controller.setData(state)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -90,15 +94,6 @@ class SearchFragment : BottomSheetDialogFragment(), CoroutineScope {
         }
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        launch {
-            viewModel.state.collect { state ->
-                controller.setData(state)
-            }
-        }
     }
 
     override fun onStart() {

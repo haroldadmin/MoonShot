@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.LaunchTypes
@@ -27,27 +26,28 @@ import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
 class LaunchPadFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentLaunchpadBinding
-    private val safeArgs by navArgs<LaunchPadFragmentArgs>()
     private val differ by inject<Handler>(named("differ"))
     private val builder by inject<Handler>(named("builder"))
-    private val viewModel by viewModel<LaunchPadViewModel> {
-        val initialState = LaunchPadState(safeArgs.siteId)
-        parametersOf(initialState)
-    }
+    private val viewModel: LaunchPadViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Launchpad.init()
+        renderState(viewModel) { state ->
+            epoxyController.setData(state)
+            if (state.launchPad is Resource.Success) {
+                mainViewModel.setTitle(state.launchPad.data.siteNameLong)
+            }
+        }
     }
 
     override fun onCreateView(
@@ -65,16 +65,6 @@ class LaunchPadFragment : MoonShotFragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            if (state.launchPad is Resource.Success) {
-                mainViewModel.setTitle(state.launchPad.data.siteNameLong)
-            }
-        }
     }
 
     override fun onDestroyView() {

@@ -1,8 +1,12 @@
 package com.haroldadmin.moonshot.rockets
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
+import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
+import com.haroldadmin.vector.VectorViewModelFactory
+import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -11,9 +15,8 @@ import kotlin.coroutines.CoroutineContext
 
 class RocketsViewModel(
     initState: RocketsState,
-    stateStoreContext: CoroutineContext = Dispatchers.Default + Job(),
     private val allRocketsUseCase: GetAllRocketsUseCase
-) : MoonShotViewModel<RocketsState>(initState, stateStoreContext) {
+) : MoonShotViewModel<RocketsState>(initState) {
 
     init {
         viewModelScope.launch { getAllRockets() }
@@ -25,5 +28,15 @@ class RocketsViewModel(
             .collect { rocketsRes ->
                 setState { copy(rockets = rocketsRes) }
             }
+    }
+
+    companion object: VectorViewModelFactory<RocketsViewModel, RocketsState> {
+        override fun create(
+            initialState: RocketsState,
+            owner: ViewModelOwner,
+            handle: SavedStateHandle
+        ): RocketsViewModel? = with(owner.koin()) {
+            RocketsViewModel(initialState, get())
+        }
     }
 }

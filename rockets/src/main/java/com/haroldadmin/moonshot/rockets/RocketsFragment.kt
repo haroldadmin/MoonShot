@@ -16,6 +16,7 @@ import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import com.haroldadmin.moonshot.R as appR
@@ -23,14 +24,15 @@ import com.haroldadmin.moonshot.R as appR
 class RocketsFragment : MoonShotFragment() {
 
     private lateinit var binding: FragmentRocketsBinding
-    private val viewModel by viewModel<RocketsViewModel> {
-        parametersOf(RocketsState())
-    }
+    private val viewModel: RocketsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Rockets.init()
+        renderState(viewModel) {
+            epoxyController.setData(it)
+        }
     }
 
     override fun onCreateView(
@@ -47,13 +49,6 @@ class RocketsFragment : MoonShotFragment() {
             layoutAnimation = animation
         }
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) {
-            epoxyController.setData(it)
-        }
     }
 
     override fun onDestroyView() {

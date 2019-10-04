@@ -57,6 +57,7 @@ dependencies {
     implementation(Libs.navigation)
     implementation(Libs.navigationUi)
     implementation(Libs.preference)
+    implementation(Libs.vmSavedState)
 
     implementation(Libs.lottie)
 

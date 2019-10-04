@@ -1,12 +1,17 @@
 package com.haroldadmin.moonshot.nextLaunch
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
+import com.haroldadmin.moonshot.base.koin
+import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.utils.countdownTimer
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
+import com.haroldadmin.vector.VectorViewModelFactory
+import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.isActive
@@ -36,5 +41,15 @@ class NextLaunchViewModel(
             .collect { nextLaunchRes ->
                 setState { copy(nextLaunch = nextLaunchRes) }
             }
+    }
+
+    companion object: VectorViewModelFactory<NextLaunchViewModel, NextLaunchState> {
+        override fun create(
+            initialState: NextLaunchState,
+            owner: ViewModelOwner,
+            handle: SavedStateHandle
+        ): NextLaunchViewModel? = with(owner.koin()) {
+            NextLaunchViewModel(initialState, get())
+        }
     }
 }
