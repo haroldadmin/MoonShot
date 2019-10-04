@@ -20,9 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginLarge"
             android:layout_marginTop="@dimen/marginLarge"
-            android:layout_marginEnd="@dimen/marginLarge"
             android:textAppearance="@style/TextAppearance.MoonShot.Launch.Overline"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/toggleIcon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Details" />
@@ -32,9 +31,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginMedium"
             android:layout_marginEnd="@dimen/marginLarge"
             android:layout_marginBottom="@dimen/marginLarge"
-            android:layout_marginTop="@dimen/marginMedium"
             android:textAppearance="@style/TextAppearance.MoonShot.Launch.Body"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,12 +47,12 @@
             android:id="@+id/toggleIcon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:tint="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="@+id/headingText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/contentText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:src="@drawable/ic_round_expand_more_24px"
-            android:layout_margin="@dimen/marginMedium"
-            android:tint="?attr/colorOnPrimary"/>
+            app:layout_constraintTop_toTopOf="@+id/headingText"
+            tools:src="@drawable/ic_round_expand_more_24px" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
