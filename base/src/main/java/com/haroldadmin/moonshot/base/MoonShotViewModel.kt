@@ -37,7 +37,7 @@ abstract class MoonShotViewModel<S : MoonShotState>(
 }
 
 abstract class SavedStateMoonShotViewModel<S : MoonShotState>(
-    initState: S?,
+    initState: S,
     savedStateHandle: SavedStateHandle
 ) : SavedStateVectorViewModel<S>(
     initialState = initState,
