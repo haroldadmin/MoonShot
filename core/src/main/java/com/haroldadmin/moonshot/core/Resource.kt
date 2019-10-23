@@ -28,8 +28,9 @@ sealed class Resource<out T> {
 }
 
 operator fun <T> Resource<T>.invoke(): T? {
-    return if (this is Resource.Success)
-        this.data
-    else
-        null
+    return when {
+        this is Resource.Success -> this.data
+        this is Resource.Error<T, *> && this.data != null -> this.data
+        else -> null
+    }
 }
