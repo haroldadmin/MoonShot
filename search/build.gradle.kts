@@ -51,6 +51,7 @@ dependencies {
 
     implementation(Libs.appCompat)
     implementation(Libs.lifecycle)
+    implementation(Libs.lifecycleRuntime)
     implementation(Libs.materialComponents)
     implementation(Libs.ktxCore)
     implementation(Libs.constraintLayout)

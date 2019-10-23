@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.base.MoonShotFragment
-import com.haroldadmin.moonshot.base.typedEpoxyController
+import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
+import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
@@ -18,21 +18,18 @@ import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import com.haroldadmin.moonshot.R as appR
 
-class RocketsFragment : MoonShotFragment() {
+class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>() {
 
     private lateinit var binding: FragmentRocketsBinding
-    private val viewModel: RocketsViewModel by fragmentViewModel()
+    override val viewModel: RocketsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Rockets.init()
-        renderState(viewModel) {
-            epoxyController.setData(it)
-        }
+    override fun initDI() = Rockets.init()
+
+    override fun renderer(state: RocketsState) {
+        epoxyController.setData(state)
     }
 
     override fun onCreateView(
@@ -41,23 +38,19 @@ class RocketsFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRocketsBinding.inflate(inflater, container, false)
+
         mainViewModel.setTitle(getString(appR.string.title_rockets))
-        val animation =
-            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+
         binding.rvRockets.apply {
             setController(epoxyController)
-            layoutAnimation = animation
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
         }
+
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        epoxyController.cancelPendingModelBuild()
-    }
-
-    private val epoxyController by lazy {
-        typedEpoxyController(viewModel) { state ->
+    override val epoxyController by lazy {
+        asyncTypedEpoxyController(viewModel) { state ->
             when (val rockets = state.rockets) {
                 is Resource.Success -> {
                     rockets.data.forEach { rocket ->
@@ -65,7 +58,8 @@ class RocketsFragment : MoonShotFragment() {
                             id(rocket.rocketId)
                             rocket(rocket)
                             onRocketClick { _ ->
-                                RocketsFragmentDirections.rocketDetails(rocket.rocketId)
+                                RocketsFragmentDirections
+                                    .rocketDetails(rocket.rocketId)
                                     .also { action ->
                                         findNavController().navigate(action)
                                     }

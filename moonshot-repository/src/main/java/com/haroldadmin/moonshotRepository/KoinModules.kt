@@ -2,9 +2,6 @@ package com.haroldadmin.moonshotRepository
 
 import com.haroldadmin.moonshot.database.databaseModule
 import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.database.launch.rocket.RocketSummaryDao
-import com.haroldadmin.moonshot.database.launch.rocket.firstStage.FirstStageSummaryDao
-import com.haroldadmin.moonshot.database.launch.rocket.secondStage.SecondStageSummaryDao
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
@@ -13,7 +10,6 @@ import com.haroldadmin.moonshotRepository.launch.GetLaunchStatsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
 import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
 import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
@@ -34,16 +30,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoryModule = databaseModule + networkModule + serviceModule + module {
-
-    single<LaunchesRepository> {
-        LaunchesRepository(
-            get<LaunchDao>(),
-            get<RocketSummaryDao>(),
-            get<FirstStageSummaryDao>(),
-            get<SecondStageSummaryDao>(),
-            get<LaunchesService>()
-        )
-    }
 
     factory { PersistLaunchesUseCase(get<LaunchDao>()) }
     factory { GetLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }

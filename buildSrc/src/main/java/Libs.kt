@@ -14,6 +14,7 @@ object Libs {
 
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val lifecycle = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktxCore}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"

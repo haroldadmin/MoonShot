@@ -11,7 +11,7 @@ import androidx.core.widget.TextViewCompat
 import coil.api.load
 import coil.request.LoadRequestBuilder
 import com.haroldadmin.moonshot.BuildConfig
-import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
+import com.haroldadmin.moonshot.models.DatePrecision
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -19,7 +19,7 @@ import java.util.Timer
 import java.util.concurrent.Executor
 import kotlin.concurrent.fixedRateTimer
 
-fun Date.format(configuration: Configuration, pattern: String = SHORT_DATE_FORMAT): String {
+fun Date.format(configuration: Configuration, pattern: String = DatePrecision.day.dateFormat): String {
     val locale = ConfigurationCompat.getLocales(configuration).get(0)
     val formatter = SimpleDateFormat(pattern, locale)
     return formatter.format(this)

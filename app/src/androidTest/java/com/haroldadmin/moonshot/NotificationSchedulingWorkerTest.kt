@@ -10,11 +10,12 @@ import androidx.work.testing.TestListenableWorkerBuilder
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.notifications.workers.DailyNotificationSchedulingWorker
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +29,7 @@ class NotificationSchedulingWorkerTest {
     private lateinit var executor: Executor
     private lateinit var settings: SharedPreferences
     private lateinit var notifManager: LaunchNotificationsManager
-    private lateinit var repo: LaunchesRepository
+    private lateinit var repo: GetNextLaunchUseCase
 
     @Before
     fun setup() {
@@ -38,7 +39,7 @@ class NotificationSchedulingWorkerTest {
         notifManager = mockk()
         settings = mockk()
 
-        coEvery { repo.getNextLaunchFromDatabase(any()) } returns Launch.getSampleLaunch()
+        coEvery { repo.getNextLaunch() } returns flow { Launch.getSampleLaunch() }
 
         workerFactory = object : WorkerFactory() {
             override fun createWorker(

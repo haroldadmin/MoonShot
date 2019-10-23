@@ -7,11 +7,8 @@ import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class RocketsViewModel(
     initState: RocketsState,
@@ -30,7 +27,7 @@ class RocketsViewModel(
             }
     }
 
-    companion object: VectorViewModelFactory<RocketsViewModel, RocketsState> {
+    companion object : VectorViewModelFactory<RocketsViewModel, RocketsState> {
         override fun create(
             initialState: RocketsState,
             owner: ViewModelOwner,

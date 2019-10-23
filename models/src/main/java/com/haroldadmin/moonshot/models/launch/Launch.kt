@@ -5,9 +5,10 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.haroldadmin.moonshot.models.SHORT_DATE_FORMAT
+import com.haroldadmin.moonshot.models.DatePrecision
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Entity(tableName = "launches")
 data class Launch(
@@ -18,7 +19,7 @@ data class Launch(
     @ColumnInfo(name = "launch_year") val launchYear: String,
     @ColumnInfo(name = "launch_date_utc") val launchDate: Date,
     @ColumnInfo(name = "is_tentative") val isTentative: Boolean,
-    @ColumnInfo(name = "tentative_max_precision") val tentativeMaxPrecision: String,
+    @ColumnInfo(name = "tentative_max_precision") val tentativeMaxPrecision: DatePrecision,
     @ColumnInfo(name = "tbd") val tbd: Boolean,
     @ColumnInfo(name = "launch_window") val launchWindow: Int?,
     @ColumnInfo(name = "ships") val ships: List<String>,
@@ -39,7 +40,7 @@ data class Launch(
             "2018",
             Date(),
             false,
-            "hour",
+            DatePrecision.hour,
             false,
             7200,
             listOf(),
@@ -62,11 +63,11 @@ data class LaunchMinimal(
     @ColumnInfo(name = "flight_number")
     val flightNumber: Int,
     @ColumnInfo(name = "mission_name")
-    val missionName: String?,
+    val missionName: String,
     @ColumnInfo(name = "missionPatchSmall")
     val missionPatch: String?,
     @ColumnInfo(name = "launch_date_utc")
-    val launchDate: Date?,
+    val launchDate: Date,
     @ColumnInfo(name = "launch_success")
     val launchSuccess: Boolean?,
     @ColumnInfo(name = "details")
@@ -86,10 +87,18 @@ data class LaunchMinimal(
     @ColumnInfo(name = "redditMedia")
     val redditMedia: String?,
     @ColumnInfo(name = "wikipedia")
-    val wikipedia: String?
+    val wikipedia: String?,
+    @ColumnInfo(name = "tbd")
+    val tbd: Boolean,
+    @ColumnInfo(name = "is_tentative")
+    val isTentative: Boolean,
+    @ColumnInfo(name = "tentative_max_precision")
+    val maxPrecision: DatePrecision
 ) {
+
     @Ignore
-    val launchYear: String = SimpleDateFormat(SHORT_DATE_FORMAT).format(launchDate)
+    val launchDateText: String = SimpleDateFormat(maxPrecision.dateFormat, Locale.US).format(launchDate)
+
     @Ignore
     val links = mapOf(
         "YouTube" to youtubeKey,
@@ -98,9 +107,6 @@ data class LaunchMinimal(
         "Reddit Media" to redditMedia,
         "Wikipedia" to wikipedia
     )
-    @Ignore
-    val launchSuccessText: String =
-        if (launchSuccess == true) "Successful" else if (launchSuccess == false) "Unsuccessful" else "Unknown"
 }
 
 data class LaunchStats(
@@ -142,6 +148,9 @@ fun Launch.toLaunchMinimal(): LaunchMinimal {
         redditCampaign = dbLaunch.links?.redditCampaign,
         redditLaunch = dbLaunch.links?.redditLaunch,
         redditMedia = dbLaunch.links?.redditMedia,
-        wikipedia = dbLaunch.links?.wikipedia
+        wikipedia = dbLaunch.links?.wikipedia,
+        tbd = dbLaunch.tbd,
+        isTentative = dbLaunch.isTentative,
+        maxPrecision = dbLaunch.tentativeMaxPrecision
     )
 }

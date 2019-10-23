@@ -18,7 +18,7 @@ import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSumm
 import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload
 
 const val LAUNCH_MINIMAL_PROJECTION: Projection =
-    """flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia"""
+    """flight_number, mission_name, missionPatchSmall, launch_date_utc, launch_success, details, siteName, siteNameLong, siteId, youtubeKey, redditCampaign, redditLaunch, redditMedia, wikipedia, tbd, is_tentative, tentative_max_precision"""
 
 const val LAUNCH_STATS_PROJECTION: Projection =
     """rocket_summaries.rocket_name, rocket_summaries.rocket_type, rocket_summaries.rocket_id, COUNT(core_summaries.core_serial) as core_count, COUNT(payloads.payload_id) as payload_count"""
@@ -65,21 +65,21 @@ abstract class LaunchDao : BaseDao<Launch> {
         """
         SELECT $LAUNCH_MINIMAL_PROJECTION
         FROM launches
-        WHERE launch_date_utc >= :timeAtStartOfDay
-        ORDER BY launch_date_utc ASC
+        WHERE upcoming = 1 
+        ORDER BY flight_number ASC
         LIMIT 1
         """
     )
-    abstract suspend fun getNextLaunch(timeAtStartOfDay: Long): LaunchMinimal?
+    abstract suspend fun getNextLaunch(): LaunchMinimal?
 
     @Query("""
         SELECT *
         FROM launches
-        WHERE launch_date_utc >= :timeAtStartOfDay
-        ORDER BY launch_date_utc ASC
+        WHERE upcoming = 1
+        ORDER BY flight_number ASC
         LIMIT 1
     """)
-    abstract suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch?
+    abstract suspend fun getNextFullLaunch(): Launch?
 
     @Query(
         """
@@ -158,14 +158,14 @@ abstract class LaunchDao : BaseDao<Launch> {
 
     @Query(
         """
-            SELECT *
+            SELECT $LAUNCH_MINIMAL_PROJECTION
             FROM launches
             WHERE launch_date_utc <= :end AND launch_date_utc >= :start
             ORDER BY launch_date_utc ASC
             LIMIT :limit
         """
     )
-    abstract suspend fun getLaunchesInRange(start: Long, end: Long, limit: Int): List<Launch>
+    abstract suspend fun getLaunchesInRange(start: Long, end: Long, limit: Int): List<LaunchMinimal>
 
     @Query(
         """

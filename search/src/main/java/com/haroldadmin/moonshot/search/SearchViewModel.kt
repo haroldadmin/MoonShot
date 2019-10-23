@@ -56,7 +56,7 @@ class SearchViewModel(
             }
     }
 
-    companion object: VectorViewModelFactory<SearchViewModel, SearchState> {
+    companion object : VectorViewModelFactory<SearchViewModel, SearchState> {
         override fun create(
             initialState: SearchState,
             owner: ViewModelOwner,

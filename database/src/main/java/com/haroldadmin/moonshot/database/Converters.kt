@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshot.database
 
 import androidx.room.TypeConverter
+import com.haroldadmin.moonshot.models.DatePrecision
 import java.util.Date
 
 class Converters {
@@ -46,5 +47,19 @@ class Converters {
     @TypeConverter
     fun listOfIntToString(value: List<Int>?): String? {
         return value?.joinToString(separator = ",")
+    }
+
+    @TypeConverter
+    fun datePrecisionToString(datePrecision: DatePrecision): String? {
+        return datePrecision.name
+    }
+
+    @TypeConverter
+    fun stringToDatePrecision(s: String): DatePrecision? {
+        return try {
+            DatePrecision.valueOf(s)
+        } catch (ex: IllegalArgumentException) {
+            null
+        }
     }
 }

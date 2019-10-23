@@ -4,13 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.haroldadmin.moonshot.base.notify
-import com.haroldadmin.moonshot.models.LONG_DATE_FORMAT
+import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.utils.log
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,7 @@ class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     override val coroutineContext: CoroutineContext = Dispatchers.Default + exceptionHandler
 
     private val notification by inject<LaunchNotification>(named("week-before-launch"))
-    private val repository by inject<LaunchesRepository>()
+    private val repository by inject<GetLaunchesUseCase>()
 
     override fun onReceive(context: Context, intent: Intent) {
         launch {
@@ -38,25 +38,29 @@ class WeekBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
             val end = start.plusDays(7)
 
             val notificationContent = repository
-                .getLaunchesInTimeRangeFromDatabase(
-                    start = start.millis,
-                    end = end.millis,
+                .getLaunches(
+                    from = start.millis,
+                    to = end.millis,
                     limit = 5
                 )
-                .takeIf { it.isNotEmpty() }
-                ?.map { launch ->
+                .filter {
+                    val precision = it.maxPrecision
+                    precision == DatePrecision.hour || precision == DatePrecision.day
+                }
+                .map { launch ->
                     LaunchNotificationContent(
                         name = launch.missionName,
-                        site = launch.launchSite?.siteName ?: "Unknown",
+                        site = launch.siteName ?: "Unknown",
                         date = launch.launchDate.format(
                             context.resources.configuration,
-                            LONG_DATE_FORMAT
+                            DatePrecision.hour.dateFormat
                         ),
                         missionPatch = launch.missionPatch,
                         flightNumber = launch.flightNumber,
                         time = launch.launchDate.time
                     )
                 }
+                .takeIf { it.isNotEmpty() }
                 ?.toTypedArray()
                 ?: return@launch log("No launches this week, not scheduling notifications")
 

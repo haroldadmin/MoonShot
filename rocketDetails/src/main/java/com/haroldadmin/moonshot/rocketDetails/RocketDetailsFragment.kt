@@ -1,16 +1,15 @@
 package com.haroldadmin.moonshot.rocketDetails
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.base.MoonShotFragment
+import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
@@ -26,21 +25,19 @@ import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
-class RocketDetailsFragment : MoonShotFragment() {
+class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, RocketDetailsState>() {
 
     private lateinit var binding: FragmentRocketDetailsBinding
-    private val builder by inject<Handler>(named("builder"))
-    private val differ by inject<Handler>(named("differ"))
-    private val viewModel: RocketDetailsViewModel by fragmentViewModel()
+    override val viewModel: RocketDetailsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        RocketDetails.init()
+    override fun initDI() = RocketDetails.init()
+
+    override fun renderer(state: RocketDetailsState) {
+        epoxyController.setData(state)
+        state.rocket()?.let { mainViewModel.setTitle(it.rocketName) }
     }
 
     override fun onCreateView(
@@ -49,26 +46,19 @@ class RocketDetailsFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
+
         mainViewModel.setTitle(getString(appR.string.title_rocket_details))
-        val animation =
-            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+
         binding.rvRocketDetails.apply {
             setController(epoxyController)
-            layoutAnimation = animation
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
         }
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            state.rocket()?.let { mainViewModel.setTitle(it.rocketName) }
-        }
-    }
-
-    private val epoxyController by lazy {
-        asyncTypedEpoxyController(builder, differ, viewModel) { state ->
+    override val epoxyController by lazy {
+        asyncTypedEpoxyController(viewModel) { state ->
             when (val rocket = state.rocket) {
                 is Resource.Success -> {
                     rocketCard {

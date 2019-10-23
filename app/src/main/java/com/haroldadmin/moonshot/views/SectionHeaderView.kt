@@ -14,7 +14,7 @@ class SectionHeaderView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defaultStyleAttr: Int = 0
-): FrameLayout(context, attributeSet, defaultStyleAttr) {
+) : FrameLayout(context, attributeSet, defaultStyleAttr) {
 
     init {
         inflate(context, R.layout.view_section_header, this)

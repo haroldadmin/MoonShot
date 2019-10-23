@@ -29,7 +29,7 @@ class GetNextLaunchUseCaseTest : DescribeSpec({
         val dbLaunch: LaunchMinimal = Launch.getSampleLaunch().toLaunchMinimal()
         val apiLaunch = FakeDataProvider.getApiLaunches(1).first()
         val mockDao = mockk<LaunchDao> {
-            coEvery { getNextLaunch(any()) } returns dbLaunch
+            coEvery { getNextLaunch() } returns dbLaunch
             coEvery {
                 saveLaunchWithSummaries(any(), any(), any(), any(), any(), any())
             } returns Unit
@@ -48,7 +48,7 @@ class GetNextLaunchUseCaseTest : DescribeSpec({
         val usecase = GetNextLaunchUseCase(mockDao, mockService, mockPersistLaunchesUseCase)
 
         context("Network request is successful") {
-            val resource = usecase.getNextLaunch(0L)
+            val resource = usecase.getNextLaunch()
 
             it("Should emit cached data") {
                 val res = resource

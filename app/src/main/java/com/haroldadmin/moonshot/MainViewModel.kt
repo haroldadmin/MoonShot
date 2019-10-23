@@ -22,7 +22,7 @@ class MainViewModel(
         }
     }
 
-    companion object: VectorViewModelFactory<MainViewModel, ScaffoldingState> {
+    companion object : VectorViewModelFactory<MainViewModel, ScaffoldingState> {
         override fun initialState(
             handle: SavedStateHandle,
             owner: ViewModelOwner

@@ -3,18 +3,17 @@ package com.haroldadmin.moonshot.launchPad
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.base.MoonShotFragment
+import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.launchPad.views.mapCard
@@ -27,26 +26,20 @@ import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
-class LaunchPadFragment : MoonShotFragment() {
+class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadState>() {
 
     private lateinit var binding: FragmentLaunchpadBinding
-    private val differ by inject<Handler>(named("differ"))
-    private val builder by inject<Handler>(named("builder"))
-    private val viewModel: LaunchPadViewModel by fragmentViewModel()
+    override val viewModel: LaunchPadViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Launchpad.init()
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            if (state.launchPad is Resource.Success) {
-                mainViewModel.setTitle(state.launchPad.data.siteNameLong)
-            }
+    override fun initDI() = Launchpad.init()
+
+    override fun renderer(state: LaunchPadState) {
+        epoxyController.setData(state)
+        if (state.launchPad is Resource.Success) {
+            mainViewModel.setTitle(state.launchPad.data.siteNameLong)
         }
     }
 
@@ -56,24 +49,20 @@ class LaunchPadFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
+
         mainViewModel.setTitle(getString(appR.string.title_launchpad))
-        val animation =
-            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+
         binding.rvLaunchPad.apply {
             setController(epoxyController)
-            layoutAnimation = animation
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
+
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        epoxyController.cancelPendingModelBuild()
-    }
-
-    private val epoxyController by lazy {
-        asyncTypedEpoxyController(builder, differ, viewModel) { state ->
+    override val epoxyController by lazy {
+        asyncTypedEpoxyController(viewModel) { state ->
             when (val launchpad = state.launchPad) {
                 is Resource.Success -> buildLaunchPadModels(this, launchpad.data)
                 is Resource.Error<LaunchPad, *> -> {

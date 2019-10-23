@@ -67,7 +67,7 @@ class LaunchCard @JvmOverloads constructor(
             transformations(CircleCropTransformation())
         }
 
-        date.asyncText(launch.launchYear)
+        date.asyncText(launch.launchDateText)
 
         site.asyncText { launch.siteName ?: context.getString(R.string.launchCardNoSiteNameText) }
 
@@ -90,4 +90,3 @@ class LaunchCard @JvmOverloads constructor(
         onLaunchClick = null
     }
 }
-

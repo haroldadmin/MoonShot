@@ -21,7 +21,7 @@ class AboutDetailCard @JvmOverloads constructor(
     context: Context,
     attrSet: AttributeSet? = null,
     defStyleAttr: Int = 0
-): FrameLayout(context, attrSet, defStyleAttr) {
+) : FrameLayout(context, attrSet, defStyleAttr) {
 
     init {
         inflate(context, R.layout.card_about_detail, this)

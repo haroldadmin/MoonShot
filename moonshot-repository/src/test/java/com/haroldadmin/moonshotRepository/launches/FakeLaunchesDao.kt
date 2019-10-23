@@ -17,7 +17,7 @@ class FakeLaunchesDao : LaunchDao() {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getNextFullLaunch(timeAtStartOfDay: Long): Launch? {
+    override suspend fun getNextFullLaunch(): Launch? {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,7 +37,7 @@ class FakeLaunchesDao : LaunchDao() {
         TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<Launch> {
+    override suspend fun getLaunchesInRange(start: Long, end: Long, maxCount: Int): List<LaunchMinimal> {
         return listOf()
     }
 
@@ -48,7 +48,7 @@ class FakeLaunchesDao : LaunchDao() {
         return listOf()
     }
 
-    override suspend fun getNextLaunch(timeAtStartOfDay: Long): LaunchMinimal {
+    override suspend fun getNextLaunch(): LaunchMinimal {
         return Launch.getSampleLaunch().toLaunchMinimal()
     }
 

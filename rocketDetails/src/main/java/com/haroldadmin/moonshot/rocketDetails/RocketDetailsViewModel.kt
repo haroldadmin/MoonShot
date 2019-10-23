@@ -41,7 +41,7 @@ class RocketDetailsViewModel(
             }
     }
 
-    companion object: VectorViewModelFactory<RocketDetailsViewModel, RocketDetailsState> {
+    companion object : VectorViewModelFactory<RocketDetailsViewModel, RocketDetailsState> {
         override fun create(
             initialState: RocketDetailsState,
             owner: ViewModelOwner,

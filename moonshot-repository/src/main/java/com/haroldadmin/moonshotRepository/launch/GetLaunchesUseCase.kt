@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.launch
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
@@ -28,6 +29,29 @@ class GetLaunchesUseCase(
             LaunchesFilter.PAST -> getPastLaunches(currentTime, limit)
             LaunchesFilter.UPCOMING -> getUpcomingLaunches(currentTime, limit)
             LaunchesFilter.ALL -> getAllLaunches(limit)
+        }
+    }
+
+    suspend fun getLaunches(
+        from: Long,
+        to: Long,
+        limit: Int = 15
+    ): List<LaunchMinimal> {
+        return launchesDao.getLaunchesInRange(from, to, limit)
+    }
+
+    suspend fun sync(): Resource<Unit> {
+        val apiLaunches = executeWithRetry {
+            launchesService.getAllLaunches().await()
+        }
+
+        return when (apiLaunches) {
+            is NetworkResponse.Success -> {
+                persistLaunchesUseCase.persistLaunches(apiLaunches.body)
+                Resource.Success(Unit)
+            }
+            is NetworkResponse.ServerError -> Resource.Error(Unit, null)
+            is NetworkResponse.NetworkError -> Resource.Error(Unit, null)
         }
     }
 

@@ -8,14 +8,11 @@ import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchStatsUseCase
-import com.haroldadmin.vector.ActivityViewModelOwner
-import com.haroldadmin.vector.FragmentViewModelOwner
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.getKoin
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsViewModel(

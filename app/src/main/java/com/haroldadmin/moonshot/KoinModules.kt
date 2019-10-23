@@ -1,7 +1,5 @@
 package com.haroldadmin.moonshot
 
-import android.os.Handler
-import android.os.HandlerThread
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotification
@@ -16,16 +14,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = repositoryModule + module {
-
-    single(named("diffing-thread")) {
-        HandlerThread("epoxy-diffing-thread").apply { start() }
-    }
-    single(named("building-thread")) {
-        HandlerThread("epoxy-model-building-thread").apply { start() }
-    }
-
-    single(named("differ")) { Handler(get<HandlerThread>(named("diffing-thread")).looper) }
-    single(named("builder")) { Handler(get<HandlerThread>(named("building-thread")).looper) }
 
     single { SyncManager(androidApplication()) }
 

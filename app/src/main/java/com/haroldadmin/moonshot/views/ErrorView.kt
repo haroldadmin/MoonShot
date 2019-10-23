@@ -14,7 +14,7 @@ class ErrorView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
-): FrameLayout(context, attributeSet, defStyleAttr) {
+) : FrameLayout(context, attributeSet, defStyleAttr) {
 
     init {
         inflate(context, R.layout.view_error, this)

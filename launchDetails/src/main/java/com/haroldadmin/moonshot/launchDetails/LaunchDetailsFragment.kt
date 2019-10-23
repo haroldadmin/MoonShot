@@ -3,19 +3,18 @@ package com.haroldadmin.moonshot.launchDetails
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.base.MoonShotFragment
+import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
@@ -26,7 +25,6 @@ import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.models.launch.LaunchStats
-import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
@@ -37,48 +35,40 @@ import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
 
 @ExperimentalCoroutinesApi
-class LaunchDetailsFragment : MoonShotFragment() {
+class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, LaunchDetailsState>() {
 
     private lateinit var binding: FragmentLaunchDetailsBinding
-    private val viewModel: LaunchDetailsViewModel by fragmentViewModel()
-    private val mainViewModel: MainViewModel by activityViewModel()
-    private val differ by inject<Handler>(named("differ"))
-    private val builder by inject<Handler>(named("builder"))
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LaunchDetails.init()
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            state.launch()?.let { launch ->
-                mainViewModel.setTitle(launch.missionName)
-            }
+    override val viewModel: LaunchDetailsViewModel by fragmentViewModel()
+    private val mainViewModel: MainViewModel by activityViewModel()
+
+    override fun initDI() = LaunchDetails.init()
+
+    override fun renderer(state: LaunchDetailsState) {
+        epoxyController.setData(state)
+        state.launch()?.let { launch ->
+            mainViewModel.setTitle(launch.missionName)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
-        val animation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+
         mainViewModel.setTitle(getString(appR.string.title_launch_details))
+
         binding.rvLaunchDetails.apply {
             setController(epoxyController)
-            layoutAnimation = animation
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
+
         return binding.root
     }
 
-   override fun onDestroyView() {
-        super.onDestroyView()
-        epoxyController.cancelPendingModelBuild()
-    }
-
-    private val epoxyController by lazy {
-        asyncTypedEpoxyController(builder, differ, viewModel) { state ->
+    override val epoxyController by lazy {
+        asyncTypedEpoxyController(viewModel) { state ->
 
             when (val launch = state.launch) {
                 is Resource.Success -> {
@@ -159,13 +149,13 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 id("header")
                 launch(launch)
             }
-            
+
             detailCard {
                 id("launch-date")
                 header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                content(
-                    launch.launchDate?.format(resources.configuration)
-                        ?: getString(R.string.fragmentLaunchDetailsNoLaunchDateMessage)
+                content(launch.launchDateText
+//                    launch.launchDate?.format(resources.configuration)
+//                        ?: getString(R.string.fragmentLaunchDetailsNoLaunchDateMessage)
                 )
                 icon(appR.drawable.ic_round_date_range_24px)
             }
@@ -177,14 +167,20 @@ class LaunchDetailsFragment : MoonShotFragment() {
                 icon(appR.drawable.ic_round_place_24px)
                 onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
             }
-           
+
             detailCard {
                 id("launch-success")
                 header(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
-                content(launch.launchSuccessText)
+                content({
+                    when {
+                        launch.launchSuccess == true -> "Successful"
+                        launch.launchSuccess == false -> "Unsuccessful"
+                        else -> "Unknown"
+                    }
+                }.invoke())
                 icon(R.drawable.ic_round_flight_takeoff_24px)
             }
-            
+
             expandableTextView {
                 id("launch-details")
                 header(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
@@ -204,7 +200,9 @@ class LaunchDetailsFragment : MoonShotFragment() {
 
     private fun buildLaunchStats(stats: LaunchStats, controller: EpoxyController) = with(controller) {
 
-        if (stats.rocket == null) { return@with }
+        if (stats.rocket == null) {
+            return@with
+        }
 
         rocketSummaryCard {
             id("rocket-summary")

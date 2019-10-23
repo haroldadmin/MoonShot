@@ -1,17 +1,16 @@
 package com.haroldadmin.moonshot.launches
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.haroldadmin.moonshot.MainViewModel
-import com.haroldadmin.moonshot.base.MoonShotFragment
+import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
@@ -20,15 +19,15 @@ import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
 import com.haroldadmin.vector.activityViewModel
-import org.koin.android.ext.android.inject
-import org.koin.core.qualifier.named
 import com.haroldadmin.moonshot.R as appR
 
-class LaunchesFragment : MoonShotFragment() {
+class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesState>() {
 
     private lateinit var binding: FragmentLaunchesBinding
+
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
-    private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
+
+    override val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
         LaunchesViewModelFactory(
             LaunchesState(
                 type = safeArgs.type,
@@ -37,13 +36,8 @@ class LaunchesFragment : MoonShotFragment() {
         )
     }
     private val mainViewModel: MainViewModel by activityViewModel()
-    private val diffingHandler by inject<Handler>(named("differ"))
-    private val buildingHandler by inject<Handler>(named("builder"))
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Launches.init()
-    }
+    override fun initDI() = Launches.init()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,49 +45,39 @@ class LaunchesFragment : MoonShotFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLaunchesBinding.inflate(inflater, container, false)
+
         mainViewModel.setTitle(getString(appR.string.title_launches))
-        val animation =
-            AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+
         binding.rvLaunches.apply {
             setController(epoxyController)
-            layoutAnimation = animation
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
         }
+
         binding.fabFilter.apply {
             setOnClickListener {
                 findNavController().navigate(LaunchesFragmentDirections.showFilters())
             }
         }
+
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        renderState(viewModel) { state ->
-            epoxyController.setData(state)
-            if (state.siteName != null) {
-                mainViewModel.setTitle(state.siteName)
-            } else {
-                val title = when (state.filter) {
-                    LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesRecentFilterScreenTitle)
-                    LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesUpcomingFilterScreenTitle)
-                    LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesAllFilterScreenTitle)
-                }
-                mainViewModel.setTitle(title)
+    override fun renderer(state: LaunchesState) {
+        epoxyController.setData(state)
+        if (state.siteName != null) {
+            mainViewModel.setTitle(state.siteName)
+        } else {
+            val title = when (state.filter) {
+                LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesRecentFilterScreenTitle)
+                LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesUpcomingFilterScreenTitle)
+                LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesAllFilterScreenTitle)
             }
+            mainViewModel.setTitle(title)
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        epoxyController.cancelPendingModelBuild()
-    }
-
-    private val epoxyController by lazy {
-        asyncTypedEpoxyController(
-            buildingHandler,
-            diffingHandler,
-            viewModel
-        ) { state: LaunchesState ->
+    override val epoxyController by lazy {
+        asyncTypedEpoxyController(viewModel) { state: LaunchesState ->
             when (val launches = state.launches) {
                 is Resource.Success -> {
                     launches.data.forEach { launch ->
@@ -133,11 +117,13 @@ class LaunchesFragment : MoonShotFragment() {
                 }
                 else -> loadingView {
                     id("launches-loading")
-                    loadingText(when (state.filter) {
-                        LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
-                        LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
-                        LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
-                    })
+                    loadingText(
+                        when (state.filter) {
+                            LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
+                            LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
+                            LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
+                        }
+                    )
                 }
             }
         }

@@ -20,7 +20,7 @@ internal class NextLaunchViewModelTest {
     private val mainThreadSurrogate = newSingleThreadContext("Main thread")
     private val initState = NextLaunchState()
     private val nextLaunchUseCase = mockk<GetNextLaunchUseCase> {
-        coEvery { getNextLaunch(any()) } returns flowOf(Resource.Loading)
+        coEvery { getNextLaunch() } returns flowOf(Resource.Loading)
     }
 
     @Before
@@ -36,7 +36,7 @@ internal class NextLaunchViewModelTest {
     @Test
     fun givenNextLaunchVM_onInit_thenShouldFetchLaunchDetails() = runBlockingTest {
         val viewModel = NextLaunchViewModel(initState, nextLaunchUseCase)
-        viewModel.getNextLaunch(0L)
-        coVerify { nextLaunchUseCase.getNextLaunch(any()) }
+        viewModel.getNextLaunch()
+        coVerify { nextLaunchUseCase.getNextLaunch() }
     }
 }

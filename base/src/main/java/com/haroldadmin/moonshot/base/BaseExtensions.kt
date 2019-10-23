@@ -2,7 +2,9 @@ package com.haroldadmin.moonshot.base
 
 import android.app.Notification
 import android.content.Context
-import android.os.Handler
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
+import androidx.annotation.AnimRes
 import androidx.core.app.NotificationManagerCompat
 import com.airbnb.epoxy.AsyncEpoxyController
 import com.airbnb.epoxy.CarouselModelBuilder
@@ -30,10 +32,8 @@ open class MoonShotTypedEpoxyController<S : MoonShotState>(
 }
 
 open class MoonShotAsyncTypedEpoxyController<S : MoonShotState>(
-    diffingHandler: Handler,
-    modelBuildingHandler: Handler,
     val buildModelsCallback: EpoxyController.(state: S) -> Unit = {}
-) : TypedEpoxyController<S>(modelBuildingHandler, diffingHandler) {
+) : TypedEpoxyController<S>() {
 
     override fun buildModels(data: S) {
         buildModelsCallback(data)
@@ -60,11 +60,9 @@ fun MoonShotFragment.simpleController(
 }
 
 fun <S : MoonShotState> MoonShotFragment.asyncTypedEpoxyController(
-    modelBuildingHandler: Handler,
-    diffingHandler: Handler,
     viewModel: MoonShotViewModel<S>,
     buildModels: EpoxyController.(state: S) -> Unit
-) = MoonShotAsyncTypedEpoxyController<S>(modelBuildingHandler, diffingHandler) {
+) = MoonShotAsyncTypedEpoxyController<S>() {
     if (view == null || isRemoving) return@MoonShotAsyncTypedEpoxyController
     withState(viewModel) { state ->
         buildModels(state)
@@ -94,4 +92,8 @@ inline fun <T, R> CarouselModelBuilder.withModelsFrom(
 fun Notification.notify(context: Context, code: Int) {
     NotificationManagerCompat.from(context)
         .notify(code, this)
+}
+
+fun MoonShotFragment.layoutAnimation(@AnimRes id: Int): LayoutAnimationController {
+    return AnimationUtils.loadLayoutAnimation(requireContext(), id)
 }

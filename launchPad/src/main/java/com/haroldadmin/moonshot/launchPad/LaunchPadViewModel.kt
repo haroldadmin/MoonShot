@@ -30,7 +30,7 @@ class LaunchPadViewModel(
             }
     }
 
-    companion object: VectorViewModelFactory<LaunchPadViewModel, LaunchPadState> {
+    companion object : VectorViewModelFactory<LaunchPadViewModel, LaunchPadState> {
         override fun initialState(handle: SavedStateHandle, owner: ViewModelOwner): LaunchPadState? {
             val safeArgs = owner.safeArgs<LaunchPadFragmentArgs>()
             return LaunchPadState(safeArgs.siteId)
@@ -40,7 +40,7 @@ class LaunchPadViewModel(
             initialState: LaunchPadState,
             owner: ViewModelOwner,
             handle: SavedStateHandle
-        ): LaunchPadViewModel? = with (owner.koin()) {
+        ): LaunchPadViewModel? = with(owner.koin()) {
             LaunchPadViewModel(initialState, get())
         }
     }

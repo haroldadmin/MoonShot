@@ -21,17 +21,16 @@ android {
         versionCode = ProjectProperties.versionCode
         versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.incremental" to "true")
+            }
+        }
     }
     buildTypes {
         getByName("release") {
-            postprocessing {
-                this.isObfuscate = false
-                this.isRemoveUnusedCode = true
-                this.isOptimizeCode = true
-                this.proguardFile("proguard-rules.pro")
-            }
-//            isMinifyEnabled = true
-//            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {

@@ -16,17 +16,17 @@ class GetNextLaunchUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    suspend fun getNextLaunch(timeAtStartOfDay: Long): Flow<Resource<LaunchMinimal>> {
+    suspend fun getNextLaunch(): Flow<Resource<LaunchMinimal>> {
         return networkBoundFlow(
-            dbFetcher = { getNextLaunchCached(timeAtStartOfDay) },
+            dbFetcher = { getNextLaunchCached() },
             cacheValidator = { cachedData -> cachedData != null },
             apiFetcher = { getNextLaunchFromService() },
             dataPersister = persistLaunchesUseCase::persistLaunch
         )
     }
 
-    private suspend fun getNextLaunchCached(timeAtStartOfDay: Long) = withContext(Dispatchers.IO) {
-        launchesDao.getNextLaunch(timeAtStartOfDay)
+    suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
+        launchesDao.getNextLaunch()
     }
 
     private suspend fun getNextLaunchFromService() = withContext(Dispatchers.IO) {

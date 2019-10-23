@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters
 import androidx.work.testing.TestListenableWorkerBuilder
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.sync.SyncWorker
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertTrue
@@ -31,8 +31,8 @@ class SyncWorkerTest {
     fun setup() {
         context = ApplicationProvider.getApplicationContext()
         executor = Executors.newSingleThreadExecutor()
-        val repo = mockk<LaunchesRepository>()
-        coEvery { repo.syncLaunches() } returns Resource.Success(Unit)
+        val repo = mockk<GetLaunchesUseCase>()
+        coEvery { repo.sync() } returns Resource.Success(Unit)
 
         workerFactory = object : WorkerFactory() {
             override fun createWorker(

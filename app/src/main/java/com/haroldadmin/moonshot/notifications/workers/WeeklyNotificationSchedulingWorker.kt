@@ -7,14 +7,14 @@ import androidx.work.WorkerParameters
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.notifications.WeekBeforeLaunch
 import com.haroldadmin.moonshot.utils.log
-import com.haroldadmin.moonshotRepository.launch.LaunchesRepository
+import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 
 class WeeklyNotificationSchedulingWorker(
     appContext: Context,
     params: WorkerParameters,
-    private val launchesRepository: LaunchesRepository,
+    private val launchesRepository: GetLaunchesUseCase,
     private val launchNotificationsManager: LaunchNotificationsManager,
     private val settings: SharedPreferences
 ) : CoroutineWorker(appContext, params) {
@@ -41,9 +41,9 @@ class WeeklyNotificationSchedulingWorker(
         val end = start.plusDays(7)
 
         launchesRepository
-            .getLaunchesInTimeRangeFromDatabase(
-                start = start.millis,
-                end = end.millis,
+            .getLaunches(
+                from = start.millis,
+                to = end.millis,
                 limit = 5
             )
             .takeIf { it.isNotEmpty() }

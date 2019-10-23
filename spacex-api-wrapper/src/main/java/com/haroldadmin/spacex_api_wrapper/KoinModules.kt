@@ -37,9 +37,10 @@ val networkModule = module {
     }
 
     single<OkHttpClient> {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
         OkHttpClient.Builder()
             .addInterceptor(
-                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+                httpLoggingInterceptor.apply { httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BASIC }
             )
             .cache(get<Cache>())
             .build()

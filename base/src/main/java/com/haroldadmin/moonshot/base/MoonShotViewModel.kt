@@ -8,7 +8,6 @@ import com.haroldadmin.vector.FragmentViewModelOwner
 import com.haroldadmin.vector.SavedStateVectorViewModel
 import com.haroldadmin.vector.VectorViewModel
 import com.haroldadmin.vector.ViewModelOwner
-import com.haroldadmin.vector.loggers.androidLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.koin.android.ext.android.getKoin
@@ -48,7 +47,6 @@ abstract class SavedStateMoonShotViewModel<S : MoonShotState>(
 ) : SavedStateVectorViewModel<S>(
     initialState = initState,
     stateStoreContext = Dispatchers.Default + Job(),
-    logger = androidLogger(),
     savedStateHandle = savedStateHandle
 )
 

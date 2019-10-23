@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.mappers
 
+import com.haroldadmin.moonshot.models.toDatePrecision
 import com.haroldadmin.spacex_api_wrapper.common.OrbitParams
 import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.spacex_api_wrapper.launches.Telemetry
@@ -33,7 +34,7 @@ internal fun Launch.toDbLaunch(): DbLaunch {
         launchYear = launchYear,
         launchDate = launchDate,
         isTentative = isTentative,
-        tentativeMaxPrecision = tentativeMaxPrecision,
+        tentativeMaxPrecision = tentativeMaxPrecision.toDatePrecision(),
         tbd = tbd,
         launchWindow = launchWindow,
         ships = ships,

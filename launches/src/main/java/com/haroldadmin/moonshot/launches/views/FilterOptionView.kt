@@ -16,7 +16,7 @@ class FilterOptionView @JvmOverloads constructor(
     context: Context,
     attrSet: AttributeSet? = null,
     defStyleAttr: Int = 0
-): FrameLayout(context, attrSet, defStyleAttr) {
+) : FrameLayout(context, attrSet, defStyleAttr) {
 
     init {
         inflate(context, R.layout.view_filter_option, this)
