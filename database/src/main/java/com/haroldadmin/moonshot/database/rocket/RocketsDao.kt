@@ -68,6 +68,7 @@ abstract class RocketsDao : BaseDao<Rocket> {
 
     @Transaction
     open suspend fun saveRocketsWithPayloadWeights(rockets: List<Rocket>, payloadWeights: List<PayloadWeight>) {
+        emptyTable()
         saveAll(rockets)
         savePayloadWeights(payloadWeights)
     }
@@ -80,4 +81,9 @@ abstract class RocketsDao : BaseDao<Rocket> {
 
     @Delete
     abstract suspend fun deleteRocket(rocket: Rocket)
+
+    @Query("""
+        DELETE FROM rockets
+    """)
+    abstract suspend fun emptyTable()
 }
