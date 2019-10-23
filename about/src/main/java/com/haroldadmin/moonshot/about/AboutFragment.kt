@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.about.databinding.FragmentAboutBinding
 import com.haroldadmin.moonshot.about.views.aboutAppCard
 import com.haroldadmin.moonshot.about.views.aboutDetailCard
@@ -23,7 +23,7 @@ class AboutFragment : MoonShotFragment() {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         binding.rvAbout.apply {
             setController(epoxyController)
-            layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), appR.anim.layout_animation_fade_in)
+            layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
         }
         return binding.root
     }

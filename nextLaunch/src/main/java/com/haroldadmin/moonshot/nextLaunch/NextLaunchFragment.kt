@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
-import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.DatePrecision
@@ -51,39 +51,38 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
         return binding.root
     }
 
-    override val epoxyController by lazy {
-        asyncTypedEpoxyController(viewModel) { state ->
-            when (val launch = state.nextLaunch) {
+    override fun epoxyController() = asyncController(viewModel) { state ->
+        when (val launch = state.nextLaunch) {
 
-                is Resource.Success -> {
-                    buildLaunchModels(this, launch.data)
-                    if (launch.data.maxPrecision == DatePrecision.hour) {
+            is Resource.Success -> {
+                val data = launch()
+                buildLaunchModels(this, data)
+                if (data.maxPrecision == DatePrecision.hour) {
+                    countdownView {
+                        id("launch-countdown")
+                        launchState(state)
+                    }
+                }
+            }
+
+            is Resource.Error<LaunchMinimal, *> -> {
+                errorView {
+                    id("next-launch-error")
+                    errorText(getString(R.string.fragmentNextLaunchErrorMessage))
+                }
+                if (launch.data != null) {
+                    buildLaunchModels(this, launch.data!!)
+                    if (launch.data!!.maxPrecision == DatePrecision.hour) {
                         countdownView {
                             id("launch-countdown")
                             launchState(state)
                         }
                     }
                 }
-
-                is Resource.Error<LaunchMinimal, *> -> {
-                    errorView {
-                        id("next-launch-error")
-                        errorText(getString(R.string.fragmentNextLaunchErrorMessage))
-                    }
-                    if (launch.data != null) {
-                        buildLaunchModels(this, launch.data!!)
-                        if (launch.data!!.maxPrecision == DatePrecision.hour) {
-                            countdownView {
-                                id("launch-countdown")
-                                launchState(state)
-                            }
-                        }
-                    }
-                }
-                else -> loadingView {
-                    id("next-launch-loading")
-                    loadingText(getString(R.string.fragmentNextLaunchLoadingMessage))
-                }
+            }
+            else -> loadingView {
+                id("next-launch-loading")
+                loadingText(getString(R.string.fragmentNextLaunchLoadingMessage))
             }
         }
     }

@@ -9,9 +9,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
-import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshot.views.errorView
@@ -28,13 +29,9 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
 
     override val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
-        LaunchesViewModelFactory(
-            LaunchesState(
-                type = safeArgs.type,
-                siteId = safeArgs.siteId
-            )
-        )
+        LaunchesViewModelFactory(LaunchesState(type = safeArgs.type, siteId = safeArgs.siteId))
     }
+
     private val mainViewModel: MainViewModel by activityViewModel()
 
     override fun initDI() = Launches.init()
@@ -76,55 +73,45 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
         }
     }
 
-    override val epoxyController by lazy {
-        asyncTypedEpoxyController(viewModel) { state: LaunchesState ->
-            when (val launches = state.launches) {
-                is Resource.Success -> {
-                    launches.data.forEach { launch ->
-                        launchCard {
-                            id(launch.flightNumber)
-                            launch(launch)
-                            onLaunchClick { model, _, _, _ ->
-                                val flightNumber = model.launch().flightNumber
-                                LaunchesFragmentDirections.launchDetails(
-                                    flightNumber
-                                ).let { directions ->
-                                    findNavController().navigate(directions)
-                                }
-                            }
+    override fun epoxyController() = asyncController(viewModel) { state: LaunchesState ->
+        when (val launches = state.launches) {
+            is Resource.Success -> {
+                launches().forEach { launch ->
+                    launchCard {
+                        id(launch.flightNumber)
+                        launch(launch)
+                        onLaunchClick { _ ->
+                            val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
+                            findNavController().navigate(action)
                         }
                     }
                 }
-                is Resource.Error<List<LaunchMinimal>, *> -> {
-                    errorView {
-                        id("launch-error")
-                        errorText(getString(R.string.fragmentLaunchesErrorMessage))
-                    }
-                    launches.data?.forEach { launch ->
-                        launchCard {
-                            id(launch.flightNumber)
-                            launch(launch)
-                            onLaunchClick { model, _, _, _ ->
-                                val flightNumber = model.launch().flightNumber
-                                LaunchesFragmentDirections.launchDetails(
-                                    flightNumber
-                                ).let {
-                                    findNavController().navigate(it)
-                                }
-                            }
+            }
+            is Resource.Error<List<LaunchMinimal>, *> -> {
+                errorView {
+                    id("launch-error")
+                    errorText(getString(R.string.fragmentLaunchesErrorMessage))
+                }
+                launches()?.forEach { launch ->
+                    launchCard {
+                        id(launch.flightNumber)
+                        launch(launch)
+                        onLaunchClick { _ ->
+                            val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
+                            findNavController().navigate(action)
                         }
                     }
                 }
-                else -> loadingView {
-                    id("launches-loading")
-                    loadingText(
-                        when (state.filter) {
-                            LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
-                            LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
-                            LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
-                        }
-                    )
-                }
+            }
+            else -> loadingView {
+                id("launches-loading")
+                loadingText(
+                    when (state.filter) {
+                        LaunchesFilter.PAST -> getString(R.string.fragmentLaunchesLoadingPastMessage)
+                        LaunchesFilter.UPCOMING -> getString(R.string.fragmentLaunchesLoadingUpcomingMessage)
+                        LaunchesFilter.ALL -> getString(R.string.fragmentLaunchesLoadingAllMessage)
+                    }
+                )
             }
         }
     }

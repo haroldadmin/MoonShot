@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
-import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
@@ -57,71 +57,65 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
         return binding.root
     }
 
-    override val epoxyController by lazy {
-        asyncTypedEpoxyController(viewModel) { state ->
-            when (val rocket = state.rocket) {
-                is Resource.Success -> {
-                    rocketCard {
-                        id(rocket.data.rocketId)
-                        this.rocket(rocket.data)
-                    }
-                    expandableTextView {
-                        id("description")
-                        header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
-                        content(rocket.data.description)
-                    }
-                    detailCard {
-                        id("cost-per-launch")
-                        header(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
-                        content("$ ${rocket.data.costPerLaunch.format(resources.configuration)}")
-                    }
-                    detailCard {
-                        id("success-percentage")
-                        header(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
-                        content(rocket.data.successRatePercentage.toString())
-                    }
+    override fun epoxyController() = asyncController(viewModel) { state ->
+        when (val rocket = state.rocket) {
+            is Resource.Success -> {
+                rocketCard {
+                    id(rocket.data.rocketId)
+                    rocket(rocket.data)
                 }
-                is Resource.Error<RocketMinimal, *> -> {
-                    errorView {
-                        id("rocket-details-error")
-                        errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
-                    }
+                expandableTextView {
+                    id("description")
+                    header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
+                    content(rocket.data.description)
                 }
-                else -> loadingView {
-                    id("rocket-details-loading")
-                    loadingText(getString(R.string.rocketDetailsFragmentRocketLoadingMessage))
+                detailCard {
+                    id("cost-per-launch")
+                    header(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
+                    content("$ ${rocket.data.costPerLaunch.format(resources.configuration)}")
+                }
+                detailCard {
+                    id("success-percentage")
+                    header(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
+                    content(rocket.data.successRatePercentage.toString())
                 }
             }
+            is Resource.Error<RocketMinimal, *> -> {
+                errorView {
+                    id("rocket-details-error")
+                    errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
+                }
+            }
+            else -> loadingView {
+                id("rocket-details-loading")
+                loadingText(getString(R.string.rocketDetailsFragmentRocketLoadingMessage))
+            }
+        }
 
-            when (val launches = state.launches) {
-                is Resource.Success -> {
-                    if (launches.data.isEmpty()) return@asyncTypedEpoxyController
+        when (val launches = state.launches) {
+            is Resource.Success -> {
+                if (launches.data.isEmpty()) return@asyncController
 
-                    sectionHeaderView {
-                        id("launches-header")
-                        header(getString(R.string.rocketDetailsFragmentLaunchesHeader))
-                    }
+                sectionHeaderView {
+                    id("launches-header")
+                    header(getString(R.string.rocketDetailsFragmentLaunchesHeader))
+                }
 
-                    carousel {
-                        id("rocket-launches")
-                        withModelsFrom(launches.data) { launch ->
-                            LaunchCardModel_()
-                                .id(launch.flightNumber)
-                                .header("Launch")
-                                .launch(launch)
-                                .onLaunchClick { _ ->
-                                    RocketDetailsFragmentDirections.rocketLaunchDetails(
-                                        launch.flightNumber
-                                    )
-                                        .also { action ->
-                                            findNavController().navigate(action)
-                                        }
-                                }
-                        }
+                carousel {
+                    id("rocket-launches")
+                    withModelsFrom(launches.data) { launch ->
+                        LaunchCardModel_()
+                            .id(launch.flightNumber)
+                            .header("Launch")
+                            .launch(launch)
+                            .onLaunchClick { _ ->
+                                val action = RocketDetailsFragmentDirections.rocketLaunchDetails(launch.flightNumber)
+                                findNavController().navigate(action)
+                            }
                     }
                 }
-                else -> Unit
             }
+            else -> Unit
         }
     }
 }

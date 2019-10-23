@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
-import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
 import com.haroldadmin.moonshot.views.errorView
@@ -17,7 +18,6 @@ import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.haroldadmin.moonshot.R as appR
 
 class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>() {
@@ -49,40 +49,35 @@ class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>(
         return binding.root
     }
 
-    override val epoxyController by lazy {
-        asyncTypedEpoxyController(viewModel) { state ->
-            when (val rockets = state.rockets) {
-                is Resource.Success -> {
-                    rockets.data.forEach { rocket ->
-                        rocketCard {
-                            id(rocket.rocketId)
-                            rocket(rocket)
-                            onRocketClick { _ ->
-                                RocketsFragmentDirections
-                                    .rocketDetails(rocket.rocketId)
-                                    .also { action ->
-                                        findNavController().navigate(action)
-                                    }
-                            }
+    override fun epoxyController() = asyncController(viewModel) { state ->
+        when (val rockets = state.rockets) {
+            is Resource.Success -> {
+                rockets().forEach { rocket ->
+                    rocketCard {
+                        id(rocket.rocketId)
+                        rocket(rocket)
+                        onRocketClick { _ ->
+                            val action = RocketsFragmentDirections.rocketDetails(rocket.rocketId)
+                            findNavController().navigate(action)
                         }
                     }
                 }
-                is Resource.Error<List<RocketMinimal>, *> -> {
-                    errorView {
-                        id("error-rockets")
-                        errorText(getString(R.string.fragmentRocketsErrorText))
-                    }
-                    rockets.data?.forEach { rocket ->
-                        rocketCard {
-                            id(rocket.rocketId)
-                            rocket(rocket)
-                        }
+            }
+            is Resource.Error<List<RocketMinimal>, *> -> {
+                errorView {
+                    id("error-rockets")
+                    errorText(getString(R.string.fragmentRocketsErrorText))
+                }
+                rockets()?.forEach { rocket ->
+                    rocketCard {
+                        id(rocket.rocketId)
+                        rocket(rocket)
                     }
                 }
-                else -> loadingView {
-                    id("loading-rockets")
-                    loadingText(getString(R.string.fragmentRocketsLoadingMessage))
-                }
+            }
+            else -> loadingView {
+                id("loading-rockets")
+                loadingText(getString(R.string.fragmentRocketsLoadingMessage))
             }
         }
     }

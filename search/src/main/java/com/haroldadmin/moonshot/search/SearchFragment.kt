@@ -98,7 +98,7 @@ class SearchFragment : BottomSheetDialogFragment() {
 
     private val controller by lazy {
         asyncTypedEpoxyController(viewModel) { state ->
-            if (state.isUninitialized || state.isLoading) {
+            if (state.isUninitialized || state.isLoading || binding.etQuery.text.isNullOrBlank()) {
                 searchUninitializedView {
                     id("search-uninitialized")
                 }
@@ -107,7 +107,7 @@ class SearchFragment : BottomSheetDialogFragment() {
                     searchResultView {
                         id(launch.flightNumber)
                         resultType(R.string.searchResultTypeLaunch)
-                        result(launch.missionName ?: "Unknown")
+                        result(launch.missionName)
                         onClick { _ ->
                             val args = LaunchDetailsFragmentArgs(launch.flightNumber)
                             findNavController().navigate(appR.id.launchDetails, args.toBundle())

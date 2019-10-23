@@ -59,7 +59,7 @@ fun MoonShotFragment.simpleController(
     buildModels()
 }
 
-fun <S : MoonShotState> MoonShotFragment.asyncTypedEpoxyController(
+fun <S : MoonShotState> MoonShotFragment.asyncController(
     viewModel: MoonShotViewModel<S>,
     buildModels: EpoxyController.(state: S) -> Unit
 ) = MoonShotAsyncTypedEpoxyController<S>() {

@@ -8,7 +8,11 @@ sealed class Resource<out T> {
     /**
      * A data class to represent the scenario where the resource is available without any errors
      */
-    data class Success <out T>(val data: T, val isCached: Boolean = false) : Resource<T>()
+    data class Success <out T>(val data: T, val isCached: Boolean = false) : Resource<T>() {
+        operator fun invoke(): T {
+            return data
+        }
+    }
 
     /**
      * A data class to represent the scenario where a resource may or may not be available due to an error

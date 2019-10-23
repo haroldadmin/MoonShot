@@ -13,7 +13,7 @@ import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
-import com.haroldadmin.moonshot.base.asyncTypedEpoxyController
+import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
@@ -67,83 +67,76 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
         return binding.root
     }
 
-    override val epoxyController by lazy {
-        asyncTypedEpoxyController(viewModel) { state ->
+    override fun epoxyController() = asyncController(viewModel) { state ->
 
-            when (val launch = state.launch) {
-                is Resource.Success -> {
-                    buildLaunchModels(this, launch.data)
+        when (val launch = state.launch) {
+            is Resource.Success -> launchModels(this, launch())
+
+            is Resource.Error<LaunchMinimal, *> -> {
+                errorView {
+                    id("launch-error")
+                    errorText(getString(R.string.fragmentLaunchDetailsErrorMessage))
                 }
 
-                is Resource.Error<LaunchMinimal, *> -> {
-                    errorView {
-                        id("launch-error")
-                        errorText(getString(R.string.fragmentLaunchDetailsErrorMessage))
-                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                    }
-
-                    if (launch.data != null) {
-                        buildLaunchModels(this, launch.data!!)
-                    }
+                launch()?.let { data ->
+                    launchModels(this, data)
                 }
-                else -> loadingView {
-                    id("launch-loading")
-                    loadingText(getString(R.string.fragmentLaunchDetailsLoadingMessage))
+            }
+            else -> loadingView {
+                id("launch-loading")
+                loadingText(getString(R.string.fragmentLaunchDetailsLoadingMessage))
+                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+            }
+        }
+
+        when (val stats = state.launchStats) {
+            is Resource.Success -> {
+                sectionHeaderView {
+                    id("rocket")
+                    header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
+                }
+                launchStatsModels(stats(), this)
+            }
+            is Resource.Error<LaunchStats, *> -> {
+                sectionHeaderView {
+                    id("rocket")
+                    header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
+                }
+                errorView {
+                    id("rocket-summary-error")
+                    errorText(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
                     spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
                 }
-            }
-
-            when (val stats = state.launchStats) {
-                is Resource.Success -> {
-                    sectionHeaderView {
-                        id("rocket")
-                        header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
-                    }
-                    if (stats.data.rocket != null) {
-                        buildLaunchStats(stats.data, this)
-                    }
+                stats()?.let { data ->
+                    launchStatsModels(data, this)
                 }
-                is Resource.Error<LaunchStats, *> -> {
+            }
+            else -> Unit
+        }
+
+        when (val pictures = state.launchPictures) {
+            is Resource.Success -> {
+                if (pictures().images.isNotEmpty()) {
                     sectionHeaderView {
-                        id("rocket")
-                        header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
+                        id("photos")
+                        header("Photos")
                     }
-                    errorView {
-                        id("rocket-summary-error")
-                        errorText(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
+                    carousel {
+                        id("launch-pictures")
                         spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                    }
-                    if (stats.data != null) {
-                        buildLaunchStats(stats.data!!, this)
-                    }
-                }
-                else -> Unit
-            }
-
-            when (val pictures = state.launchPictures) {
-                is Resource.Success -> {
-                    if (pictures.data.images.isNotEmpty()) {
-                        sectionHeaderView {
-                            id("photos")
-                            header("Photos")
-                        }
-                        carousel {
-                            id("launch-pictures")
-                            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                            withModelsFrom(pictures.data.images) { url ->
-                                PictureCardModel_()
-                                    .id(url)
-                                    .imageUrl(url)
-                            }
+                        withModelsFrom(pictures.data.images) { url ->
+                            PictureCardModel_()
+                                .id(url)
+                                .imageUrl(url)
                         }
                     }
                 }
-                else -> Unit
             }
+            else -> Unit
         }
     }
 
-    private fun buildLaunchModels(controller: EpoxyController, launch: LaunchMinimal) {
+    private fun launchModels(controller: EpoxyController, launch: LaunchMinimal) {
         with(controller) {
             launchCard {
                 id("header")
@@ -153,10 +146,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             detailCard {
                 id("launch-date")
                 header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                content(launch.launchDateText
-//                    launch.launchDate?.format(resources.configuration)
-//                        ?: getString(R.string.fragmentLaunchDetailsNoLaunchDateMessage)
-                )
+                content(launch.launchDateText)
                 icon(appR.drawable.ic_round_date_range_24px)
             }
 
@@ -198,7 +188,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
         }
     }
 
-    private fun buildLaunchStats(stats: LaunchStats, controller: EpoxyController) = with(controller) {
+    private fun launchStatsModels(stats: LaunchStats, controller: EpoxyController) = with(controller) {
 
         if (stats.rocket == null) {
             return@with
@@ -209,11 +199,8 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             rocket(stats.rocket!!)
             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             onRocketClick { _ ->
-                LaunchDetailsFragmentDirections.launchRocketDetails(
-                    stats.rocket!!.rocketId
-                ).also { action ->
-                    findNavController().navigate(action)
-                }
+                val action = LaunchDetailsFragmentDirections.launchRocketDetails(stats.rocket!!.rocketId)
+                findNavController().navigate(action)
             }
         }
         textCard {
@@ -246,10 +233,8 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                             .id(link)
                             .thumbnailUrl(link.youtubeThumbnail())
                             .onYoutubeClick { _ ->
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(link.youtubeVideo())
-                                ).also { startActivity(it) }
+                                Intent(Intent.ACTION_VIEW, Uri.parse(link.youtubeVideo()))
+                                    .also { startActivity(it) }
                             }
                     }
                     name.contains("Reddit") -> {
@@ -279,8 +264,6 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     private fun showLaunchPadDetails(siteId: String) {
         LaunchDetailsFragmentDirections.launchPadDetails(siteId)
-            .let { action ->
-                findNavController().navigate(action)
-            }
+            .let { action -> findNavController().navigate(action) }
     }
 }

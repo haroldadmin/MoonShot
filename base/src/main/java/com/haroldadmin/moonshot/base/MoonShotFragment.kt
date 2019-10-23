@@ -2,7 +2,7 @@ package com.haroldadmin.moonshot.base
 
 import android.os.Bundle
 import android.view.View
-import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.TypedEpoxyController
 import com.haroldadmin.vector.VectorFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -52,9 +52,11 @@ abstract class ComplexMoonShotFragment<VM : MoonShotViewModel<S>, S : MoonShotSt
 
     protected abstract val viewModel: VM
 
-    protected abstract val epoxyController: EpoxyController
+    protected open val epoxyController: TypedEpoxyController<S> by lazy { epoxyController() }
 
     protected abstract fun renderer(state: S): Unit
 
     protected open fun initDI() = Unit
+
+    protected abstract fun epoxyController(): TypedEpoxyController<S>
 }
