@@ -158,7 +158,7 @@ private fun EditText.textChanges(): Flow<String> = callbackFlow<CharSequence> {
 
     this@textChanges.addTextChangedListener(textWatcher)
     awaitClose { this@textChanges.removeTextChangedListener(textWatcher) }
-}.filterNot { it.isBlank() }.map { seq -> seq.toString() }
+}.map { seq -> seq.toString() }
 
 private fun <S : MoonShotState> Fragment.asyncTypedEpoxyController(
     viewModel: MoonShotViewModel<S>,

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.base.koin
+import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshotRepository.search.SearchLaunchesUseCase
 import com.haroldadmin.moonshotRepository.search.SearchLaunchpadsUseCase
 import com.haroldadmin.moonshotRepository.search.SearchRocketsUseCase
@@ -29,6 +30,14 @@ class SearchViewModel(
                 searchLaunches(query, limit)
                 searchRockets(query, limit)
                 searchLaunchpads(query, limit)
+            }
+            ?: setState {
+                copy(
+                    query = searchQuery,
+                    launches = Resource.Uninitialized,
+                    launchPads = Resource.Uninitialized,
+                    rockets = Resource.Uninitialized
+                )
             }
     }
 
