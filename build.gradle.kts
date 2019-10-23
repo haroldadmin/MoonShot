@@ -7,7 +7,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:${ProjectProperties.agpVersion}")
         classpath(kotlin("gradle-plugin", version = ProjectProperties.kotlinVersion))
-        classpath(Libs.safeArgs)
+        classpath(Libs.AndroidX.safeArgs)
         classpath("com.google.gms:google-services:${ProjectProperties.gmsVersion}")
         classpath("io.fabric.tools:gradle:${ProjectProperties.fabricVersion}")
     }

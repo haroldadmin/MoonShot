@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from="../ktlint.gradle")
 
 plugins {
@@ -31,7 +29,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
 }
@@ -40,20 +37,20 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(":models"))
 
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.coroutines)
-    implementation(Libs.coroutinesAndroid)
-    implementation(Libs.kotlinReflect)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutinesAndroid)
+    implementation(Libs.Kotlin.reflect)
 
-    implementation(Libs.koinAndroid)
+    implementation(Libs.Koin.android)
 
-    implementation(Libs.room)
-    kapt(Libs.roomCompiler)
-    implementation(Libs.roomKtx)
+    implementation(Libs.Persistence.room)
+    kapt(Libs.Persistence.roomCompiler)
+    implementation(Libs.Persistence.roomKtx)
 
-    testImplementation(Libs.junit4)
-    androidTestImplementation(Libs.koinTest)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
-    androidTestImplementation(Libs.androidxTestCore)
+    testImplementation(Libs.Test.junit4)
+    androidTestImplementation(Libs.Koin.koinTest)
+    androidTestImplementation(Libs.Test.androidxJunitExt)
+    androidTestImplementation(Libs.Test.espressoCore)
+    androidTestImplementation(Libs.Test.androidxTestCore)
 }

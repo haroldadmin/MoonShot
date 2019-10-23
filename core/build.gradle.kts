@@ -21,10 +21,10 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.coroutines)
-    implementation(Libs.coroutinesAndroid)
-    testImplementation(Libs.kotlinTest)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutinesAndroid)
+    testImplementation(Libs.Test.kotlinTest)
 }
 
 java {

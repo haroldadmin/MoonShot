@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from="../ktlint.gradle")
 
 plugins {
@@ -31,15 +29,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.room)
-    kapt(Libs.roomCompiler)
-    implementation(Libs.roomKtx)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Persistence.room)
+    kapt(Libs.Persistence.roomCompiler)
+    implementation(Libs.Persistence.roomKtx)
 }

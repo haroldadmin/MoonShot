@@ -1,5 +1,4 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 apply(from="../ktlint.gradle")
 
@@ -31,7 +30,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
     packagingOptions {
@@ -60,16 +58,16 @@ dependencies {
     implementation(project(":spacex-api-wrapper"))
     api(project(":models"))
 
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.coroutines)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Kotlin.coroutines)
 
-    implementation(Libs.koinAndroid)
+    implementation(Libs.Koin.android)
 
-    implementation(Libs.networkResponseAdapter)
-    implementation(Libs.okHttp)
+    implementation(Libs.Network.Retrofit.networkResponseAdapter)
+    implementation(Libs.Network.OkHttp.okHttp)
 
-    testImplementation(Libs.coroutinesTest)
-    testImplementation(Libs.koinTest)
-    testImplementation(Libs.kotlinTest)
-    testImplementation(Libs.mockk)
+    testImplementation(Libs.Kotlin.coroutinesTest)
+    testImplementation(Libs.Koin.koinTest)
+    testImplementation(Libs.Test.kotlinTest)
+    testImplementation(Libs.Test.mockk)
 }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from="../ktlint.gradle")
 
 plugins {
@@ -30,7 +28,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
 }
@@ -41,22 +38,22 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(":core"))
 
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.coroutines)
-    implementation(Libs.coroutinesAndroid)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutinesAndroid)
 
     implementation(Libs.vector)
-    implementation(Libs.appCompat)
-    implementation(Libs.vmSavedState)
-    implementation(Libs.ktxCore)
+    implementation(Libs.AndroidX.appCompat)
+    implementation(Libs.Lifecycle.vmSavedState)
+    implementation(Libs.AndroidX.ktxCore)
 
-    implementation(Libs.epoxy)
+    implementation(Libs.Ui.epoxy)
 
-    implementation(Libs.koinAndroid)
+    implementation(Libs.Koin.android)
 
-    testImplementation(Libs.junit4)
-    androidTestImplementation(Libs.mockkAndroid)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
-    androidTestImplementation(Libs.androidxTestCore)
+    testImplementation(Libs.Test.junit4)
+    androidTestImplementation(Libs.Test.mockkAndroid)
+    androidTestImplementation(Libs.Test.androidxJunitExt)
+    androidTestImplementation(Libs.Test.espressoCore)
+    androidTestImplementation(Libs.Test.androidxTestCore)
 }

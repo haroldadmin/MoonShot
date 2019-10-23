@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from = "../ktlint.gradle")
 
 plugins {
@@ -29,7 +27,6 @@ android {
         correctErrorTypes = true
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
 }
@@ -41,22 +38,22 @@ dependencies {
     implementation(project(":base"))
     implementation(project(":core"))
 
-    implementation(Libs.kotlinStdLib)
+    implementation(Libs.Kotlin.stdLib)
 
     implementation(Libs.vector)
 
-    implementation(Libs.appCompat)
-    implementation(Libs.lifecycle)
-    implementation(Libs.materialComponents)
-    implementation(Libs.ktxCore)
-    implementation(Libs.constraintLayout)
+    implementation(Libs.AndroidX.appCompat)
+    implementation(Libs.Lifecycle.lifecycle)
+    implementation(Libs.Ui.materialComponents)
+    implementation(Libs.AndroidX.ktxCore)
+    implementation(Libs.AndroidX.constraintLayout)
 
-    implementation(Libs.epoxy)
-    kapt(Libs.epoxyProcessor)
+    implementation(Libs.Ui.epoxy)
+    kapt(Libs.Ui.epoxyProcessor)
 
-    implementation(Libs.coil)
+    implementation(Libs.Ui.coil)
 
-    testImplementation(Libs.junit4)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
+    testImplementation(Libs.Test.junit4)
+    androidTestImplementation(Libs.Test.androidxJunitExt)
+    androidTestImplementation(Libs.Test.espressoCore)
 }

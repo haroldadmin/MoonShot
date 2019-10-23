@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from = "../ktlint.gradle")
 
 plugins {
@@ -23,7 +21,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
     dataBinding {
@@ -43,29 +40,29 @@ dependencies {
     implementation(project(":models"))
     implementation(project(":moonshot-repository"))
 
-    implementation(Libs.kotlinStdLib)
-    implementation(Libs.coroutines)
-    implementation(Libs.coroutinesAndroid)
+    implementation(Libs.Kotlin.stdLib)
+    implementation(Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutinesAndroid)
 
     implementation(Libs.vector)
 
-    implementation(Libs.appCompat)
-    implementation(Libs.lifecycle)
-    implementation(Libs.materialComponents)
-    implementation(Libs.ktxCore)
-    implementation(Libs.fragmentKtx)
-    implementation(Libs.constraintLayout)
-    implementation(Libs.navigation)
-    implementation(Libs.navigationUi)
+    implementation(Libs.AndroidX.appCompat)
+    implementation(Libs.Lifecycle.lifecycle)
+    implementation(Libs.Ui.materialComponents)
+    implementation(Libs.AndroidX.ktxCore)
+    implementation(Libs.AndroidX.fragmentKtx)
+    implementation(Libs.AndroidX.constraintLayout)
+    implementation(Libs.AndroidX.navigation)
+    implementation(Libs.AndroidX.navigationUi)
 
-    implementation(Libs.koinCore)
-    implementation(Libs.koinAndroid)
-    implementation(Libs.koinViewModel)
+    implementation(Libs.Koin.koinCore)
+    implementation(Libs.Koin.android)
+    implementation(Libs.Koin.viewModel)
 
-    implementation(Libs.epoxy)
-    kapt(Libs.epoxyProcessor)
+    implementation(Libs.Ui.epoxy)
+    kapt(Libs.Ui.epoxyProcessor)
 
-    testImplementation(Libs.junit4)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
+    testImplementation(Libs.Test.junit4)
+    androidTestImplementation(Libs.Test.androidxJunitExt)
+    androidTestImplementation(Libs.Test.espressoCore)
 }

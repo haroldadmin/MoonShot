@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-
 apply(from = "../ktlint.gradle")
 
 plugins {
@@ -38,7 +36,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        this as KotlinJvmOptions
         jvmTarget = "1.8"
     }
     dataBinding {
@@ -84,43 +81,43 @@ dependencies {
     implementation(project(":base"))
     implementation(project(":moonshot-repository"))
 
-    implementation(Libs.kotlinStdLib)
+    implementation(Libs.Kotlin.stdLib)
 
-    implementation(Libs.koinAndroid)
-    implementation(Libs.koinViewModel)
-    implementation(Libs.koinScope)
+    implementation(Libs.Koin.android)
+    implementation(Libs.Koin.viewModel)
+    implementation(Libs.Koin.scope)
 
     implementation(Libs.vector)
 
-    implementation(Libs.appCompat)
-    implementation(Libs.lifecycle)
-    implementation(Libs.materialComponents)
-    implementation(Libs.ktxCore)
-    implementation(Libs.constraintLayout)
-    implementation(Libs.navigation)
-    implementation(Libs.navigationUi)
-    implementation(Libs.preference)
-    implementation(Libs.workManager)
-    implementation(Libs.fragmentKtx)
-    implementation(Libs.vmSavedState)
+    implementation(Libs.AndroidX.appCompat)
+    implementation(Libs.Lifecycle.lifecycle)
+    implementation(Libs.Ui.materialComponents)
+    implementation(Libs.AndroidX.ktxCore)
+    implementation(Libs.AndroidX.constraintLayout)
+    implementation(Libs.AndroidX.navigation)
+    implementation(Libs.AndroidX.navigationUi)
+    implementation(Libs.AndroidX.preference)
+    implementation(Libs.AndroidX.workManager)
+    implementation(Libs.AndroidX.fragmentKtx)
+    implementation(Libs.Lifecycle.vmSavedState)
 
     implementation(Libs.jodaTime)
 
-    implementation(Libs.epoxy)
-    kapt(Libs.epoxyProcessor)
+    implementation(Libs.Ui.epoxy)
+    kapt(Libs.Ui.epoxyProcessor)
 
-    implementation(Libs.coil)
+    implementation(Libs.Ui.coil)
 
-    implementation(Libs.lemniscate)
+    implementation(Libs.Ui.lemniscate)
 
-    testImplementation(Libs.junit4)
-    testImplementation(Libs.mockkAndroid)
+    testImplementation(Libs.Test.junit4)
+    testImplementation(Libs.Test.mockkAndroid)
 
-    androidTestImplementation(Libs.mockkAndroid)
-    androidTestImplementation(Libs.workManagerTestHelpers)
-    androidTestImplementation(Libs.androidxJunitExt)
-    androidTestImplementation(Libs.espressoCore)
+    androidTestImplementation(Libs.Test.mockkAndroid)
+    androidTestImplementation(Libs.AndroidX.workManagerTestHelpers)
+    androidTestImplementation(Libs.Test.androidxJunitExt)
+    androidTestImplementation(Libs.Test.espressoCore)
 
-    implementation(Libs.firebaseCore)
-    implementation(Libs.crashlytics)
+    implementation(Libs.Firebase.core)
+    implementation(Libs.Firebase.crashlytics)
 }
