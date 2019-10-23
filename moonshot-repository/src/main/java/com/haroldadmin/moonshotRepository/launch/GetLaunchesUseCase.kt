@@ -5,7 +5,7 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -59,7 +59,7 @@ class GetLaunchesUseCase(
         currentTime: Long,
         limit: Int
     ): Flow<Resource<List<LaunchMinimal>>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getPastCachedLaunches(currentTime, limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastApiLaunches() },
@@ -71,7 +71,7 @@ class GetLaunchesUseCase(
         currentTime: Long,
         limit: Int
     ): Flow<Resource<List<LaunchMinimal>>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getUpcomingCachedLaunches(currentTime, limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getUpcomingApiLaunches() },
@@ -80,7 +80,7 @@ class GetLaunchesUseCase(
     }
 
     internal suspend fun getAllLaunches(limit: Int): Flow<Resource<List<LaunchMinimal>>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getAllCachedLaunches(limit) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getAllApiLaunches() },

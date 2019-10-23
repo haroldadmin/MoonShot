@@ -5,7 +5,7 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
 import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class GetLaunchesForRocketUseCase(
         currentTime: Long,
         limit: Int = 10
     ): Flow<Resource<List<LaunchMinimal>>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getLaunchesForRocketCached(rocketId, currentTime, limit) },
             cacheValidator = { cached -> !cached.isNullOrEmpty() },
             apiFetcher = { getLaunchesForRocketFromApi() },

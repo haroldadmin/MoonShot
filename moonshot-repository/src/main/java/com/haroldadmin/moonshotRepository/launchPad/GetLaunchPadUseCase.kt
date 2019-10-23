@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
 import com.haroldadmin.moonshot.models.launchpad.LaunchPad
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class GetLaunchPadUseCase(
 ) {
 
     suspend fun getLaunchPad(siteId: String): Flow<Resource<LaunchPad>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getLaunchPadCached(siteId) },
             cacheValidator = { cached -> cached != null },
             apiFetcher = { getLaunchPadFromApi(siteId) },

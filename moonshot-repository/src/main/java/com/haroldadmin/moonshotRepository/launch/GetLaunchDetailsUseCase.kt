@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.launch.LaunchDao
 import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +19,7 @@ class GetLaunchDetailsUseCase(
 
     @ExperimentalCoroutinesApi
     suspend fun getLaunchDetails(flightNumber: Int): Flow<Resource<LaunchMinimal>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getLaunchDetailsCached(flightNumber) },
             cacheValidator = { cached -> cached != null },
             apiFetcher = { getLaunchDetailsFromApi(flightNumber) },

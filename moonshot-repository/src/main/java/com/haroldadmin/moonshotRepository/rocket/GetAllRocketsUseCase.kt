@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.rocket.RocketsDao
 import com.haroldadmin.moonshot.models.rocket.RocketMinimal
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ class GetAllRocketsUseCase(
 ) {
 
     suspend fun getAllRockets(): Flow<Resource<List<RocketMinimal>>> {
-        return networkBoundFlow(
+        return singleFetchNetworkBoundFlow(
             dbFetcher = { getAllRocketsCached() },
             cacheValidator = { cached -> !cached.isNullOrEmpty() },
             apiFetcher = { getAllRocketsFromApi() },
