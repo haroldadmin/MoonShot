@@ -16,6 +16,11 @@ android {
         versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.incremental" to "true")
+            }
+        }
     }
 
     buildTypes {
@@ -39,4 +44,5 @@ dependencies {
     implementation(Libs.Persistence.room)
     kapt(Libs.Persistence.roomCompiler)
     implementation(Libs.Persistence.roomKtx)
+    implementation(Libs.jodaTime)
 }

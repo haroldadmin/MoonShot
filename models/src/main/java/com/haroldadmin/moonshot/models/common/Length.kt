@@ -1,6 +1,6 @@
 package com.haroldadmin.moonshot.models.common
 
 data class Length(
-    val meters: Double?,
+    val metres: Double?,
     val feet: Double?
 )

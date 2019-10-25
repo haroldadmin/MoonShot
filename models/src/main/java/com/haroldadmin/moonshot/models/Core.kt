@@ -1,11 +1,11 @@
-package com.haroldadmin.moonshot.models.core
+package com.haroldadmin.moonshot.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "cores")
+@Entity
 data class Core(
     @PrimaryKey
     @ColumnInfo(name = "core_serial")
@@ -30,20 +30,4 @@ data class Core(
     val waterLanding: Boolean,
     @ColumnInfo(name = "details")
     val details: String
-) {
-    companion object {
-        fun getSampleCore() = Core(
-            "B1042",
-            4,
-            "retired",
-            null,
-            0,
-            0,
-            0,
-            1,
-            1,
-            false,
-            "The Octaweb caught on fire right after Landing due to an RP-1 fuel leak."
-        )
-    }
-}
+)
