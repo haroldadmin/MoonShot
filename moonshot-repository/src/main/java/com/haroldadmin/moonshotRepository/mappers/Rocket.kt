@@ -8,21 +8,20 @@ import com.haroldadmin.spacex_api_wrapper.rocket.Payloads
 import com.haroldadmin.spacex_api_wrapper.rocket.LandingLegs
 import com.haroldadmin.spacex_api_wrapper.rocket.SecondStage
 import com.haroldadmin.spacex_api_wrapper.rocket.PayloadWeight
-import com.haroldadmin.moonshot.models.rocket.Engine as DbEngine
-import com.haroldadmin.moonshot.models.rocket.LandingLegs as DbLandingLegs
-import com.haroldadmin.moonshot.models.rocket.PayloadWeight as DbPayloadWeight
-import com.haroldadmin.moonshot.models.rocket.Rocket as DbRocket
-import com.haroldadmin.moonshot.models.rocket.firstStage.FirstStage as DbFirstStage
-import com.haroldadmin.moonshot.models.rocket.secondStage.CompositeFairing as DbCompositeFairing
-import com.haroldadmin.moonshot.models.rocket.secondStage.Payloads as DbPayloads
-import com.haroldadmin.moonshot.models.rocket.secondStage.SecondStage as DbSecondStage
+import com.haroldadmin.moonshot.models.Engine as DbEngine
+import com.haroldadmin.moonshot.models.LandingLegs as DbLandingLegs
+import com.haroldadmin.moonshot.models.Rocket as DbRocket
+import com.haroldadmin.moonshot.models.FirstStage as DbFirstStage
+import com.haroldadmin.moonshot.models.CompositeFairing as DbCompositeFairing
+import com.haroldadmin.moonshot.models.Payloads as DbPayloads
+import com.haroldadmin.moonshot.models.SecondStage as DbSecondStage
 
 internal fun Rocket.toDbRocket(): DbRocket {
     return DbRocket(
         rocketId = this.rocketId,
         rocketName = this.rocketName,
         rocketType = this.rocketType,
-        id = this.id,
+        id = this.id.toLong(),
         active = this.active,
         stages = this.stages,
         boosters = this.boosters,
@@ -98,15 +97,5 @@ internal fun LandingLegs.toDbLandingLegs(): DbLandingLegs {
     return DbLandingLegs(
         number = this.number,
         material = this.material
-    )
-}
-
-internal fun PayloadWeight.toDbPayloadWeight(rocketId: String): DbPayloadWeight {
-    return DbPayloadWeight(
-        payloadWeightId = this.id,
-        name = this.name,
-        kg = this.weightKg,
-        lb = this.weightLb,
-        rocketId = rocketId
     )
 }

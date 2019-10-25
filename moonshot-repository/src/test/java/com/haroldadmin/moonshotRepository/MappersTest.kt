@@ -6,14 +6,12 @@ import com.haroldadmin.moonshotRepository.mappers.toDbVolume
 import com.haroldadmin.moonshotRepository.mappers.toDbLength
 import com.haroldadmin.moonshotRepository.mappers.toDbThrust
 import com.haroldadmin.moonshotRepository.mappers.toDbLocation
-import com.haroldadmin.moonshotRepository.mappers.toDbMissionSummary
 import com.haroldadmin.moonshotRepository.mappers.toDbLandingLegs
 import com.haroldadmin.moonshotRepository.mappers.toDbEngine
 import com.haroldadmin.moonshotRepository.mappers.toDbPayloads
 import com.haroldadmin.moonshotRepository.mappers.toDbFirstStage
 import com.haroldadmin.moonshotRepository.mappers.toDbLaunchPad
 import com.haroldadmin.moonshotRepository.mappers.toDbRocket
-import com.haroldadmin.moonshotRepository.mappers.toDbPayloadWeight
 import com.haroldadmin.moonshotRepository.mappers.toDbSecondStage
 import com.haroldadmin.spacex_api_wrapper.common.Mass
 import com.haroldadmin.spacex_api_wrapper.common.Volume
@@ -61,7 +59,7 @@ internal class MappersTest : DescribeSpec({
             val dbLength = apiLength.toDbLength()
 
             it("Should map values correctly") {
-                dbLength.meters shouldBe apiLength.meters
+                dbLength.metres shouldBe apiLength.meters
                 dbLength.feet shouldBe apiLength.feet
             }
         }
@@ -92,28 +90,7 @@ internal class MappersTest : DescribeSpec({
                 dbLoc.region shouldBe apiLoc.region
             }
         }
-
-        context("Mission summary") {
-            val apiMs = MissionSummary(
-                name = "Test mission",
-                flight = 0
-            )
-
-            val capSrl = "Serial 1"
-            val coreSrl = "Serial 2"
-
-            val dbMs = apiMs.toDbMissionSummary(capSrl, coreSrl)
-
-            it("Should map values correctly") {
-                with(dbMs) {
-                    capsuleSerial shouldBe capSrl
-                    coreSerial shouldBe coreSrl
-                    name shouldBe apiMs.name
-                    flight shouldBe apiMs.flight
-                }
-            }
-        }
-    }
+   }
 
     describe("Rocket Mappers") {
 
@@ -241,30 +218,6 @@ internal class MappersTest : DescribeSpec({
                     burnTimeSec shouldBe apiFs.burnTimeSecs
                     thrustVacuum shouldBe apiFs.thrustVacuum.toDbThrust()
                     thrustSeaLevel shouldBe apiFs.thrustSeaLevel.toDbThrust()
-                }
-            }
-        }
-
-        context("Payload Weight") {
-
-            val apiPw = PayloadWeight(
-                id = "ID",
-                name = "Name",
-                weightKg = 0.0,
-                weightLb = 0.0
-            )
-
-            val rocketId = "ID"
-
-            val dbPw = apiPw.toDbPayloadWeight(rocketId)
-
-            it("Should map values correctly") {
-                with(dbPw) {
-                    payloadWeightId shouldBe apiPw.id
-                    name shouldBe apiPw.name
-                    kg shouldBe apiPw.weightKg
-                    lb shouldBe apiPw.weightLb
-                    rocketId shouldBe rocketId
                 }
             }
         }

@@ -11,7 +11,7 @@ abstract class DbBoundResource<T : Any> {
     abstract suspend fun validateData(data: T?): Boolean
 
     @ExperimentalCoroutinesApi
-    suspend fun flow(): Flow<Resource<T>> = flow {
+    fun flow(): Flow<Resource<T>> = flow {
         val cached = fetchFromDb()
         if (validateData(cached)) {
             emit(Resource.Success(cached!!))
@@ -22,7 +22,7 @@ abstract class DbBoundResource<T : Any> {
 }
 
 @ExperimentalCoroutinesApi
-suspend inline fun <T : Any> dbBoundResource(
+inline fun <T : Any> dbBoundResource(
     crossinline dbFetcher: suspend () -> T?,
     crossinline validator: suspend (T?) -> Boolean
 ): Flow<Resource<T>> {

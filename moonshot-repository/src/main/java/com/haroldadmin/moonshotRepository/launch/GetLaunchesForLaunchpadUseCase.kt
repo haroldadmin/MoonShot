@@ -3,13 +3,14 @@ package com.haroldadmin.moonshotRepository.launch
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.database.LaunchDao
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.networkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -19,73 +20,72 @@ class GetLaunchesForLaunchpadUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    suspend fun getLaunchesForLaunchpad(
+    @ExperimentalCoroutinesApi
+    fun getLaunchesForLaunchpad(
         siteId: String,
-        from: Long,
-        to: Long,
-        currentTime: Long,
-        limit: Int = 15
-    ): Flow<Resource<List<LaunchMinimal>>> {
-
-        require(from <= to) {
-            "Beginning ($from) of time range should be before the end ($to)"
-        }
-
-        return when {
-            to <= currentTime -> getPastLaunches(siteId, currentTime, limit)
-            from > currentTime -> getUpcomingLaunches(siteId, currentTime, limit)
-            else -> getAllLaunches(siteId, limit)
+        type: LaunchType,
+        limit: Int = 15,
+        offset: Int = 0
+    ): Flow<Resource<List<Launch>>> {
+        return when(type) {
+            LaunchType.All -> getAllLaunches(siteId, limit, offset)
+            LaunchType.Recent -> getPastLaunches(siteId, limit, offset)
+            LaunchType.Upcoming -> getUpcomingLaunches(siteId, limit, offset)
         }
     }
 
-    internal suspend fun getAllLaunches(siteId: String, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getAllLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
         return networkBoundFlow(
-            dbFetcher = { getAllCachedLaunches(siteId, limit) },
+            dbFetcher = { getAllCachedLaunches(siteId, limit, offset) },
             cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getAllLaunchesFromService(siteId) },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) } 
         )
     }
 
-    internal suspend fun getPastLaunches(siteId: String, currentTime: Long, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getPastLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
         return networkBoundFlow(
-            dbFetcher = { getPastCachedLaunches(siteId, currentTime, limit) },
+            dbFetcher = { getPastCachedLaunches(siteId, limit, offset) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastLaunchesFromService(siteId) },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
-    internal suspend fun getUpcomingLaunches(siteId: String, currentTime: Long, limit: Int): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getUpcomingLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
         return networkBoundFlow(
-            dbFetcher = { getUpcomingCachedLaunches(siteId, currentTime, limit) },
+            dbFetcher = { getUpcomingCachedLaunches(siteId, limit, offset) },
             cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getUpcomingLaunchesFromService(siteId) },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
     private suspend fun getAllCachedLaunches(
         siteId: String,
-        limit: Int
-    ): List<LaunchMinimal> = withContext(Dispatchers.IO) {
-        launchesDao.getAllLaunchesForLaunchPad(siteId, limit)
+        limit: Int,
+        offset: Int
+    ): List<Launch> = withContext(Dispatchers.IO) {
+        launchesDao.forLaunchPad(siteId, limit, offset)
     }
 
     private suspend fun getPastCachedLaunches(
         siteId: String,
-        maxTimeStamp: Long,
-        limit: Int
-    ): List<LaunchMinimal> = withContext(Dispatchers.IO) {
-        launchesDao.getPastLaunchesForLaunchPad(siteId, maxTimeStamp, limit)
+        limit: Int,
+        offset: Int
+    ): List<Launch> = withContext(Dispatchers.IO) {
+        launchesDao.forLaunchPad(siteId, false, limit, offset)
     }
 
     private suspend fun getUpcomingCachedLaunches(
         siteId: String,
-        minTimeStamp: Long,
-        limit: Int
-    ): List<LaunchMinimal> = withContext(Dispatchers.IO) {
-        launchesDao.getUpcomingLaunchesForLaunchPad(siteId, minTimeStamp, limit)
+        limit: Int,
+        offset: Int
+    ): List<Launch> = withContext(Dispatchers.IO) {
+        launchesDao.forLaunchPad(siteId,true, limit, offset)
     }
 
     private suspend fun getAllLaunchesFromService(

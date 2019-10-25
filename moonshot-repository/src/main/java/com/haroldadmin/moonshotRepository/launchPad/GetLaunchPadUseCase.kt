@@ -2,11 +2,12 @@ package com.haroldadmin.moonshotRepository.launchPad
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
-import com.haroldadmin.moonshot.models.launchpad.LaunchPad
+import com.haroldadmin.moonshot.database.LaunchPadDao
+import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -16,7 +17,8 @@ class GetLaunchPadUseCase(
     private val persistLaunchPadUseCase: PersistLaunchPadUseCase
 ) {
 
-    suspend fun getLaunchPad(siteId: String): Flow<Resource<LaunchPad>> {
+    @ExperimentalCoroutinesApi
+    fun getLaunchPad(siteId: String): Flow<Resource<LaunchPad>> {
         return singleFetchNetworkBoundFlow(
             dbFetcher = { getLaunchPadCached(siteId) },
             cacheValidator = { cached -> cached != null },
@@ -32,6 +34,6 @@ class GetLaunchPadUseCase(
     }
 
     private suspend fun getLaunchPadCached(siteId: String) = withContext(Dispatchers.IO) {
-        launchPadDao.getLaunchPad(siteId)
+        launchPadDao.one(siteId)
     }
 }

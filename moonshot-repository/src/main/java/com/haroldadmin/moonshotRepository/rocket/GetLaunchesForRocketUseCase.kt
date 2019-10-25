@@ -2,12 +2,13 @@ package com.haroldadmin.moonshotRepository.rocket
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.rocket.RocketsDao
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.database.RocketsDao
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -17,25 +18,26 @@ class GetLaunchesForRocketUseCase(
     private val launchesService: LaunchesService
 ) {
 
-    suspend fun getLaunchesForRocket(
+    @ExperimentalCoroutinesApi
+    fun getLaunchesForRocket(
         rocketId: String,
-        currentTime: Long,
-        limit: Int = 10
-    ): Flow<Resource<List<LaunchMinimal>>> {
+        limit: Int = 10,
+        offset: Int = 0
+    ): Flow<Resource<List<Launch>>> {
         return singleFetchNetworkBoundFlow(
-            dbFetcher = { getLaunchesForRocketCached(rocketId, currentTime, limit) },
+            dbFetcher = { getLaunchesForRocketCached(rocketId, limit, offset) },
             cacheValidator = { cached -> !cached.isNullOrEmpty() },
             apiFetcher = { getLaunchesForRocketFromApi() },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
     private suspend fun getLaunchesForRocketCached(
         rocketId: String,
-        currentTime: Long,
-        limit: Int
+        limit: Int,
+        offset: Int
     ) = withContext(Dispatchers.IO) {
-        rocketsDao.getLaunchesForRocket(rocketId, currentTime, limit)
+        rocketsDao.launchesForRocket(rocketId, limit, offset)
     }
 
     private suspend fun getLaunchesForRocketFromApi() = withContext(Dispatchers.IO) {

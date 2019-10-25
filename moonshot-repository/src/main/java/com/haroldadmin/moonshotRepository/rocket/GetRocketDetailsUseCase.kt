@@ -2,11 +2,12 @@ package com.haroldadmin.moonshotRepository.rocket
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.rocket.RocketsDao
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshot.database.RocketsDao
+import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -17,7 +18,7 @@ class GetRocketDetailsUseCase(
 ) {
 
     private suspend fun getCached(rocketId: String) = withContext(Dispatchers.IO) {
-        rocketsDao.getRocket(rocketId)
+        rocketsDao.one(rocketId)
     }
 
     private suspend fun getFromApi(rocketId: String) = withContext(Dispatchers.IO) {
@@ -26,7 +27,8 @@ class GetRocketDetailsUseCase(
         }
     }
 
-    suspend fun getRocketDetails(rocketId: String): Flow<Resource<RocketMinimal>> {
+    @ExperimentalCoroutinesApi
+    fun getRocketDetails(rocketId: String): Flow<Resource<Rocket>> {
         return singleFetchNetworkBoundFlow(
             dbFetcher = { getCached(rocketId) },
             cacheValidator = { cached -> cached != null },

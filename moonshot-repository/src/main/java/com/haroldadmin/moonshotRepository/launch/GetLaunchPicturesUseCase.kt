@@ -1,7 +1,7 @@
 package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launch.LaunchDao
+import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.LaunchPictures
 import com.haroldadmin.moonshotRepository.dbBoundResource
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ class GetLaunchPicturesUseCase(
 ) {
 
     @ExperimentalCoroutinesApi
-    suspend fun getLaunchPictures(flightNumber: Int): Flow<Resource<LaunchPictures>> {
+    fun getLaunchPictures(flightNumber: Int): Flow<Resource<LaunchPictures>> {
         return dbBoundResource(
             dbFetcher = { getLaunchPicturesCached(flightNumber) },
             validator = { data -> data != null }
@@ -22,6 +22,6 @@ class GetLaunchPicturesUseCase(
     }
 
     private suspend fun getLaunchPicturesCached(flightNumber: Int) = withContext(Dispatchers.IO) {
-        launchesDao.getLaunchPictures(flightNumber)
+        launchesDao.pictures(flightNumber)
     }
 }

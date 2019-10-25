@@ -2,12 +2,12 @@ package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshot.database.LaunchDao
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -17,7 +17,8 @@ class GetNextLaunchUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    suspend fun getNextLaunch(): Flow<Resource<LaunchMinimal>> {
+    @ExperimentalCoroutinesApi
+    fun getNextLaunch(): Flow<Resource<Launch>> {
         return singleFetchNetworkBoundFlow(
             dbFetcher = { getNextLaunchCached() },
             cacheValidator = { cachedData -> cachedData != null },
@@ -26,8 +27,8 @@ class GetNextLaunchUseCase(
         )
     }
 
-    suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
-        launchesDao.getNextLaunch()
+    private suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
+        launchesDao.next()
     }
 
     private suspend fun getNextLaunchFromService() = withContext(Dispatchers.IO) {

@@ -2,8 +2,9 @@ package com.haroldadmin.moonshotRepository.search
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launchPad.LaunchPadDao
-import com.haroldadmin.moonshot.models.launchpad.LaunchPad
+import com.haroldadmin.moonshot.database.LaunchPadDao
+import com.haroldadmin.moonshot.database.SearchQuery
+import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import kotlinx.coroutines.Dispatchers
@@ -24,18 +25,18 @@ class SearchLaunchpadsUseCase(
         dbFetcher = { _, query, limit -> getSearchResultsCached(query, limit) },
         cacheValidator = { cached -> !cached.isNullOrEmpty() },
         apiFetcher = { getAllLaunchPadsFromApi() },
-        dataPersister = persistLaunchPadUseCase::persistLaunchPads
+        dataPersister = { launchPads -> persistLaunchPadUseCase.persistLaunchPads(launchPads) }
     )
 
     @ExperimentalCoroutinesApi
-    fun searchFor(query: String, limit: Int): Flow<Resource<List<LaunchPad>>> {
-        _query = query
+    fun searchFor(query: SearchQuery, limit: Int): Flow<Resource<List<LaunchPad>>> {
+        _query = query.sqlQuery()
         _limit = limit
         return resource.flow()
     }
 
     private suspend fun getSearchResultsCached(query: String, limit: Int) = withContext(Dispatchers.IO) {
-        launchPadDao.getLaunchPadsForQuery("%$query%", limit)
+        launchPadDao.forQuery(query, limit)
     }
 
     private suspend fun getAllLaunchPadsFromApi() = withContext(Dispatchers.IO) {

@@ -3,41 +3,32 @@ package com.haroldadmin.moonshotRepository.launch
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.database.LaunchDao
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-enum class LaunchesFilter {
-    PAST, UPCOMING, ALL
-}
 class GetLaunchesUseCase(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    suspend fun getLaunches(
-        filter: LaunchesFilter,
-        currentTime: Long,
-        limit: Int = 15
-    ): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    fun getLaunches(
+        filter: LaunchType,
+        limit: Int = 15,
+        offset: Int = 0
+    ): Flow<Resource<List<Launch>>> {
         return when (filter) {
-            LaunchesFilter.PAST -> getPastLaunches(currentTime, limit)
-            LaunchesFilter.UPCOMING -> getUpcomingLaunches(currentTime, limit)
-            LaunchesFilter.ALL -> getAllLaunches(limit)
+            LaunchType.Recent -> getPastLaunches(limit, offset)
+            LaunchType.Upcoming -> getUpcomingLaunches(limit, offset)
+            LaunchType.All -> getAllLaunches(limit, offset)
         }
-    }
-
-    suspend fun getLaunches(
-        from: Long,
-        to: Long,
-        limit: Int = 15
-    ): List<LaunchMinimal> {
-        return launchesDao.getLaunchesInRange(from, to, limit)
     }
 
     suspend fun sync(): Resource<Unit> {
@@ -47,7 +38,7 @@ class GetLaunchesUseCase(
 
         return when (apiLaunches) {
             is NetworkResponse.Success -> {
-                persistLaunchesUseCase.persistLaunches(apiLaunches.body)
+                persistLaunchesUseCase.persistLaunches(apiLaunches.body, shouldSynchronize = true)
                 Resource.Success(Unit)
             }
             is NetworkResponse.ServerError -> Resource.Error(Unit, null)
@@ -55,43 +46,42 @@ class GetLaunchesUseCase(
         }
     }
 
-    internal suspend fun getPastLaunches(
-        currentTime: Long,
-        limit: Int
-    ): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getPastLaunches(
+        limit: Int,
+        offset: Int
+    ): Flow<Resource<List<Launch>>> {
         return singleFetchNetworkBoundFlow(
-            dbFetcher = { getPastCachedLaunches(currentTime, limit) },
+            dbFetcher = { getPastCachedLaunches(limit, offset) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getPastApiLaunches() },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
-    internal suspend fun getUpcomingLaunches(
-        currentTime: Long,
-        limit: Int
-    ): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getUpcomingLaunches(limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
         return singleFetchNetworkBoundFlow(
-            dbFetcher = { getUpcomingCachedLaunches(currentTime, limit) },
+            dbFetcher = { getUpcomingCachedLaunches(limit, offset) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getUpcomingApiLaunches() },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
-    internal suspend fun getAllLaunches(limit: Int): Flow<Resource<List<LaunchMinimal>>> {
+    @ExperimentalCoroutinesApi
+    private fun getAllLaunches(limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
         return singleFetchNetworkBoundFlow(
-            dbFetcher = { getAllCachedLaunches(limit) },
+            dbFetcher = { getAllCachedLaunches(limit, offset) },
             cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
             apiFetcher = { getAllApiLaunches() },
-            dataPersister = persistLaunchesUseCase::persistLaunches
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
-    private suspend fun getPastCachedLaunches(currentTime: Long, limit: Int) =
-        withContext(Dispatchers.IO) {
-            launchesDao.getPastLaunches(currentTime, limit)
-        }
+    private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        launchesDao.all(false, limit, offset)
+    }
 
     private suspend fun getPastApiLaunches() = withContext(Dispatchers.IO) {
         executeWithRetry {
@@ -99,10 +89,9 @@ class GetLaunchesUseCase(
         }
     }
 
-    private suspend fun getUpcomingCachedLaunches(currentTime: Long, limit: Int) =
-        withContext(Dispatchers.IO) {
-            launchesDao.getUpcomingLaunches(currentTime, limit)
-        }
+    private suspend fun getUpcomingCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        launchesDao.all(true, limit, offset)
+    }
 
     private suspend fun getUpcomingApiLaunches() = withContext(Dispatchers.IO) {
         executeWithRetry {
@@ -110,8 +99,8 @@ class GetLaunchesUseCase(
         }
     }
 
-    private suspend fun getAllCachedLaunches(limit: Int) = withContext(Dispatchers.IO) {
-        launchesDao.getAllLaunches(limit)
+    private suspend fun getAllCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        launchesDao.all(limit, offset)
     }
 
     private suspend fun getAllApiLaunches() = withContext(Dispatchers.IO) {

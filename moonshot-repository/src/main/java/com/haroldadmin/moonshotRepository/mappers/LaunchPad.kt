@@ -1,7 +1,7 @@
 package com.haroldadmin.moonshotRepository.mappers
 
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad
-import com.haroldadmin.moonshot.models.launchpad.LaunchPad as DbLaunchPad
+import com.haroldadmin.moonshot.models.LaunchPad as DbLaunchPad
 
 internal fun LaunchPad.toDbLaunchPad(): DbLaunchPad {
     return DbLaunchPad(

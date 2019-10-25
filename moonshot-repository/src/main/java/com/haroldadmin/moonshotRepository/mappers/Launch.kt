@@ -18,13 +18,13 @@ import com.haroldadmin.moonshot.models.launch.LaunchSite as DbLaunchSite
 import com.haroldadmin.moonshot.models.launch.Links as DbLinks
 import com.haroldadmin.moonshot.models.launch.Telemetry as DbTelemetry
 import com.haroldadmin.moonshot.models.launch.Timeline as DbTimeline
-import com.haroldadmin.moonshot.models.launch.rocket.Fairings as DbFairings
-import com.haroldadmin.moonshot.models.launch.rocket.RocketSummary as DbRocketSummary
-import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary as DbFirstStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary as DbCoreSummary
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary as DbSecondStageSummary
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload as DbPayload
-import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.OrbitParams as DbOrbitParams
+import com.haroldadmin.moonshot.models.launch.Rocket as DbLaunchRocket
+import com.haroldadmin.moonshot.models.launch.Fairings as DbFairings
+//import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary as DbFirstStageSummary
+//import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary as DbCoreSummary
+//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary as DbSecondStageSummary
+//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload as DbPayload
+//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.OrbitParams as DbOrbitParams
 
 internal fun Launch.toDbLaunch(): DbLaunch {
     return DbLaunch(
@@ -32,35 +32,30 @@ internal fun Launch.toDbLaunch(): DbLaunch {
         missionName = missionName,
         missionId = missionId,
         launchYear = launchYear,
-        launchDate = launchDate,
+        launchDateUtc = launchDate,
         isTentative = isTentative,
         tentativeMaxPrecision = tentativeMaxPrecision.toDatePrecision(),
         tbd = tbd,
-        launchWindow = launchWindow,
+        launchWindow = launchWindow?.toLong(),
         ships = ships,
         launchSuccess = launchSuccess,
         details = details,
-        upcoming = upcoming,
-        staticFireDate = staticFireDate,
+        isUpcoming = upcoming,
+        staticFireDateUtc = staticFireDate,
         telemetry = telemetry.toDbTelemetry(),
         launchSite = launchSite.toDbLaunchSite(),
         links = links.toDbLinks(),
-        timeline = timeline?.toDbTimeline()
+        timeline = timeline?.toDbTimeline(),
+        rocket = rocket.toDbLaunchRocket()
     )
 }
 
 internal fun Telemetry.toDbTelemetry(): DbTelemetry {
-    return DbTelemetry(
-        flightClub
-    )
+    return DbTelemetry(flightClub)
 }
 
 internal fun LaunchSite.toDbLaunchSite(): DbLaunchSite {
-    return DbLaunchSite(
-        id,
-        name,
-        nameLong
-    )
+    return DbLaunchSite(id, name, nameLong)
 }
 
 internal fun Links.toDbLinks(): DbLinks {
@@ -108,6 +103,15 @@ internal fun Timeline.toDbTimeline(): DbTimeline {
     )
 }
 
+internal fun RocketSummary.toDbLaunchRocket(): DbLaunchRocket {
+    return DbLaunchRocket(
+        rocketId = this.rocketId,
+        rocketName = this.name,
+        rocketType = this.type,
+        fairings = this.fairing?.toDbFairings()
+    )
+}
+
 internal fun Fairing.toDbFairings(): DbFairings {
     return DbFairings(
         reused = this.reused,
@@ -116,79 +120,69 @@ internal fun Fairing.toDbFairings(): DbFairings {
         ship = this.ship
     )
 }
-
-internal fun CoreSummary.toDbCoreSummary(flightNumber: Int): DbCoreSummary {
-    return DbCoreSummary(
-        flightNumber = flightNumber,
-        serial = this.serial ?: "Unknown",
-        reused = this.reused,
-        block = this.block,
-        flight = this.flight,
-        gridfins = this.gridfins,
-        landingIntent = this.landingIntent,
-        landingType = this.landingType,
-        landingVehicle = this.landingVehicle,
-        landSuccess = this.landSuccess,
-        legs = this.legs
-    )
-}
-
-internal fun FirstStageSummary.toDbFirstStageSummary(flightNumber: Int): DbFirstStageSummary {
-    return DbFirstStageSummary(
-        flightNumber = flightNumber
-    )
-}
-
-internal fun OrbitParams.toDbOrbitParams(): DbOrbitParams {
-    return DbOrbitParams(
-        referenceSystem = this.referenceSystem,
-        longitude = this.longitude,
-        apoapsis = this.apoapsisKm,
-        argOfPericenter = this.argOfPericenter,
-        eccentricity = this.eccentricity,
-        epoch = this.epoch,
-        inclinationDeg = this.inclinationDeg,
-        lifespanYears = this.lifespanYears,
-        meanAnomaly = this.meanAnomaly,
-        meanMotion = this.meanMotion,
-        periapsisKm = this.periapsisKm,
-        periodMin = this.periodMin,
-        raan = this.raan,
-        regime = this.regime,
-        semiMajorAxisKm = this.semiMajorAxisKm
-    )
-}
-
-internal fun Payload.toDbPayload(flightNumber: Int): DbPayload {
-    return DbPayload(
-        flightNumber = flightNumber,
-        id = this.id,
-        customers = this.customers,
-        manufacturer = this.manufacturer,
-        nationality = this.nationality,
-        noradId = this.noradId,
-        orbit = this.orbit,
-        orbitParams = this.orbitParams.toDbOrbitParams(),
-        payloadMassKg = this.payloadMassKg,
-        payloadMassLbs = this.payloadMassLbs,
-        payloadType = this.payloadType,
-        reused = this.reused
-    )
-}
-
-internal fun SecondStageSummary.toDbSecondStageSummary(flightNumber: Int): DbSecondStageSummary {
-    return DbSecondStageSummary(
-        flightNumber = flightNumber,
-        block = this.block
-    )
-}
-
-internal fun RocketSummary.toDbRocketSummary(flightNumber: Int): DbRocketSummary {
-    return DbRocketSummary(
-        rocketId = this.rocketId,
-        launchFlightNumber = flightNumber,
-        rocketName = this.name,
-        rocketType = this.type,
-        fairings = this.fairing?.toDbFairings()
-    )
-}
+//
+//internal fun CoreSummary.toDbCoreSummary(flightNumber: Int): DbCoreSummary {
+//    return DbCoreSummary(
+//        flightNumber = flightNumber,
+//        serial = this.serial ?: "Unknown",
+//        reused = this.reused,
+//        block = this.block,
+//        flight = this.flight,
+//        gridfins = this.gridfins,
+//        landingIntent = this.landingIntent,
+//        landingType = this.landingType,
+//        landingVehicle = this.landingVehicle,
+//        landSuccess = this.landSuccess,
+//        legs = this.legs
+//    )
+//}
+//
+//internal fun FirstStageSummary.toDbFirstStageSummary(flightNumber: Int): DbFirstStageSummary {
+//    return DbFirstStageSummary(
+//        flightNumber = flightNumber
+//    )
+//}
+//
+//internal fun OrbitParams.toDbOrbitParams(): DbOrbitParams {
+//    return DbOrbitParams(
+//        referenceSystem = this.referenceSystem,
+//        longitude = this.longitude,
+//        apoapsis = this.apoapsisKm,
+//        argOfPericenter = this.argOfPericenter,
+//        eccentricity = this.eccentricity,
+//        epoch = this.epoch,
+//        inclinationDeg = this.inclinationDeg,
+//        lifespanYears = this.lifespanYears,
+//        meanAnomaly = this.meanAnomaly,
+//        meanMotion = this.meanMotion,
+//        periapsisKm = this.periapsisKm,
+//        periodMin = this.periodMin,
+//        raan = this.raan,
+//        regime = this.regime,
+//        semiMajorAxisKm = this.semiMajorAxisKm
+//    )
+//}
+//
+//internal fun Payload.toDbPayload(flightNumber: Int): DbPayload {
+//    return DbPayload(
+//        flightNumber = flightNumber,
+//        id = this.id,
+//        customers = this.customers,
+//        manufacturer = this.manufacturer,
+//        nationality = this.nationality,
+//        noradId = this.noradId,
+//        orbit = this.orbit,
+//        orbitParams = this.orbitParams.toDbOrbitParams(),
+//        payloadMassKg = this.payloadMassKg,
+//        payloadMassLbs = this.payloadMassLbs,
+//        payloadType = this.payloadType,
+//        reused = this.reused
+//    )
+//}
+//
+//internal fun SecondStageSummary.toDbSecondStageSummary(flightNumber: Int): DbSecondStageSummary {
+//    return DbSecondStageSummary(
+//        flightNumber = flightNumber,
+//        block = this.block
+//    )
+//}

@@ -66,7 +66,7 @@ dependencies {
     implementation(Libs.Network.Retrofit.networkResponseAdapter)
     implementation(Libs.Network.OkHttp.okHttp)
 
-    testImplementation(Libs.Kotlin.coroutinesTest)
+    testImplementation(Libs.Test.coroutinesTest)
     testImplementation(Libs.Koin.koinTest)
     testImplementation(Libs.Test.kotlinTest)
     testImplementation(Libs.Test.mockk)

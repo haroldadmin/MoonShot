@@ -2,8 +2,8 @@ package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.database.launch.LaunchDao
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.database.LaunchDao
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,7 @@ class GetLaunchDetailsUseCase(
 ) {
 
     @ExperimentalCoroutinesApi
-    suspend fun getLaunchDetails(flightNumber: Int): Flow<Resource<LaunchMinimal>> {
+    fun getLaunchDetails(flightNumber: Int): Flow<Resource<Launch>> {
         return singleFetchNetworkBoundFlow(
             dbFetcher = { getLaunchDetailsCached(flightNumber) },
             cacheValidator = { cached -> cached != null },
@@ -28,7 +28,7 @@ class GetLaunchDetailsUseCase(
     }
 
     private suspend fun getLaunchDetailsCached(flightNumber: Int) = withContext(Dispatchers.IO) {
-        launchesDao.getLaunch(flightNumber)
+        launchesDao.details(flightNumber)
     }
 
     private suspend fun getLaunchDetailsFromApi(flightNumber: Int) = withContext(Dispatchers.IO) {
