@@ -13,25 +13,16 @@ interface BaseDao <T> {
     suspend fun save(obj: T)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveAll(vararg obj: T)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveAll(objs: List<T>)
 
     @Update
     suspend fun update(obj: T)
 
     @Update
-    suspend fun updateAll(vararg obj: T)
-
-    @Update
     suspend fun updateAll(objs: List<T>)
 
     @Delete
     suspend fun delete(obj: T)
-
-    @Delete
-    suspend fun deleteAll(vararg obj: T)
 
     @Delete
     suspend fun deleteAll(objs: List<T>)

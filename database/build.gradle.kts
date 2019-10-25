@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 apply(from="../ktlint.gradle")
 
 plugins {
@@ -16,6 +18,11 @@ android {
         versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.incremental" to "true")
+            }
+        }
     }
 
     buildTypes {
@@ -30,6 +37,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
     }
 }
 
@@ -40,17 +48,21 @@ dependencies {
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
-    implementation(Libs.Kotlin.reflect)
 
     implementation(Libs.Koin.android)
+
+    implementation(Libs.AndroidX.archCoreCommon)
+    implementation(Libs.AndroidX.archCoreRuntime)
 
     implementation(Libs.Persistence.room)
     kapt(Libs.Persistence.roomCompiler)
     implementation(Libs.Persistence.roomKtx)
 
+    implementation(Libs.jodaTime)
+
     testImplementation(Libs.Test.junit4)
-    androidTestImplementation(Libs.Koin.koinTest)
+    androidTestImplementation(Libs.Test.coroutinesTest)
     androidTestImplementation(Libs.Test.androidxJunitExt)
     androidTestImplementation(Libs.Test.espressoCore)
-    androidTestImplementation(Libs.Test.androidxTestCore)
+    androidTestImplementation(Libs.Test.archCoreTesting)
 }

@@ -19,12 +19,8 @@ class Converters {
 
     // List<String> Converter
     @TypeConverter
-    fun stringToListOfString(value: String?): List<String> {
-        return value.takeIf { !it.isNullOrBlank() }
-            ?.split(",")
-            ?.fold(listOf()) { list, s ->
-                list + s
-            } ?: listOf()
+    fun stringToListOfString(value: String?): List<String>? {
+        return value?.split(",") ?: emptyList()
     }
 
     @TypeConverter
