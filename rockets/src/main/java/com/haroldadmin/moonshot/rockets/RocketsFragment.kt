@@ -11,7 +11,7 @@ import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.loadingView
@@ -25,8 +25,6 @@ class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>(
     private lateinit var binding: FragmentRocketsBinding
     override val viewModel: RocketsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
-
-    override fun initDI() = Rockets.init()
 
     override fun renderer(state: RocketsState) {
         epoxyController.setData(state)
@@ -63,7 +61,7 @@ class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>(
                     }
                 }
             }
-            is Resource.Error<List<RocketMinimal>, *> -> {
+            is Resource.Error<List<Rocket>, *> -> {
                 errorView {
                     id("error-rockets")
                     errorText(getString(R.string.fragmentRocketsErrorText))

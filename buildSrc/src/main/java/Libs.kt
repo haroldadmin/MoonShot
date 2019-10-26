@@ -4,7 +4,6 @@ object Libs {
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${ProjectProperties.kotlinVersion}"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
         const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${ProjectProperties.kotlinVersion}"
     }
 
@@ -28,6 +27,8 @@ object Libs {
         const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
         const val workManagerTestHelpers = "androidx.work:work-testing:${Versions.workManager}"
 
+        const val archCoreCommon = "androidx.arch.core:core-common:${Versions.archCore}"
+        const val archCoreRuntime = "androidx.arch.core:core-runtime:${Versions.archCore}"
     }
 
     object Lifecycle {
@@ -81,6 +82,8 @@ object Libs {
         const val androidxTestCore = "androidx.arch.core:core-testing:${Versions.androidxTestCore}"
         const val mockk = "io.mockk:mockk:${Versions.mockk}"
         const val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
+        const val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+        const val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCore}"
     }
 
     object Firebase {

@@ -29,11 +29,22 @@ abstract class LaunchDao: BaseDao<Launch> {
     @Query("""
         SELECT *
         FROM launch
-        WHERE upcoming = :isUpcoming
+        WHERE upcoming = 1
+        ORDER BY flight_number ASC
         LIMIT :limit
         OFFSET :offset
     """)
-    abstract suspend fun all(isUpcoming: Boolean, limit: Int, offset: Int = 0): List<Launch>
+    abstract suspend fun upcoming(limit: Int, offset: Int = 0): List<Launch>
+
+    @Query("""
+        SELECT *
+        FROM launch
+        WHERE upcoming = 0
+        ORDER BY flight_number DESC
+        LIMIT :limit
+        OFFSET :offset
+    """)
+    abstract suspend fun recent(limit: Int, offset: Int = 0): List<Launch>
 
     @Query("""
         SELECT *

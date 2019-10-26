@@ -14,8 +14,10 @@ import com.airbnb.epoxy.OnViewRecycled
 import com.airbnb.epoxy.TextProp
 import com.google.android.material.card.MaterialCardView
 import com.haroldadmin.moonshot.R
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.missionPatch
 import com.haroldadmin.moonshot.utils.asyncText
+import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.utils.loadNullable
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -37,17 +39,13 @@ class LaunchCard @JvmOverloads constructor(
     private val site: AppCompatTextView = findViewById(R.id.launchSite)
 
     private var onLaunchClick: OnClickListener? = null
-    private lateinit var launch: LaunchMinimal
+    private lateinit var launch: Launch
 
     @TextProp
-    fun setHeader(text: CharSequence?) {
-        header.asyncText {
-            text ?: context.getString(R.string.launchCardHeaderText)
-        }
-    }
+    fun setHeader(text: CharSequence?) = header.asyncText { text ?: context.getString(R.string.launchCardHeaderText) }
 
     @ModelProp
-    fun setLaunch(launch: LaunchMinimal) {
+    fun setLaunch(launch: Launch) {
         this.launch = launch
     }
 
@@ -58,18 +56,20 @@ class LaunchCard @JvmOverloads constructor(
 
     @AfterPropsSet
     fun useProps() {
-        name.asyncText { launch.missionName ?: context.getString(R.string.launchCardNoMissionNameText) }
+        name.asyncText(launch.missionName)
 
-        missionPatch.loadNullable(launch.missionPatch, errorRes = R.drawable.ic_rocket) {
+        missionPatch.loadNullable(launch.missionPatch(), errorRes = R.drawable.ic_rocket) {
             crossfade(true)
             error(R.drawable.ic_rocket)
             placeholder(R.drawable.ic_rocket)
             transformations(CircleCropTransformation())
         }
 
-        date.asyncText(launch.launchDateText)
+        date.asyncText {
+            context.formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision.dateFormat)
+        }
 
-        site.asyncText { launch.siteName ?: context.getString(R.string.launchCardNoSiteNameText) }
+        site.asyncText { launch.launchSite?.siteName ?: context.getString(R.string.launchCardNoSiteNameText) }
 
         onLaunchClick?.let {
             card.apply {

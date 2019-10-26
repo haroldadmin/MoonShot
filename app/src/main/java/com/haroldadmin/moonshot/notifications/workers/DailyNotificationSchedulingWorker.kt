@@ -26,30 +26,30 @@ class DailyNotificationSchedulingWorker(
 
     override suspend fun doWork(): Result {
 
-        val justBeforeLaunchNotificationsEnabled =
-            settings.getBoolean(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)
-
-        val dayBeforeLaunchNotificationsEnabled =
-            settings.getBoolean(KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)
-
-        if (justBeforeLaunchNotificationsEnabled)
-            scheduleJustBeforeLaunchNotification()
-
-        if (dayBeforeLaunchNotificationsEnabled)
-            scheduleDayBeforeLaunchNotification()
-
+//        val justBeforeLaunchNotificationsEnabled =
+//            settings.getBoolean(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)
+//
+//        val dayBeforeLaunchNotificationsEnabled =
+//            settings.getBoolean(KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING, true)
+//
+//        if (justBeforeLaunchNotificationsEnabled)
+//            scheduleJustBeforeLaunchNotification()
+//
+//        if (dayBeforeLaunchNotificationsEnabled)
+//            scheduleDayBeforeLaunchNotification()
+//
         return Result.success()
     }
-
-    private suspend fun scheduleJustBeforeLaunchNotification() = launchesRepository
-        .getNextLaunchCached()
-        .takeIf { it != null }
-        ?.let { launchNotificationsManager.schedule(JustBeforeLaunch, it.launchDate.time) }
-        ?: log("Could not get next launch from database. Not scheduling notification")
-
-    private suspend fun scheduleDayBeforeLaunchNotification() = launchesRepository
-        .getNextLaunchCached()
-        .takeIf { it != null }
-        ?.let { launchNotificationsManager.schedule(DayBeforeLaunch, it.launchDate.time) }
-        ?: log("Could not get next launch from database. Not scheduling notification")
+//
+//    private suspend fun scheduleJustBeforeLaunchNotification() = launchesRepository
+//        .getNextLaunchCached()
+//        .takeIf { it != null }
+//        ?.let { launchNotificationsManager.schedule(JustBeforeLaunch, it.launchDate.time) }
+//        ?: log("Could not get next launch from database. Not scheduling notification")
+//
+//    private suspend fun scheduleDayBeforeLaunchNotification() = launchesRepository
+//        .getNextLaunchCached()
+//        .takeIf { it != null }
+//        ?.let { launchNotificationsManager.schedule(DayBeforeLaunch, it.launchDate.time) }
+//        ?: log("Could not get next launch from database. Not scheduling notification")
 }

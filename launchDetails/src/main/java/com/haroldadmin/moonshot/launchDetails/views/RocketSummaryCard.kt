@@ -13,7 +13,7 @@ import com.airbnb.epoxy.TextProp
 import com.google.android.material.card.MaterialCardView
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launchDetails.R
-import com.haroldadmin.moonshot.models.launch.RocketSummaryMinimal
+import com.haroldadmin.moonshot.models.launch.Rocket
 import com.haroldadmin.moonshot.utils.asyncText
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -33,7 +33,7 @@ class RocketSummaryCard @JvmOverloads constructor(
     private val typeLabel: AppCompatTextView = findViewById(R.id.rocketTypeLabel)
     private val type: AppCompatTextView = findViewById(R.id.rocketType)
 
-    private lateinit var rocket: RocketSummaryMinimal
+    private lateinit var rocket: Rocket
     private var onClick: OnClickListener? = null
 
     @TextProp
@@ -47,7 +47,7 @@ class RocketSummaryCard @JvmOverloads constructor(
     }
 
     @ModelProp
-    fun setRocket(rocket: RocketSummaryMinimal) {
+    fun setRocket(rocket: Rocket) {
         this.rocket = rocket
     }
 

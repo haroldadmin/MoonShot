@@ -80,7 +80,7 @@ class GetLaunchesUseCase(
     }
 
     private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
-        launchesDao.all(false, limit, offset)
+        launchesDao.recent(limit, offset)
     }
 
     private suspend fun getPastApiLaunches() = withContext(Dispatchers.IO) {
@@ -90,7 +90,7 @@ class GetLaunchesUseCase(
     }
 
     private suspend fun getUpcomingCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
-        launchesDao.all(true, limit, offset)
+        launchesDao.upcoming(limit, offset)
     }
 
     private suspend fun getUpcomingApiLaunches() = withContext(Dispatchers.IO) {

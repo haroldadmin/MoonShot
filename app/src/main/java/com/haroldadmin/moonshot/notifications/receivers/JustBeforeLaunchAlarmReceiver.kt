@@ -9,7 +9,7 @@ import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshot.utils.format
+//import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -33,32 +33,32 @@ class JustBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corout
     private val notification by inject<LaunchNotification>(named("just-before-launch"))
 
     override fun onReceive(context: Context, intent: Intent) {
-        launch {
-            val nextLaunch = repository
-                .getNextLaunch()
-                .first()
-                .invoke()
-                .takeIf { it != null && it.maxPrecision == DatePrecision.hour }
-                ?: run {
-                    log("Could not get next launch from database. Not scheduling notification")
-                    return@launch
-                }
+//        launch {
+//            val nextLaunch = repository
+//                .getNextLaunch()
+//                .first()
+//                .invoke()
+//                .takeIf { it != null && it.maxPrecision == DatePrecision.hour }
+//                ?: run {
+//                    log("Could not get next launch from database. Not scheduling notification")
+//                    return@launch
+//                }
+//
+//            val content = LaunchNotificationContent(
+//                name = nextLaunch.missionName,
+//                site = nextLaunch.siteName ?: "Unknown",
+//                date = nextLaunch.launchDate.format(
+//                    context.resources.configuration,
+//                    DatePrecision.hour.dateFormat
+//                ),
+//                missionPatch = nextLaunch.missionPatch,
+//                flightNumber = nextLaunch.flightNumber,
+//                time = nextLaunch.launchDate.time
+//            )
 
-            val content = LaunchNotificationContent(
-                name = nextLaunch.missionName,
-                site = nextLaunch.siteName ?: "Unknown",
-                date = nextLaunch.launchDate.format(
-                    context.resources.configuration,
-                    DatePrecision.hour.dateFormat
-                ),
-                missionPatch = nextLaunch.missionPatch,
-                flightNumber = nextLaunch.flightNumber,
-                time = nextLaunch.launchDate.time
-            )
-
-            notification
-                .create(context, content)
-                .notify(context, LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_ID)
-        }
+//            notification
+//                .create(context, content)
+//                .notify(context, LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_ID)
+//        }
     }
 }

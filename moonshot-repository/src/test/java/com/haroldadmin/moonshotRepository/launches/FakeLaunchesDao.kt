@@ -18,9 +18,16 @@ internal class FakeLaunchesDao: LaunchDao() {
             .toList()
     }
 
-    override suspend fun all(isUpcoming: Boolean, limit: Int, offset: Int): List<Launch> {
+    override suspend fun upcoming(limit: Int, offset: Int): List<Launch> {
         return SampleDbData.Launches
-            .many(isUpcomingGenerator = { isUpcoming })
+            .many(isUpcomingGenerator = { true })
+            .take(limit)
+            .toList()
+    }
+
+    override suspend fun recent(limit: Int, offset: Int): List<Launch> {
+        return SampleDbData.Launches
+            .many(isUpcomingGenerator = { false })
             .take(limit)
             .toList()
     }

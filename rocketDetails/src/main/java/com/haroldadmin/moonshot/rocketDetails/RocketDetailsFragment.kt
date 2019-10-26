@@ -14,8 +14,8 @@ import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.databinding.FragmentRocketDetailsBinding
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
-import com.haroldadmin.moonshot.utils.format
+import com.haroldadmin.moonshot.models.Rocket
+import com.haroldadmin.moonshot.utils.formatNumber
 import com.haroldadmin.moonshot.views.LaunchCardModel_
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
@@ -32,8 +32,6 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
     private lateinit var binding: FragmentRocketDetailsBinding
     override val viewModel: RocketDetailsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
-
-    override fun initDI() = RocketDetails.init()
 
     override fun renderer(state: RocketDetailsState) {
         epoxyController.setData(state)
@@ -59,28 +57,28 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val rocket = state.rocket) {
-            is Resource.Success -> {
+            is Resource.Success -> with(rocket()) {
                 rocketCard {
-                    id(rocket.data.rocketId)
-                    rocket(rocket.data)
+                    id(rocketId)
+                    rocket(this@with)
                 }
                 expandableTextView {
                     id("description")
                     header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
-                    content(rocket.data.description)
+                    content(description)
                 }
                 detailCard {
                     id("cost-per-launch")
                     header(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
-                    content("$ ${rocket.data.costPerLaunch.format(resources.configuration)}")
+                    content("\$ ${formatNumber(costPerLaunch)}")
                 }
                 detailCard {
                     id("success-percentage")
                     header(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
-                    content(rocket.data.successRatePercentage.toString())
+                    content(successRatePercentage.toString())
                 }
             }
-            is Resource.Error<RocketMinimal, *> -> {
+            is Resource.Error<Rocket, *> -> {
                 errorView {
                     id("rocket-details-error")
                     errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
@@ -117,5 +115,9 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
             }
             else -> Unit
         }
+    }
+
+    private fun formatNumber(number: Long): String {
+        return requireContext().formatNumber(number)
     }
 }

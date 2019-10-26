@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.database
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import kotlinx.coroutines.runBlocking
 import com.haroldadmin.moonshot.models.SampleDbData
+import com.haroldadmin.moonshot.models.SearchQuery
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

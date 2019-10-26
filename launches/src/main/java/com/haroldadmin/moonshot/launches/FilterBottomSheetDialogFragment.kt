@@ -10,13 +10,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
 import com.haroldadmin.moonshot.launches.views.filterOptionView
-import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
+import com.haroldadmin.moonshotRepository.launch.LaunchType
 
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomSheetDialogBinding
     private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow)
-    private val onFilterClick: (LaunchesFilter) -> Unit = { filter ->
+    private val onFilterClick: (LaunchType) -> Unit = { filter ->
         viewModel.setFilter(filter)
         dismiss()
     }
@@ -37,17 +37,17 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         filterOptionView {
             id("all")
             name(getString(R.string.fragmentFilterSheetAllFilterName))
-            onFilterSelected { _ -> onFilterClick(LaunchesFilter.ALL) }
+            onFilterSelected { _ -> onFilterClick(LaunchType.All) }
         }
         filterOptionView {
             id("past")
             name(getString(R.string.fragmentFilterSheetPastFilterName))
-            onFilterSelected { _ -> onFilterClick(LaunchesFilter.PAST) }
+            onFilterSelected { _ -> onFilterClick(LaunchType.Recent) }
         }
         filterOptionView {
             id("upcoming")
             name(getString(R.string.fragmentFilterSheetUpcomingFilterName))
-            onFilterSelected { _ -> onFilterClick(LaunchesFilter.UPCOMING) }
+            onFilterSelected { _ -> onFilterClick(LaunchType.Upcoming) }
         }
     }
 }

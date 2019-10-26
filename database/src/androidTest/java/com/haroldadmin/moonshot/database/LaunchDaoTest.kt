@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.database
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.haroldadmin.moonshot.models.SampleDbData
+import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.launch.Launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -64,8 +65,8 @@ internal class LaunchDaoTest : DaoTest() {
             .toList()
             .also { dao.saveAll(it) }
 
-        val expected = samples.filter { it.isUpcoming == true }
-        val actual = dao.all(isUpcoming = true, limit = count)
+        val expected = samples.filter { it.isUpcoming == true }.sortedBy { it.flightNumber }
+        val actual = dao.upcoming(limit = count)
 
         assertEquals(expected, actual)
     }
@@ -79,8 +80,8 @@ internal class LaunchDaoTest : DaoTest() {
             .toList()
             .also { dao.saveAll(it) }
 
-        val expected = samples.filter { it.isUpcoming == false }
-        val actual = dao.all(isUpcoming = false, limit = count)
+        val expected = samples.filter { it.isUpcoming == false }.sortedByDescending { it.flightNumber }
+        val actual = dao.recent(limit = count)
 
         assertEquals(expected, actual)
     }

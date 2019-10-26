@@ -15,4 +15,8 @@
     <string name="fragmentLaunchDetailsRocketSummaryError">Error while loading Rocket Summary</string>
     <string name="fragmentLaunchDetailsLinksHeader">Links</string>
     <string name="fragmentLaunchDetailsLaunchStatusHeader">Launch Status</string>
+    <string name="launchStatusUpcoming">Upcoming</string>
+    <string name="launchStatusSuccessful">Successful</string>
+    <string name="launchStatusUnsuccessful">Unsuccessful</string>
+    <string name="launchStatusUnknown">Unknown</string>
 </resources>

@@ -18,7 +18,8 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
 import com.haroldadmin.moonshot.launchPad.views.mapCard
-import com.haroldadmin.moonshot.models.launchpad.LaunchPad
+import com.haroldadmin.moonshot.models.LaunchPad
+import com.haroldadmin.moonshot.models.successPercentage
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
@@ -34,8 +35,6 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
     private lateinit var binding: FragmentLaunchpadBinding
     override val viewModel: LaunchPadViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
-
-    override fun initDI() = Launchpad.init()
 
     override fun renderer(state: LaunchPadState) {
         epoxyController.setData(state)
@@ -66,10 +65,7 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
         when (val launchpad = state.launchPad) {
             is Resource.Success -> buildLaunchPadModels(this, launchpad())
             is Resource.Error<LaunchPad, *> -> {
-                sectionHeaderView {
-                    id("map")
-                    header(getString(R.string.itemMapCardMapHeader))
-                }
+
                 errorView {
                     id("launchpad-error")
                     errorText(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
@@ -104,7 +100,7 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
             textCard {
                 id("success-percentage")
                 header("Success Rate")
-                content(launchpad.successPercentage)
+                content(getString(R.string.successRateText, launchpad.successPercentage()))
                 onTextClick { _ ->
                     val action = LaunchPadFragmentDirections.launchPadLaunches(LaunchTypes.LAUNCHPAD, launchpad.siteId)
                     findNavController().navigate(action)

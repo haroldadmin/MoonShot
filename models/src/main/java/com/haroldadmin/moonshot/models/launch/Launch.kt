@@ -127,3 +127,27 @@ data class Timeline(
 data class LaunchPictures(
     val flickrImages: List<String>?
 )
+
+fun Launch.missionPatch(small: Boolean = false): String? {
+    return if (small) {
+        links?.missionPatchSmall
+    } else {
+        links?.missionPatch
+    }
+}
+
+fun Launch.relevantLinks(): Map<String, String> {
+    val map = mapOf(
+        "YouTube" to links?.youtubeKey.ifNullThenBlank(),
+        "Reddit Campaign" to links?.redditCampaign.ifNullThenBlank(),
+        "Reddit Launch" to links?.redditLaunch.ifNullThenBlank(),
+        "Reddit Media" to links?.redditMedia.ifNullThenBlank(),
+        "Wikipedia" to links?.wikipedia.ifNullThenBlank()
+    )
+
+    return map.filterValues { it.isNotBlank() }
+}
+
+private fun String?.ifNullThenBlank(): String {
+    return this ?: ""
+}

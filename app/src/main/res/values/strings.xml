@@ -32,4 +32,8 @@
     <string name="launchCardHeaderText">Launch</string>
     <string name="launchCardNoMissionNameText">Unknown</string>
     <string name="launchCardNoSiteNameText">Unknown</string>
+    <string name="rocketStatusTextActive">Active</string>
+    <string name="rocketStatusTextInactive">Inactive</string>
+
+    <string name="countdownImpreciseDifferenceText">%1$d %2$s</string>
 </resources>

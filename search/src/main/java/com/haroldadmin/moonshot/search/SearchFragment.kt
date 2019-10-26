@@ -35,7 +35,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import com.haroldadmin.moonshot.R as appR
@@ -46,11 +45,6 @@ class SearchFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by fragmentViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Search.init()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,8 +70,7 @@ class SearchFragment : BottomSheetDialogFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            binding
-                .etQuery
+            binding.etQuery
                 .textChanges()
                 .debounce(500)
                 .collect { viewModel.searchFor(it, 10) }
@@ -98,7 +91,7 @@ class SearchFragment : BottomSheetDialogFragment() {
 
     private val controller by lazy {
         asyncTypedEpoxyController(viewModel) { state ->
-            if (state.isUninitialized || state.isLoading || binding.etQuery.text.isNullOrBlank()) {
+            if (state.isUninitialized || state.isLoading) {
                 searchUninitializedView {
                     id("search-uninitialized")
                 }

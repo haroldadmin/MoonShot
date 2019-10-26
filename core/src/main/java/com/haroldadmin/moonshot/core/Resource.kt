@@ -5,6 +5,9 @@ package com.haroldadmin.moonshot.core
  */
 sealed class Resource<out T> {
 
+    abstract override fun hashCode(): Int
+    abstract override fun equals(other: Any?): Boolean
+
     /**
      * A data class to represent the scenario where the resource is available without any errors
      */
@@ -22,9 +25,25 @@ sealed class Resource<out T> {
     /**
      * A class to represent the loading state of an object
      */
-    object Loading : Resource<Nothing>()
+    object Loading : Resource<Nothing>() {
+        override fun hashCode(): Int {
+            return 2
+        }
 
-    object Uninitialized : Resource<Nothing>()
+        override fun equals(other: Any?): Boolean {
+            return other is Loading
+        }
+    }
+
+    object Uninitialized : Resource<Nothing>() {
+        override fun hashCode(): Int {
+            return 1
+        }
+
+        override fun equals(other: Any?): Boolean {
+            return other is Uninitialized
+        }
+    }
 }
 
 operator fun <T> Resource<T>.invoke(): T? {

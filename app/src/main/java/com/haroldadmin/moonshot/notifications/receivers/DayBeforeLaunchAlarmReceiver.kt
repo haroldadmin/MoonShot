@@ -9,7 +9,7 @@ import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshot.utils.format
+//import com.haroldadmin.moonshot.utils.format
 import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -34,32 +34,32 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver(), KoinComponent, Corouti
     private val repository by inject<GetNextLaunchUseCase>()
 
     override fun onReceive(context: Context, intent: Intent) {
-        launch {
-            val nextLaunch = repository
-                .getNextLaunch()
-                .first()
-                .invoke()
-                .takeIf { it != null && it.maxPrecision == DatePrecision.day }
-                ?: run {
-                    log("Could not get launch for next day from database. Not scheduling notifications")
-                    return@launch
-                }
-
-            val content = LaunchNotificationContent(
-                name = nextLaunch.missionName,
-                site = nextLaunch.siteName ?: "Unknown",
-                date = nextLaunch.launchDate?.format(
-                    context.resources.configuration,
-                    DatePrecision.hour.dateFormat
-                ),
-                missionPatch = nextLaunch.missionPatch,
-                flightNumber = nextLaunch.flightNumber,
-                time = nextLaunch.launchDate.time
-            )
-
-            notification
-                .create(context, content)
-                .notify(context, LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_ID)
-        }
+//        launch {
+//            val nextLaunch = repository
+//                .getNextLaunch()
+//                .first()
+//                .invoke()
+//                .takeIf { it != null && it.maxPrecision == DatePrecision.day }
+//                ?: run {
+//                    log("Could not get launch for next day from database. Not scheduling notifications")
+//                    return@launch
+//                }
+//
+//            val content = LaunchNotificationContent(
+//                name = nextLaunch.missionName,
+//                site = nextLaunch.siteName ?: "Unknown",
+//                date = nextLaunch.launchDate?.format(
+//                    context.resources.configuration,
+//                    DatePrecision.hour.dateFormat
+//                ),
+//                missionPatch = nextLaunch.missionPatch,
+//                flightNumber = nextLaunch.flightNumber,
+//                time = nextLaunch.launchDate.time
+//            )
+//
+//            notification
+//                .create(context, content)
+//                .notify(context, LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_ID)
+//        }
     }
 }

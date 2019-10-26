@@ -66,7 +66,7 @@ dependencies {
 
     testImplementation(Libs.Test.junit4)
     testImplementation(Libs.Test.mockk)
-    testImplementation(Libs.Kotlin.coroutinesTest)
+    testImplementation(Libs.Test.coroutinesTest)
     androidTestImplementation(Libs.Test.androidxJunitExt)
     androidTestImplementation(Libs.Test.espressoCore)
 }

@@ -37,19 +37,19 @@ class WeeklyNotificationSchedulingWorker(
     }
 
     private suspend fun schedule() {
-        val start = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay()
-        val end = start.plusDays(7)
-
-        launchesRepository
-            .getLaunches(
-                from = start.millis,
-                to = end.millis,
-                limit = 5
-            )
-            .takeIf { it.isNotEmpty() }
-            ?.let {
-                launchNotificationsManager.schedule(WeekBeforeLaunch, start.millis)
-            }
-            ?: log("There are no launches this week, not scheduling notifications")
+//        val start = LocalDate.now(DateTimeZone.UTC).toDateTimeAtStartOfDay()
+//        val end = start.plusDays(7)
+//
+//        launchesRepository
+//            .getLaunches(
+//                from = start.millis,
+//                to = end.millis,
+//                limit = 5
+//            )
+//            .takeIf { it.isNotEmpty() }
+//            ?.let {
+//                launchNotificationsManager.schedule(WeekBeforeLaunch, start.millis)
+//            }
+//            ?: log("There are no launches this week, not scheduling notifications")
     }
 }

@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.utils
 
+import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import android.widget.ImageView
@@ -12,23 +13,33 @@ import coil.api.load
 import coil.request.LoadRequestBuilder
 import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.models.DatePrecision
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.TimeZone
 import java.util.Timer
 import java.util.concurrent.Executor
 import kotlin.concurrent.fixedRateTimer
 
-fun Date.format(configuration: Configuration, pattern: String = DatePrecision.day.dateFormat): String {
-    val locale = ConfigurationCompat.getLocales(configuration).get(0)
-    val formatter = SimpleDateFormat(pattern, locale)
-    return formatter.format(this)
+fun Context.formatNumber(number: Long): String {
+    val locale = ConfigurationCompat.getLocales(resources.configuration)[0]
+    val formatter = NumberFormat.getInstance(locale)
+    return formatter.format(number)
 }
 
-fun Long.format(configuration: Configuration): String {
-    val locale = ConfigurationCompat.getLocales(configuration).get(0)
-    val formatter = NumberFormat.getNumberInstance(locale)
-    return formatter.format(this)
+fun Date.toLocalDateTime(): DateTime {
+    val utc = DateTime(this, DateTimeZone.UTC)
+    val currentTimeZone = DateTimeZone.forTimeZone(TimeZone.getDefault())
+    return DateTime(utc, currentTimeZone)
+}
+
+fun Context.formatDate(date: Date, pattern: String = DatePrecision.day.dateFormat): String {
+    val locale = ConfigurationCompat.getLocales(resources.configuration)[0]
+    val formatter = SimpleDateFormat(pattern, locale)
+    return formatter.format(date)
 }
 
 fun Any.log(message: String) {
@@ -61,9 +72,7 @@ fun AppCompatTextView.asyncText(text: CharSequence, executor: Executor? = null) 
 }
 
 inline fun AppCompatTextView.asyncText(executor: Executor? = null, crossinline textProducer: () -> CharSequence) {
-    this.setTextFuture(
-        PrecomputedTextCompat.getTextFuture(textProducer(), TextViewCompat.getTextMetricsParams(this), executor)
-    )
+    asyncText(textProducer(), executor)
 }
 
 // https://github.com/coil-kt/coil/issues/61

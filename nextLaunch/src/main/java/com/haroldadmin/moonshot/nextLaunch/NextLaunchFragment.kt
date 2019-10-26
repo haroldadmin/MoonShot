@@ -11,25 +11,28 @@ import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.DatePrecision
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
+import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.Date
 import com.haroldadmin.moonshot.R as appR
 
+@ExperimentalCoroutinesApi
 class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaunchState>() {
 
     private lateinit var binding: FragmentNextLaunchBinding
 
     private val mainViewModel: MainViewModel by activityViewModel()
     override val viewModel: NextLaunchViewModel by fragmentViewModel()
-
-    override fun initDI() = NextLaunch.init()
 
     override fun renderer(state: NextLaunchState) {
         epoxyController.setData(state)
@@ -55,28 +58,23 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
         when (val launch = state.nextLaunch) {
 
             is Resource.Success -> {
-                val data = launch()
-                buildLaunchModels(this, data)
-                if (data.maxPrecision == DatePrecision.hour) {
-                    countdownView {
-                        id("launch-countdown")
-                        launchState(state)
-                    }
+                buildLaunchModels(this, launch())
+                countdownView {
+                    id("launch-countdown")
+                    launchResource(launch)
                 }
             }
 
-            is Resource.Error<LaunchMinimal, *> -> {
+            is Resource.Error<Launch, *> -> {
                 errorView {
                     id("next-launch-error")
                     errorText(getString(R.string.fragmentNextLaunchErrorMessage))
                 }
-                if (launch.data != null) {
-                    buildLaunchModels(this, launch.data!!)
-                    if (launch.data!!.maxPrecision == DatePrecision.hour) {
-                        countdownView {
-                            id("launch-countdown")
-                            launchState(state)
-                        }
+                launch()?.let {
+                    buildLaunchModels(this, it)
+                    countdownView {
+                        id("launch-countdown")
+                        launchResource(launch)
                     }
                 }
             }
@@ -95,7 +93,7 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
 
     private fun buildLaunchModels(
         controller: EpoxyController,
-        launch: LaunchMinimal
+        launch: Launch
     ) {
         with(controller) {
             launchCard {
@@ -108,22 +106,26 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
             detailCard {
                 id("launch-date")
                 header(getString(R.string.fragmentNextLaunchDateHeader))
-                content(launch.launchDateText)
+                content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
                 icon(appR.drawable.ic_round_date_range_24px)
             }
 
             detailCard {
                 id("launch-site")
                 header(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
-                content(launch.siteNameLong ?: getString(R.string.siteUnknownText))
+                content(launch.launchSite?.siteNameLong ?: getString(R.string.siteUnknownText))
                 icon(appR.drawable.ic_round_place_24px)
                 onDetailClick { _ ->
-                    launch.siteId?.let { id ->
+                    launch.launchSite?.siteId?.let { id ->
                         val action = NextLaunchFragmentDirections.launchPadDetails(id)
                         findNavController().navigate(action)
                     }
                 }
             }
         }
+    }
+
+    private fun formatDate(date: Date, precision: DatePrecision): String {
+        return requireContext().formatDate(date, precision.dateFormat)
     }
 }

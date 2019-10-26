@@ -24,7 +24,7 @@ import com.haroldadmin.moonshot.models.Rocket
         LandingPad::class,
         LaunchPad::class,
         Rocket::class
-    ], version = 2, exportSchema = false
+    ], version = 3, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MoonShotDb : RoomDatabase() {
@@ -33,26 +33,4 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun rocketsDao(): RocketsDao
     abstract fun launchPadDao(): LaunchPadDao
 
-//    abstract fun capsuleDao(): CapsuleDao
-//    abstract fun missionSummaryDao(): MissionSummaryDao
-//    abstract fun coreDao(): CoreDao
-//
-//    abstract fun firstStageSummaryDao(): FirstStageSummaryDao
-//    abstract fun secondStageSummaryDao(): SecondStageSummaryDao
-//    abstract fun rocketSummaryDao(): RocketSummaryDao
-//    abstract fun launchDao(): LaunchDao
-//
-//    abstract fun thrustersDao(): ThrustersDao
-//    abstract fun dragonsDao(): DragonsDao
-//
-//    abstract fun historicalEventsDao(): HistoricalEventsDao
-//
-//    abstract fun companyInfoDao(): CompanyInfoDao
-//
-//    abstract fun landingPadDao(): LandingPadDao
-//
-//    abstract fun payloadWeightsDao(): PayloadWeightsDao
-//    abstract fun rocketsDao(): RocketsDao
-//
-//    abstract fun launchpadDao(): LaunchPadDao
 }

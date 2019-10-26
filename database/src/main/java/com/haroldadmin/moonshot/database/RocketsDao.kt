@@ -29,8 +29,8 @@ abstract class RocketsDao : BaseDao<Rocket> {
     @Query("""
         SELECT *
         FROM launch
-        WHERE rocket_id = :rocketId
-        ORDER BY flight_number ASC
+        WHERE rocket_id = :rocketId AND upcoming = 0
+        ORDER BY flight_number DESC
         LIMIT :limit
         OFFSET :offset
     """)

@@ -3,7 +3,7 @@ package com.haroldadmin.moonshotRepository.search
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.LaunchPadDao
-import com.haroldadmin.moonshot.database.SearchQuery
+import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService

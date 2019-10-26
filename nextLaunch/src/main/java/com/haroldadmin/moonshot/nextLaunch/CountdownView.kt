@@ -8,12 +8,16 @@ import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.OnViewRecycled
+import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
+import com.haroldadmin.moonshot.models.DatePrecision
+import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.utils.countdownTimer
+import java.util.Date
 import java.util.Timer
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class CountdownView @JvmOverloads constructor(
@@ -28,42 +32,29 @@ class CountdownView @JvmOverloads constructor(
 
     private val countdown: AppCompatTextView = findViewById(R.id.countdownText)
 
-    private var launchState: NextLaunchState? = null
+    private var launchRes: Resource<Launch> = Resource.Uninitialized
     private var timer: Timer? = null
 
     @ModelProp
-    fun setLaunchState(nextLaunchState: NextLaunchState) {
-        this.launchState = nextLaunchState
-    }
-
-    private fun onCountdownFinish() {
-        launchState?.nextLaunch?.invoke()?.let { launch ->
-            this.countdown.text = if (launch.launchSuccess == true) {
-                context.getString(R.string.fragmentNextLaunchCountdownSuccessfulText)
-            } else {
-                context.getString(R.string.fragmentNextLaunchCountdownFinishText)
-            }
-        }
+    fun setLaunchResource(launchRes: Resource<Launch>) {
+        this.launchRes = launchRes
     }
 
     @AfterPropsSet
     fun useProps() {
-        when (val state = launchState!!.nextLaunch) {
-            is Resource.Success -> {
-                state.data.launchDate?.time?.let { launchTime ->
-                    timer = createTimer(launchTime)
-                } ?: run {
-                    countdown.text = context.getString(R.string.fragmentNextLaunchCountdownUnknownText)
-                }
-            }
+        
+        timer?.cancel()
+        
+        when (val launch = launchRes) {
 
-            is Resource.Error<LaunchMinimal, *> -> {
-                state.data?.launchDate?.time?.let { launchTime ->
-                    timer = createTimer(launchTime)
-                } ?: run {
-                    countdown.text = context.getString(R.string.fragmentNextLaunchCountdownErrorText)
-                }
+            is Resource.Success -> setupCountdown(launch())
+
+            is Resource.Error<*, *> -> launch()?.let {
+                setupCountdown(it)
+            } ?: run {
+                countdown.text = context.getString(R.string.fragmentNextLaunchCountdownErrorText)
             }
+            else -> Unit
         }
     }
 
@@ -73,11 +64,40 @@ class CountdownView @JvmOverloads constructor(
         timer = null
     }
 
-    private fun calculateTimeUntilLaunch(
+    private fun setupCountdown(launch: Launch) = with(launch) {
+        when (tentativeMaxPrecision) {
+            DatePrecision.hour -> {
+                timer = createTimer(
+                    launchTime = launchDateUtc.time,
+                    onTick = { timeToFinish ->
+                        val timeText = createCountdownText(timeToFinish, TimeUnit.MILLISECONDS)
+                        post { countdown.text = timeText }
+                    },
+                    onCountDownFinish = {
+                        countdown.text = if (launchSuccess == true) {
+                            context.getString(R.string.fragmentNextLaunchCountdownSuccessfulText)
+                        } else {
+                            context.getString(R.string.fragmentNextLaunchCountdownFinishText)
+                        }
+                    }
+                )
+            }
+            DatePrecision.day -> {
+                val days = launchDateUtc.differenceInDays(Date())
+                val plural = resources.getQuantityString(R.plurals.day, days.toInt(), days.toInt())
+                countdown.text = plural
+            }
+            else -> {
+                countdown.text = context.getString(R.string.fragmentNextLaunchCountdownUncertainText)
+            }
+        }
+    }
+
+    private fun createCountdownText(
         timeUntilFinished: Long,
         @Suppress("SameParameterValue")
         timeUnit: TimeUnit
-    ): LaunchTime {
+    ): String {
         var delta = timeUntilFinished
         val days = timeUnit.toDays(delta)
         if (days > 0) {
@@ -93,31 +113,19 @@ class CountdownView @JvmOverloads constructor(
         }
         val seconds = timeUnit.toSeconds(delta)
 
-        return LaunchTime(days, hours, minutes, seconds)
+        return "${days}D:${hours}H:${minutes}M:${seconds}S"
     }
 
-    private fun createTimer(launchTime: Long): Timer {
+    private fun createTimer(launchTime: Long, onTick: (Long) -> Unit, onCountDownFinish: () -> Unit): Timer {
         val countDownDuration = launchTime - System.currentTimeMillis()
-
         return countdownTimer(
             duration = countDownDuration,
-            onFinish = this::onCountdownFinish
-        ) { millisUntilFinished ->
-            val timeText = calculateTimeUntilLaunch(millisUntilFinished, TimeUnit.MILLISECONDS)
-            post {
-                countdown.text = timeText.toString()
-            }
-        }
+            onFinish = onCountDownFinish,
+            action = onTick
+        )
     }
-}
 
-private data class LaunchTime(
-    val days: Long,
-    val hours: Long,
-    val minutes: Long,
-    val seconds: Long
-) {
-    override fun toString(): String {
-        return "${days}D:${hours}H:${minutes}M:${seconds}S"
+    private fun Date.differenceInDays(other: Date): Long {
+        return abs(time - other.time) / (86400 * 1000)
     }
 }

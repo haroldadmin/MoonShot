@@ -2,11 +2,13 @@ package com.haroldadmin.moonshot.database
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.haroldadmin.moonshot.models.SampleDbData
+import com.haroldadmin.moonshot.models.SearchQuery
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.random.Random
 
 @RunWith(AndroidJUnit4::class)
 internal class RocketsDaoTest: DaoTest() {
@@ -23,7 +25,7 @@ internal class RocketsDaoTest: DaoTest() {
             .toList()
             .also { rocketsDao.saveAll(it) }
 
-        val expected = samples
+        val expected = samples.sortedBy { it.rocketName }
         val actual = rocketsDao.all(limit = count)
 
         assertEquals(expected, actual)
@@ -44,7 +46,7 @@ internal class RocketsDaoTest: DaoTest() {
         val count = 20
         val rocketId = "falcon9"
         val sampleLaunches = SampleDbData.Launches
-            .many(rocketIdGenerator = { rocketId })
+            .many(rocketIdGenerator = { rocketId }, isUpcomingGenerator = { Random.nextBoolean() })
             .take(count)
             .toList()
             .also { launchesDao.saveAll(it) }
@@ -53,7 +55,7 @@ internal class RocketsDaoTest: DaoTest() {
             .one(rocketId = rocketId)
             .also { rocketsDao.save(it) }
 
-        val expected = sampleLaunches
+        val expected = sampleLaunches.filter { it.isUpcoming == false }.sortedByDescending { it.flightNumber }
         val actual = rocketsDao.launchesForRocket(rocketId = sampleRocket.rocketId, limit = count)
 
         assertEquals(expected, actual)

@@ -3,7 +3,7 @@ package com.haroldadmin.moonshotRepository.search
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.RocketsDao
-import com.haroldadmin.moonshot.database.SearchQuery
+import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService

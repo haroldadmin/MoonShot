@@ -23,18 +23,20 @@ import com.haroldadmin.moonshot.launchDetails.views.LinkCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.PictureCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshot.models.launch.LaunchStats
+import com.haroldadmin.moonshot.models.DatePrecision
+import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.relevantLinks
+import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.sectionHeaderView
-import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.Date
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, LaunchDetailsState>() {
@@ -43,8 +45,6 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     override val viewModel: LaunchDetailsViewModel by fragmentViewModel()
     private val mainViewModel: MainViewModel by activityViewModel()
-
-    override fun initDI() = LaunchDetails.init()
 
     override fun renderer(state: LaunchDetailsState) {
         epoxyController.setData(state)
@@ -68,11 +68,10 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->
-
         when (val launch = state.launch) {
             is Resource.Success -> launchModels(this, launch())
 
-            is Resource.Error<LaunchMinimal, *> -> {
+            is Resource.Error<Launch, *> -> {
                 errorView {
                     id("launch-error")
                     errorText(getString(R.string.fragmentLaunchDetailsErrorMessage))
@@ -89,54 +88,32 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             }
         }
 
-        when (val stats = state.launchStats) {
-            is Resource.Success -> {
-                sectionHeaderView {
-                    id("rocket")
-                    header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
-                }
-                launchStatsModels(stats(), this)
-            }
-            is Resource.Error<LaunchStats, *> -> {
-                sectionHeaderView {
-                    id("rocket")
-                    header(getString(R.string.fragmentLaunchDetailsRocketSummaryHeader))
-                }
-                errorView {
-                    id("rocket-summary-error")
-                    errorText(getString(R.string.fragmentLaunchDetailsRocketSummaryError))
-                    spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                }
-                stats()?.let { data ->
-                    launchStatsModels(data, this)
-                }
-            }
-            else -> Unit
-        }
-
         when (val pictures = state.launchPictures) {
             is Resource.Success -> {
-                if (pictures().images.isNotEmpty()) {
-                    sectionHeaderView {
-                        id("photos")
-                        header("Photos")
-                    }
-                    carousel {
-                        id("launch-pictures")
-                        spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                        withModelsFrom(pictures.data.images) { url ->
-                            PictureCardModel_()
-                                .id(url)
-                                .imageUrl(url)
+                pictures().flickrImages
+                    ?.filter { it.isNotBlank() }
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let { pics ->
+                        sectionHeaderView {
+                            id("photos")
+                            header("Photos")
+                        }
+                        carousel {
+                            id("launch-pictures")
+                            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+                            withModelsFrom(pics) { url ->
+                                PictureCardModel_()
+                                    .id(url)
+                                    .imageUrl(url)
+                            }
                         }
                     }
-                }
             }
             else -> Unit
         }
     }
 
-    private fun launchModels(controller: EpoxyController, launch: LaunchMinimal) {
+    private fun launchModels(controller: EpoxyController, launch: Launch) {
         with(controller) {
             launchCard {
                 id("header")
@@ -146,28 +123,29 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             detailCard {
                 id("launch-date")
                 header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                content(launch.launchDateText)
+                content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
                 icon(appR.drawable.ic_round_date_range_24px)
             }
 
             detailCard {
                 id("launch-site")
                 header(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
-                content(launch.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
+                content(launch.launchSite?.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
                 icon(appR.drawable.ic_round_place_24px)
-                onDetailClick { _ -> showLaunchPadDetails(launch.siteId!!) }
+                onDetailClick { _ -> launch.launchSite?.let { showLaunchPadDetails(it.siteId) } }
             }
 
             detailCard {
                 id("launch-success")
                 header(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
-                content({
+                content(
                     when {
-                        launch.launchSuccess == true -> "Successful"
-                        launch.launchSuccess == false -> "Unsuccessful"
-                        else -> "Unknown"
+                        launch.isUpcoming == true -> getString(R.string.launchStatusUpcoming)
+                        launch.launchSuccess == true -> getString(R.string.launchStatusSuccessful)
+                        launch.launchSuccess == false -> getString(R.string.launchStatusUnsuccessful)
+                        else -> getString(R.string.launchStatusUnknown)
                     }
-                }.invoke())
+                )
                 icon(R.drawable.ic_round_flight_takeoff_24px)
             }
 
@@ -177,43 +155,19 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                 content(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
-            launch
-                .links
-                .filterValues { !it.isNullOrBlank() }
-                .takeIf { it.isNotEmpty() }
-                ?.let { map ->
-                    @Suppress("UNCHECKED_CAST")
-                    buildLinks(map as Map<String, String>, this)
+
+            rocketSummaryCard {
+                id("launch-rocket-summary")
+                rocket(launch.rocket)
+                onRocketClick { _ ->
+                    val action = LaunchDetailsFragmentDirections.launchRocketDetails(launch.rocket.rocketId)
+                    findNavController().navigate(action)
                 }
-        }
-    }
-
-    private fun launchStatsModels(stats: LaunchStats, controller: EpoxyController) = with(controller) {
-
-        if (stats.rocket == null) {
-            return@with
-        }
-
-        rocketSummaryCard {
-            id("rocket-summary")
-            rocket(stats.rocket!!)
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-            onRocketClick { _ ->
-                val action = LaunchDetailsFragmentDirections.launchRocketDetails(stats.rocket!!.rocketId)
-                findNavController().navigate(action)
             }
-        }
-        textCard {
-            id("first-stage-summary")
-            header(getString(R.string.fragmentLaunchDetailsFirstStageSummaryHeader))
-            content("Cores: ${stats.firstStageCoreCounts}")
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
-        }
-        textCard {
-            id("second-stage-summary")
-            header(getString(R.string.fragmentLaunchDetailsSecondStageSummaryHeader))
-            content("Payloads: ${stats.secondStagePayloadCounts}")
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount / 2 }
+
+            launch.relevantLinks()
+                .takeIf { it.isNotEmpty() }
+                ?.let { map -> buildLinks(map, this) }
         }
     }
 
@@ -265,5 +219,9 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
     private fun showLaunchPadDetails(siteId: String) {
         LaunchDetailsFragmentDirections.launchPadDetails(siteId)
             .let { action -> findNavController().navigate(action) }
+    }
+
+    private fun formatDate(date: Date, precision: DatePrecision): String {
+        return requireContext().formatDate(date, precision.dateFormat)
     }
 }

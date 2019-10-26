@@ -19,11 +19,6 @@ android {
         versionCode = ProjectProperties.versionCode
         versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = mapOf("room.incremental" to "true")
-            }
-        }
     }
     buildTypes {
         getByName("release") {

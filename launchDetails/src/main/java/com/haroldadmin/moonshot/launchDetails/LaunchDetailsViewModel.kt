@@ -7,7 +7,6 @@ import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
-import com.haroldadmin.moonshotRepository.launch.GetLaunchStatsUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,14 +17,12 @@ import kotlinx.coroutines.launch
 class LaunchDetailsViewModel(
     initState: LaunchDetailsState,
     private val launchDetailsUseCase: GetLaunchDetailsUseCase,
-    private val launchStatsUseCase: GetLaunchStatsUseCase,
     private val launchPicturesUseCase: GetLaunchPicturesUseCase
 ) : MoonShotViewModel<LaunchDetailsState>(initState) {
 
     init {
         viewModelScope.launch {
             getLaunchDetails(initState.flightNumber)
-            getLaunchStats(initState.flightNumber)
             getLaunchPictures(initState.flightNumber)
         }
     }
@@ -36,16 +33,6 @@ class LaunchDetailsViewModel(
             .collect { launchRes ->
                 setState {
                     copy(launch = launchRes)
-                }
-            }
-    }
-
-    suspend fun getLaunchStats(flightNumber: Int) {
-        launchStatsUseCase
-            .getLaunchStats(flightNumber)
-            .collect { statsRes ->
-                setState {
-                    copy(launchStats = statsRes)
                 }
             }
     }
@@ -71,7 +58,7 @@ class LaunchDetailsViewModel(
             owner: ViewModelOwner,
             handle: SavedStateHandle
         ): LaunchDetailsViewModel? = with(owner.koin()) {
-            LaunchDetailsViewModel(initialState, get(), get(), get())
+            LaunchDetailsViewModel(initialState, get(), get())
         }
     }
 }

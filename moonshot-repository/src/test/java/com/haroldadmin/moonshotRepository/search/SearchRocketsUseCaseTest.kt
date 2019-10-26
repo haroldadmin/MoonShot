@@ -2,11 +2,8 @@ package com.haroldadmin.moonshotRepository.search
 
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
-import com.haroldadmin.moonshot.database.SearchQuery
+import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
-import com.haroldadmin.moonshotRepository.launches.FakeLaunchesDao
-import com.haroldadmin.moonshotRepository.launches.FakeLaunchesService
 import com.haroldadmin.moonshotRepository.rocket.PersistRocketsUseCase
 import com.haroldadmin.moonshotRepository.rockets.FakeRocketsDao
 import com.haroldadmin.moonshotRepository.rockets.FakeRocketsService

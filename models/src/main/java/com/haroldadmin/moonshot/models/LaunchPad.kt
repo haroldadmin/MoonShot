@@ -30,3 +30,7 @@ data class LaunchPad(
     @ColumnInfo(name = "site_name_long")
     val siteNameLong: String
 )
+
+fun LaunchPad.successPercentage(): String {
+    return "$successfulLaunches/$attemptedLaunches"
+}

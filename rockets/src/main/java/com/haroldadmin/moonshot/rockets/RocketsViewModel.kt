@@ -7,9 +7,11 @@ import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class RocketsViewModel(
     initState: RocketsState,
     private val allRocketsUseCase: GetAllRocketsUseCase

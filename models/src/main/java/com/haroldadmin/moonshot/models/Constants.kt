@@ -7,7 +7,7 @@ enum class DatePrecision(val dateFormat: String) {
     quarter("yyyy"),
     month("MMM, yyyy"),
     day("d MMM, yyyy"),
-    hour("hh:mm a, d MMM"),
+    hour("hh:mm a, d MMM, yyyy"),
     unknown("'Unknown'")
 }
 

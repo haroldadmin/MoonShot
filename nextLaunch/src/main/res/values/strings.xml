@@ -12,4 +12,5 @@
     <string name="fragmentNextLaunchCountdownErrorText">Error</string>
     <string name="fragmentNextLaunchCountdownUnknownText">Unknown</string>
     <string name="siteUnknownText">Unknown</string>
+    <string name="fragmentNextLaunchCountdownUncertainText">Launch Time Uncertain</string>
 </resources>

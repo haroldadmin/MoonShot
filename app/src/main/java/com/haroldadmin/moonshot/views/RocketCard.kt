@@ -14,7 +14,7 @@ import com.airbnb.epoxy.OnViewRecycled
 import com.airbnb.epoxy.TextProp
 import com.google.android.material.card.MaterialCardView
 import com.haroldadmin.moonshot.R
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshot.utils.asyncText
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
@@ -34,7 +34,7 @@ class RocketCard @JvmOverloads constructor(
     private val icon: ImageView = findViewById(R.id.rocketIcon)
     private val status: AppCompatTextView = findViewById(R.id.rocketStatus)
 
-    private lateinit var rocket: RocketMinimal
+    private lateinit var rocket: Rocket
 
     private var onClick: OnClickListener? = null
 
@@ -44,7 +44,7 @@ class RocketCard @JvmOverloads constructor(
     }
 
     @ModelProp
-    fun setRocket(rocket: RocketMinimal) {
+    fun setRocket(rocket: Rocket) {
         this.rocket = rocket
     }
 
@@ -57,7 +57,13 @@ class RocketCard @JvmOverloads constructor(
     fun useProps() {
         name.asyncText { rocket.rocketName }
         icon.load(R.drawable.ic_round_rocket_small)
-        status.asyncText(rocket.statusText)
+        status.asyncText {
+            if (rocket.active) {
+                context.getString(R.string.rocketStatusTextActive)
+            } else {
+                context.getString(R.string.rocketStatusTextInactive)
+            }
+        }
         onClick?.let { clickListener ->
             card.apply {
                 setOnClickListener(clickListener)

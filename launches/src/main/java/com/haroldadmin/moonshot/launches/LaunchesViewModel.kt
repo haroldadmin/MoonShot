@@ -6,24 +6,21 @@ import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
-import com.haroldadmin.moonshotRepository.launch.LaunchesFilter
+import com.haroldadmin.moonshotRepository.launch.LaunchType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.get
-import java.util.Calendar
 
+@ExperimentalCoroutinesApi
 class LaunchesViewModel(
     initState: LaunchesState,
     private val launchesUseCase: GetLaunchesUseCase,
     private val launchesForLaunchpadUseCase: GetLaunchesForLaunchpadUseCase
 ) : MoonShotViewModel<LaunchesState>(initState) {
-
-    private val currentTime: Long
-        get() = Calendar.getInstance().timeInMillis
 
     init {
         viewModelScope.launch {
@@ -36,7 +33,7 @@ class LaunchesViewModel(
 
     private suspend fun getAllLaunches() = withState { state ->
         launchesUseCase
-            .getLaunches(state.filter, currentTime, 15)
+            .getLaunches(state.filter, limit = 15)
             .collect { launchesResource ->
                 setState {
                     copy(launches = launchesResource)
@@ -45,21 +42,17 @@ class LaunchesViewModel(
     }
 
     private suspend fun getLaunchesForLaunchPad(siteId: String?) = withState { state ->
-        val (from, to) = getTimeStampRange(state)
-
-        if (siteId == null) {
-            throw IllegalArgumentException("Site ID is needed to fetch launches for the launchpad")
-        }
+        requireNotNull(siteId) { "Site ID is needed to fetch launches for the launchpad" }
 
         launchesForLaunchpadUseCase
-            .getLaunchesForLaunchpad(siteId, from, to, currentTime, Int.MAX_VALUE)
+            .getLaunchesForLaunchpad(siteId, state.filter, limit = Int.MAX_VALUE)
             .collect { launchesResource ->
-                val siteName = (launchesResource as? Resource.Success)?.data?.firstOrNull()?.siteName
+                val siteName = (launchesResource as? Resource.Success)?.data?.firstOrNull()?.launchSite?.siteName
                 setState { copy(launches = launchesResource, siteName = siteName) }
             }
     }
 
-    fun setFilter(filter: LaunchesFilter) = viewModelScope.launch {
+    fun setFilter(filter: LaunchType) = viewModelScope.launch {
         withState { state ->
             if (state.filter != filter) {
                 setState { copy(filter = filter, launches = Resource.Loading) }
@@ -70,21 +63,9 @@ class LaunchesViewModel(
             }
         }
     }
-
-    private fun getTimeStampRange(state: LaunchesState): Pair<Long, Long> {
-        var maxTimeStamp = Long.MAX_VALUE
-        var minTimeStamp = Long.MIN_VALUE
-
-        when (state.filter) {
-            LaunchesFilter.PAST -> maxTimeStamp = currentTime
-            LaunchesFilter.UPCOMING -> minTimeStamp = currentTime
-            LaunchesFilter.ALL -> Unit
-        }
-
-        return pairOf(minTimeStamp, maxTimeStamp)
-    }
 }
 
+@ExperimentalCoroutinesApi
 @Suppress("UNCHECKED_CAST")
 class LaunchesViewModelFactory(private val initialState: LaunchesState) : ViewModelProvider.Factory,
     KoinComponent {

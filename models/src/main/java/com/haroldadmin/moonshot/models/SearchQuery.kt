@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot.database
+package com.haroldadmin.moonshot.models
 
 /**
  * Wraps a regular string to produce a SQLite compatible `LIKE` query

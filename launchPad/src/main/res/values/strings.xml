@@ -7,4 +7,6 @@
     <string name="fragmentLaunchPadLaunchPadLoadingMessage">Loading Launch Pad details</string>
     <string name="itemMapCardContentDescription">Static map image of this location</string>
     <string name="itemMapCardMapHeader">Map</string>
+
+    <string name="successRateText">%1$s Launches</string>
 </resources>
