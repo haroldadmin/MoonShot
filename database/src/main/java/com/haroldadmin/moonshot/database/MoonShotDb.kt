@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.haroldadmin.moonshot.models.ApplicationInfo
 import com.haroldadmin.moonshot.models.Capsule
 import com.haroldadmin.moonshot.models.CompanyInfo
 import com.haroldadmin.moonshot.models.Core
@@ -23,7 +24,8 @@ import com.haroldadmin.moonshot.models.Rocket
         HistoricalEvent::class,
         LandingPad::class,
         LaunchPad::class,
-        Rocket::class
+        Rocket::class,
+        ApplicationInfo::class
     ], version = 3, exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -32,5 +34,6 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun launchDao(): LaunchDao
     abstract fun rocketsDao(): RocketsDao
     abstract fun launchPadDao(): LaunchPadDao
+    abstract fun applicationInfoDao(): ApplicationInfoDao
 
 }

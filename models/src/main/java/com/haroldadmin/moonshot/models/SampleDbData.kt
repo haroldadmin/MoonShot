@@ -12,6 +12,7 @@ import com.haroldadmin.moonshot.models.launch.Rocket as LaunchRocket
 import com.haroldadmin.moonshot.models.launch.Telemetry
 import com.haroldadmin.moonshot.models.launch.Timeline
 import org.joda.time.format.ISODateTimeFormat
+import java.util.Date
 
 object SampleDbData {
 
@@ -27,14 +28,15 @@ object SampleDbData {
             missionName: String = "Telstar 19V",
             siteId: String = "ccafs_slc_40",
             isUpcoming: Boolean = false,
-            rocketId: String = "falcon9"
+            rocketId: String = "falcon9",
+            launchDate: Date = parser.parseDateTime("2018-07-22T05:50:00.000Z").toDate()
         ): Launch {
             return Launch(
                 flightNumber = flightNumber,
                 missionName = missionName,
                 missionId = listOf("F4F83DE"),
                 launchYear = "2018",
-                launchDateUtc = parser.parseDateTime("2018-07-22T05:50:00.000Z").toDate(),
+                launchDateUtc = launchDate,
                 isTentative = false,
                 tentativeMaxPrecision = DatePrecision.hour,
                 tbd = false,
@@ -120,7 +122,8 @@ object SampleDbData {
             missionNameGenerator: (Int) -> String = { it.toString() },
             siteIdGenerator: (Int) -> String = { it.toString() },
             isUpcomingGenerator: (Int) -> Boolean = { false },
-            rocketIdGenerator: (Int) -> String = { it.toString() }
+            rocketIdGenerator: (Int) -> String = { it.toString() },
+            launchDateGenerator: (Int) -> Date = { Date(it.toLong()) }
         ): Sequence<Launch> {
             var counter = 0
             return generateSequence {
@@ -129,7 +132,8 @@ object SampleDbData {
                     missionNameGenerator(counter),
                     siteIdGenerator(counter),
                     isUpcomingGenerator(counter),
-                    rocketIdGenerator(counter)
+                    rocketIdGenerator(counter),
+                    launchDateGenerator(counter)
                 ).also { counter++ }
             }
         }

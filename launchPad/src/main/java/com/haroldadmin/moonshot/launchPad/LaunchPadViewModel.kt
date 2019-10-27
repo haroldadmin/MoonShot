@@ -8,9 +8,11 @@ import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class LaunchPadViewModel(
     initState: LaunchPadState,
     private val launchPadUseCase: GetLaunchPadUseCase

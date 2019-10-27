@@ -1,14 +1,15 @@
 package com.haroldadmin.moonshot.rocketDetails
 
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.models.launch.LaunchMinimal
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,12 +18,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 internal class RocketDetailsViewModelTest {
 
     private val mainThreadSurrogate = newSingleThreadContext("Main Thread")
     private val initialState = RocketDetailsState("test-id")
-    private val rocket = mockk<Resource.Success<RocketMinimal>>()
-    private val launches = mockk<Resource.Success<List<LaunchMinimal>>>()
+    private val rocket = mockk<Resource.Success<Rocket>>()
+    private val launches = mockk<Resource.Success<List<Launch>>>()
     private val rocketDetailsUseCase = mockk<GetRocketDetailsUseCase> {
         coEvery { getRocketDetails(any()) } returns flowOf(rocket)
     }

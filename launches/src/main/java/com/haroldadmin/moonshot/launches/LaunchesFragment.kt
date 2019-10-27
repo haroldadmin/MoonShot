@@ -20,8 +20,10 @@ import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import com.haroldadmin.vector.activityViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.haroldadmin.moonshot.R as appR
 
+@ExperimentalCoroutinesApi
 class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesState>() {
 
     private lateinit var binding: FragmentLaunchesBinding

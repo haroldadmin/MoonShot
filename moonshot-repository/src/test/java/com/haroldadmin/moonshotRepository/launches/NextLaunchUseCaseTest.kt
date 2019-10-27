@@ -10,6 +10,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import java.util.Date
 
 @ExperimentalCoroutinesApi
 internal class NextLaunchUseCaseTest: AnnotationSpec() {
@@ -28,6 +29,22 @@ internal class NextLaunchUseCaseTest: AnnotationSpec() {
             this as Resource.Success
 
             data.isUpcoming shouldBe true
+        }
+    }
+
+    @Test
+    fun `should return next launches until given date only`() = runBlocking {
+        val now = Date()
+        val weekFromNow = now.time + (86400 * 1000 * 7)
+
+        val flow = usecase.getNextLaunchesUntilDate(until = weekFromNow)
+        val emittedRes = flow.last()
+
+        with(emittedRes) {
+            shouldBeTypeOf<Resource.Success<List<Launch>>>()
+            this as Resource.Success
+
+            data.all { it.launchDateUtc.time <= weekFromNow }
         }
     }
 }

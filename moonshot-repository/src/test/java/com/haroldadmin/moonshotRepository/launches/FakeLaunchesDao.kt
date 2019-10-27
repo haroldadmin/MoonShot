@@ -4,6 +4,7 @@ import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.SampleDbData
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.LaunchPictures
+import java.util.Date
 
 internal class FakeLaunchesDao: LaunchDao() {
 
@@ -21,6 +22,16 @@ internal class FakeLaunchesDao: LaunchDao() {
     override suspend fun upcoming(limit: Int, offset: Int): List<Launch> {
         return SampleDbData.Launches
             .many(isUpcomingGenerator = { true })
+            .take(limit)
+            .toList()
+    }
+
+    override suspend fun upcoming(until: Long, limit: Int, offset: Int): List<Launch> {
+        return SampleDbData.Launches
+            .many(
+                isUpcomingGenerator = { true },
+                launchDateGenerator = { Date(until) }
+            )
             .take(limit)
             .toList()
     }

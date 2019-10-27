@@ -9,6 +9,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Date
 import kotlin.random.Random
 
 @RunWith(AndroidJUnit4::class)
@@ -67,6 +68,30 @@ internal class LaunchDaoTest : DaoTest() {
 
         val expected = samples.filter { it.isUpcoming == true }.sortedBy { it.flightNumber }
         val actual = dao.upcoming(limit = count)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun upcomingLaunchesUntilGivenDateTest() = runBlocking {
+        val count = 20
+        val currentTime = System.currentTimeMillis()
+        val weekFromNowTime = currentTime + (86400 * 1000 * 7)
+        val twoWeeksFromNowTime = currentTime + 2 * weekFromNowTime
+
+        val samples = SampleDbData.Launches
+            .many(
+                isUpcomingGenerator = { true },
+                launchDateGenerator = {
+                    if (it % 2 == 0) Date(weekFromNowTime) else Date(twoWeeksFromNowTime)
+                }
+            )
+            .take(count)
+            .toList()
+            .also { dao.saveAll(it) }
+
+        val expected = samples.filter { it.launchDateUtc.time <= weekFromNowTime }.sortedBy { it.flightNumber }
+        val actual = dao.upcoming(until = weekFromNowTime, limit = count)
 
         assertEquals(expected, actual)
     }

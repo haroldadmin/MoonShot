@@ -27,7 +27,7 @@ class GetAllRocketsUseCase(
             dbFetcher = { getAllRocketsCached(limit, offset) },
             cacheValidator = { cached -> !cached.isNullOrEmpty() },
             apiFetcher = { getAllRocketsFromApi() },
-            dataPersister = { rockets -> persistRocketsUseCase.persistApiRockets(rockets) }
+            dataPersister = { rockets -> persistRocketsUseCase.persistRockets(rockets) }
         )
     }
 
@@ -39,7 +39,7 @@ class GetAllRocketsUseCase(
 
         return when (apiRockets) {
             is NetworkResponse.Success -> {
-                persistRocketsUseCase.persistApiRockets(apiRockets.body, shouldSynchronize = true)
+                persistRocketsUseCase.persistRockets(apiRockets.body, shouldSynchronize = true)
                 Resource.Success(Unit)
             }
             is NetworkResponse.ServerError -> Resource.Error(Unit, null)

@@ -10,6 +10,10 @@ internal class FakeLaunchPadDao : LaunchPadDao() {
         return SampleDbData.LaunchPads.one(siteId = siteId)
     }
 
+    override suspend fun all(limit: Int, offset: Int): List<LaunchPad> {
+        return SampleDbData.LaunchPads.many().take(limit).toList()
+    }
+
     override suspend fun forQuery(query: String, limit: Int, offset: Int): List<LaunchPad> {
         return SampleDbData.LaunchPads
             .many(siteNameGenerator = { query })

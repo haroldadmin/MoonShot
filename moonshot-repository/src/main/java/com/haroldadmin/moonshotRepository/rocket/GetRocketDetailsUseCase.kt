@@ -33,7 +33,7 @@ class GetRocketDetailsUseCase(
             dbFetcher = { getCached(rocketId) },
             cacheValidator = { cached -> cached != null },
             apiFetcher = { getFromApi(rocketId) },
-            dataPersister = persistRocketsUseCase::persistApiRocket
+            dataPersister = persistRocketsUseCase::persistRocket
         )
     }
 }

@@ -24,6 +24,21 @@ internal class LaunchPadDaoTest: DaoTest() {
     }
 
     @Test
+    fun allLaunchPadsTest() = runBlocking {
+        val count = 20
+        val samples = SampleDbData.LaunchPads
+            .many()
+            .take(count)
+            .toList()
+            .also { dao.saveAll(it) }
+
+        val expected = samples.sortedBy { it.siteNameLong }
+        val actual = dao.all(limit = count)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun searchLaunchPadTest() = runBlocking {
         val count = 20
         val searchQuery = SearchQuery("Vandenberg")

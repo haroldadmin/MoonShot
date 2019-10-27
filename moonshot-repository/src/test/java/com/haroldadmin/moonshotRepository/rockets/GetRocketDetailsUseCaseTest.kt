@@ -35,7 +35,7 @@ class GetRocketDetailsUseCaseTest : DescribeSpec({
         }
 
         val mockPersistUseCase = mockk<PersistRocketsUseCase> {
-            coEvery { persistApiRocket(any()) } returns Unit
+            coEvery { persistRocket(any()) } returns Unit
         }
 
         val useCase = GetRocketDetailsUseCase(mockDao, mockService, mockPersistUseCase)

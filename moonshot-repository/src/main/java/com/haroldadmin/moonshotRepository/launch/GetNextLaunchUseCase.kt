@@ -27,6 +27,16 @@ class GetNextLaunchUseCase(
         )
     }
 
+    @ExperimentalCoroutinesApi
+    fun getNextLaunchesUntilDate(until: Long, limit: Int = 10, offset: Int = 0): Flow<Resource<List<Launch>>> {
+        return singleFetchNetworkBoundFlow(
+            dbFetcher = { getNextLaunchesUntilDateCached(until, limit, offset) },
+            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+            apiFetcher = { getAllUpcomingLaunchesFromApi() },
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+        )
+    }
+
     private suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
         launchesDao.next()
     }
@@ -34,6 +44,16 @@ class GetNextLaunchUseCase(
     private suspend fun getNextLaunchFromService() = withContext(Dispatchers.IO) {
         executeWithRetry {
             launchesService.getNextLaunch().await()
+        }
+    }
+
+    private suspend fun getNextLaunchesUntilDateCached(until: Long, limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        launchesDao.upcoming(until, limit, offset)
+    }
+
+    private suspend fun getAllUpcomingLaunchesFromApi() = withContext(Dispatchers.IO) {
+        executeWithRetry {
+            launchesService.getUpcomingLaunches().await()
         }
     }
 }

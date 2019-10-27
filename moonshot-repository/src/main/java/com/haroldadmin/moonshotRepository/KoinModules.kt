@@ -1,9 +1,11 @@
 package com.haroldadmin.moonshotRepository
 
+import com.haroldadmin.moonshot.database.ApplicationInfoDao
 import com.haroldadmin.moonshot.database.databaseModule
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.database.LaunchPadDao
 import com.haroldadmin.moonshot.database.RocketsDao
+import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchDetailsUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
@@ -48,6 +50,20 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     factory { SearchLaunchesUseCase(get<LaunchDao>(), get<LaunchesService>(), get<PersistLaunchesUseCase>()) }
     factory { SearchLaunchpadsUseCase(get<LaunchPadDao>(), get<LaunchPadService>(), get<PersistLaunchPadUseCase>()) }
     factory { SearchRocketsUseCase(get<RocketsDao>(), get<RocketsService>(), get<PersistRocketsUseCase>()) }
+
+    factory { ApplicationInfoUseCase(get<ApplicationInfoDao>()) }
+
+    factory {
+        SyncResourcesUseCase(
+            get<GetLaunchesUseCase>(),
+            get<PersistLaunchesUseCase>(),
+            get<GetAllRocketsUseCase>(),
+            get<PersistRocketsUseCase>(),
+            get<GetLaunchPadUseCase>(),
+            get<PersistLaunchPadUseCase>(),
+            get<ApplicationInfoUseCase>()
+        )
+    }
 
     single<Cache> {
         Cache(androidContext().cacheDir, 10 * 1000 * 1000)

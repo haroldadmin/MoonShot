@@ -31,6 +31,7 @@ class MoonShotDbRule: TestWatcher() {
                     LaunchDao::class -> launchDao() as T
                     RocketsDao::class -> rocketsDao() as T
                     LaunchPadDao::class -> launchPadDao() as T
+                    ApplicationInfoDao::class -> applicationInfoDao() as T
                     else -> error("Unknown DAO requested")
                 }
             }

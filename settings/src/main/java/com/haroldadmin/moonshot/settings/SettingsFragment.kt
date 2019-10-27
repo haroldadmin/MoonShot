@@ -18,8 +18,6 @@ import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
-import com.haroldadmin.moonshot.notifications.WeekBeforeLaunch
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.CoroutineScope
@@ -72,18 +70,6 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
             } else {
                 log("Disabling day before launch notifications")
                 launchNotificationsManager.disable(DayBeforeLaunch)
-            }
-            true
-        }
-
-        findPreference<SwitchPreferenceCompat>(KEY_WEEK_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
-            if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
-
-            if (isEnabled) {
-                launchNotificationsManager.enable()
-            } else {
-                log("Disabling week before launch notifications")
-                launchNotificationsManager.disable(WeekBeforeLaunch)
             }
             true
         }

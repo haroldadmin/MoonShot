@@ -27,4 +27,8 @@ val databaseModule = module {
     single<LaunchPadDao> {
         get<MoonShotDb>().launchPadDao()
     }
+
+    single<ApplicationInfoDao> {
+        get<MoonShotDb>().applicationInfoDao()
+    }
 }

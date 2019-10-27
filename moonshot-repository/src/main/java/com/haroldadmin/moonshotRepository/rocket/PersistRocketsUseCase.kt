@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.rocket
 
 import com.haroldadmin.moonshot.database.RocketsDao
+import com.haroldadmin.moonshot.models.Rocket as DbRocket
 import com.haroldadmin.moonshotRepository.mappers.toDbRocket
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket
 import kotlinx.coroutines.Dispatchers
@@ -8,12 +9,19 @@ import kotlinx.coroutines.withContext
 
 class PersistRocketsUseCase(private val rocketsDao: RocketsDao) {
 
-    suspend fun persistApiRocket(apiRocket: Rocket) = withContext(Dispatchers.IO) {
+    suspend fun persistRocket(apiRocket: Rocket) = withContext(Dispatchers.IO) {
         val dbRocket = apiRocket.toDbRocket()
         rocketsDao.save(dbRocket)
     }
 
-    suspend fun persistApiRockets(apiRockets: List<Rocket>, shouldSynchronize: Boolean = false) = withContext(Dispatchers.Default) {
+    suspend fun persistRocket(dbRocket: DbRocket) = withContext(Dispatchers.IO) {
+        rocketsDao.save(dbRocket)
+    }
+
+    suspend fun persistRockets(
+        apiRockets: List<Rocket>,
+        shouldSynchronize: Boolean = false
+    ) = withContext(Dispatchers.Default) {
         val dbRockets = apiRockets.map { it.toDbRocket() }
 
         withContext(Dispatchers.IO) {
@@ -22,6 +30,18 @@ class PersistRocketsUseCase(private val rocketsDao: RocketsDao) {
             } else {
                 rocketsDao.saveAll(dbRockets)
             }
+        }
+    }
+
+    @JvmName("persistDbRockets")
+    suspend fun persistRockets(
+        dbRockets: List<DbRocket>,
+        shouldSynchronize: Boolean = false
+    ) = withContext(Dispatchers.IO) {
+        if (shouldSynchronize) {
+            rocketsDao.synchronizeBlocking(dbRockets)
+        } else {
+            rocketsDao.saveAll(dbRockets)
         }
     }
 }

@@ -77,7 +77,7 @@ class ExpandableTextView @JvmOverloads constructor(
             toggleIcon.setImageDrawable(collapsedIcon)
             isExpanded = false
         } else {
-            contentText.maxLines = Integer.MAX_VALUE
+            contentText.maxLines = Int.MAX_VALUE
             toggleIcon.setImageDrawable(expandedIcon)
             isExpanded = true
         }

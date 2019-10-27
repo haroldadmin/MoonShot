@@ -18,10 +18,11 @@ internal class FakeLaunchPadService : LaunchPadService {
 
     var expectedResponse: ExpectedResponse = ExpectedResponse.Success
 
-    override fun getAllLaunchPads(): Deferred<NetworkResponse<List<LaunchPad>, ErrorResponse>> {
+    override fun getAllLaunchPads(limit: Int?): Deferred<NetworkResponse<List<LaunchPad>, ErrorResponse>> {
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
-                SampleApiData.LaunchPads.many().take(10).toList()
+                Int
+                SampleApiData.LaunchPads.many().take(limit ?: 10).toList()
             }.toDeferred()
 
             ExpectedResponse.NetworkError -> ioErrorResponse().toDeferred()

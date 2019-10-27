@@ -27,6 +27,16 @@ class GetLaunchPadUseCase(
         )
     }
 
+    @ExperimentalCoroutinesApi
+    fun getAllLaunchPads(limit: Int = Int.MAX_VALUE, offset: Int = 0): Flow<Resource<List<LaunchPad>>> {
+        return singleFetchNetworkBoundFlow(
+            dbFetcher = { getLaunchPadsCached(limit, offset) },
+            cacheValidator = { cached -> !cached.isNullOrEmpty() },
+            apiFetcher = { getLaunchPadsFromApi(limit) },
+            dataPersister = { launchPads -> persistLaunchPadUseCase.persistLaunchPads(launchPads, false) }
+        )
+    }
+
     private suspend fun getLaunchPadFromApi(siteId: String) = withContext(Dispatchers.IO) {
         executeWithRetry {
             launchPadService.getLaunchPad(siteId).await()
@@ -35,5 +45,13 @@ class GetLaunchPadUseCase(
 
     private suspend fun getLaunchPadCached(siteId: String) = withContext(Dispatchers.IO) {
         launchPadDao.one(siteId)
+    }
+
+    private suspend fun getLaunchPadsFromApi(limit: Int) = withContext(Dispatchers.IO) {
+        executeWithRetry { launchPadService.getAllLaunchPads(limit).await() }
+    }
+
+    private suspend fun getLaunchPadsCached(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        launchPadDao.all(limit, offset)
     }
 }

@@ -25,8 +25,10 @@ import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.haroldadmin.moonshot.R as appR
 
+@ExperimentalCoroutinesApi
 class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, RocketDetailsState>() {
 
     private lateinit var binding: FragmentRocketDetailsBinding

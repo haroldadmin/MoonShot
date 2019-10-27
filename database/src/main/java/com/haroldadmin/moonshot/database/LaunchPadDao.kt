@@ -21,6 +21,15 @@ abstract class LaunchPadDao : BaseDao<LaunchPad> {
     @Query("""
         SELECT *
         FROM launchpad
+        ORDER BY site_name_long
+        LIMIT :limit
+        OFFSET :offset
+    """)
+    abstract suspend fun all(limit: Int, offset: Int = 0): List<LaunchPad>
+
+    @Query("""
+        SELECT *
+        FROM launchpad
         WHERE site_name_long LIKE :query
         ORDER BY site_name_long
         LIMIT :limit

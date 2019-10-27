@@ -11,7 +11,9 @@ import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
 import com.haroldadmin.moonshot.launches.views.filterOptionView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomSheetDialogBinding

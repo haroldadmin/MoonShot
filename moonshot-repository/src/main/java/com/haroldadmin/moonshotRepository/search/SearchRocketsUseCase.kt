@@ -25,7 +25,7 @@ class SearchRocketsUseCase(
         dbFetcher = { _, query, limit -> getSearchResultsCached(query, limit) },
         cacheValidator = { cached -> !cached.isNullOrEmpty() },
         apiFetcher = { getAllRocketsFromApi() },
-        dataPersister = { rockets -> persistRocketsUseCase.persistApiRockets(rockets) }
+        dataPersister = { rockets -> persistRocketsUseCase.persistRockets(rockets) }
     )
 
     @ExperimentalCoroutinesApi

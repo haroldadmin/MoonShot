@@ -1,7 +1,6 @@
 package com.haroldadmin.moonshot.sync
 
 import android.content.Context
-import androidx.preference.PreferenceManager
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -18,26 +17,19 @@ class SyncManager(private val context: Context) {
         const val KEY_BACKGROUND_SYNC = "background-sync"
     }
 
-    private val settings = PreferenceManager.getDefaultSharedPreferences(context)
-
     suspend fun enableSync() = withContext(Dispatchers.Default) {
-        if (settings.getBoolean(KEY_BACKGROUND_SYNC, true)) {
-            log("Enabling sync")
-            enqueueSyncWork()
-        } else {
-            log("Sync is disabled in preferences")
-        }
+        log("Enqueing sync work")
+        enqueueSyncWork()
     }
 
     private suspend fun enqueueSyncWork() = withContext(Dispatchers.Default) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresDeviceIdle(true)
-            .setRequiresStorageNotLow(true)
             .build()
 
         val workRequest = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.DAYS)
             .setConstraints(constraints)
+            .addTag(SyncWorker.NAME)
             .build()
 
         WorkManager
@@ -46,10 +38,11 @@ class SyncManager(private val context: Context) {
     }
 
     suspend fun disableSync() = withContext(Dispatchers.Default) {
+
         log("Disabling sync")
 
         WorkManager
             .getInstance(context)
-            .cancelUniqueWork(SyncWorker.NAME)
+            .cancelAllWorkByTag(SyncWorker.NAME)
     }
 }

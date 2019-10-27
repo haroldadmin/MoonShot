@@ -1,7 +1,7 @@
 package com.haroldadmin.moonshot
 
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.models.rocket.RocketMinimal
+import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshot.rockets.RocketsState
 import com.haroldadmin.moonshot.rockets.RocketsViewModel
 import com.haroldadmin.moonshotRepository.rocket.GetAllRocketsUseCase
@@ -9,6 +9,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,10 +18,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 internal class RocketsViewModelTest {
 
     private val mainThreadSurrogate = newSingleThreadContext("Main Thread")
-    private val rockets = flowOf(Resource.Success(listOf<RocketMinimal>()))
+    private val rockets = flowOf(Resource.Success(listOf<Rocket>()))
     private val initialState = RocketsState()
     private val rocketsUseCase = mockk<GetAllRocketsUseCase> {
         coEvery { getAllRockets() } returns rockets

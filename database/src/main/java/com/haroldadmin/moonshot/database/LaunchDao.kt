@@ -39,6 +39,16 @@ abstract class LaunchDao: BaseDao<Launch> {
     @Query("""
         SELECT *
         FROM launch
+        WHERE upcoming = 1 AND launch_date_utc <= :until
+        ORDER BY flight_number ASC
+        LIMIT :limit
+        OFFSET :offset
+    """)
+    abstract suspend fun upcoming(until: Long, limit: Int, offset: Int = 0): List<Launch>
+
+    @Query("""
+        SELECT *
+        FROM launch
         WHERE upcoming = 0
         ORDER BY flight_number DESC
         LIMIT :limit

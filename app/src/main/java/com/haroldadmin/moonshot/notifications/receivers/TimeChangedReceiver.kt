@@ -10,8 +10,10 @@ import org.koin.core.get
 class TimeChangedReceiver : BroadcastReceiver(), KoinComponent {
 
     override fun onReceive(context: Context, intent: Intent) {
-//        if (intent.action == "android.intent.action.TIME_SET") {
-//            get<LaunchNotificationsManager>().enable()
-//        }
+        if (intent.action == "android.intent.action.TIME_SET") {
+            if (shouldEnableNotifications(context)) {
+                get<LaunchNotificationsManager>().enable()
+            }
+        }
     }
 }
