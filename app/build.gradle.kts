@@ -22,8 +22,12 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = true
+                isRemoveUnusedCode = true
+                proguardFiles("proguard-rules.pro")
+           }
         }
     }
     compileOptions {
