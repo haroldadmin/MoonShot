@@ -54,12 +54,10 @@ class SyncResourcesUseCase(
             logUpdate()
 
             Resource.Success(Unit)
-
         } catch (ex: Exception) {
             Resource.Error(null, Unit)
         }
     }
-
 
     private suspend fun logUpdate() {
         val syncTime = Date().time
@@ -72,4 +70,3 @@ class SyncResourcesUseCase(
         }
     }
 }
-

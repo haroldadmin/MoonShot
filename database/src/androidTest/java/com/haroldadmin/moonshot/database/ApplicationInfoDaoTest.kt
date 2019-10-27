@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import java.util.Date
 
 @RunWith(AndroidJUnit4::class)
-internal class ApplicationInfoDaoTest: DaoTest() {
+internal class ApplicationInfoDaoTest : DaoTest() {
 
     private val dao by dbRule.dao<ApplicationInfoDao>()
 
@@ -41,5 +41,4 @@ internal class ApplicationInfoDaoTest: DaoTest() {
 
         assertNotEquals(applicationInfo, updatedApplicationInfo)
     }
-
 }

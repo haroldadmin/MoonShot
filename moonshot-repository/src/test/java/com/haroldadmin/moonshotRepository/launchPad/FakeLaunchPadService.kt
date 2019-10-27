@@ -46,5 +46,4 @@ internal class FakeLaunchPadService : LaunchPadService {
             }.toDeferred()
         }
     }
-
 }

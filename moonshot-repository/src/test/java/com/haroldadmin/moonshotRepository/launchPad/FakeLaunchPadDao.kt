@@ -34,5 +34,4 @@ internal class FakeLaunchPadDao : LaunchPadDao() {
     override suspend fun delete(obj: LaunchPad) = Unit
 
     override suspend fun deleteAll(objs: List<LaunchPad>) = Unit
-
 }

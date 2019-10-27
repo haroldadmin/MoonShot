@@ -34,5 +34,4 @@ internal class SearchLaunchPadsUseCaseTest : AnnotationSpec() {
             data.all { it.siteNameLong.contains(query.query) } shouldBe true
         }
     }
-
 }

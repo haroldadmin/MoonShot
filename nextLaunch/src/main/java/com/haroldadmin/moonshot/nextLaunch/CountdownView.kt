@@ -8,7 +8,6 @@ import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.OnViewRecycled
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.DatePrecision
@@ -42,9 +41,9 @@ class CountdownView @JvmOverloads constructor(
 
     @AfterPropsSet
     fun useProps() {
-        
+
         timer?.cancel()
-        
+
         when (val launch = launchRes) {
 
             is Resource.Success -> setupCountdown(launch())

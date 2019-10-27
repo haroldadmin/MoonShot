@@ -6,14 +6,14 @@ import androidx.test.core.app.ApplicationProvider
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class MoonShotDbRule: TestWatcher() {
+class MoonShotDbRule : TestWatcher() {
 
     lateinit var database: MoonShotDb
 
     override fun starting(description: Description?) {
         super.starting(description)
         val context = ApplicationProvider.getApplicationContext<Context>()
-        database =  Room.inMemoryDatabaseBuilder(context, MoonShotDb::class.java).build()
+        database = Room.inMemoryDatabaseBuilder(context, MoonShotDb::class.java).build()
     }
 
     override fun finished(description: Description?) {
@@ -38,4 +38,3 @@ class MoonShotDbRule: TestWatcher() {
         }
     }
 }
-

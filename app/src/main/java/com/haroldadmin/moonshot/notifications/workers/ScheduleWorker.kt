@@ -10,7 +10,6 @@ import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,7 +21,7 @@ class ScheduleWorker(
     params: WorkerParameters,
     private val nextLaunchUseCase: GetNextLaunchUseCase,
     private val launchNotificationsManager: LaunchNotificationsManager
-): CoroutineWorker(appContext, params) {
+) : CoroutineWorker(appContext, params) {
 
     companion object { const val name = "sync-worker" }
 
@@ -42,7 +41,7 @@ class ScheduleWorker(
             Result.success()
         }
     }
-    
+
     private fun scheduleNotifications(
         nextLaunch: Launch,
         launchesUntilTomorrow: List<Launch>
@@ -59,5 +58,4 @@ class ScheduleWorker(
             }
         }
     }
-
 }

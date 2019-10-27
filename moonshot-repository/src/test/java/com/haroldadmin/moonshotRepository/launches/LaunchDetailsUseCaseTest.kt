@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
-internal class LaunchDetailsUseCaseTest: AnnotationSpec() {
+internal class LaunchDetailsUseCaseTest : AnnotationSpec() {
 
     private val dao = FakeLaunchesDao()
     private val service = FakeLaunchesService()

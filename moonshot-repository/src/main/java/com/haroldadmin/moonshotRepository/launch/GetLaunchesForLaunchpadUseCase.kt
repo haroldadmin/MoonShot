@@ -27,7 +27,7 @@ class GetLaunchesForLaunchpadUseCase(
         limit: Int = 15,
         offset: Int = 0
     ): Flow<Resource<List<Launch>>> {
-        return when(type) {
+        return when (type) {
             LaunchType.All -> getAllLaunches(siteId, limit, offset)
             LaunchType.Recent -> getPastLaunches(siteId, limit, offset)
             LaunchType.Upcoming -> getUpcomingLaunches(siteId, limit, offset)
@@ -40,7 +40,7 @@ class GetLaunchesForLaunchpadUseCase(
             dbFetcher = { getAllCachedLaunches(siteId, limit, offset) },
             cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
             apiFetcher = { getAllLaunchesFromService(siteId) },
-            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) } 
+            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
         )
     }
 
@@ -85,7 +85,7 @@ class GetLaunchesForLaunchpadUseCase(
         limit: Int,
         offset: Int
     ): List<Launch> = withContext(Dispatchers.IO) {
-        launchesDao.forLaunchPad(siteId,true, limit, offset)
+        launchesDao.forLaunchPad(siteId, true, limit, offset)
     }
 
     private suspend fun getAllLaunchesFromService(

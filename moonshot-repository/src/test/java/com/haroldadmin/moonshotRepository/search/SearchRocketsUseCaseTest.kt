@@ -34,5 +34,4 @@ internal class SearchRocketsUseCaseTest : AnnotationSpec() {
             data.all { it.rocketName.contains(query.query) } shouldBe true
         }
     }
-
 }

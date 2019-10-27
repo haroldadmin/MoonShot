@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import kotlin.random.Random
 
 @RunWith(AndroidJUnit4::class)
-internal class RocketsDaoTest: DaoTest() {
+internal class RocketsDaoTest : DaoTest() {
 
     private val rocketsDao: RocketsDao by dbRule.dao()
     private val launchesDao: LaunchDao by dbRule.dao()

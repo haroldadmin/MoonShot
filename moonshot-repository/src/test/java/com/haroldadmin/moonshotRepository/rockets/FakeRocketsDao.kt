@@ -35,5 +35,4 @@ internal class FakeRocketsDao : RocketsDao() {
     override suspend fun delete(obj: Rocket) = Unit
 
     override suspend fun deleteAll(objs: List<Rocket>) = Unit
-
 }

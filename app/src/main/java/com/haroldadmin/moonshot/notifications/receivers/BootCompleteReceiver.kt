@@ -24,6 +24,6 @@ class BootCompleteReceiver : BroadcastReceiver(), KoinComponent {
 @Suppress("unused")
 fun BroadcastReceiver.shouldEnableNotifications(context: Context): Boolean {
     val settings = PreferenceManager.getDefaultSharedPreferences(context)
-    return settings.getBoolean(JustBeforeLaunch.enabledPreferenceKey, true)
-            || settings.getBoolean(DayBeforeLaunch.enabledPreferenceKey, true)
+    return settings.getBoolean(JustBeforeLaunch.enabledPreferenceKey, true) ||
+            settings.getBoolean(DayBeforeLaunch.enabledPreferenceKey, true)
 }

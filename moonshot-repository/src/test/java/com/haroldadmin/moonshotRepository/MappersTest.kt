@@ -17,7 +17,6 @@ import com.haroldadmin.spacex_api_wrapper.common.Mass
 import com.haroldadmin.spacex_api_wrapper.common.Volume
 import com.haroldadmin.spacex_api_wrapper.common.Thrust
 import com.haroldadmin.spacex_api_wrapper.common.Location
-import com.haroldadmin.spacex_api_wrapper.common.MissionSummary
 import com.haroldadmin.spacex_api_wrapper.common.Length
 import com.haroldadmin.spacex_api_wrapper.rocket.LandingLegs
 import com.haroldadmin.spacex_api_wrapper.rocket.Engines
@@ -25,7 +24,6 @@ import com.haroldadmin.spacex_api_wrapper.rocket.CompositeFairing
 import com.haroldadmin.spacex_api_wrapper.rocket.Payloads
 import com.haroldadmin.spacex_api_wrapper.rocket.SecondStage
 import com.haroldadmin.spacex_api_wrapper.rocket.FirstStage
-import com.haroldadmin.spacex_api_wrapper.rocket.PayloadWeight
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad
 import io.kotlintest.shouldBe
@@ -90,7 +88,7 @@ internal class MappersTest : DescribeSpec({
                 dbLoc.region shouldBe apiLoc.region
             }
         }
-   }
+    }
 
     describe("Rocket Mappers") {
 

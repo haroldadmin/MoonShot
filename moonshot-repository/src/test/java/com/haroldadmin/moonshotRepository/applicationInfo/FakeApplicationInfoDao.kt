@@ -4,7 +4,7 @@ import com.haroldadmin.moonshot.database.ApplicationInfoDao
 import com.haroldadmin.moonshot.models.ApplicationInfo
 import java.util.Date
 
-internal class FakeApplicationInfoDao: ApplicationInfoDao {
+internal class FakeApplicationInfoDao : ApplicationInfoDao {
 
     private var applicationInfo: ApplicationInfo =
         ApplicationInfo(Date().time)
@@ -20,5 +20,4 @@ internal class FakeApplicationInfoDao: ApplicationInfoDao {
     override suspend fun update(info: ApplicationInfo) {
         applicationInfo = info
     }
-
 }

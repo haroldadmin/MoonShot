@@ -48,4 +48,3 @@ internal class ApplicationInfoUseCaseTest {
         assertNotEquals(initial, new)
     }
 }
-

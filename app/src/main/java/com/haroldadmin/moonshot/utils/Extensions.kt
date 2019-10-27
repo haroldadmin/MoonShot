@@ -1,7 +1,6 @@
 package com.haroldadmin.moonshot.utils
 
 import android.content.Context
-import android.content.res.Configuration
 import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -15,7 +14,6 @@ import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.models.DatePrecision
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.LocalDateTime
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date

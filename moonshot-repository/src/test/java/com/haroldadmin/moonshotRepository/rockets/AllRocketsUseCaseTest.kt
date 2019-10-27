@@ -54,5 +54,4 @@ internal class AllRocketsUseCaseTest : AnnotationSpec() {
             data!! shouldHaveSize 10
         }
     }
-
 }

@@ -13,7 +13,7 @@ class PersistLaunchPadUseCase(private val launchPadDao: LaunchPadDao) {
         launchPadDao.save(apiLaunchPad.toDbLaunchPad())
     }
 
-    suspend fun persistLaunchPad(dbLaunchPad: DbLaunchPad) = withContext(Dispatchers.IO){
+    suspend fun persistLaunchPad(dbLaunchPad: DbLaunchPad) = withContext(Dispatchers.IO) {
         launchPadDao.save(dbLaunchPad)
     }
 

@@ -10,5 +10,4 @@ internal abstract class DaoTest {
 
     @get:Rule
     val dbRule = MoonShotDbRule()
-
 }

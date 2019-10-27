@@ -34,5 +34,4 @@ internal class SearchLaunchesUseCaseTest : AnnotationSpec() {
             data.all { it.missionName.contains(query.query) } shouldBe true
         }
     }
-
 }

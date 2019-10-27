@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class LaunchPadDaoTest: DaoTest() {
+internal class LaunchPadDaoTest : DaoTest() {
 
     private val dao: LaunchPadDao by dbRule.dao()
 

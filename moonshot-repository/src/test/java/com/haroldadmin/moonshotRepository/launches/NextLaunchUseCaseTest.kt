@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.Date
 
 @ExperimentalCoroutinesApi
-internal class NextLaunchUseCaseTest: AnnotationSpec() {
+internal class NextLaunchUseCaseTest : AnnotationSpec() {
 
     private val dao = FakeLaunchesDao()
     private val service = FakeLaunchesService()
@@ -21,7 +21,7 @@ internal class NextLaunchUseCaseTest: AnnotationSpec() {
     private val usecase = GetNextLaunchUseCase(dao, service, persister)
 
     @Test
-    fun `should return nearest upcoming launch`() = runBlocking{
+    fun `should return nearest upcoming launch`() = runBlocking {
         val flow = usecase.getNextLaunch()
         val emittedResource = flow.last()
         with(emittedResource) {

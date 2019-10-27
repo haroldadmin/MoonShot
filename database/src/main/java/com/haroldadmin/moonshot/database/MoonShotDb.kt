@@ -35,5 +35,4 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun rocketsDao(): RocketsDao
     abstract fun launchPadDao(): LaunchPadDao
     abstract fun applicationInfoDao(): ApplicationInfoDao
-
 }

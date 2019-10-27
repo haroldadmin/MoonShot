@@ -8,7 +8,7 @@ import com.haroldadmin.moonshot.models.launch.LaunchPictures
 import kotlinx.coroutines.runBlocking
 
 @Dao
-abstract class LaunchDao: BaseDao<Launch> {
+abstract class LaunchDao : BaseDao<Launch> {
 
     @Query("""
         SELECT *

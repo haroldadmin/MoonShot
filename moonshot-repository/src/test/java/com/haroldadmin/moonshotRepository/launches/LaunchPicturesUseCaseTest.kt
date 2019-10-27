@@ -11,7 +11,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
-internal class LaunchPicturesUseCaseTest: AnnotationSpec() {
+internal class LaunchPicturesUseCaseTest : AnnotationSpec() {
 
     private val dao = FakeLaunchesDao()
     private val usecase = GetLaunchPicturesUseCase(dao)

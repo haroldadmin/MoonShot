@@ -1,17 +1,12 @@
 package com.haroldadmin.moonshotRepository.mappers
 
 import com.haroldadmin.moonshot.models.toDatePrecision
-import com.haroldadmin.spacex_api_wrapper.common.OrbitParams
 import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.spacex_api_wrapper.launches.Telemetry
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchSite
 import com.haroldadmin.spacex_api_wrapper.launches.Links
 import com.haroldadmin.spacex_api_wrapper.launches.Timeline
 import com.haroldadmin.spacex_api_wrapper.launches.Fairing
-import com.haroldadmin.spacex_api_wrapper.launches.CoreSummary
-import com.haroldadmin.spacex_api_wrapper.launches.FirstStageSummary
-import com.haroldadmin.spacex_api_wrapper.launches.Payload
-import com.haroldadmin.spacex_api_wrapper.launches.SecondStageSummary
 import com.haroldadmin.spacex_api_wrapper.launches.RocketSummary
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
 import com.haroldadmin.moonshot.models.launch.LaunchSite as DbLaunchSite
@@ -20,11 +15,6 @@ import com.haroldadmin.moonshot.models.launch.Telemetry as DbTelemetry
 import com.haroldadmin.moonshot.models.launch.Timeline as DbTimeline
 import com.haroldadmin.moonshot.models.launch.Rocket as DbLaunchRocket
 import com.haroldadmin.moonshot.models.launch.Fairings as DbFairings
-//import com.haroldadmin.moonshot.models.launch.rocket.firstStage.FirstStageSummary as DbFirstStageSummary
-//import com.haroldadmin.moonshot.models.launch.rocket.firstStage.CoreSummary as DbCoreSummary
-//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.SecondStageSummary as DbSecondStageSummary
-//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.Payload as DbPayload
-//import com.haroldadmin.moonshot.models.launch.rocket.secondStage.payload.OrbitParams as DbOrbitParams
 
 internal fun Launch.toDbLaunch(): DbLaunch {
     return DbLaunch(
@@ -121,7 +111,7 @@ internal fun Fairing.toDbFairings(): DbFairings {
     )
 }
 //
-//internal fun CoreSummary.toDbCoreSummary(flightNumber: Int): DbCoreSummary {
+// internal fun CoreSummary.toDbCoreSummary(flightNumber: Int): DbCoreSummary {
 //    return DbCoreSummary(
 //        flightNumber = flightNumber,
 //        serial = this.serial ?: "Unknown",
@@ -135,15 +125,15 @@ internal fun Fairing.toDbFairings(): DbFairings {
 //        landSuccess = this.landSuccess,
 //        legs = this.legs
 //    )
-//}
+// }
 //
-//internal fun FirstStageSummary.toDbFirstStageSummary(flightNumber: Int): DbFirstStageSummary {
+// internal fun FirstStageSummary.toDbFirstStageSummary(flightNumber: Int): DbFirstStageSummary {
 //    return DbFirstStageSummary(
 //        flightNumber = flightNumber
 //    )
-//}
+// }
 //
-//internal fun OrbitParams.toDbOrbitParams(): DbOrbitParams {
+// internal fun OrbitParams.toDbOrbitParams(): DbOrbitParams {
 //    return DbOrbitParams(
 //        referenceSystem = this.referenceSystem,
 //        longitude = this.longitude,
@@ -161,9 +151,9 @@ internal fun Fairing.toDbFairings(): DbFairings {
 //        regime = this.regime,
 //        semiMajorAxisKm = this.semiMajorAxisKm
 //    )
-//}
+// }
 //
-//internal fun Payload.toDbPayload(flightNumber: Int): DbPayload {
+// internal fun Payload.toDbPayload(flightNumber: Int): DbPayload {
 //    return DbPayload(
 //        flightNumber = flightNumber,
 //        id = this.id,
@@ -178,11 +168,11 @@ internal fun Fairing.toDbFairings(): DbFairings {
 //        payloadType = this.payloadType,
 //        reused = this.reused
 //    )
-//}
+// }
 //
-//internal fun SecondStageSummary.toDbSecondStageSummary(flightNumber: Int): DbSecondStageSummary {
+// internal fun SecondStageSummary.toDbSecondStageSummary(flightNumber: Int): DbSecondStageSummary {
 //    return DbSecondStageSummary(
 //        flightNumber = flightNumber,
 //        block = this.block
 //    )
-//}
+// }

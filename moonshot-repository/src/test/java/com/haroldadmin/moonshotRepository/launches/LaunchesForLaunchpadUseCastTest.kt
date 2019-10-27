@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
-internal class LaunchesForLaunchpadUseCastTest: AnnotationSpec() {
+internal class LaunchesForLaunchpadUseCastTest : AnnotationSpec() {
 
     private val dao = FakeLaunchesDao()
     private val service = FakeLaunchesService()

@@ -7,7 +7,6 @@ import com.haroldadmin.spacex_api_wrapper.rocket.Engines
 import com.haroldadmin.spacex_api_wrapper.rocket.Payloads
 import com.haroldadmin.spacex_api_wrapper.rocket.LandingLegs
 import com.haroldadmin.spacex_api_wrapper.rocket.SecondStage
-import com.haroldadmin.spacex_api_wrapper.rocket.PayloadWeight
 import com.haroldadmin.moonshot.models.Engine as DbEngine
 import com.haroldadmin.moonshot.models.LandingLegs as DbLandingLegs
 import com.haroldadmin.moonshot.models.Rocket as DbRocket

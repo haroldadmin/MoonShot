@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
-internal class LaunchesUseCaseTest: AnnotationSpec() {
+internal class LaunchesUseCaseTest : AnnotationSpec() {
 
     private val dao = FakeLaunchesDao()
     private val service = FakeLaunchesService()
@@ -108,5 +108,4 @@ internal class LaunchesUseCaseTest: AnnotationSpec() {
             data.all { it.isUpcoming == false } shouldBe true
         }
     }
-
 }

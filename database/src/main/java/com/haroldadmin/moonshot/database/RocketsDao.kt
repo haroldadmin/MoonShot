@@ -56,5 +56,4 @@ abstract class RocketsDao : BaseDao<Rocket> {
         clearTable()
         saveAll(allRockets)
     }
-
 }

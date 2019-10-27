@@ -143,5 +143,4 @@ internal class FakeLaunchesService : LaunchesService {
             }.toDeferred()
         }
     }
-
 }
