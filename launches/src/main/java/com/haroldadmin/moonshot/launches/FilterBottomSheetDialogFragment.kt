@@ -54,6 +54,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 }
 
+@ExperimentalCoroutinesApi
 private fun FilterBottomSheetDialogFragment.simpleController(
     buildModelsCallback: EpoxyController.() -> Unit
 ): EpoxyController = object : EpoxyController() {
