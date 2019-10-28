@@ -135,3 +135,9 @@
 # ---- Fragment Names rule ---- #
 # Adding this here because some crash reports point to ClassNotFound exception for some fragments
 -keepnames class * extends androidx.fragment.app.Fragment
+
+# ---- Fix for https://github.com/haroldadmin/Vector/issues/23 ---- #
+-keepnames class com.haroldadmin.vector.** { *; }
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.reflect.jvm.internal.** { *; }
+-keep class androidx.lifecycle.SavedStateHandle { *; }

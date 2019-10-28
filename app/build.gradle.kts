@@ -23,7 +23,7 @@ android {
     buildTypes {
         getByName("release") {
             postprocessing {
-                isObfuscate = false
+                isObfuscate = true
                 isOptimizeCode = true
                 isRemoveUnusedCode = true
                 proguardFiles("proguard-rules.pro")
