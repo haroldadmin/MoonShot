@@ -8,6 +8,8 @@ import java.util.Date
 
 internal class FakeLaunchesDao : LaunchDao() {
 
+    var didSynchronize: Boolean = false
+
     override suspend fun details(flightNumber: Int): Launch? {
         return SampleDbData.Launches.one(flightNumber)
     }
@@ -86,4 +88,8 @@ internal class FakeLaunchesDao : LaunchDao() {
     override suspend fun delete(obj: Launch) = Unit
 
     override suspend fun deleteAll(objs: List<Launch>) = Unit
+
+    override fun synchronizeBlocking(allLaunches: List<Launch>) {
+        didSynchronize = true
+    }
 }

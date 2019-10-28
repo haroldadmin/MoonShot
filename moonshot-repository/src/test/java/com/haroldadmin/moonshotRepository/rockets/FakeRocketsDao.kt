@@ -6,6 +6,9 @@ import com.haroldadmin.moonshot.models.SampleDbData
 import com.haroldadmin.moonshot.models.launch.Launch
 
 internal class FakeRocketsDao : RocketsDao() {
+
+    var didSynchronize: Boolean = false
+
     override suspend fun all(limit: Int, offset: Int): List<Rocket> {
         return SampleDbData.Rockets.many().take(limit).toList()
     }
@@ -35,4 +38,8 @@ internal class FakeRocketsDao : RocketsDao() {
     override suspend fun delete(obj: Rocket) = Unit
 
     override suspend fun deleteAll(objs: List<Rocket>) = Unit
+
+    override fun synchronizeBlocking(allRockets: List<Rocket>) {
+        didSynchronize = true
+    }
 }

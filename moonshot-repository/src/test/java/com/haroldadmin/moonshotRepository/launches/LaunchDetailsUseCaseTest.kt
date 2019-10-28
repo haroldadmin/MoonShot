@@ -15,14 +15,24 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert
+import org.junit.Assert.assertTrue
 
 @ExperimentalCoroutinesApi
 internal class LaunchDetailsUseCaseTest : AnnotationSpec() {
 
-    private val dao = FakeLaunchesDao()
-    private val service = FakeLaunchesService()
-    private val persister = PersistLaunchesUseCase(dao)
-    private val usecase = GetLaunchDetailsUseCase(dao, service, persister)
+    private lateinit var dao : FakeLaunchesDao
+    private lateinit var service : FakeLaunchesService
+    private lateinit var persister : PersistLaunchesUseCase
+    private lateinit var usecase : GetLaunchDetailsUseCase
+
+    @Before
+    fun setup() {
+        dao = FakeLaunchesDao()
+        service = FakeLaunchesService()
+        persister = PersistLaunchesUseCase(dao)
+        usecase = GetLaunchDetailsUseCase(dao, service, persister)
+    }
 
     @Test
     fun emitLoadingFirstTest() = runBlocking {
@@ -82,5 +92,14 @@ internal class LaunchDetailsUseCaseTest : AnnotationSpec() {
             data shouldNotBe null
             data!!.flightNumber shouldBe flightNumber
         }
+    }
+
+    @Test
+    fun `should only fetch data from the API once`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        repeat(5) {
+            usecase.getLaunchDetails(10).last()
+        }
+        assertTrue(service.requestCount == 1)
     }
 }

@@ -16,6 +16,7 @@ import kotlinx.coroutines.Deferred
 
 internal class FakeLaunchesService : LaunchesService {
 
+    var requestCount = 0
     var expectedResponse: ExpectedResponse = ExpectedResponse.Success
 
     override fun getAllLaunches(
@@ -31,6 +32,7 @@ internal class FakeLaunchesService : LaunchesService {
         sort: String,
         order: String
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches.all().take(10).toList()
@@ -45,6 +47,7 @@ internal class FakeLaunchesService : LaunchesService {
     }
 
     override fun getLaunch(flightNumber: Int): Deferred<NetworkResponse<Launch, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches.one(flightNumber = flightNumber)
@@ -71,6 +74,7 @@ internal class FakeLaunchesService : LaunchesService {
         sort: String,
         order: String
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches
@@ -100,6 +104,7 @@ internal class FakeLaunchesService : LaunchesService {
         sort: String,
         order: String
     ): Deferred<NetworkResponse<List<Launch>, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches
@@ -117,6 +122,7 @@ internal class FakeLaunchesService : LaunchesService {
     }
 
     override fun getLatestLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches.one(isUpcoming = false)
@@ -131,6 +137,7 @@ internal class FakeLaunchesService : LaunchesService {
     }
 
     override fun getNextLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Launches.one(isUpcoming = true)

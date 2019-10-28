@@ -18,12 +18,20 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
-internal class LaunchesForLaunchpadUseCastTest : AnnotationSpec() {
+internal class LaunchesForLaunchpadUseCaseTest : AnnotationSpec() {
 
-    private val dao = FakeLaunchesDao()
-    private val service = FakeLaunchesService()
-    private val persister = PersistLaunchesUseCase(dao)
-    private val usecase = GetLaunchesForLaunchpadUseCase(dao, service, persister)
+    private lateinit var dao: FakeLaunchesDao
+    private lateinit var service: FakeLaunchesService
+    private lateinit var persister: PersistLaunchesUseCase
+    private lateinit var usecase: GetLaunchesForLaunchpadUseCase
+
+    @Before
+    fun setup() {
+        dao = FakeLaunchesDao()
+        service = FakeLaunchesService()
+        persister = PersistLaunchesUseCase(dao)
+        usecase = GetLaunchesForLaunchpadUseCase(dao, service, persister)
+    }
 
     @Test
     fun `should emit Loading first`() = runBlocking {

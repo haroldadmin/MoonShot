@@ -52,12 +52,12 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
 }
 
 @ExperimentalCoroutinesApi
-inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundFlow(
+inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundResource(
     crossinline dbFetcher: suspend (Boolean) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
     crossinline cacheValidator: suspend (T?) -> Boolean,
     crossinline dataPersister: suspend (U) -> Unit
-): Flow<Resource<T>> {
+): SingleFetchNetworkBoundResource<T, U, V> {
     val resource = object : SingleFetchNetworkBoundResource<T, U, V>() {
         override suspend fun getFromDatabase(isRefreshed: Boolean): T? {
             return dbFetcher(isRefreshed)
@@ -75,5 +75,15 @@ inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundFlow(
             dataPersister(apiData)
         }
     }
-    return resource.flow()
+    return resource
+}
+
+@ExperimentalCoroutinesApi
+inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundFlow(
+    crossinline dbFetcher: suspend (Boolean) -> T?,
+    crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
+    crossinline cacheValidator: suspend (T?) -> Boolean,
+    crossinline dataPersister: suspend (U) -> Unit
+): Flow<Resource<T>> {
+    return singleFetchNetworkBoundResource(dbFetcher, apiFetcher, cacheValidator, dataPersister).flow()
 }

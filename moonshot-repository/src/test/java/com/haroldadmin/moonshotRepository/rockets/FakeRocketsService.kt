@@ -14,10 +14,12 @@ import kotlinx.coroutines.Deferred
 
 internal class FakeRocketsService : RocketsService {
 
-    var expectedType: ExpectedResponse = ExpectedResponse.Success
+    var requestCount: Int = 0
+    var expectedResponse: ExpectedResponse = ExpectedResponse.Success
 
     override fun getAllRockets(limit: Int?): Deferred<NetworkResponse<List<Rocket>, ErrorResponse>> {
-        return when (expectedType) {
+        requestCount++
+        return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Rockets.all().take(limit ?: 10).toList()
             }.toDeferred()
@@ -31,7 +33,8 @@ internal class FakeRocketsService : RocketsService {
     }
 
     override fun getRocket(rocketId: String): Deferred<NetworkResponse<Rocket, ErrorResponse>> {
-        return when (expectedType) {
+        requestCount++
+        return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.Rockets.one(rocketId = rocketId)
             }.toDeferred()

@@ -5,7 +5,8 @@ import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshotRepository.networkBoundFlow
+import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
@@ -19,6 +20,10 @@ class GetLaunchesForLaunchpadUseCase(
     private val launchesService: LaunchesService,
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
+
+    private lateinit var allLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
+    private lateinit var pastLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
+    private lateinit var upcomingLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
 
     @ExperimentalCoroutinesApi
     fun getLaunchesForLaunchpad(
@@ -36,33 +41,42 @@ class GetLaunchesForLaunchpadUseCase(
 
     @ExperimentalCoroutinesApi
     private fun getAllLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
-        return networkBoundFlow(
-            dbFetcher = { getAllCachedLaunches(siteId, limit, offset) },
-            cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
-            apiFetcher = { getAllLaunchesFromService(siteId) },
-            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-        )
+        if (!::allLaunchesRes.isInitialized) {
+            allLaunchesRes = singleFetchNetworkBoundResource(
+                dbFetcher = { getAllCachedLaunches(siteId, limit, offset) },
+                cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
+                apiFetcher = { getAllLaunchesFromService(siteId) },
+                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+            )
+        }
+        return allLaunchesRes.flow()
     }
 
     @ExperimentalCoroutinesApi
     private fun getPastLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
-        return networkBoundFlow(
-            dbFetcher = { getPastCachedLaunches(siteId, limit, offset) },
-            cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
-            apiFetcher = { getPastLaunchesFromService(siteId) },
-            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-        )
-    }
+        if (!::pastLaunchesRes.isInitialized) {
+            pastLaunchesRes = singleFetchNetworkBoundResource(
+                dbFetcher = { getPastCachedLaunches(siteId, limit, offset) },
+                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+                apiFetcher = { getPastLaunchesFromService(siteId) },
+                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+            )
+        }
+        return pastLaunchesRes.flow()
+   }
 
     @ExperimentalCoroutinesApi
     private fun getUpcomingLaunches(siteId: String, limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
-        return networkBoundFlow(
-            dbFetcher = { getUpcomingCachedLaunches(siteId, limit, offset) },
-            cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
-            apiFetcher = { getUpcomingLaunchesFromService(siteId) },
-            dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-        )
-    }
+        if (!::upcomingLaunchesRes.isInitialized) {
+            upcomingLaunchesRes = singleFetchNetworkBoundResource(
+                dbFetcher = { getUpcomingCachedLaunches(siteId, limit, offset) },
+                cacheValidator = { cachedLaunches -> !cachedLaunches.isNullOrEmpty() },
+                apiFetcher = { getUpcomingLaunchesFromService(siteId) },
+                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+            )
+        }
+        return upcomingLaunchesRes.flow()
+   }
 
     private suspend fun getAllCachedLaunches(
         siteId: String,

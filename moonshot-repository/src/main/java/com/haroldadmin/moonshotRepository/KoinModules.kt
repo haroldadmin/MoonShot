@@ -56,11 +56,8 @@ val repositoryModule = databaseModule + networkModule + serviceModule + module {
     factory {
         SyncResourcesUseCase(
             get<GetLaunchesUseCase>(),
-            get<PersistLaunchesUseCase>(),
             get<GetAllRocketsUseCase>(),
-            get<PersistRocketsUseCase>(),
             get<GetLaunchPadUseCase>(),
-            get<PersistLaunchPadUseCase>(),
             get<ApplicationInfoUseCase>()
         )
     }

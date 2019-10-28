@@ -3,6 +3,7 @@ package com.haroldadmin.moonshotRepository.rockets
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshotRepository.ExpectedResponse
 import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launches.FakeLaunchesDao
 import com.haroldadmin.moonshotRepository.launches.FakeLaunchesService
@@ -12,15 +13,25 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertTrue
 
 @ExperimentalCoroutinesApi
 internal class LaunchesForRocketUseCaseTest : AnnotationSpec() {
 
-    private val dao = FakeRocketsDao()
-    private val launchesDao = FakeLaunchesDao()
-    private val service = FakeLaunchesService()
-    private val persister = PersistLaunchesUseCase(launchesDao)
-    private val usecase = GetLaunchesForRocketUseCase(dao, persister, service)
+    private lateinit var dao : FakeRocketsDao
+    private lateinit var launchesDao : FakeLaunchesDao
+    private lateinit var service : FakeLaunchesService
+    private lateinit var persister : PersistLaunchesUseCase
+    private lateinit var usecase: GetLaunchesForRocketUseCase
+
+    @Before
+    fun setup() {
+        dao = FakeRocketsDao()
+        launchesDao = FakeLaunchesDao()
+        service = FakeLaunchesService()
+        persister = PersistLaunchesUseCase(launchesDao)
+        usecase = GetLaunchesForRocketUseCase(dao, persister, service)
+    }
 
     @Test
     fun `should return launches for requested rocket`() = runBlocking {
@@ -35,5 +46,15 @@ internal class LaunchesForRocketUseCaseTest : AnnotationSpec() {
 
             data.all { it.rocket.rocketId == rocketId } shouldBe true
         }
+    }
+
+    @Test
+    fun `should only fetch data from the API once`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        repeat(5) {
+            usecase.getLaunchesForRocket(rocketId = "falcon9", limit = 10).last()
+        }
+
+        assertTrue(service.requestCount == 1)
     }
 }

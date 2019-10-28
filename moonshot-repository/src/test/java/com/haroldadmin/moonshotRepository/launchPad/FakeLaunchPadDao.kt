@@ -6,6 +6,8 @@ import com.haroldadmin.moonshot.models.SampleDbData
 
 internal class FakeLaunchPadDao : LaunchPadDao() {
 
+    var didSynchronize: Boolean = false
+
     override suspend fun one(siteId: String): LaunchPad? {
         return SampleDbData.LaunchPads.one(siteId = siteId)
     }
@@ -34,4 +36,8 @@ internal class FakeLaunchPadDao : LaunchPadDao() {
     override suspend fun delete(obj: LaunchPad) = Unit
 
     override suspend fun deleteAll(objs: List<LaunchPad>) = Unit
+
+    override fun synchronizeBlocking(allLaunchPads: List<LaunchPad>) {
+        didSynchronize = true
+    }
 }

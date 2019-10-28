@@ -16,14 +16,23 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertTrue
 
 @ExperimentalCoroutinesApi
 internal class LaunchesUseCaseTest : AnnotationSpec() {
 
-    private val dao = FakeLaunchesDao()
-    private val service = FakeLaunchesService()
-    private val persister = PersistLaunchesUseCase(dao)
-    private val usecase = GetLaunchesUseCase(dao, service, persister)
+    private lateinit var dao: FakeLaunchesDao
+    private lateinit var service: FakeLaunchesService
+    private lateinit var persister: PersistLaunchesUseCase
+    private lateinit var usecase: GetLaunchesUseCase
+
+    @Before
+    fun setup() {
+        dao = FakeLaunchesDao()
+        service = FakeLaunchesService()
+        persister = PersistLaunchesUseCase(dao)
+        usecase = GetLaunchesUseCase(dao, service, persister)
+    }
 
     @Test
     fun `should emit Loading first`() = runBlocking {
@@ -89,7 +98,6 @@ internal class LaunchesUseCaseTest : AnnotationSpec() {
         with(emittedResource) {
             shouldBeTypeOf<Resource.Success<List<Launch>>>()
             this as Resource.Success
-
             data.all { it.isUpcoming == true } shouldBe true
         }
     }
@@ -107,5 +115,21 @@ internal class LaunchesUseCaseTest : AnnotationSpec() {
 
             data.all { it.isUpcoming == false } shouldBe true
         }
+    }
+
+    @Test
+    fun `should replace all non existent launches in API result from DB when synchronizing`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        usecase.sync()
+        assertTrue(dao.didSynchronize)
+    }
+
+    @Test
+    fun `should only fetch data from the API once`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        repeat(5) {
+            usecase.getLaunches(LaunchType.All, limit = 10).last()
+        }
+        assertTrue(service.requestCount == 1)
     }
 }

@@ -13,8 +13,14 @@ import kotlinx.coroutines.runBlocking
 @ExperimentalCoroutinesApi
 internal class LaunchPicturesUseCaseTest : AnnotationSpec() {
 
-    private val dao = FakeLaunchesDao()
-    private val usecase = GetLaunchPicturesUseCase(dao)
+    private lateinit var dao: FakeLaunchesDao
+    private lateinit var usecase: GetLaunchPicturesUseCase
+
+    @Before
+    fun setup() {
+        dao = FakeLaunchesDao()
+        usecase = GetLaunchPicturesUseCase(dao)
+    }
 
     @Test
     fun `should return pictures for the requested launch`() = runBlocking {

@@ -16,9 +16,11 @@ import kotlinx.coroutines.Deferred
 
 internal class FakeLaunchPadService : LaunchPadService {
 
+    var requestCount = 0
     var expectedResponse: ExpectedResponse = ExpectedResponse.Success
 
     override fun getAllLaunchPads(limit: Int?): Deferred<NetworkResponse<List<LaunchPad>, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 Int
@@ -34,6 +36,7 @@ internal class FakeLaunchPadService : LaunchPadService {
     }
 
     override fun getLaunchPad(siteId: String): Deferred<NetworkResponse<LaunchPad, ErrorResponse>> {
+        requestCount++
         return when (expectedResponse) {
             ExpectedResponse.Success -> successfulResponse {
                 SampleApiData.LaunchPads.one(siteId = siteId)
