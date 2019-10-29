@@ -2,18 +2,22 @@ package com.haroldadmin.moonshot.launches
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.append
+import com.haroldadmin.moonshot.core.hasAtLeastSize
+import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.utils.launchAfterDelay
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.get
+
+private const val fetchLimit: Int = 15
 
 @ExperimentalCoroutinesApi
 class LaunchesViewModel(
@@ -23,43 +27,62 @@ class LaunchesViewModel(
 ) : MoonShotViewModel<LaunchesState>(initState) {
 
     init {
-        viewModelScope.launch {
-            when (initState.type) {
+        when (initState.type) {
+            LaunchTypes.NORMAL -> getAllLaunches()
+            LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(initState.siteId)
+        }
+    }
+
+    private fun getAllLaunches() = withState { state ->
+        launchesUseCase
+            .getLaunches(state.filter, limit = fetchLimit, offset = state.offset)
+            .collect { launchesResource ->
+                setState {
+                    copy(
+                        launchesRes = launchesResource,
+                        launches = launches.append(launchesRes()),
+                        hasMoreToFetch = launchesResource().hasAtLeastSize(fetchLimit)
+                    )
+                }
+            }
+    }
+
+    private fun getLaunchesForLaunchPad(siteId: String?) = withState { state ->
+        requireNotNull(siteId) { "Site ID is needed to fetch launches for the launchpad" }
+        launchesForLaunchpadUseCase
+            .getLaunchesForLaunchpad(siteId, state.filter, limit = fetchLimit, offset = state.offset)
+            .collect { launchesResource ->
+                setState {
+                    copy(
+                        launchesRes = launchesResource,
+                        launches = launches.append(launchesResource()),
+                        siteName = launchesResource()?.firstOrNull()?.launchSite?.siteName,
+                        hasMoreToFetch = launchesResource().hasAtLeastSize(fetchLimit)
+                    )
+                }
+            }
+    }
+
+    fun setFilter(filter: LaunchType) = withState { state ->
+        if (state.filter != filter) {
+            setState {
+                copy(filter = filter, launchesRes = Resource.Loading, launches = emptyList())
+            }
+            when (state.type) {
                 LaunchTypes.NORMAL -> getAllLaunches()
-                LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(initState.siteId)
+                LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(state.siteId)
             }
         }
     }
 
-    private suspend fun getAllLaunches() = withState { state ->
-        launchesUseCase
-            .getLaunches(state.filter, limit = 15)
-            .collect { launchesResource ->
-                setState {
-                    copy(launches = launchesResource)
-                }
+    fun loadMore() = withState { state ->
+        when (state.type) {
+            // Using delay because DB queries run fast, so loadMoreView flashes in and out quickly.
+            LaunchTypes.NORMAL -> launchAfterDelay(1000) {
+                getAllLaunches()
             }
-    }
-
-    private suspend fun getLaunchesForLaunchPad(siteId: String?) = withState { state ->
-        requireNotNull(siteId) { "Site ID is needed to fetch launches for the launchpad" }
-
-        launchesForLaunchpadUseCase
-            .getLaunchesForLaunchpad(siteId, state.filter, limit = Int.MAX_VALUE)
-            .collect { launchesResource ->
-                val siteName = (launchesResource as? Resource.Success)?.data?.firstOrNull()?.launchSite?.siteName
-                setState { copy(launches = launchesResource, siteName = siteName) }
-            }
-    }
-
-    fun setFilter(filter: LaunchType) = viewModelScope.launch {
-        withState { state ->
-            if (state.filter != filter) {
-                setState { copy(filter = filter, launches = Resource.Loading) }
-                when (state.type) {
-                    LaunchTypes.NORMAL -> getAllLaunches()
-                    LaunchTypes.LAUNCHPAD -> getLaunchesForLaunchPad(state.siteId)
-                }
+            LaunchTypes.LAUNCHPAD -> launchAfterDelay(1000) {
+                getLaunchesForLaunchPad(state.siteId)
             }
         }
     }

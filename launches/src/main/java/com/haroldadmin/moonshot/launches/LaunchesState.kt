@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.launches
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotState
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 
@@ -11,5 +12,9 @@ data class LaunchesState(
     val siteId: String? = null,
     val siteName: String? = null,
     val filter: LaunchType = LaunchType.Recent,
-    val launches: Resource<List<Launch>> = Resource.Uninitialized
-) : MoonShotState
+    val launchesRes: Resource<List<Launch>> = Resource.Uninitialized,
+    val launches: List<Launch> = launchesRes() ?: emptyList(),
+    val hasMoreToFetch: Boolean = true
+) : MoonShotState {
+    val offset: Int = launches.size
+}

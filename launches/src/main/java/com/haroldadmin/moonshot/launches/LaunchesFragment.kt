@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
@@ -15,8 +16,10 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.utils.launchAfterDelay
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
+import com.haroldadmin.moonshot.views.loadMoreView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import com.haroldadmin.vector.activityViewModel
@@ -74,14 +77,24 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
     }
 
     override fun epoxyController() = asyncController(viewModel) { state: LaunchesState ->
-        when (val launches = state.launches) {
-            is Resource.Success -> launches().forEach { launch ->
-                launchCard {
-                    id(launch.flightNumber)
-                    launch(launch)
-                    onLaunchClick { _ ->
-                        val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
-                        findNavController().navigate(action)
+        when (val launchesRes = state.launchesRes) {
+            is Resource.Success -> {
+                state.launches.forEach { launch ->
+                    launchCard {
+                        id(launch.flightNumber)
+                        launch(launch)
+                        onLaunchClick { _ ->
+                            val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
+
+                if (state.hasMoreToFetch) {
+                    loadMoreView {
+                        id("load-more-launches")
+                        loadingText("Loading more")
+                        onBind { _, _, _ -> viewModel.loadMore() }
                     }
                 }
             }
@@ -91,7 +104,7 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
                     id("launch-error")
                     errorText(getString(R.string.fragmentLaunchesErrorMessage))
                 }
-                launches()?.forEach { launch ->
+                state.launches.forEach { launch ->
                     launchCard {
                         id(launch.flightNumber)
                         launch(launch)
@@ -99,6 +112,13 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
                             val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
                             findNavController().navigate(action)
                         }
+                    }
+                }
+                if (state.hasMoreToFetch) {
+                    loadMoreView {
+                        id("load-more-launches")
+                        loadingText("Loading more")
+                        onBind { _, _, _ -> viewModel.loadMore() }
                     }
                 }
             }

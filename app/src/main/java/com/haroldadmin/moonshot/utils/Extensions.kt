@@ -8,10 +8,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.ConfigurationCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
+import androidx.lifecycle.viewModelScope
 import coil.api.load
 import coil.request.LoadRequestBuilder
 import com.haroldadmin.moonshot.BuildConfig
+import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.models.DatePrecision
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.text.NumberFormat
@@ -79,5 +83,12 @@ inline fun ImageView.loadNullable(url: String?, @DrawableRes errorRes: Int, buil
         load(errorRes)
     } else {
         load(url, builder = builder)
+    }
+}
+
+inline fun <T: MoonShotViewModel<*>> T.launchAfterDelay(delayMs: Long, crossinline action: suspend T.() -> Unit) {
+    viewModelScope.launch {
+        delay(delayMs)
+        action()
     }
 }

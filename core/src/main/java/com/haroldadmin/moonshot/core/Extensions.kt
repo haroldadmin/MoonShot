@@ -23,3 +23,13 @@ fun <T: Any?> T.asConsumable(): Consumable<T> {
 suspend fun <T> Flow<T>.last(): T {
     return this.reduce { _, value -> value }
 }
+
+fun <T> List<T>.append(other: List<T>?): List<T> {
+    if (other.isNullOrEmpty()) return this
+    return this + other
+}
+
+fun <T> List<T>?.hasAtLeastSize(minSize: Int): Boolean {
+    if (this.isNullOrEmpty()) return false
+    return this.size >= minSize
+}

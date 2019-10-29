@@ -95,7 +95,6 @@ class GetLaunchesUseCase(
     }
 
     private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
-        println("Getting past launches for offset: $offset")
         launchesDao.recent(limit, offset)
     }
 
