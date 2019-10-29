@@ -13,3 +13,7 @@ data class ApplicationInfo(
     @ColumnInfo(name = "is_first_launch")
     val isFirstLaunch: Boolean = false
 )
+
+fun ApplicationInfo?.isFirstLaunch(): Boolean {
+    return this == null || this.isFirstLaunch
+}

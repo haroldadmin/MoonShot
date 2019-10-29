@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.work.Configuration
 import com.airbnb.epoxy.Carousel
 import com.haroldadmin.moonshot.models.ApplicationInfo
+import com.haroldadmin.moonshot.models.isFirstLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
@@ -39,11 +40,10 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
         Carousel.setDefaultGlobalSnapHelperFactory(null)
 
         launch {
-            if (appInfoUseCase.getApplicationInfo()?.isFirstLaunch != false) {
+            if (appInfoUseCase.getApplicationInfo().isFirstLaunch()) {
                 get<SyncManager>().enableSync()
                 get<LaunchNotificationsManager>().enable()
-            } else {
-                appInfoUseCase.update(ApplicationInfo(isFirstLaunch = false))
+                appInfoUseCase.save(ApplicationInfo(isFirstLaunch = false))
             }
         }
     }
