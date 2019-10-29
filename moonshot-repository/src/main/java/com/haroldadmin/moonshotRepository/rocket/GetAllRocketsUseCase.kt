@@ -6,8 +6,7 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.RocketsDao
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket as ApiRocket
@@ -22,21 +21,23 @@ class GetAllRocketsUseCase(
     private val persistRocketsUseCase: PersistRocketsUseCase
 ) {
 
-    private lateinit var allRocketsResource: SingleFetchNetworkBoundResource<List<Rocket>, List<ApiRocket>, ErrorResponse>
+    private val defaultLimit = 10
+    private val defaultOffset = 0
+
+    @ExperimentalCoroutinesApi
+    private val allRocketsResource: SingleFetchNetworkBoundResource<List<Rocket>, List<ApiRocket>, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        dbFetcher = { _, limit, offset -> getAllRocketsCached(limit, offset) },
+        cacheValidator = { cached -> !cached.isNullOrEmpty() },
+        apiFetcher = { getAllRocketsFromApi() },
+        dataPersister = { rockets -> persistRocketsUseCase.persistRockets(rockets) }
+    )
 
     @ExperimentalCoroutinesApi
     fun getAllRockets(
-        limit: Int = 10,
-        offset: Int = 0
+        limit: Int = defaultLimit,
+        offset: Int = defaultOffset
     ): Flow<Resource<List<Rocket>>> {
-        if (!::allRocketsResource.isInitialized) {
-            allRocketsResource = singleFetchNetworkBoundResource(
-                dbFetcher = { getAllRocketsCached(limit, offset) },
-                cacheValidator = { cached -> !cached.isNullOrEmpty() },
-                apiFetcher = { getAllRocketsFromApi() },
-                dataPersister = { rockets -> persistRocketsUseCase.persistRockets(rockets) }
-            )
-        }
+        allRocketsResource.updateParams(limit, offset)
         return allRocketsResource.flow()
     }
 

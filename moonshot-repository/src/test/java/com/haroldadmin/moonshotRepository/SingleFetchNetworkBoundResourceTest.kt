@@ -39,7 +39,7 @@ internal class SingleFetchNetworkBoundResourceTest : DescribeSpec({
         context("Data has not been fetched yet") {
             val api = Api()
             val resource = singleFetchNetworkBoundFlow(
-                dbFetcher = { Unit },
+                dbFetcher = { _, _, _ -> Unit },
                 cacheValidator = { cached -> cached != null },
                 apiFetcher = { api.get() },
                 dataPersister = { Unit }
@@ -59,7 +59,7 @@ internal class SingleFetchNetworkBoundResourceTest : DescribeSpec({
         context("Last network request resulted in error") {
             val api = Api()
             val resource = singleFetchNetworkBoundFlow(
-                dbFetcher = { Unit },
+                dbFetcher = { _, _, _ -> Unit },
                 cacheValidator = { cached -> cached != null },
                 apiFetcher = { api.getErrorThenSuccess() },
                 dataPersister = { Unit }

@@ -5,8 +5,8 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
@@ -21,18 +21,19 @@ class GetLaunchDetailsUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    private lateinit var launchDetailsRes: SingleFetchNetworkBoundResource<Launch, ApiLaunch, ErrorResponse>
+    private var flightNumber: Int = 0
+
+    @ExperimentalCoroutinesApi
+    private val launchDetailsRes: SingleFetchNetworkBoundResource<Launch, ApiLaunch, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        dbFetcher = { _, _, _ -> getLaunchDetailsCached(flightNumber) },
+        cacheValidator = { cached -> cached != null },
+        apiFetcher = { getLaunchDetailsFromApi(flightNumber) },
+        dataPersister = persistLaunchesUseCase::persistLaunch
+    )
 
     @ExperimentalCoroutinesApi
     fun getLaunchDetails(flightNumber: Int): Flow<Resource<Launch>> {
-        if (!::launchDetailsRes.isInitialized) {
-            launchDetailsRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getLaunchDetailsCached(flightNumber) },
-                cacheValidator = { cached -> cached != null },
-                apiFetcher = { getLaunchDetailsFromApi(flightNumber) },
-                dataPersister = persistLaunchesUseCase::persistLaunch
-            )
-        }
+        this.flightNumber = flightNumber
         return launchDetailsRes.flow()
     }
 

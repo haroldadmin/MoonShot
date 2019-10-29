@@ -6,6 +6,7 @@ import com.haroldadmin.moonshot.database.RocketsDao
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket as ApiRocket
@@ -20,7 +21,14 @@ class GetRocketDetailsUseCase(
     private val persistRocketsUseCase: PersistRocketsUseCase
 ) {
 
-    private lateinit var rocketDetailsResource: SingleFetchNetworkBoundResource<Rocket, ApiRocket, ErrorResponse>
+    private var rocketId: String = ""
+
+    private val rocketDetailsResource: SingleFetchNetworkBoundResource<Rocket, ApiRocket, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        dbFetcher = { _, _, _ -> getCached(rocketId) },
+        cacheValidator = { cached -> cached != null },
+        apiFetcher = { getFromApi(rocketId) },
+        dataPersister = persistRocketsUseCase::persistRocket
+    )
 
     private suspend fun getCached(rocketId: String) = withContext(Dispatchers.IO) {
         rocketsDao.one(rocketId)
@@ -34,15 +42,7 @@ class GetRocketDetailsUseCase(
 
     @ExperimentalCoroutinesApi
     fun getRocketDetails(rocketId: String): Flow<Resource<Rocket>> {
-        if (!::rocketDetailsResource.isInitialized) {
-            rocketDetailsResource = singleFetchNetworkBoundResource(
-                dbFetcher = { getCached(rocketId) },
-                cacheValidator = { cached -> cached != null },
-                apiFetcher = { getFromApi(rocketId) },
-                dataPersister = persistRocketsUseCase::persistRocket
-            )
-        }
-
+        this.rocketId = rocketId
         return rocketDetailsResource.flow()
     }
 }

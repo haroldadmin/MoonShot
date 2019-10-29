@@ -14,7 +14,9 @@ import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.AnnotationSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 
@@ -131,5 +133,22 @@ internal class LaunchesUseCaseTest : AnnotationSpec() {
             usecase.getLaunches(LaunchType.All, limit = 10).last()
         }
         assertTrue(service.requestCount == 1)
+    }
+
+    @Test
+    fun `paging test`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        val limit = 10
+        var offset = 0
+        usecase
+            .getLaunches(LaunchType.All, limit, offset)
+            .filterIsInstance<Resource.Success<List<Launch>>>()
+            .flatMapLatest {
+                offset += limit
+                usecase.getLaunches(LaunchType.All, limit, offset)
+            }
+            .last()
+
+        dao.lastCallOffset shouldBe offset
     }
 }

@@ -2,6 +2,11 @@ package com.haroldadmin.moonshotRepository
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.last
+import com.haroldadmin.moonshot.models.SampleDbData
+import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.spacex_api_wrapper.SampleApiData
+import io.kotlintest.matchers.collections.shouldHaveAtMostSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -22,7 +27,7 @@ class NetworkBoundResourceTest : DescribeSpec({
             val apiData = listOf(Unit)
 
             val resource = networkBoundFlow(
-                dbFetcher = { isRefreshed -> if (isRefreshed) apiData else dbData },
+                dbFetcher = { isRefreshed, _, _ -> if (isRefreshed) apiData else dbData },
                 apiFetcher = { NetworkResponse.Success(apiData) },
                 cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
@@ -53,7 +58,7 @@ class NetworkBoundResourceTest : DescribeSpec({
         context("Unsuccessful network call") {
 
             val resource = networkBoundFlow(
-                dbFetcher = { dbData },
+                dbFetcher = { _, _, _ -> dbData },
                 apiFetcher = { NetworkResponse.NetworkError(IOException()) },
                 cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
@@ -81,7 +86,7 @@ class NetworkBoundResourceTest : DescribeSpec({
             val apiData = listOf(Unit, Unit)
 
             val resource = networkBoundFlow(
-                dbFetcher = { isRefreshed -> if (isRefreshed) apiData else dbData },
+                dbFetcher = { isRefreshed, _, _ -> if (isRefreshed) apiData else dbData },
                 apiFetcher = { NetworkResponse.Success(apiData) },
                 cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
@@ -118,7 +123,7 @@ class NetworkBoundResourceTest : DescribeSpec({
 
         context("Unsuccessful network call") {
             val resource = networkBoundFlow(
-                dbFetcher = { dbData },
+                dbFetcher = { _, _, _ -> dbData },
                 apiFetcher = { NetworkResponse.NetworkError(IOException()) },
                 cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
                 dataPersister = { Unit }
@@ -148,6 +153,45 @@ class NetworkBoundResourceTest : DescribeSpec({
                     this as Resource.Error<List<Unit>, *>
                     data shouldBe dbData
                     error.shouldBeTypeOf<IOException>()
+                }
+            }
+        }
+    }
+
+    describe("Pagination") {
+        context("Successful network call") {
+            val limit = 10
+            val offset = 0
+
+            val resource = networkBoundResource(
+                initialParams = { limit to offset },
+                dbFetcher = { _, dbLimit, dbOffset ->
+                    SampleDbData.Launches
+                        .many(flightIdGenerator = { index -> index })
+                        .take(dbLimit + dbOffset)
+                        .drop(dbOffset)
+                        .toList()
+                },
+                cacheValidator = { !it.isNullOrEmpty() },
+                apiFetcher = { successfulResponse { SampleApiData.Launches.all().take(limit).toList() } },
+                dataPersister = { Unit }
+            )
+
+            it("Should fetch only as many results as the limit") {
+                with(resource.flow().last()) {
+                    shouldBeTypeOf<Resource.Success<List<Launch>>>()
+                    this as Resource.Success
+                    this() shouldHaveAtMostSize limit
+                }
+            }
+
+            it("Should fetch results with the given offset") {
+                resource.updateParams(offset = 10)
+                with(resource.flow().last()) {
+                    shouldBeTypeOf<Resource.Success<List<Launch>>>()
+                    this as Resource.Success
+                    this() shouldHaveAtMostSize limit
+                    this().all { it.flightNumber >= offset }
                 }
             }
         }

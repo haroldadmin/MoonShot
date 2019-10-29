@@ -3,11 +3,11 @@ package com.haroldadmin.moonshotRepository.launch
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
@@ -22,15 +22,41 @@ class GetLaunchesUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    private lateinit var pastLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
-    private lateinit var upcomingLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
-    private lateinit var allLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
+    private val defaultLimit = 15
+    private val defaultOffset = 0
+
+    @ExperimentalCoroutinesApi
+    private val pastLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        initialParams = ::initialParams,
+        dbFetcher = { _, dbLimit, dbOffset -> getPastCachedLaunches(dbLimit, dbOffset) },
+        cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+        apiFetcher = { getPastApiLaunches() },
+        dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+    )
+
+    @ExperimentalCoroutinesApi
+    private val upcomingLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        initialParams = ::initialParams,
+        dbFetcher = { _, dbLimit, dbOffset -> getUpcomingCachedLaunches(dbLimit, dbOffset) },
+        cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+        apiFetcher = { getUpcomingApiLaunches() },
+        dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+    )
+
+    @ExperimentalCoroutinesApi
+    private val allLaunchesRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        initialParams = ::initialParams,
+        dbFetcher = { _, dbLimit, dbOffset -> getAllCachedLaunches(dbLimit, dbOffset) },
+        cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+        apiFetcher = { getAllApiLaunches() },
+        dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+    )
 
     @ExperimentalCoroutinesApi
     fun getLaunches(
         filter: LaunchType,
-        limit: Int = 15,
-        offset: Int = 0
+        limit: Int = defaultLimit,
+        offset: Int = defaultOffset
     ): Flow<Resource<List<Launch>>> {
         return when (filter) {
             LaunchType.Recent -> getPastLaunches(limit, offset)
@@ -52,45 +78,24 @@ class GetLaunchesUseCase(
         limit: Int,
         offset: Int
     ): Flow<Resource<List<Launch>>> {
-        if (!::pastLaunchesRes.isInitialized) {
-            pastLaunchesRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getPastCachedLaunches(limit, offset) },
-                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
-                apiFetcher = { getPastApiLaunches() },
-                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-            )
-        }
-
+        pastLaunchesRes.updateParams(limit, offset)
         return pastLaunchesRes.flow()
-   }
+    }
 
     @ExperimentalCoroutinesApi
     private fun getUpcomingLaunches(limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
-        if (!::upcomingLaunchesRes.isInitialized) {
-            upcomingLaunchesRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getUpcomingCachedLaunches(limit, offset) },
-                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
-                apiFetcher = { getUpcomingApiLaunches() },
-                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-            )
-        }
+        upcomingLaunchesRes.updateParams(limit, offset)
         return upcomingLaunchesRes.flow()
-   }
+    }
 
     @ExperimentalCoroutinesApi
     private fun getAllLaunches(limit: Int, offset: Int): Flow<Resource<List<Launch>>> {
-        if (!::allLaunchesRes.isInitialized) {
-            allLaunchesRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getAllCachedLaunches(limit, offset) },
-                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
-                apiFetcher = { getAllApiLaunches() },
-                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-            )
-        }
+        allLaunchesRes.updateParams(limit, offset)
         return allLaunchesRes.flow()
-   }
+    }
 
     private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+        println("Getting past launches for offset: $offset")
         launchesDao.recent(limit, offset)
     }
 
@@ -119,4 +124,6 @@ class GetLaunchesUseCase(
             launchesService.getAllLaunches().await()
         }
     }
+
+    private fun initialParams(): Pair<Int, Int> = pairOf(defaultLimit, defaultOffset)
 }

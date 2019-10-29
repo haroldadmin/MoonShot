@@ -16,13 +16,11 @@ class SearchLaunchesUseCase(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
     persistLaunchesUseCase: PersistLaunchesUseCase
-) : SearchUseCase() {
+) {
 
     @ExperimentalCoroutinesApi
-    private val resource = searchResource(
-        dbQuery = { _query },
-        dbLimit = { _limit },
-        dbFetcher = { _, query, limit -> getSearchResultsCached(query, limit) },
+    private val resource by searchResourceLazy(
+        dbFetcher = { _, query, limit, offset -> getSearchResultsCached(query, limit, offset) },
         cacheValidator = { cached -> !cached.isNullOrEmpty() },
         apiFetcher = { getAllLaunchesFromApi() },
         dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
@@ -30,12 +28,11 @@ class SearchLaunchesUseCase(
 
     @ExperimentalCoroutinesApi
     fun searchFor(query: SearchQuery, limit: Int): Flow<Resource<List<Launch>>> {
-        _query = query.sqlQuery()
-        _limit = limit
+        resource.updateParams(query, limit)
         return resource.flow()
     }
 
-    private suspend fun getSearchResultsCached(query: String, limit: Int) =
+    private suspend fun getSearchResultsCached(query: String, limit: Int, offset: Int) =
         withContext(Dispatchers.IO) {
             launchesDao.forQuery(query, limit)
         }

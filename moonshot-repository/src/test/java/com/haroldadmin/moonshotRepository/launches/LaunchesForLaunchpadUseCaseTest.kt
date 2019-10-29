@@ -14,7 +14,9 @@ import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.AnnotationSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.runBlocking
 
 @ExperimentalCoroutinesApi
@@ -123,5 +125,23 @@ internal class LaunchesForLaunchpadUseCaseTest : AnnotationSpec() {
 
             data.all { it.isUpcoming == false } shouldBe true
         }
+    }
+
+    @Test
+    fun `paging test`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        val siteId = "ccafs_slc_40"
+        val limit = 10
+        var offset = 0
+        usecase
+            .getLaunchesForLaunchpad(siteId, LaunchType.All, limit, offset)
+            .filterIsInstance<Resource.Success<List<Launch>>>()
+            .flatMapLatest {
+                offset += limit
+                usecase.getLaunchesForLaunchpad(siteId, LaunchType.All, limit, offset)
+            }
+            .last()
+
+        dao.lastCallOffset shouldBe offset
     }
 }

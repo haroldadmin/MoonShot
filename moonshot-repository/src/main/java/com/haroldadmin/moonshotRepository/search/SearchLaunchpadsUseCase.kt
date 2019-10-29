@@ -16,26 +16,22 @@ class SearchLaunchpadsUseCase(
     private val launchPadDao: LaunchPadDao,
     private val launchPadService: LaunchPadService,
     persistLaunchPadUseCase: PersistLaunchPadUseCase
-) : SearchUseCase() {
+) {
 
-    @ExperimentalCoroutinesApi
-    private val resource = searchResource(
-        dbQuery = { _query },
-        dbLimit = { _limit },
-        dbFetcher = { _, query, limit -> getSearchResultsCached(query, limit) },
-        cacheValidator = { cached -> !cached.isNullOrEmpty() },
+    private val res by searchResourceLazy(
+        dbFetcher = { _, query, limit, offset -> getSearchResultsCached(query, limit, offset) },
+        cacheValidator = { !it.isNullOrEmpty() },
         apiFetcher = { getAllLaunchPadsFromApi() },
         dataPersister = { launchPads -> persistLaunchPadUseCase.persistLaunchPads(launchPads) }
     )
 
     @ExperimentalCoroutinesApi
     fun searchFor(query: SearchQuery, limit: Int): Flow<Resource<List<LaunchPad>>> {
-        _query = query.sqlQuery()
-        _limit = limit
-        return resource.flow()
+        res.updateParams(query, limit)
+        return res.flow()
     }
 
-    private suspend fun getSearchResultsCached(query: String, limit: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getSearchResultsCached(query: String, limit: Int, offset: Int) = withContext(Dispatchers.IO) {
         launchPadDao.forQuery(query, limit)
     }
 

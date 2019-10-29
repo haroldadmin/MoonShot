@@ -18,10 +18,10 @@ import org.junit.Assert.assertTrue
 @ExperimentalCoroutinesApi
 internal class LaunchesForRocketUseCaseTest : AnnotationSpec() {
 
-    private lateinit var dao : FakeRocketsDao
-    private lateinit var launchesDao : FakeLaunchesDao
-    private lateinit var service : FakeLaunchesService
-    private lateinit var persister : PersistLaunchesUseCase
+    private lateinit var dao: FakeRocketsDao
+    private lateinit var launchesDao: FakeLaunchesDao
+    private lateinit var service: FakeLaunchesService
+    private lateinit var persister: PersistLaunchesUseCase
     private lateinit var usecase: GetLaunchesForRocketUseCase
 
     @Before

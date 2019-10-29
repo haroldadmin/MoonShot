@@ -15,16 +15,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertTrue
 
 @ExperimentalCoroutinesApi
 internal class LaunchDetailsUseCaseTest : AnnotationSpec() {
 
-    private lateinit var dao : FakeLaunchesDao
-    private lateinit var service : FakeLaunchesService
-    private lateinit var persister : PersistLaunchesUseCase
-    private lateinit var usecase : GetLaunchDetailsUseCase
+    private lateinit var dao: FakeLaunchesDao
+    private lateinit var service: FakeLaunchesService
+    private lateinit var persister: PersistLaunchesUseCase
+    private lateinit var usecase: GetLaunchDetailsUseCase
 
     @Before
     fun setup() {

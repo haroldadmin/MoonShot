@@ -6,6 +6,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * A class that fetches data from the network just once, and then returns
@@ -18,18 +20,18 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
     @ExperimentalCoroutinesApi
     override fun flow(): Flow<Resource<T>> {
         return flow {
-            val cachedData = getFromDatabase(isRefreshed = hasDataBeenFetched)
+            val cachedData = getFromDatabase(isRefreshed = hasDataBeenFetched, limit = limit, offset = offset)
+
             if (validateCache(cachedData)) {
                 emit(Resource.Success(cachedData!!, isCached = true))
             }
 
             if (!hasDataBeenFetched) {
-                println("[SingleFetchResource] Data has not been fetched yet")
                 when (val apiResponse = getFromApi()) {
                     is NetworkResponse.Success -> {
                         persistData(apiResponse.body)
                         hasDataBeenFetched = true
-                        val refreshedData = getFromDatabase(isRefreshed = true)!!
+                        val refreshedData = getFromDatabase(isRefreshed = true, limit = limit, offset = offset)!!
                         emit(Resource.Success(refreshedData, isCached = false))
                     }
                     is NetworkResponse.ServerError -> {
@@ -42,7 +44,6 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
                     }
                 }
             } else {
-                println("[SingleFetchResource] Data has already been fetched")
                 cachedData?.let {
                     emit(Resource.Success(it, isCached = false))
                 } ?: Resource.Error(cachedData, null)
@@ -53,14 +54,21 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
 
 @ExperimentalCoroutinesApi
 inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundResource(
-    crossinline dbFetcher: suspend (Boolean) -> T?,
+    crossinline initialParams: () -> Pair<Int, Int> = { -1 to 0 },
+    crossinline dbFetcher: suspend (Boolean, Int, Int) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
     crossinline cacheValidator: suspend (T?) -> Boolean,
     crossinline dataPersister: suspend (U) -> Unit
 ): SingleFetchNetworkBoundResource<T, U, V> {
-    val resource = object : SingleFetchNetworkBoundResource<T, U, V>() {
-        override suspend fun getFromDatabase(isRefreshed: Boolean): T? {
-            return dbFetcher(isRefreshed)
+    return object : SingleFetchNetworkBoundResource<T, U, V>() {
+
+        init {
+            val (limit, offset) = initialParams()
+            updateParams(limit, offset)
+        }
+
+        override suspend fun getFromDatabase(isRefreshed: Boolean, limit: Int, offset: Int): T? {
+            return dbFetcher(isRefreshed, limit, offset)
         }
 
         override suspend fun validateCache(cachedData: T?): Boolean {
@@ -75,15 +83,26 @@ inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundResource(
             dataPersister(apiData)
         }
     }
-    return resource
+}
+
+@ExperimentalCoroutinesApi
+inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundResourceLazy(
+    crossinline initialParams: () -> Pair<Int, Int> = { -1 to 0 },
+    crossinline dbFetcher: suspend (Boolean, Int, Int) -> T?,
+    crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
+    crossinline cacheValidator: suspend (T?) -> Boolean,
+    crossinline dataPersister: suspend (U) -> Unit
+): Lazy<SingleFetchNetworkBoundResource<T, U, V>> {
+    return lazyOf(singleFetchNetworkBoundResource(initialParams, dbFetcher, apiFetcher, cacheValidator, dataPersister))
 }
 
 @ExperimentalCoroutinesApi
 inline fun <T : Any, U : Any, V : Any> singleFetchNetworkBoundFlow(
-    crossinline dbFetcher: suspend (Boolean) -> T?,
+    crossinline initialParams: () -> Pair<Int, Int> = { -1 to 0 },
+    crossinline dbFetcher: suspend (Boolean, Int, Int) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
     crossinline cacheValidator: suspend (T?) -> Boolean,
     crossinline dataPersister: suspend (U) -> Unit
 ): Flow<Resource<T>> {
-    return singleFetchNetworkBoundResource(dbFetcher, apiFetcher, cacheValidator, dataPersister).flow()
+    return singleFetchNetworkBoundResource(initialParams, dbFetcher, apiFetcher, cacheValidator, dataPersister).flow()
 }

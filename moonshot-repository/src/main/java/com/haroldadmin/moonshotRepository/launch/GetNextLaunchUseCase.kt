@@ -2,11 +2,11 @@ package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.executeWithRetry
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundFlow
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
@@ -21,34 +21,42 @@ class GetNextLaunchUseCase(
     private val persistLaunchesUseCase: PersistLaunchesUseCase
 ) {
 
-    private lateinit var nextLaunchRes: SingleFetchNetworkBoundResource<Launch, ApiLaunch, ErrorResponse>
-    private lateinit var nextLaunchesUntilDateRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse>
+    private var untilTime: Long = Long.MAX_VALUE
+    private val defaultLimit = 10
+    private val defaultOffset = 0
+
+    @ExperimentalCoroutinesApi
+    private val nextLaunchRes: SingleFetchNetworkBoundResource<Launch, ApiLaunch, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        dbFetcher = { _, _, _ -> getNextLaunchCached() },
+        cacheValidator = { cachedData -> cachedData != null },
+        apiFetcher = { getNextLaunchFromService() },
+        dataPersister = persistLaunchesUseCase::persistLaunch
+    )
+
+    @ExperimentalCoroutinesApi
+    private val nextLaunchesUntilDateRes: SingleFetchNetworkBoundResource<List<Launch>, List<ApiLaunch>, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+        initialParams = ::initialParams,
+        dbFetcher = { _, limit, offset -> getNextLaunchesUntilDateCached(untilTime, limit, offset) },
+        cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
+        apiFetcher = { getAllUpcomingLaunchesFromApi() },
+        dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
+    )
 
     @ExperimentalCoroutinesApi
     fun getNextLaunch(): Flow<Resource<Launch>> {
-        if (!::nextLaunchRes.isInitialized) {
-            nextLaunchRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getNextLaunchCached() },
-                cacheValidator = { cachedData -> cachedData != null },
-                apiFetcher = { getNextLaunchFromService() },
-                dataPersister = persistLaunchesUseCase::persistLaunch
-            )
-        }
         return nextLaunchRes.flow()
-   }
+    }
 
     @ExperimentalCoroutinesApi
-    fun getNextLaunchesUntilDate(until: Long, limit: Int = 10, offset: Int = 0): Flow<Resource<List<Launch>>> {
-        if (!::nextLaunchesUntilDateRes.isInitialized) {
-            nextLaunchesUntilDateRes = singleFetchNetworkBoundResource(
-                dbFetcher = { getNextLaunchesUntilDateCached(until, limit, offset) },
-                cacheValidator = { cachedData -> !cachedData.isNullOrEmpty() },
-                apiFetcher = { getAllUpcomingLaunchesFromApi() },
-                dataPersister = { launches -> persistLaunchesUseCase.persistLaunches(launches) }
-            )
-        }
+    fun getNextLaunchesUntilDate(
+        until: Long,
+        limit: Int = defaultLimit,
+        offset: Int = defaultOffset
+    ): Flow<Resource<List<Launch>>> {
+        this.untilTime = until
+        nextLaunchesUntilDateRes.updateParams(limit, offset)
         return nextLaunchesUntilDateRes.flow()
-   }
+    }
 
     private suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
         launchesDao.next()
@@ -70,4 +78,6 @@ class GetNextLaunchUseCase(
             launchesService.getUpcomingLaunches().await()
         }
     }
+
+    private fun initialParams() = pairOf(defaultLimit, defaultOffset)
 }

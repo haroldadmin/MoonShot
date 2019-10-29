@@ -10,8 +10,9 @@ import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertTrue
 import java.util.Date
 
@@ -66,5 +67,22 @@ internal class NextLaunchUseCaseTest : AnnotationSpec() {
             usecase.getNextLaunch().last()
         }
         assertTrue(service.requestCount == 1)
+    }
+
+    @Test
+    fun `paging test`() = runBlocking {
+        service.expectedResponse = ExpectedResponse.Success
+        val limit = 10
+        var offset = 0
+        usecase
+            .getNextLaunchesUntilDate(Long.MAX_VALUE, limit, offset)
+            .filterIsInstance<Resource.Success<List<Launch>>>()
+            .flatMapLatest {
+                offset += limit
+                usecase.getNextLaunchesUntilDate(Long.MAX_VALUE, limit, offset)
+            }
+            .last()
+
+        dao.lastCallOffset shouldBe offset
     }
 }
