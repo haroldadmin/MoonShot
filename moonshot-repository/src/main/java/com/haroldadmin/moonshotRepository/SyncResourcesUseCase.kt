@@ -10,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 import java.util.Date
+import javax.inject.Inject
 
-class SyncResourcesUseCase(
+class SyncResourcesUseCase @Inject constructor(
     private val launchesUseCase: GetLaunchesUseCase,
     private val rocketsUseCase: GetAllRocketsUseCase,
     private val launchpadsUseCase: GetLaunchPadUseCase,

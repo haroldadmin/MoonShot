@@ -6,7 +6,6 @@ import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.fromFile
 import io.kotlintest.shouldBe
 import okhttp3.mockwebserver.MockResponse
-import org.koin.test.get
 
 internal class LaunchTest : BaseApiTest() {
 

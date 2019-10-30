@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -42,14 +43,17 @@ dependencies {
     implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
 
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
+
     implementation(Libs.vector)
     implementation(Libs.AndroidX.appCompat)
     implementation(Libs.Lifecycle.vmSavedState)
     implementation(Libs.AndroidX.ktxCore)
 
     implementation(Libs.Ui.epoxy)
-
-    implementation(Libs.Koin.android)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.mockkAndroid)

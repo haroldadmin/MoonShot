@@ -34,9 +34,9 @@ MoonShot is built using [Vector](https://github.com/haroldadmin/Vector), a Kotli
 * [Epoxy](https://github.com/airbnb/Epoxy) to build most of the UI.
 * [Room](https://developer.android.com/topic/libraries/architecture/room) for the local persistence layer, although I want to experiment with [SQLDelight](https://github.com/square/sqldelight) in the future.
 * [Moshi](https://github.com/square/moshi) for JSON parsing
-* [Koin](https://github.com/insertKoinIO/koin) for Dependency Injection (or as a Service Locator, for those that disagree)
-* Multi Module app following Modularization by feature, with every feature sharing the same repository layer
+* [Dagger](https://github.com/google/dagger) for Dependency Injection.
 * [Navigation Architecture Component](https://developer.android.com/guide/navigation/navigation-getting-started) for in-app navigation
+* Multi Module app following Modularization by feature, with every feature sharing the same repository layer
 
 ### Contribution
 

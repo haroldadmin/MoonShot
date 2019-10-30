@@ -14,23 +14,29 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
 import org.joda.time.DateTime
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.koin.core.qualifier.named
+import javax.inject.Inject
+import javax.inject.Named
 
-class DayBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver(), KoinComponent {
+class DayBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver() {
 
-    private val notificationType by inject<LaunchNotification>(named("day-before-launch"))
-    private val repository by inject<GetNextLaunchUseCase>()
-    private val manager by inject<LaunchNotificationsManager>()
+    @Inject
+    @Named("day-before-launch")
+    lateinit var notificationType: LaunchNotification
+
+    @Inject
+    lateinit var usecase: GetNextLaunchUseCase
+
+    @Inject
+    lateinit var manager: LaunchNotificationsManager
 
     @FlowPreview
     @ExperimentalCoroutinesApi
     override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
+        broadcastReceiverComponent.inject(this)
         val now = DateTime.now()
         val tomorrow = now.plusDays(1).millis
 
-        val launchesTillTomorrow = repository
+        val launchesTillTomorrow = usecase
             .getNextLaunchesUntilDate(tomorrow)
             .first()
 

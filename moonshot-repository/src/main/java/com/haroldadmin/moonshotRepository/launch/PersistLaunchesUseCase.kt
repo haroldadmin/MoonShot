@@ -6,8 +6,9 @@ import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PersistLaunchesUseCase(private val launchesDao: LaunchDao) {
+class PersistLaunchesUseCase @Inject constructor(private val launchesDao: LaunchDao) {
 
     suspend fun persistLaunch(apiLaunch: Launch) = withContext(Dispatchers.IO) {
         launchesDao.save(apiLaunch.toDbLaunch())

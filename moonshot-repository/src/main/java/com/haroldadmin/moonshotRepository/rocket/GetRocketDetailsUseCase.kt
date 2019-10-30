@@ -5,7 +5,6 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.RocketsDao
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResource
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
@@ -14,8 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GetRocketDetailsUseCase(
+class GetRocketDetailsUseCase @Inject constructor(
     private val rocketsDao: RocketsDao,
     private val rocketsService: RocketsService,
     private val persistRocketsUseCase: PersistRocketsUseCase

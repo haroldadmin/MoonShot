@@ -48,13 +48,13 @@ class ScheduleWorker(
     ) {
         val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
-        if (settings.getBoolean(JustBeforeLaunch.enabledPreferenceKey, true)) {
-            launchNotificationsManager.schedule(JustBeforeLaunch, nextLaunch.launchDateUtc.time)
+        if (settings.getBoolean(JustBeforeLaunch().enabledPreferenceKey, true)) {
+            launchNotificationsManager.schedule(JustBeforeLaunch(), nextLaunch.launchDateUtc.time)
         }
 
-        if (settings.getBoolean(DayBeforeLaunch.enabledPreferenceKey, true)) {
+        if (settings.getBoolean(DayBeforeLaunch().enabledPreferenceKey, true)) {
             launchesUntilTomorrow.forEach {
-                launchNotificationsManager.schedule(DayBeforeLaunch, it.launchDateUtc.time)
+                launchNotificationsManager.schedule(DayBeforeLaunch(), it.launchDateUtc.time)
             }
         }
     }

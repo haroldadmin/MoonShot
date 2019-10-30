@@ -86,7 +86,7 @@ inline fun ImageView.loadNullable(url: String?, @DrawableRes errorRes: Int, buil
     }
 }
 
-inline fun <T: MoonShotViewModel<*>> T.launchAfterDelay(delayMs: Long, crossinline action: suspend T.() -> Unit) {
+inline fun <T : MoonShotViewModel<*>> T.launchAfterDelay(delayMs: Long, crossinline action: suspend T.() -> Unit) {
     viewModelScope.launch {
         delay(delayMs)
         action()

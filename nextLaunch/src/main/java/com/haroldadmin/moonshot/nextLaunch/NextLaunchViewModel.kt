@@ -1,19 +1,17 @@
 package com.haroldadmin.moonshot.nextLaunch
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
-import com.haroldadmin.vector.VectorViewModelFactory
-import com.haroldadmin.vector.ViewModelOwner
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class NextLaunchViewModel(
-    initState: NextLaunchState,
+class NextLaunchViewModel @AssistedInject constructor(
+    @Assisted initState: NextLaunchState,
     private val nextLaunchUseCase: GetNextLaunchUseCase
 ) : MoonShotViewModel<NextLaunchState>(initState) {
 
@@ -31,13 +29,8 @@ class NextLaunchViewModel(
             }
     }
 
-    companion object : VectorViewModelFactory<NextLaunchViewModel, NextLaunchState> {
-        override fun create(
-            initialState: NextLaunchState,
-            owner: ViewModelOwner,
-            handle: SavedStateHandle
-        ): NextLaunchViewModel? = with(owner.koin()) {
-            NextLaunchViewModel(initialState, get())
-        }
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: NextLaunchState): NextLaunchViewModel
     }
 }

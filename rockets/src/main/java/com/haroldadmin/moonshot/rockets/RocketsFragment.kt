@@ -11,22 +11,40 @@ import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshot.rockets.databinding.FragmentRocketsBinding
+import com.haroldadmin.moonshot.rockets.di.DaggerRocketsComponent
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.rocketCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
 class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>() {
 
     private lateinit var binding: FragmentRocketsBinding
-    override val viewModel: RocketsViewModel by fragmentViewModel()
-    private val mainViewModel: MainViewModel by activityViewModel()
+
+    @Inject lateinit var viewModelFactory: RocketsViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+
+    override val viewModel: RocketsViewModel by fragmentViewModel { initState, _ ->
+        viewModelFactory.create(initState)
+    }
+    private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
+        mainViewModelFactory.create(initState, savedStateHandle)
+    }
+
+    override fun initDI() {
+        DaggerRocketsComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun renderer(state: RocketsState) {
         epoxyController.setData(state)

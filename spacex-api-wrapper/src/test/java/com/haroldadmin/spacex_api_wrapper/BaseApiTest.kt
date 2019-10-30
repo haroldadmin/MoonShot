@@ -1,30 +1,38 @@
 package com.haroldadmin.spacex_api_wrapper
 
+import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.kotlintest.Spec
 import io.kotlintest.specs.DescribeSpec
 import okhttp3.mockwebserver.MockWebServer
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.core.parameter.parametersOf
-import org.koin.test.KoinTest
-import org.koin.test.inject
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.Date
 
-internal abstract class BaseApiTest : KoinTest, DescribeSpec() {
+internal abstract class BaseApiTest : DescribeSpec() {
 
-    protected val server by lazy { MockWebServer() }
-    protected val retrofit by inject<Retrofit> { parametersOf(server) }
+    protected lateinit var server: MockWebServer
+    protected lateinit var moshi: Moshi
+    protected lateinit var retrofit: Retrofit
 
     override fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
-        startKoin {
-            modules(testModule)
-        }
+        server = MockWebServer()
+        moshi = Moshi.Builder()
+            .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
+            .add(KotlinJsonAdapterFactory())
+            .build()
+        retrofit = Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
+            .baseUrl(server.url("/"))
+            .build()
     }
 
     override fun afterSpec(spec: Spec) {
         super.afterSpec(spec)
-        stopKoin()
         server.close()
     }
 }

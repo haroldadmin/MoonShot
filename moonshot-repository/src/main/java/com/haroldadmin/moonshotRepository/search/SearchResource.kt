@@ -3,7 +3,6 @@ package com.haroldadmin.moonshotRepository.search
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 abstract class SearchResource<T : Any, U : Any, V : Any> : SingleFetchNetworkBoundResource<T, U, V>() {
     protected var query: String = ""
@@ -39,4 +38,3 @@ inline fun <T : Any, U : Any, V : Any> searchResourceLazy(
         }
     })
 }
-

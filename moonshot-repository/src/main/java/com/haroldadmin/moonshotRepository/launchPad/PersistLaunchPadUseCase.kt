@@ -6,8 +6,9 @@ import com.haroldadmin.moonshotRepository.mappers.toDbLaunchPad
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PersistLaunchPadUseCase(private val launchPadDao: LaunchPadDao) {
+class PersistLaunchPadUseCase @Inject constructor(private val launchPadDao: LaunchPadDao) {
 
     suspend fun persistLaunchPad(apiLaunchPad: LaunchPad) = withContext(Dispatchers.IO) {
         launchPadDao.save(apiLaunchPad.toDbLaunchPad())

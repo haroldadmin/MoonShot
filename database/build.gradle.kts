@@ -42,13 +42,17 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":core"))
     implementation(project(":models"))
 
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
 
-    implementation(Libs.Koin.android)
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
 
     implementation(Libs.AndroidX.archCoreCommon)
     implementation(Libs.AndroidX.archCoreRuntime)

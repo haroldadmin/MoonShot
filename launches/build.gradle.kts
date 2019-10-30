@@ -46,6 +46,11 @@ dependencies {
 
     implementation(Libs.vector)
 
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
+
     implementation(Libs.AndroidX.appCompat)
     implementation(Libs.Lifecycle.lifecycle)
     implementation(Libs.Ui.materialComponents)
@@ -55,14 +60,14 @@ dependencies {
     implementation(Libs.AndroidX.navigation)
     implementation(Libs.AndroidX.navigationUi)
 
-    implementation(Libs.Koin.koinCore)
-    implementation(Libs.Koin.android)
-    implementation(Libs.Koin.viewModel)
-
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.androidxJunitExt)
     androidTestImplementation(Libs.Test.espressoCore)
+
+    // Dependencies to satisfy Dagger
+    implementation(project(":database"))
+    implementation(project(":spacex-api-wrapper"))
 }

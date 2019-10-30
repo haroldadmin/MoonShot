@@ -13,8 +13,9 @@ import androidx.work.WorkManager
 import com.haroldadmin.moonshot.notifications.workers.ScheduleWorker
 import com.haroldadmin.moonshot.utils.log
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class RealLaunchNotificationsManager(private val appContext: Context) : LaunchNotificationsManager {
+class RealLaunchNotificationsManager @Inject constructor(private val appContext: Context) : LaunchNotificationsManager {
 
     override fun enable() {
         log("Enqueueing scheduling work")

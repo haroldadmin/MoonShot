@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.THEME_MAPPINGS
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
@@ -24,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import com.haroldadmin.moonshot.R as appR
 
@@ -33,8 +34,16 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
-    private val launchNotificationsManager by inject<LaunchNotificationsManager>()
-    private val syncManager by inject<SyncManager>()
+    @Inject lateinit var launchNotificationsManager: LaunchNotificationsManager
+    @Inject lateinit var syncManager: SyncManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerSettingsComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
                 launchNotificationsManager.enable()
             } else {
                 log("Disabling just before launch notifications")
-                launchNotificationsManager.disable(JustBeforeLaunch)
+                launchNotificationsManager.disable(JustBeforeLaunch())
             }
             true
         }
@@ -69,7 +78,7 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
                 launchNotificationsManager.enable()
             } else {
                 log("Disabling day before launch notifications")
-                launchNotificationsManager.disable(DayBeforeLaunch)
+                launchNotificationsManager.disable(DayBeforeLaunch())
             }
             true
         }

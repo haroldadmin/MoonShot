@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
+import com.haroldadmin.moonshot.launches.di.DaggerLaunchesComponent
 import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshot.utils.launchAfterDelay
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadMoreView
@@ -24,20 +26,37 @@ import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import com.haroldadmin.vector.activityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
 class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesState>() {
 
     private lateinit var binding: FragmentLaunchesBinding
+    @Inject lateinit var viewModelFactory: LaunchesViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
 
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
 
     override val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
-        LaunchesViewModelFactory(LaunchesState(type = safeArgs.type, siteId = safeArgs.siteId))
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return viewModelFactory.create(LaunchesState(type = safeArgs.type, siteId = safeArgs.siteId)) as T
+            }
+        }
     }
 
-    private val mainViewModel: MainViewModel by activityViewModel()
+    private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
+        mainViewModelFactory.create(initState, savedStateHandle)
+    }
+
+    override fun initDI() {
+        DaggerLaunchesComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
