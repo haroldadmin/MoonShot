@@ -22,11 +22,16 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":core"))
+
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.reflect)
     implementation(Libs.Kotlin.coroutines)
 
-    implementation(Libs.Koin.koinCore)
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
 
     implementation(Libs.Network.Retrofit.retrofit)
     implementation(Libs.Network.OkHttp.loggingInterceptor)
@@ -37,7 +42,6 @@ dependencies {
     kapt(Libs.Network.Moshi.codegen)
 
     testImplementation(Libs.Network.OkHttp.mockWebServer)
-    testImplementation(Libs.Koin.koinTest)
     testImplementation(Libs.Test.kotlinTest)
 }
 

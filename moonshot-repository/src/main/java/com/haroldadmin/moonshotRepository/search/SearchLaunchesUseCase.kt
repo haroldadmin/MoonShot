@@ -11,8 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class SearchLaunchesUseCase(
+class SearchLaunchesUseCase @Inject constructor(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
     persistLaunchesUseCase: PersistLaunchesUseCase

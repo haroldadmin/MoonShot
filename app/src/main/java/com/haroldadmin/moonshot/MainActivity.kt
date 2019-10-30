@@ -10,14 +10,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.vector.viewModel
 import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
 const val KEY_THEME_MODE = "theme-mode"
 const val KEY_CRASH_REPORTS = "crash-reports"
@@ -34,15 +36,16 @@ class MainActivity : MoonShotActivity() {
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModel()
 
+    @Inject
+    @Named("settings")
+    lateinit var settings: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        inject()
         super.onCreate(savedInstanceState)
 
-        PreferenceManager.getDefaultSharedPreferences(this).also {
-            initPreferences(it)
-        }
-
+        initPreferences(settings)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         navController = findNavController(R.id.navHostFragment)
 
         with(binding) {
@@ -82,13 +85,13 @@ class MainActivity : MoonShotActivity() {
         }
     }
 
-    private fun initPreferences(preferences: SharedPreferences) {
-        initTheme(preferences)
-        initCrashReporting(preferences)
+    private fun initPreferences(settings: SharedPreferences) {
+        initTheme(settings)
+        initCrashReporting(settings)
     }
 
-    private fun initTheme(preferences: SharedPreferences) {
-        val theme = preferences.getString(KEY_THEME_MODE, "auto") ?: return
+    private fun initTheme(settings: SharedPreferences) {
+        val theme = settings.getString(KEY_THEME_MODE, "auto") ?: return
         THEME_MAPPINGS[theme]?.let { mode ->
             AppCompatDelegate.setDefaultNightMode(mode)
         } ?: AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
@@ -100,4 +103,8 @@ class MainActivity : MoonShotActivity() {
             Fabric.with(this, Crashlytics())
         }
     }
+}
+
+fun MainActivity.inject() {
+    appComponent().inject(this)
 }

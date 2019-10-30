@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.notifications.receivers
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.launch.missionPatch
@@ -13,18 +14,28 @@ import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.koin.core.qualifier.named
+import javax.inject.Inject
+import javax.inject.Named
 
-class JustBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver(), KoinComponent {
+class JustBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver() {
 
-    private val repository by inject<GetNextLaunchUseCase>()
-    private val notificationType by inject<LaunchNotification>(named("just-before-launch"))
-    private val manager by inject<LaunchNotificationsManager>()
+    @Inject
+    @Named("settings")
+    lateinit var settings: SharedPreferences
+
+    @Inject
+    @Named("just-before-launch")
+    lateinit var notificationType: LaunchNotification
+
+    @Inject
+    lateinit var repository: GetNextLaunchUseCase
+
+    @Inject
+    lateinit var manager: LaunchNotificationsManager
 
     @ExperimentalCoroutinesApi
     override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
+        broadcastReceiverComponent.inject(this)
         val nextLaunch = repository.getNextLaunch()
             .first()
             .invoke()

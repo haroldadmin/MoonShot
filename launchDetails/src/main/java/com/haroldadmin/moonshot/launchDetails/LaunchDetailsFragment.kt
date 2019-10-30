@@ -18,7 +18,9 @@ import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
+import com.haroldadmin.moonshot.launchDetails.di.DaggerLaunchDetailsComponent
 import com.haroldadmin.moonshot.launchDetails.views.LinkCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.PictureCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
@@ -37,14 +39,30 @@ import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.Date
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, LaunchDetailsState>() {
 
     private lateinit var binding: FragmentLaunchDetailsBinding
 
-    override val viewModel: LaunchDetailsViewModel by fragmentViewModel()
-    private val mainViewModel: MainViewModel by activityViewModel()
+    @Inject lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+
+    override val viewModel: LaunchDetailsViewModel by fragmentViewModel { initState, _ ->
+        viewModelFactory.create(initState)
+    }
+
+    private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
+        mainViewModelFactory.create(initState, savedStateHandle)
+    }
+
+    override fun initDI() {
+        DaggerLaunchDetailsComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun renderer(state: LaunchDetailsState) {
         epoxyController.setData(state)

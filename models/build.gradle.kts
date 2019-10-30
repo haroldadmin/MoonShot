@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":core"))
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Persistence.room)
     kapt(Libs.Persistence.roomCompiler)

@@ -10,8 +10,9 @@ import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class SyncManager(private val context: Context) {
+class SyncManager @Inject constructor(private val context: Context) {
 
     companion object {
         const val KEY_BACKGROUND_SYNC = "background-sync"

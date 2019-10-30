@@ -3,19 +3,20 @@ package com.haroldadmin.moonshot.rocketDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.rocket.GetLaunchesForRocketUseCase
 import com.haroldadmin.moonshotRepository.rocket.GetRocketDetailsUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class RocketDetailsViewModel(
-    initState: RocketDetailsState,
+class RocketDetailsViewModel @AssistedInject constructor(
+    @Assisted initState: RocketDetailsState,
     private val rocketDetailsUseCase: GetRocketDetailsUseCase,
     private val launchesForRocketUseCase: GetLaunchesForRocketUseCase
 ) : MoonShotViewModel<RocketDetailsState>(initState) {
@@ -42,15 +43,12 @@ class RocketDetailsViewModel(
             }
     }
 
-    companion object : VectorViewModelFactory<RocketDetailsViewModel, RocketDetailsState> {
-        override fun create(
-            initialState: RocketDetailsState,
-            owner: ViewModelOwner,
-            handle: SavedStateHandle
-        ): RocketDetailsViewModel? = with(owner.koin()) {
-            RocketDetailsViewModel(initialState, get(), get())
-        }
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: RocketDetailsState): RocketDetailsViewModel
+    }
 
+    companion object : VectorViewModelFactory<RocketDetailsViewModel, RocketDetailsState> {
         override fun initialState(
             handle: SavedStateHandle,
             owner: ViewModelOwner

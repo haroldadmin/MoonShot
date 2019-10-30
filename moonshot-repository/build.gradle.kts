@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 android {
     compileSdkVersion(ProjectProperties.compileSdk)
@@ -61,13 +62,17 @@ dependencies {
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
 
-    implementation(Libs.Koin.android)
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
 
     implementation(Libs.Network.Retrofit.networkResponseAdapter)
+    implementation(Libs.Network.OkHttp.loggingInterceptor)
     implementation(Libs.Network.OkHttp.okHttp)
 
     testImplementation(Libs.Test.coroutinesTest)
-    testImplementation(Libs.Koin.koinTest)
+    testImplementation(Libs.Test.junit4)
     testImplementation(Libs.Test.kotlinTest)
     testImplementation(Libs.Test.mockk)
 }

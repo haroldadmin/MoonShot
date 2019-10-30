@@ -42,6 +42,11 @@ dependencies {
 
     implementation(Libs.vector)
 
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
+
     implementation(Libs.AndroidX.appCompat)
     implementation(Libs.Lifecycle.lifecycle)
     implementation(Libs.Ui.materialComponents)

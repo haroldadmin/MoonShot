@@ -3,27 +3,34 @@ package com.haroldadmin.moonshot.notifications.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.preference.PreferenceManager
+import android.content.SharedPreferences
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import javax.inject.Inject
+import javax.inject.Named
 
-class BootCompleteReceiver : BroadcastReceiver(), KoinComponent {
+class BootCompleteReceiver : CoroutineBroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    @Inject
+    @Named("settings")
+    lateinit var settings: SharedPreferences
+
+    @Inject
+    lateinit var manager: LaunchNotificationsManager
+
+    override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
+        broadcastReceiverComponent.inject(this)
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
-            if (shouldEnableNotifications(context)) {
-                get<LaunchNotificationsManager>().enable()
+            if (shouldEnableNotifications(settings)) {
+                manager.enable()
             }
         }
     }
 }
 
 @Suppress("unused")
-fun BroadcastReceiver.shouldEnableNotifications(context: Context): Boolean {
-    val settings = PreferenceManager.getDefaultSharedPreferences(context)
-    return settings.getBoolean(JustBeforeLaunch.enabledPreferenceKey, true) ||
-            settings.getBoolean(DayBeforeLaunch.enabledPreferenceKey, true)
+fun BroadcastReceiver.shouldEnableNotifications(settings: SharedPreferences): Boolean {
+    return settings.getBoolean(JustBeforeLaunch().enabledPreferenceKey, true) ||
+            settings.getBoolean(DayBeforeLaunch().enabledPreferenceKey, true)
 }

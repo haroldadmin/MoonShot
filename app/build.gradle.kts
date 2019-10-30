@@ -82,11 +82,12 @@ dependencies {
 
     implementation(Libs.Kotlin.stdLib)
 
-    implementation(Libs.Koin.android)
-    implementation(Libs.Koin.viewModel)
-    implementation(Libs.Koin.scope)
-
     implementation(Libs.vector)
+
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
 
     implementation(Libs.AndroidX.appCompat)
     implementation(Libs.Lifecycle.lifecycle)
@@ -119,4 +120,10 @@ dependencies {
 
     implementation(Libs.Firebase.core)
     implementation(Libs.Firebase.crashlytics)
+
+    // Dependencies to satisfy Dagger
+    implementation(project(":spacex-api-wrapper"))
+    implementation(Libs.Network.OkHttp.loggingInterceptor)
+    implementation(Libs.Network.Retrofit.retrofit)
+    implementation(project(":database"))
 }

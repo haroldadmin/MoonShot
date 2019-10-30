@@ -7,12 +7,14 @@ object Libs {
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect:${ProjectProperties.kotlinVersion}"
     }
 
-    object Koin {
-        const val koinCore = "org.koin:koin-core:${Versions.koin}"
-        const val koinTest = "org.koin:koin-test:${Versions.koin}"
-        const val android = "org.koin:koin-android:${Versions.koin}"
-        const val scope = "org.koin:koin-androidx-scope:${Versions.koin}"
-        const val viewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+    object Dagger {
+        const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
+        const val compiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+
+        object AssistedInject {
+            const val annotations = "com.squareup.inject:assisted-inject-annotations-dagger2:${Versions.assistedInject}"
+            const val compiler = "com.squareup.inject:assisted-inject-processor-dagger2:${Versions.assistedInject}"
+        }
     }
 
     object AndroidX {
@@ -59,7 +61,7 @@ object Libs {
     object Network {
         object Retrofit {
             const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-            const val networkResponseAdapter = "com.github.haroldadmin:CoroutinesNetworkResponseAdapter:${Versions.cnrAdapter}"
+            const val networkResponseAdapter = "com.github.haroldadmin:NetworkResponseAdapter:${Versions.cnrAdapter}"
             const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverter}"
         }
         object OkHttp {

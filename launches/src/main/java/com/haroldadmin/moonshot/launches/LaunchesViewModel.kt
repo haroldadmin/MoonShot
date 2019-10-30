@@ -1,7 +1,5 @@
 package com.haroldadmin.moonshot.launches
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
@@ -12,16 +10,16 @@ import com.haroldadmin.moonshot.utils.launchAfterDelay
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesForLaunchpadUseCase
 import com.haroldadmin.moonshotRepository.launch.GetLaunchesUseCase
 import com.haroldadmin.moonshotRepository.launch.LaunchType
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import org.koin.core.KoinComponent
-import org.koin.core.get
 
 private const val fetchLimit: Int = 15
 
 @ExperimentalCoroutinesApi
-class LaunchesViewModel(
-    initState: LaunchesState,
+class LaunchesViewModel @AssistedInject constructor(
+    @Assisted initState: LaunchesState,
     private val launchesUseCase: GetLaunchesUseCase,
     private val launchesForLaunchpadUseCase: GetLaunchesForLaunchpadUseCase
 ) : MoonShotViewModel<LaunchesState>(initState) {
@@ -86,13 +84,9 @@ class LaunchesViewModel(
             }
         }
     }
-}
 
-@ExperimentalCoroutinesApi
-@Suppress("UNCHECKED_CAST")
-class LaunchesViewModelFactory(private val initialState: LaunchesState) : ViewModelProvider.Factory,
-    KoinComponent {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LaunchesViewModel(initialState, get(), get()) as T
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: LaunchesState): LaunchesViewModel
     }
 }

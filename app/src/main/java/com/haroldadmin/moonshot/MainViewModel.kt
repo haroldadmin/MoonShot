@@ -7,12 +7,14 @@ import com.haroldadmin.moonshot.core.Consumable
 import com.haroldadmin.moonshot.core.asConsumable
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    initState: ScaffoldingState,
-    savedStateHandle: SavedStateHandle
-) : SavedStateMoonShotViewModel<ScaffoldingState>(initState, savedStateHandle) {
+class MainViewModel @AssistedInject constructor(
+    @Assisted initState: ScaffoldingState,
+    @Assisted handle: SavedStateHandle
+) : SavedStateMoonShotViewModel<ScaffoldingState>(initState, handle) {
 
     fun setTitle(title: String?) = viewModelScope.launch {
         if (title == null) return@launch
@@ -20,6 +22,11 @@ class MainViewModel(
         setStateAndPersist {
             copy(toolbarTitle = toolbarTitle)
         }
+    }
+
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: ScaffoldingState, handle: SavedStateHandle): MainViewModel
     }
 
     companion object : VectorViewModelFactory<MainViewModel, ScaffoldingState> {

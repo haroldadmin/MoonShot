@@ -1,18 +1,26 @@
 package com.haroldadmin.moonshot.notifications.receivers
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import org.koin.core.KoinComponent
-import org.koin.core.get
+import javax.inject.Inject
+import javax.inject.Named
 
-class TimeChangedReceiver : BroadcastReceiver(), KoinComponent {
+class TimeChangedReceiver : CoroutineBroadcastReceiver() {
 
-    override fun onReceive(context: Context, intent: Intent) {
+    @Inject
+    @Named("settings")
+    lateinit var settings: SharedPreferences
+
+    @Inject
+    lateinit var manager: LaunchNotificationsManager
+
+    override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
+        broadcastReceiverComponent.inject(this)
         if (intent.action == "android.intent.action.TIME_SET") {
-            if (shouldEnableNotifications(context)) {
-                get<LaunchNotificationsManager>().enable()
+            if (shouldEnableNotifications(settings)) {
+                manager.enable()
             }
         }
     }

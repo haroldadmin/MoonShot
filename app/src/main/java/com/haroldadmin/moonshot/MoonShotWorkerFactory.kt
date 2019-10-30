@@ -10,11 +10,13 @@ import com.haroldadmin.moonshot.sync.SyncWorker
 import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.SyncResourcesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
-import org.koin.core.KoinComponent
+import javax.inject.Inject
 
-class MoonShotWorkerFactory : WorkerFactory(), KoinComponent {
-
-    private val koinRef = getKoin()
+class MoonShotWorkerFactory @Inject constructor(
+    private val syncResourcesUseCase: SyncResourcesUseCase,
+    private val nextLaunchUseCase: GetNextLaunchUseCase,
+    private val launchNotificationsManager: LaunchNotificationsManager
+) : WorkerFactory() {
 
     override fun createWorker(
         appContext: Context,
@@ -27,13 +29,13 @@ class MoonShotWorkerFactory : WorkerFactory(), KoinComponent {
                 SyncWorker::class.java -> SyncWorker(
                     appContext,
                     workerParameters,
-                    koinRef.get<SyncResourcesUseCase>()
+                    syncResourcesUseCase
                 )
                 ScheduleWorker::class.java -> ScheduleWorker(
                     appContext,
                     workerParameters,
-                    koinRef.get<GetNextLaunchUseCase>(),
-                    koinRef.get<LaunchNotificationsManager>()
+                    nextLaunchUseCase,
+                    launchNotificationsManager
                 )
                 else -> {
                     log(

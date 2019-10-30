@@ -26,6 +26,7 @@ import com.haroldadmin.moonshot.notifications.receivers.JustBeforeLaunchAlarmRec
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.runBlocking
 import org.joda.time.LocalDateTime
+import javax.inject.Inject
 
 sealed class LaunchNotification : MoonShotNotification {
 
@@ -68,13 +69,13 @@ sealed class LaunchNotification : MoonShotNotification {
     }
 }
 
-object JustBeforeLaunch : LaunchNotification() {
+class JustBeforeLaunch @Inject constructor() : LaunchNotification() {
 
     override val requestCode: Int = LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE
     override val notificationId: Int = LaunchNotificationsManager.JUST_BEFORE_LAUNCH_NOTIFICATION_ID
     override val channelId: String = LaunchNotificationsManager.JUST_BEFORE_LAUNCH_CHANNEL_ID
     override val enabledPreferenceKey: String = LaunchNotificationsManager.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
-    private const val paddingPreferenceKey: String = LaunchNotificationsManager.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING
+    private val paddingPreferenceKey: String = LaunchNotificationsManager.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING
 
     override fun alarmIntent(context: Context): Intent {
         return context.intent<JustBeforeLaunchAlarmReceiver>()
@@ -131,8 +132,7 @@ object JustBeforeLaunch : LaunchNotification() {
     }
 }
 
-object DayBeforeLaunch : LaunchNotification() {
-
+class DayBeforeLaunch @Inject constructor() : LaunchNotification() {
     override val requestCode: Int = LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_REQUEST_CODE
     override val notificationId: Int = LaunchNotificationsManager.DAY_BEFORE_LAUNCH_NOTIFICATION_ID
     override val channelId: String = LaunchNotificationsManager.DAY_BEFORE_LAUNCH_CHANNEL_ID

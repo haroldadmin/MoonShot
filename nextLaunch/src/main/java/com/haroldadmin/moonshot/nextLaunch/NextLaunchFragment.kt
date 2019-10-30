@@ -12,9 +12,11 @@ import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.nextLaunch.databinding.FragmentNextLaunchBinding
+import com.haroldadmin.moonshot.nextLaunch.di.DaggerNextLaunchComponent
 import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
@@ -24,6 +26,7 @@ import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.Date
+import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
@@ -31,8 +34,23 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
 
     private lateinit var binding: FragmentNextLaunchBinding
 
-    private val mainViewModel: MainViewModel by activityViewModel()
-    override val viewModel: NextLaunchViewModel by fragmentViewModel()
+    @Inject lateinit var viewModelFactory: NextLaunchViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+
+    private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
+        mainViewModelFactory.create(initState, savedStateHandle)
+    }
+
+    override val viewModel: NextLaunchViewModel by fragmentViewModel { initState, _ ->
+        viewModelFactory.create(initState)
+    }
+
+    override fun initDI() {
+        DaggerNextLaunchComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun renderer(state: NextLaunchState) {
         epoxyController.setData(state)

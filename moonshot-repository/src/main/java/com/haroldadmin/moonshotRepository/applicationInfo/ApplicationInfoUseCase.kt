@@ -4,8 +4,9 @@ import com.haroldadmin.moonshot.database.ApplicationInfoDao
 import com.haroldadmin.moonshot.models.ApplicationInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ApplicationInfoUseCase(private val dao: ApplicationInfoDao) {
+class ApplicationInfoUseCase @Inject constructor(private val dao: ApplicationInfoDao) {
 
     suspend fun getApplicationInfo(): ApplicationInfo? {
         return dao.applicationInfo()

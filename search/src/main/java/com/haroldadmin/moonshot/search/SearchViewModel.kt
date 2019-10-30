@@ -1,23 +1,21 @@
 package com.haroldadmin.moonshot.search
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshotRepository.search.SearchLaunchesUseCase
 import com.haroldadmin.moonshotRepository.search.SearchLaunchpadsUseCase
 import com.haroldadmin.moonshotRepository.search.SearchRocketsUseCase
-import com.haroldadmin.vector.VectorViewModelFactory
-import com.haroldadmin.vector.ViewModelOwner
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class SearchViewModel(
-    initState: SearchState,
+class SearchViewModel @AssistedInject constructor(
+    @Assisted initState: SearchState,
     private val searchLaunchesUseCase: SearchLaunchesUseCase,
     private val searchRocketsUseCase: SearchRocketsUseCase,
     private val searchLaunchpadsUseCase: SearchLaunchpadsUseCase
@@ -66,13 +64,8 @@ class SearchViewModel(
             }
     }
 
-    companion object : VectorViewModelFactory<SearchViewModel, SearchState> {
-        override fun create(
-            initialState: SearchState,
-            owner: ViewModelOwner,
-            handle: SavedStateHandle
-        ): SearchViewModel? = with(owner.koin()) {
-            SearchViewModel(initialState, get(), get(), get())
-        }
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: SearchState): SearchViewModel
     }
 }

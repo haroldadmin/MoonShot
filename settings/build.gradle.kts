@@ -4,6 +4,7 @@ plugins {
     id("com.android.dynamic-feature")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -35,15 +36,17 @@ dependencies {
     implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
 
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
+
     implementation(Libs.AndroidX.appCompat)
     implementation(Libs.Lifecycle.lifecycle)
     implementation(Libs.Ui.materialComponents)
     implementation(Libs.AndroidX.ktxCore)
     implementation(Libs.AndroidX.preference)
     implementation(Libs.AndroidX.workManager)
-
-    implementation(Libs.Koin.koinCore)
-    implementation(Libs.Koin.android)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.androidxJunitExt)

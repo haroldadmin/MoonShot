@@ -16,7 +16,9 @@ import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launchPad.databinding.FragmentLaunchpadBinding
+import com.haroldadmin.moonshot.launchPad.di.DaggerLaunchPadComponent
 import com.haroldadmin.moonshot.launchPad.views.mapCard
 import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshot.models.successPercentage
@@ -29,14 +31,30 @@ import com.haroldadmin.moonshot.views.textCard
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
 class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadState>() {
 
     private lateinit var binding: FragmentLaunchpadBinding
-    override val viewModel: LaunchPadViewModel by fragmentViewModel()
-    private val mainViewModel: MainViewModel by activityViewModel()
+    @Inject lateinit var viewModelFactory: LaunchPadViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+
+    override val viewModel: LaunchPadViewModel by fragmentViewModel { initState, _ ->
+        viewModelFactory.create(initState)
+    }
+
+    private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
+        mainViewModelFactory.create(initState, savedStateHandle)
+    }
+
+    override fun initDI() {
+        DaggerLaunchPadComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+    }
 
     override fun renderer(state: LaunchPadState) {
         epoxyController.setData(state)

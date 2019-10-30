@@ -3,18 +3,19 @@ package com.haroldadmin.moonshot.launchPad
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
-import com.haroldadmin.moonshot.base.koin
 import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshotRepository.launchPad.GetLaunchPadUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
 import com.haroldadmin.vector.ViewModelOwner
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class LaunchPadViewModel(
-    initState: LaunchPadState,
+class LaunchPadViewModel @AssistedInject constructor(
+    @Assisted initState: LaunchPadState,
     private val launchPadUseCase: GetLaunchPadUseCase
 ) : MoonShotViewModel<LaunchPadState>(initState) {
 
@@ -32,18 +33,15 @@ class LaunchPadViewModel(
             }
     }
 
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(initState: LaunchPadState): LaunchPadViewModel
+    }
+
     companion object : VectorViewModelFactory<LaunchPadViewModel, LaunchPadState> {
         override fun initialState(handle: SavedStateHandle, owner: ViewModelOwner): LaunchPadState? {
             val safeArgs = owner.safeArgs<LaunchPadFragmentArgs>()
             return LaunchPadState(safeArgs.siteId)
-        }
-
-        override fun create(
-            initialState: LaunchPadState,
-            owner: ViewModelOwner,
-            handle: SavedStateHandle
-        ): LaunchPadViewModel? = with(owner.koin()) {
-            LaunchPadViewModel(initialState, get())
         }
     }
 }

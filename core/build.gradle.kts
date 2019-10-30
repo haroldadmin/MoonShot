@@ -1,9 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     `java-library`
     kotlin("jvm")
+    kotlin("kapt")
 }
 
 val test by tasks.getting(Test::class) {
@@ -24,6 +26,11 @@ dependencies {
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
+
+    implementation(Libs.Dagger.dagger)
+    kapt(Libs.Dagger.compiler)
+    implementation(Libs.Dagger.AssistedInject.annotations)
+    kapt(Libs.Dagger.AssistedInject.compiler)
     testImplementation(Libs.Test.kotlinTest)
 }
 

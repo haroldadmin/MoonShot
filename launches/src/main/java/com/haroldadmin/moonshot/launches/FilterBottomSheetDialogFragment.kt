@@ -18,6 +18,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFilterBottomSheetDialogBinding
     private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow)
+
     private val onFilterClick: (LaunchType) -> Unit = { filter ->
         viewModel.setFilter(filter)
         dismiss()

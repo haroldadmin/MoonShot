@@ -14,8 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GetAllRocketsUseCase(
+class GetAllRocketsUseCase @Inject constructor(
     private val rocketsDao: RocketsDao,
     private val rocketsService: RocketsService,
     private val persistRocketsUseCase: PersistRocketsUseCase

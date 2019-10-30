@@ -20,10 +20,12 @@ import com.haroldadmin.moonshot.base.MoonShotAsyncTypedEpoxyController
 import com.haroldadmin.moonshot.base.MoonShotState
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launchDetails.LaunchDetailsFragmentArgs
 import com.haroldadmin.moonshot.launchPad.LaunchPadFragmentArgs
 import com.haroldadmin.moonshot.rocketDetails.RocketDetailsFragmentArgs
 import com.haroldadmin.moonshot.search.databinding.FragmentSearchBinding
+import com.haroldadmin.moonshot.search.di.DaggerSearchComponent
 import com.haroldadmin.moonshot.search.views.searchResultView
 import com.haroldadmin.moonshot.search.views.searchUninitializedView
 import com.haroldadmin.vector.fragmentViewModel
@@ -37,6 +39,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
 
 @FlowPreview
@@ -44,7 +47,19 @@ import com.haroldadmin.moonshot.R as appR
 class SearchFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private val viewModel: SearchViewModel by fragmentViewModel()
+    @Inject lateinit var viewModelFactory: SearchViewModel.Factory
+
+    private val viewModel: SearchViewModel by fragmentViewModel { initState, _ ->
+        viewModelFactory.create(initState)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerSearchComponent.builder()
+            .appComponent(appComponent())
+            .build()
+            .inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
