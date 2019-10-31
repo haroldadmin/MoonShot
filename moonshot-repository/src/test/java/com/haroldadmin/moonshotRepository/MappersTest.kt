@@ -11,8 +11,10 @@ import com.haroldadmin.moonshotRepository.mappers.toDbEngine
 import com.haroldadmin.moonshotRepository.mappers.toDbPayloads
 import com.haroldadmin.moonshotRepository.mappers.toDbFirstStage
 import com.haroldadmin.moonshotRepository.mappers.toDbLaunchPad
+import com.haroldadmin.moonshotRepository.mappers.toDbMission
 import com.haroldadmin.moonshotRepository.mappers.toDbRocket
 import com.haroldadmin.moonshotRepository.mappers.toDbSecondStage
+import com.haroldadmin.spacex_api_wrapper.SampleApiData
 import com.haroldadmin.spacex_api_wrapper.common.Mass
 import com.haroldadmin.spacex_api_wrapper.common.Volume
 import com.haroldadmin.spacex_api_wrapper.common.Thrust
@@ -330,6 +332,25 @@ internal class MappersTest : DescribeSpec({
                 dbLaunchPad.details shouldBe apiLaunchPad.details
                 dbLaunchPad.siteId shouldBe apiLaunchPad.siteId
                 dbLaunchPad.siteNameLong shouldBe apiLaunchPad.siteNameLong
+            }
+        }
+    }
+
+    describe("Mission Mappers") {
+        context("Mission") {
+            val missionId = "F3364BF"
+            val apiMission = SampleApiData.Missions.one(id = missionId)
+            val dbMission = apiMission.toDbMission()
+
+            it("Should map values correctly") {
+                apiMission.id shouldBe dbMission.id
+                apiMission.name shouldBe dbMission.name
+                apiMission.manufacturers shouldBe dbMission.manufacturers
+                apiMission.payloadIds shouldBe dbMission.payloadIds
+                apiMission.wikipedia shouldBe dbMission.wikipedia
+                apiMission.website shouldBe dbMission.wikipedia
+                apiMission.twitter shouldBe dbMission.twitter
+                apiMission.description shouldBe dbMission.description
             }
         }
     }
