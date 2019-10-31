@@ -10,7 +10,7 @@ data class Mission(
     @Json(name = "manufacturers") val manufacturers: List<String>,
     @Json(name = "payload_ids") val payloadIds: List<String>,
     @Json(name = "wikipedia") val wikipedia: String,
-    @Json(name = "website") val website: String,
-    @Json(name = "twitter") val twitter: String,
-    @Json(name = "description") val description: String
+    @Json(name = "website") val website: String?,
+    @Json(name = "twitter") val twitter: String?,
+    @Json(name = "description") val description: String?
 )

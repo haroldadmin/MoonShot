@@ -22,5 +22,5 @@ data class Mission(
     @ColumnInfo(name = "twitter")
     val twitter: String?,
     @ColumnInfo(name = "description")
-    val description: String
+    val description: String?
 )

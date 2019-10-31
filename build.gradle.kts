@@ -1,4 +1,5 @@
 buildscript {
+    extra["kotlin_version"] = "1.3.60-eap-25"
     repositories {
         google()
         jcenter()
