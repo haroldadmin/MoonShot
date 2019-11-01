@@ -179,4 +179,12 @@
         android:name="com.haroldadmin.moonshot.search.SearchFragment"
         tools:layout="@layout/fragment_search" />
 
+    <fragment
+        android:id="@+id/mission"
+        android:name="com.haroldadmin.moonshot.mission.MissionFragment">
+        <deepLink
+            android:id="@+id/aboutDeepLink"
+            app:uri="moonshot://mission/{missionId}" />
+    </fragment>
+
 </navigation>
