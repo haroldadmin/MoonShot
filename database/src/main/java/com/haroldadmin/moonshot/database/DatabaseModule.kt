@@ -38,4 +38,9 @@ object DatabaseModule {
     fun provideApplicationInfoDao(db: MoonShotDb): ApplicationInfoDao {
         return db.applicationInfoDao()
     }
+
+    @Provides
+    fun missionDao(db: MoonShotDb): MissionDao {
+        return db.missionDao()
+    }
 }

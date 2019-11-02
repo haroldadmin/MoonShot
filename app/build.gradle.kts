@@ -65,7 +65,8 @@ android {
         ":nextLaunch",
         ":launchPad",
         ":rocketDetails",
-        ":search"
+        ":search",
+        ":missions"
     )
     googleServices {
         disableVersionCheck = true

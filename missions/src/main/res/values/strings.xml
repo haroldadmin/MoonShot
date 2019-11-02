@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="missionNameHeaderText">Mission Name</string>
+    <string name="noMissionDescriptionText">No description available</string>
+    <string name="missionDescriptionHeaderText">Description</string>
+    <string name="missionLinksSectionHeader">Links</string>
+</resources>

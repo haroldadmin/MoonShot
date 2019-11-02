@@ -26,6 +26,9 @@ android {
     kapt {
         correctErrorTypes = true
     }
+    dataBinding {
+        isEnabled = true
+    }
 }
 
 dependencies {
@@ -61,6 +64,7 @@ dependencies {
 
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)
+    implementation(Libs.Ui.openGraphKt)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.androidxJunitExt)

@@ -19,4 +19,6 @@
     <string name="launchStatusSuccessful">Successful</string>
     <string name="launchStatusUnsuccessful">Unsuccessful</string>
     <string name="launchStatusUnknown">Unknown</string>
+    <string name="missionDetailsCardText">Mission Details</string>
+    <string name="missionIdText">ID: %1$s</string>
 </resources>

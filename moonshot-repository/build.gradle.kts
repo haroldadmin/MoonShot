@@ -71,6 +71,8 @@ dependencies {
     implementation(Libs.Network.OkHttp.loggingInterceptor)
     implementation(Libs.Network.OkHttp.okHttp)
 
+    implementation(Libs.Ui.openGraphKt)
+
     testImplementation(Libs.Test.coroutinesTest)
     testImplementation(Libs.Test.junit4)
     testImplementation(Libs.Test.kotlinTest)

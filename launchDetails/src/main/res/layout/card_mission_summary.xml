@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardRoot"
+    style="@style/Widget.MoonShot.Launch.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/marginMedium"
+    android:layout_marginTop="@dimen/marginSmall"
+    android:layout_marginEnd="@dimen/marginMedium">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:layout_marginBottom="@dimen/marginSmall"
+            android:text="@string/missionDetailsCardText"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Headline"
+            app:layout_constraintBottom_toTopOf="@id/missionId"
+            app:layout_constraintEnd_toStartOf="@id/icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/missionId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:layout_marginTop="@dimen/marginSmall"
+            android:layout_marginBottom="@dimen/marginLarge"
+            app:layout_constraintEnd_toEndOf="@id/icon"
+            tools:text="ID: F4F83DE"
+            android:textAppearance="@style/TextAppearance.MoonShot.Launch.Body" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/marginLarge"
+            android:layout_marginEnd="@dimen/marginLarge"
+            android:layout_marginBottom="@dimen/marginLarge"
+            android:src="@drawable/ic_round_navigate_next_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

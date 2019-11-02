@@ -9,6 +9,7 @@ import com.haroldadmin.moonshot.MoonShotWorkerFactory
 import com.haroldadmin.moonshot.base.di.MoonShotActivityComponent
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.database.LaunchPadDao
+import com.haroldadmin.moonshot.database.MissionDao
 import com.haroldadmin.moonshot.database.RocketsDao
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.sync.SyncManager
@@ -16,6 +17,7 @@ import com.haroldadmin.moonshotRepository.RepositoryModule
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
+import com.haroldadmin.spacex_api_wrapper.mission.MissionService
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import dagger.BindsInstance
 import dagger.Component
@@ -41,10 +43,12 @@ interface AppComponent : MoonShotActivityComponent<MainActivity> {
     fun launchDao(): LaunchDao
     fun rocketsDao(): RocketsDao
     fun launchPadDao(): LaunchPadDao
+    fun missionDao(): MissionDao
 
     fun launchService(): LaunchesService
     fun rocketsService(): RocketsService
     fun launchPadsService(): LaunchPadService
+    fun missionService(): MissionService
 
     fun broadcastReceiversComponent(): BroadcastReceiversComponent.Factory
 

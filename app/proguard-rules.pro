@@ -131,6 +131,7 @@
 -keep class com.haroldadmin.moonshot.launchPad.DataBinderMapperImpl { *; }
 -keep class com.haroldadmin.moonshot.rocketDetails.DataBinderMapperImpl { *; }
 -keep class com.haroldadmin.moonshot.search.DataBinderMapperImpl { *; }
+-keep class com.haroldadmin.moonshot.missions.DataBinderMapperImpl { *; }
 
 # ---- Fragment Names rule ---- #
 # Adding this here because some crash reports point to ClassNotFound exception for some fragments

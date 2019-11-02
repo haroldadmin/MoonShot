@@ -46,17 +46,15 @@ object Libs {
         const val coil = "io.coil-kt:coil:${Versions.coil}"
         const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
         const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
+        const val openGraphKt = "com.github.haroldadmin:opengraphKt:${Versions.openGraphKt}"
     }
 
-    const val vector = "com.github.haroldadmin:Vector:${Versions.vector}"
 
     object Persistence {
         const val room = "androidx.room:room-runtime:${Versions.room}"
         const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     }
-
-    const val jodaTime = "joda-time:joda-time:${Versions.jodaTime}"
 
     object Network {
         object Retrofit {
@@ -92,4 +90,7 @@ object Libs {
         const val core = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
         const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
     }
+
+    const val vector = "com.github.haroldadmin:Vector:${Versions.vector}"
+    const val jodaTime = "joda-time:joda-time:${Versions.jodaTime}"
 }

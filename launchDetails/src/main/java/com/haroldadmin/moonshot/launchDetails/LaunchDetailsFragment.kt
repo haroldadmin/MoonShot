@@ -24,6 +24,7 @@ import com.haroldadmin.moonshot.launchDetails.di.DaggerLaunchDetailsComponent
 import com.haroldadmin.moonshot.launchDetails.views.LinkCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.PictureCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
+import com.haroldadmin.moonshot.launchDetails.views.missionSummaryCard
 import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -46,8 +47,10 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     private lateinit var binding: FragmentLaunchDetailsBinding
 
-    @Inject lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     override val viewModel: LaunchDetailsViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
@@ -182,6 +185,19 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                     findNavController().navigate(action)
                 }
             }
+
+            launch.missionId
+                .filter { it.isNotBlank() }
+                .forEach { id ->
+                    missionSummaryCard {
+                        id(id)
+                        missionId(id)
+                        onMissionClick { missionId ->
+                            val action = LaunchDetailsFragmentDirections.missionDetails(missionId)
+                            findNavController().navigate(action)
+                        }
+                    }
+                }
 
             launch.relevantLinks()
                 .takeIf { it.isNotEmpty() }

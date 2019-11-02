@@ -46,6 +46,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/missionDetails"
+            app:destination="@id/mission"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
 
     <fragment
@@ -181,10 +188,14 @@
 
     <fragment
         android:id="@+id/mission"
-        android:name="com.haroldadmin.moonshot.mission.MissionFragment">
+        android:name="com.haroldadmin.moonshot.missions.MissionFragment">
         <deepLink
             android:id="@+id/aboutDeepLink"
             app:uri="moonshot://mission/{missionId}" />
+        <argument
+            android:name="missionId"
+            app:argType="string"
+            app:nullable="false"/>
     </fragment>
 
 </navigation>

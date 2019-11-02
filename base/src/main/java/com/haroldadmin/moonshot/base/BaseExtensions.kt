@@ -79,6 +79,13 @@ inline fun <T> CarouselModelBuilder.withModelsFrom(
     models(items.map { modelBuilder(it) })
 }
 
+inline fun <T> CarouselModelBuilder.withModelsFromIndexed(
+    items: List<T>,
+    modelBuilder: (Int, T) -> EpoxyModel<*>
+) {
+    models(items.mapIndexed { index: Int, item: T -> modelBuilder(index, item) })
+}
+
 inline fun <T, R> CarouselModelBuilder.withModelsFrom(
     items: Map<T, R>,
     modelBuilder: (T, R) -> EpoxyModel<*>

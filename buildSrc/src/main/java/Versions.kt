@@ -18,6 +18,7 @@ object Versions {
     const val workManager = "2.2.0"
 
     const val vector = "master-SNAPSHOT"
+    const val openGraphKt = "master-SNAPSHOT"
 
     const val epoxy = "3.8.0"
 

@@ -24,3 +24,11 @@ data class Mission(
     @ColumnInfo(name = "description")
     val description: String?
 )
+
+fun Mission.links(): Map<String, String> {
+    val links = mutableMapOf<String, String>()
+    if (website != null) { links["Website"] = website }
+    if (wikipedia != null) { links["Wikipedia"] = wikipedia }
+    if (twitter != null) { links["Twitter"] = twitter }
+    return links
+}
