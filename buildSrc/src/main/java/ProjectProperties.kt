@@ -4,8 +4,8 @@ object ProjectProperties {
     const val targetSdk = 29
 
     const val applicationId = "com.haroldadmin.moonshot"
-    const val versionCode = 26
-    const val versionName = "0.9.3"
+    const val versionCode = 27
+    const val versionName = "0.9.4"
 
     const val kotlinVersion = "1.3.50"
     const val agpVersion = "3.5.1"
