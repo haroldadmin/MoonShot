@@ -47,10 +47,8 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     private lateinit var binding: FragmentLaunchDetailsBinding
 
-    @Inject
-    lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
-    @Inject
-    lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
+    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
 
     override val viewModel: LaunchDetailsViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
