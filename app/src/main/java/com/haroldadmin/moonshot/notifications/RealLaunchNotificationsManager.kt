@@ -45,7 +45,6 @@ class RealLaunchNotificationsManager @Inject constructor(private val appContext:
 
     private val constraints: Constraints
         get() = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresDeviceIdle(false)
             .setRequiresBatteryNotLow(false)
             .setRequiresStorageNotLow(false)

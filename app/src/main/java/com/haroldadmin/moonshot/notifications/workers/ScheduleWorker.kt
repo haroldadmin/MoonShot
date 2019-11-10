@@ -5,11 +5,13 @@ import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,16 +30,18 @@ class ScheduleWorker(
     @ExperimentalCoroutinesApi
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
+        log("Doing work in Schedule worker")
+
         val now = DateTime()
         val dayFromNow = now.plusDays(1).millis
 
         val nextLaunch = nextLaunchUseCase.getNextLaunch().last()
         val launchesUntilTomorrow = nextLaunchUseCase.getNextLaunchesUntilDate(dayFromNow).last()
 
-        if (nextLaunch !is Resource.Success<Launch> || launchesUntilTomorrow !is Resource.Success<List<Launch>>) {
+        if (nextLaunch() == null || launchesUntilTomorrow() == null) {
             Result.retry()
         } else {
-            scheduleNotifications(nextLaunch(), launchesUntilTomorrow())
+            scheduleNotifications(nextLaunch()!!, launchesUntilTomorrow()!!)
             Result.success()
         }
     }

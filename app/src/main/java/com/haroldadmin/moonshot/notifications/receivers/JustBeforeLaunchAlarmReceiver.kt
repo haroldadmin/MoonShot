@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.launch.missionPatch
 import com.haroldadmin.moonshot.notifications.LaunchNotification
@@ -37,7 +38,8 @@ class JustBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver() {
     override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
         broadcastReceiverComponent.inject(this)
         val nextLaunch = repository.getNextLaunch()
-            .first()
+            .last()
+            .also { log("Retrieved launch: $it") }
             .invoke()
             .takeIf { it != null && it.tentativeMaxPrecision == DatePrecision.hour }
             ?: run {

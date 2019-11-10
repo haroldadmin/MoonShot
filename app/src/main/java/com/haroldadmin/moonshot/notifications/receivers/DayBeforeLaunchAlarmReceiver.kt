@@ -3,12 +3,14 @@ package com.haroldadmin.moonshot.notifications.receivers
 import android.content.Context
 import android.content.Intent
 import com.haroldadmin.moonshot.core.invoke
+import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.launch.missionPatch
 import com.haroldadmin.moonshot.notifications.LaunchNotification
 import com.haroldadmin.moonshot.notifications.LaunchNotificationContent
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.utils.formatDate
+import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -38,12 +40,16 @@ class DayBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver() {
 
         val launchesTillTomorrow = usecase
             .getNextLaunchesUntilDate(tomorrow)
-            .first()
+            .last()
+            .also { log("Retrived launches: $it") }
 
         launchesTillTomorrow()?.let { launches ->
             launches
                 .filter { launch ->
                     launch.tentativeMaxPrecision == DatePrecision.day || launch.tentativeMaxPrecision == DatePrecision.hour
+                }
+                .also {
+                    log("Creating notifications for $it")
                 }
                 .map { nextLaunch ->
                     LaunchNotificationContent(

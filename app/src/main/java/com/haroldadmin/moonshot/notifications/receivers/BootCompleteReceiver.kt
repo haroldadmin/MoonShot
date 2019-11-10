@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
 import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
 import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.utils.log
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -20,9 +21,11 @@ class BootCompleteReceiver : CoroutineBroadcastReceiver() {
     lateinit var manager: LaunchNotificationsManager
 
     override suspend fun onBroadcastReceived(context: Context, intent: Intent) {
+        log("BOOT_COMPLETED Intent received")
         broadcastReceiverComponent.inject(this)
         if (intent.action == "android.intent.action.BOOT_COMPLETED") {
             if (shouldEnableNotifications(settings)) {
+                log("Enabling notifications")
                 manager.enable()
             }
         }
