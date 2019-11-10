@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 abstract class CoroutineBroadcastReceiver : BroadcastReceiver(), CoroutineScope {
@@ -22,7 +22,9 @@ abstract class CoroutineBroadcastReceiver : BroadcastReceiver(), CoroutineScope 
 
     abstract suspend fun onBroadcastReceived(context: Context, intent: Intent)
 
-    override fun onReceive(context: Context, intent: Intent) = runBlocking(coroutineContext) {
-        onBroadcastReceived(context, intent)
+    override fun onReceive(context: Context, intent: Intent) {
+        launch(coroutineContext) {
+            onBroadcastReceived(context, intent)
+        }
     }
 }
