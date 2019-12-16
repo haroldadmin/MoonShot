@@ -41,12 +41,13 @@ class DayBeforeLaunchAlarmReceiver : CoroutineBroadcastReceiver() {
         val launchesTillTomorrow = usecase
             .getNextLaunchesUntilDate(tomorrow)
             .last()
-            .also { log("Retrived launches: $it") }
+            .also { log("Retrieved launches: $it") }
 
         launchesTillTomorrow()?.let { launches ->
             launches
                 .filter { launch ->
-                    launch.tentativeMaxPrecision == DatePrecision.day || launch.tentativeMaxPrecision == DatePrecision.hour
+                    launch.tentativeMaxPrecision == DatePrecision.day
+                            || launch.tentativeMaxPrecision == DatePrecision.hour
                 }
                 .also {
                     log("Creating notifications for $it")

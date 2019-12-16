@@ -15,4 +15,5 @@ include ":core"
 include ":models"
 include ":search"
 include ':missions'
+include ":logger"
 rootProject.name="MoonShot"

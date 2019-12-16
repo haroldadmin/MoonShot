@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     `java-library`
     kotlin("jvm")
-    kotlin("kapt")
 }
 
 val test by tasks.getting(Test::class) {
@@ -24,15 +23,6 @@ tasks.withType<KotlinCompile> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(Libs.Kotlin.stdLib)
-    implementation(Libs.Kotlin.coroutines)
-    implementation(Libs.Kotlin.coroutinesAndroid)
-
-    api(project(":logger"))
-
-    implementation(Libs.Dagger.dagger)
-    kapt(Libs.Dagger.compiler)
-    implementation(Libs.Dagger.AssistedInject.annotations)
-    kapt(Libs.Dagger.AssistedInject.compiler)
     testImplementation(Libs.Test.kotlinTest)
 }
 
