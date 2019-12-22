@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
@@ -69,35 +70,32 @@ class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>(
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val rockets = state.rockets) {
-            is Resource.Success -> {
-                rockets().forEach { rocket ->
-                    rocketCard {
-                        id(rocket.rocketId)
-                        rocket(rocket)
-                        onRocketClick { _ ->
-                            val action = RocketsFragmentDirections.rocketDetails(rocket.rocketId)
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-            }
+            is Resource.Success -> buildRocketModels(rockets())
             is Resource.Error<List<Rocket>, *> -> {
                 errorView {
                     id("error-rockets")
                     errorText(getString(R.string.fragmentRocketsErrorText))
                 }
-                rockets()?.forEach { rocket ->
-                    rocketCard {
-                        id(rocket.rocketId)
-                        rocket(rocket)
-                    }
-                }
+                rockets()?.let { buildRocketModels(it) }
             }
             is Resource.Loading -> loadingView {
                 id("loading-rockets")
                 loadingText(getString(R.string.fragmentRocketsLoadingMessage))
             }
             else -> Unit
+        }
+    }
+
+    private fun EpoxyController.buildRocketModels(rockets: List<Rocket>) {
+        rockets.forEach { rocket ->
+            rocketCard {
+                id(rocket.rocketId)
+                rocket(rocket)
+                onRocketClick { _ ->
+                    val action = RocketsFragmentDirections.rocketDetails(rocket.rocketId)
+                    findNavController().navigate(action)
+                }
+            }
         }
     }
 }

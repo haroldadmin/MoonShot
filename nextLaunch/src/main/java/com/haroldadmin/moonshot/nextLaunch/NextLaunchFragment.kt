@@ -34,8 +34,10 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
 
     private lateinit var binding: FragmentNextLaunchBinding
 
-    @Inject lateinit var viewModelFactory: NextLaunchViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: NextLaunchViewModel.Factory
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
         mainViewModelFactory.create(initState, savedStateHandle)
@@ -76,7 +78,7 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
         when (val launch = state.nextLaunch) {
 
             is Resource.Success -> {
-                buildLaunchModels(this, launch())
+                buildLaunchModels(launch())
                 countdownView {
                     id("launch-countdown")
                     launchResource(launch)
@@ -89,7 +91,7 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
                     errorText(getString(R.string.fragmentNextLaunchErrorMessage))
                 }
                 launch()?.let {
-                    buildLaunchModels(this, it)
+                    buildLaunchModels(it)
                     countdownView {
                         id("launch-countdown")
                         launchResource(launch)
@@ -111,35 +113,30 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
         }
     }
 
-    private fun buildLaunchModels(
-        controller: EpoxyController,
-        launch: Launch
-    ) {
-        with(controller) {
-            launchCard {
-                id(launch.flightNumber)
-                launch(launch)
-                header(getString(R.string.fragmentNextLaunchNextLaunchHeaderText))
-                onLaunchClick { _ -> showLaunchDetails(launch.flightNumber) }
-            }
+    private fun EpoxyController.buildLaunchModels(launch: Launch) {
+        launchCard {
+            id(launch.flightNumber)
+            launch(launch)
+            header(getString(R.string.fragmentNextLaunchNextLaunchHeaderText))
+            onLaunchClick { _ -> showLaunchDetails(launch.flightNumber) }
+        }
 
-            detailCard {
-                id("launch-date")
-                header(getString(R.string.fragmentNextLaunchDateHeader))
-                content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
-                icon(appR.drawable.ic_round_date_range_24px)
-            }
+        detailCard {
+            id("launch-date")
+            header(getString(R.string.fragmentNextLaunchDateHeader))
+            content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
+            icon(appR.drawable.ic_round_date_range_24px)
+        }
 
-            detailCard {
-                id("launch-site")
-                header(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
-                content(launch.launchSite?.siteNameLong ?: getString(R.string.siteUnknownText))
-                icon(appR.drawable.ic_round_place_24px)
-                onDetailClick { _ ->
-                    launch.launchSite?.siteId?.let { id ->
-                        val action = NextLaunchFragmentDirections.launchPadDetails(id)
-                        findNavController().navigate(action)
-                    }
+        detailCard {
+            id("launch-site")
+            header(getString(R.string.fragmentNextLaunchLaunchSiteHeader))
+            content(launch.launchSite?.siteNameLong ?: getString(R.string.siteUnknownText))
+            icon(appR.drawable.ic_round_place_24px)
+            onDetailClick { _ ->
+                launch.launchSite?.siteId?.let { id ->
+                    val action = NextLaunchFragmentDirections.launchPadDetails(id)
+                    findNavController().navigate(action)
                 }
             }
         }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
@@ -96,51 +97,16 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
     }
 
     override fun epoxyController() = asyncController(viewModel) { state: LaunchesState ->
-        when (val launchesRes = state.launchesRes) {
-            is Resource.Success -> {
-                state.launches.forEach { launch ->
-                    launchCard {
-                        id(launch.flightNumber)
-                        launch(launch)
-                        onLaunchClick { _ ->
-                            val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-
-                if (state.hasMoreToFetch) {
-                    loadMoreView {
-                        id("load-more-launches")
-                        loadingText("Loading more")
-                        onBind { _, _, _ -> viewModel.loadMore() }
-                    }
-                }
-            }
+        when (state.launchesRes) {
+            is Resource.Success -> buildLaunches(state)
 
             is Resource.Error<List<Launch>, *> -> {
                 errorView {
                     id("launch-error")
                     errorText(getString(R.string.fragmentLaunchesErrorMessage))
                 }
-                state.launches.forEach { launch ->
-                    launchCard {
-                        id(launch.flightNumber)
-                        launch(launch)
-                        onLaunchClick { _ ->
-                            val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-                if (state.hasMoreToFetch) {
-                    loadMoreView {
-                        id("load-more-launches")
-                        loadingText("Loading more")
-                        onBind { _, _, _ -> viewModel.loadMore() }
-                    }
-                }
-            }
+                buildLaunches(state)
+           }
             else -> loadingView {
                 id("launches-loading")
                 loadingText(
@@ -150,6 +116,27 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
                         LaunchType.All -> getString(R.string.fragmentLaunchesLoadingAllMessage)
                     }
                 )
+            }
+        }
+    }
+
+    private fun EpoxyController.buildLaunches(state: LaunchesState) {
+        state.launches.forEach { launch ->
+            launchCard {
+                id(launch.flightNumber)
+                launch(launch)
+                onLaunchClick { _ ->
+                    val action = LaunchesFragmentDirections.launchDetails(launch.flightNumber)
+                    findNavController().navigate(action)
+                }
+            }
+        }
+
+        if (state.hasMoreToFetch) {
+            loadMoreView {
+                id("load-more-launches")
+                loadingText("Loading more")
+                onBind { _, _, _ -> viewModel.loadMore() }
             }
         }
     }

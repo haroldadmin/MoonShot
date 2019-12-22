@@ -47,8 +47,10 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     private lateinit var binding: FragmentLaunchDetailsBinding
 
-    @Inject lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     override val viewModel: LaunchDetailsViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
@@ -88,7 +90,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val launch = state.launch) {
-            is Resource.Success -> launchModels(this, launch())
+            is Resource.Success -> launchModels(launch())
 
             is Resource.Error<Launch, *> -> {
                 errorView {
@@ -97,7 +99,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                 }
 
                 launch()?.let { data ->
-                    launchModels(this, data)
+                    launchModels(data)
                 }
             }
 
@@ -135,78 +137,76 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
         }
     }
 
-    private fun launchModels(controller: EpoxyController, launch: Launch) {
-        with(controller) {
-            launchCard {
-                id("header")
-                launch(launch)
-            }
-
-            detailCard {
-                id("launch-date")
-                header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
-                content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
-                icon(appR.drawable.ic_round_date_range_24px)
-            }
-
-            detailCard {
-                id("launch-site")
-                header(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
-                content(launch.launchSite?.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
-                icon(appR.drawable.ic_round_place_24px)
-                onDetailClick { _ -> launch.launchSite?.let { showLaunchPadDetails(it.siteId) } }
-            }
-
-            detailCard {
-                id("launch-success")
-                header(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
-                content(
-                    when {
-                        launch.isUpcoming == true -> getString(R.string.launchStatusUpcoming)
-                        launch.launchSuccess == true -> getString(R.string.launchStatusSuccessful)
-                        launch.launchSuccess == false -> getString(R.string.launchStatusUnsuccessful)
-                        else -> getString(R.string.launchStatusUnknown)
-                    }
-                )
-                icon(R.drawable.ic_round_flight_takeoff_24px)
-            }
-
-            expandableTextView {
-                id("launch-details")
-                header(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
-                content(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
-                spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-            }
-
-            rocketSummaryCard {
-                id("launch-rocket-summary")
-                rocket(launch.rocket)
-                onRocketClick { _ ->
-                    val action = LaunchDetailsFragmentDirections.launchRocketDetails(launch.rocket.rocketId)
-                    findNavController().navigate(action)
-                }
-            }
-
-            launch.missionId
-                .filter { it.isNotBlank() }
-                .forEach { id ->
-                    missionSummaryCard {
-                        id(id)
-                        missionId(id)
-                        onMissionClick { missionId ->
-                            val action = LaunchDetailsFragmentDirections.missionDetails(missionId)
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
-
-            launch.relevantLinks()
-                .takeIf { it.isNotEmpty() }
-                ?.let { map -> buildLinks(map, this) }
+    private fun EpoxyController.launchModels(launch: Launch) {
+        launchCard {
+            id("header")
+            launch(launch)
         }
+
+        detailCard {
+            id("launch-date")
+            header(getString(R.string.fragmentLaunchDetailsLaunchDateHeader))
+            content(formatDate(launch.launchDateUtc, launch.tentativeMaxPrecision))
+            icon(appR.drawable.ic_round_date_range_24px)
+        }
+
+        detailCard {
+            id("launch-site")
+            header(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
+            content(launch.launchSite?.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
+            icon(appR.drawable.ic_round_place_24px)
+            onDetailClick { _ -> launch.launchSite?.let { showLaunchPadDetails(it.siteId) } }
+        }
+
+        detailCard {
+            id("launch-success")
+            header(getString(R.string.fragmentLaunchDetailsLaunchStatusHeader))
+            content(
+                when {
+                    launch.isUpcoming == true -> getString(R.string.launchStatusUpcoming)
+                    launch.launchSuccess == true -> getString(R.string.launchStatusSuccessful)
+                    launch.launchSuccess == false -> getString(R.string.launchStatusUnsuccessful)
+                    else -> getString(R.string.launchStatusUnknown)
+                }
+            )
+            icon(R.drawable.ic_round_flight_takeoff_24px)
+        }
+
+        expandableTextView {
+            id("launch-details")
+            header(getString(R.string.fragmentLaunchDetailsLaunchDetailsHeader))
+            content(launch.details ?: getString(R.string.fragmentLaunchDetailsNoLaunchDetailsMessage))
+            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
+        }
+
+        rocketSummaryCard {
+            id("launch-rocket-summary")
+            rocket(launch.rocket)
+            onRocketClick { _ ->
+                val action = LaunchDetailsFragmentDirections.launchRocketDetails(launch.rocket.rocketId)
+                findNavController().navigate(action)
+            }
+        }
+
+        launch.missionId
+            .filter { it.isNotBlank() }
+            .forEach { id ->
+                missionSummaryCard {
+                    id(id)
+                    missionId(id)
+                    onMissionClick { missionId ->
+                        val action = LaunchDetailsFragmentDirections.missionDetails(missionId)
+                        findNavController().navigate(action)
+                    }
+                }
+            }
+
+        launch.relevantLinks()
+            .takeIf { it.isNotEmpty() }
+            ?.let { map -> buildLinks(map) }
     }
 
-    private fun buildLinks(links: Map<String, String>, controller: EpoxyController) = with(controller) {
+    private fun EpoxyController.buildLinks(links: Map<String, String>) {
         sectionHeaderView {
             id("links")
             header(getString(R.string.fragmentLaunchDetailsLinksHeader))

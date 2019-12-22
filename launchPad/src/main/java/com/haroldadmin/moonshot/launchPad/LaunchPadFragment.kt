@@ -38,8 +38,10 @@ import com.haroldadmin.moonshot.R as appR
 class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadState>() {
 
     private lateinit var binding: FragmentLaunchpadBinding
-    @Inject lateinit var viewModelFactory: LaunchPadViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: LaunchPadViewModel.Factory
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     override val viewModel: LaunchPadViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
@@ -83,7 +85,7 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val launchpad = state.launchPad) {
-            is Resource.Success -> buildLaunchPadModels(this, launchpad())
+            is Resource.Success -> buildLaunchPadModels(launchpad())
             is Resource.Error<LaunchPad, *> -> {
 
                 errorView {
@@ -91,7 +93,7 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
                     errorText(getString(R.string.fragmentLaunchPadLaunchPadErrorMessage))
                 }
 
-                launchpad()?.let { buildLaunchPadModels(this, it) }
+                launchpad()?.let { buildLaunchPadModels(it) }
             }
             is Resource.Loading -> loadingView {
                 id("launchpad-loading")
@@ -101,44 +103,43 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
         }
     }
 
-    private fun buildLaunchPadModels(controller: EpoxyController, launchpad: LaunchPad) =
-        with(controller) {
-            detailCard {
-                id("launch-pad")
-                header(getString(R.string.fragmentLaunchPadLaunchPadHeader))
-                content(launchpad.siteNameLong)
-            }
-            expandableTextView {
-                id("launch-pad-detail")
-                header(getString(R.string.fragmentLaunchPadDetailsHeader))
-                content(launchpad.details)
-            }
-            textCard {
-                id("status")
-                header(getString(R.string.fragmentLaunchPadStatusHeader))
-                content(launchpad.status.capitalize())
-            }
-            textCard {
-                id("success-percentage")
-                header("Success Rate")
-                content(getString(R.string.successRateText, launchpad.successPercentage()))
-                onTextClick { _ ->
-                    val action = LaunchPadFragmentDirections.launchPadLaunches(LaunchTypes.LAUNCHPAD, launchpad.siteId)
-                    findNavController().navigate(action)
-                }
-            }
-            sectionHeaderView {
-                id("map")
-                header(getString(R.string.itemMapCardMapHeader))
-            }
-            mapCard {
-                id("map")
-                mapImageUrl(launchpad.location.getStaticMapUrl())
-                onMapClick { _ ->
-                    val uri = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
-                    val mapIntent = Intent(Intent.ACTION_VIEW).apply { data = uri }
-                    startActivity(mapIntent)
-                }
+    private fun EpoxyController.buildLaunchPadModels(launchpad: LaunchPad) {
+        detailCard {
+            id("launch-pad")
+            header(getString(R.string.fragmentLaunchPadLaunchPadHeader))
+            content(launchpad.siteNameLong)
+        }
+        expandableTextView {
+            id("launch-pad-detail")
+            header(getString(R.string.fragmentLaunchPadDetailsHeader))
+            content(launchpad.details)
+        }
+        textCard {
+            id("status")
+            header(getString(R.string.fragmentLaunchPadStatusHeader))
+            content(launchpad.status.capitalize())
+        }
+        textCard {
+            id("success-percentage")
+            header("Success Rate")
+            content(getString(R.string.successRateText, launchpad.successPercentage()))
+            onTextClick { _ ->
+                val action = LaunchPadFragmentDirections.launchPadLaunches(LaunchTypes.LAUNCHPAD, launchpad.siteId)
+                findNavController().navigate(action)
             }
         }
+        sectionHeaderView {
+            id("map")
+            header(getString(R.string.itemMapCardMapHeader))
+        }
+        mapCard {
+            id("map")
+            mapImageUrl(launchpad.location.getStaticMapUrl())
+            onMapClick { _ ->
+                val uri = Uri.parse("geo:${launchpad.location.latitude},${launchpad.location.longitude}")
+                val mapIntent = Intent(Intent.ACTION_VIEW).apply { data = uri }
+                startActivity(mapIntent)
+            }
+        }
+    }
 }

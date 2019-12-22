@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
@@ -36,8 +37,10 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
 
     private lateinit var binding: FragmentRocketDetailsBinding
 
-    @Inject lateinit var viewModelFactory: RocketDetailsViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: RocketDetailsViewModel.Factory
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     override val viewModel: RocketDetailsViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
@@ -78,32 +81,13 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val rocket = state.rocket) {
-            is Resource.Success -> with(rocket()) {
-                rocketCard {
-                    id(rocketId)
-                    rocket(this@with)
-                }
-                expandableTextView {
-                    id("description")
-                    header(getString(R.string.rocketDetailsFragmentRocketDescriptionHeader))
-                    content(description)
-                }
-                detailCard {
-                    id("cost-per-launch")
-                    header(getString(R.string.rocketDetailsFragmentCostPerLaunchHeader))
-                    content("\$ ${formatNumber(costPerLaunch)}")
-                }
-                detailCard {
-                    id("success-percentage")
-                    header(getString(R.string.rocketDetailsFragmentSuccessPercentageHeader))
-                    content(successRatePercentage.toString())
-                }
-            }
+            is Resource.Success -> buildRocketModels(rocket())
             is Resource.Error<Rocket, *> -> {
                 errorView {
                     id("rocket-details-error")
                     errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
                 }
+                rocket()?.let { buildRocketModels(it) }
             }
             is Resource.Loading -> loadingView {
                 id("rocket-details-loading")
@@ -136,6 +120,28 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
                 }
             }
             else -> Unit
+        }
+    }
+
+    private fun EpoxyController.buildRocketModels(rocket: Rocket) = with(rocket) {
+        rocketCard {
+            id(rocketId)
+            rocket(this@with)
+        }
+        expandableTextView {
+            id("description")
+            header(getString(com.haroldadmin.moonshot.rocketDetails.R.string.rocketDetailsFragmentRocketDescriptionHeader))
+            content(description)
+        }
+        detailCard {
+            id("cost-per-launch")
+            header(getString(com.haroldadmin.moonshot.rocketDetails.R.string.rocketDetailsFragmentCostPerLaunchHeader))
+            content("\$ ${formatNumber(costPerLaunch)}")
+        }
+        detailCard {
+            id("success-percentage")
+            header(getString(com.haroldadmin.moonshot.rocketDetails.R.string.rocketDetailsFragmentSuccessPercentageHeader))
+            content(successRatePercentage.toString())
         }
     }
 
