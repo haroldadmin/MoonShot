@@ -22,6 +22,8 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
 
             if (validateCache(cachedData)) {
                 emit(Resource.Success(cachedData!!, isCached = true))
+            } else {
+                emit(Resource.Loading)
             }
 
             if (!hasDataBeenFetched) {
@@ -46,7 +48,7 @@ abstract class SingleFetchNetworkBoundResource<T : Any, U : Any, V : Any> : Netw
                     emit(Resource.Success(it, isCached = false))
                 } ?: Resource.Error(cachedData, null)
             }
-        }.onStart { emit(Resource.Loading) }
+        }
     }
 }
 

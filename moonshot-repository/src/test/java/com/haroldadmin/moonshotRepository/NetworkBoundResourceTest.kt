@@ -8,11 +8,11 @@ import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.spacex_api_wrapper.SampleApiData
 import io.kotlintest.matchers.collections.shouldHaveAtMostSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
+import io.kotlintest.matchers.types.shouldNotBeTypeOf
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.reduce
 import java.io.IOException
@@ -40,10 +40,10 @@ class NetworkBoundResourceTest : DescribeSpec({
 
             it("Should not emit cached data") {
                 resource
-                    .drop(1) // Drop Resource.Loading
+                    .filterIsNotInstance<Resource.Loading>()
                     .collect { res ->
                         res.shouldBeTypeOf<Resource.Success<List<Unit>>>()
-                        (res as Resource.Success).isCached shouldBe false
+                        (res as Resource.Success<*>).isCached shouldBe false
                     }
             }
 
@@ -92,15 +92,13 @@ class NetworkBoundResourceTest : DescribeSpec({
                 dataPersister = { Unit }
             )
 
-            it("Should emit Resource.Loading first") {
+            it("Should not emit Resource.Loading first") {
                 val firstEmittedRes = resource.first()
-                firstEmittedRes.shouldBeTypeOf<Resource.Loading>()
+                firstEmittedRes.shouldNotBeTypeOf<Resource.Loading>()
             }
 
-            it("Should emit cached data") {
-                val res = resource
-                    .drop(1) // Drop Resource.Loading
-                    .first()
+            it("Should emit cached data first") {
+                val res = resource.first()
 
                 with(res) {
                     shouldBeTypeOf<Resource.Success<List<Unit>>>()
@@ -129,13 +127,13 @@ class NetworkBoundResourceTest : DescribeSpec({
                 dataPersister = { Unit }
             )
 
-            it("Should emit Resource.Loading first") {
+            it("Should not emit Resource.Loading first") {
                 val firstRes = resource.first()
-                firstRes.shouldBeTypeOf<Resource.Loading>()
+                firstRes.shouldNotBeTypeOf<Resource.Loading>()
             }
 
             it("Should emit cached data first") {
-                val firstDataRes = resource.drop(1).first()
+                val firstDataRes = resource.first()
 
                 with(firstDataRes) {
                     shouldBeTypeOf<Resource.Success<List<Unit>>>()

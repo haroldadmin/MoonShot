@@ -48,6 +48,8 @@ abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
             val cachedData = getFromDatabase(isRefreshed = false, limit = limit, offset = offset)
             if (validateCache(cachedData)) {
                 emit(Resource.Success(cachedData!!, isCached = true))
+            } else {
+                emit(Resource.Loading)
             }
 
             when (val apiResponse = getFromApi()) {
@@ -65,7 +67,7 @@ abstract class NetworkBoundResource<T : Any, U : Any, V : Any> {
                     emit(Resource.Error(cachedData, error))
                 }
             }
-        }.onStart { emit(Resource.Loading) }
+        }
     }
 }
 
