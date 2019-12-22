@@ -16,6 +16,7 @@ import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.base.withModelsFrom
+import com.haroldadmin.moonshot.base.withModelsFromIndexed
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.di.appComponent
@@ -27,9 +28,10 @@ import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.missionSummaryCard
 import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.DatePrecision
+import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshot.models.launch.relevantLinks
 import com.haroldadmin.moonshot.utils.formatDate
+import com.haroldadmin.moonshot.views.LinkPreviewCardModel_
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
@@ -110,6 +112,10 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             }
 
             else -> Unit
+        }
+
+        if (state.linkPreviews.isNotEmpty()) {
+            buildLinkModels(state.linkPreviews)
         }
 
         when (val pictures = state.launchPictures) {
@@ -200,53 +206,25 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                     }
                 }
             }
-
-        launch.relevantLinks()
-            .takeIf { it.isNotEmpty() }
-            ?.let { map -> buildLinks(map) }
     }
 
-    private fun EpoxyController.buildLinks(links: Map<String, String>) {
+    private fun EpoxyController.buildLinkModels(linkPreviews: List<LinkPreview>) {
+
         sectionHeaderView {
-            id("links")
+            id("links-header")
             header(getString(R.string.fragmentLaunchDetailsLinksHeader))
         }
 
         carousel {
-            id("launch-links")
-            spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-            withModelsFrom(links) { name, link ->
-                when {
-                    name.contains("YouTube") -> {
-                        YouTubeCardModel_()
-                            .id(link)
-                            .thumbnailUrl(link.youtubeThumbnail())
-                            .onYoutubeClick { _ ->
-                                Intent(Intent.ACTION_VIEW, Uri.parse(link.youtubeVideo()))
-                                    .also { startActivity(it) }
-                            }
+            id("links-carousel")
+            withModelsFromIndexed(linkPreviews) { index, linkPreview ->
+                LinkPreviewCardModel_()
+                    .id(index)
+                    .linkPreview(linkPreview)
+                    .onLinkClick { linkPrev ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkPrev.url))
+                        startActivity(intent)
                     }
-                    name.contains("Reddit") -> {
-                        LinkCardModel_()
-                            .id(link)
-                            .title(name)
-                            .gradient(R.drawable.gradient_reddit)
-                            .onLinkClick { _ ->
-                                Intent(Intent.ACTION_VIEW, Uri.parse(link))
-                                    .also { startActivity(it) }
-                            }
-                    }
-                    else -> {
-                        LinkCardModel_()
-                            .id(link)
-                            .title(name)
-                            .gradient(R.drawable.gradient_wikipedia)
-                            .onLinkClick { _ ->
-                                Intent(Intent.ACTION_VIEW, Uri.parse(link))
-                                    .also { startActivity(it) }
-                            }
-                    }
-                }
             }
         }
     }

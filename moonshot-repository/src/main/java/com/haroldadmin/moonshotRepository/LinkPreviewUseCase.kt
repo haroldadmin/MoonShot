@@ -5,6 +5,10 @@ import android.util.Log
 import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.opengraphKt.Tags
 import com.haroldadmin.opengraphKt.getOpenGraphTags
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
@@ -14,19 +18,29 @@ class LinkPreviewUseCase @Inject constructor() {
 
     private val TAG = "LinkPreviewUseCase"
 
-    suspend fun getPreview(website: String, link: String): LinkPreview = try {
-        val url = URL(link)
-        val tags = url.getOpenGraphTags()
-        tags.toLinkPreview(website, link)
-    } catch (ex: MalformedURLException) {
-        LinkPreview(website, link,null, null, null)
-    } catch (ex: IOException) {
-        if (isClearTextCommunicationDenied(link)) {
-            Log.e(TAG, "Cleartext communication to $link might have been denied")
-        } else {
-            ex.printStackTrace()
+    suspend fun getPreview(website: String, link: String): LinkPreview = withContext(Dispatchers.IO) {
+        try {
+            val url = URL(link)
+            val tags = url.getOpenGraphTags()
+            tags.toLinkPreview(website, link)
+        } catch (ex: MalformedURLException) {
+            LinkPreview(website, link, null, null, null)
+        } catch (ex: IOException) {
+            if (isClearTextCommunicationDenied(link)) {
+                Log.e(TAG, "Cleartext communication to $link might have been denied")
+            } else {
+                ex.printStackTrace()
+            }
+            LinkPreview(website, link, null, null, null)
         }
-        LinkPreview(website, link, null, null, null)
+    }
+
+    suspend fun getPreviews(
+        websiteNamesAndLinks: Map<String, String>
+    ): List<LinkPreview> = withContext(Dispatchers.IO) {
+        websiteNamesAndLinks
+            .map { (websiteName, link) -> async { getPreview(websiteName, link) } }
+            .awaitAll()
     }
 
     private fun isClearTextCommunicationDenied(link: String): Boolean {

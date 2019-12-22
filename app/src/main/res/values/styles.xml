@@ -125,4 +125,8 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="TextAppearance.MoonShot.LinkPreview.LinkName" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
 </resources>

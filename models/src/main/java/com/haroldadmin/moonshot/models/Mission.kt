@@ -2,7 +2,10 @@ package com.haroldadmin.moonshot.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.haroldadmin.moonshot.models.launch.buildMap
+import com.haroldadmin.moonshot.models.launch.putIfNotNull
 
 @Entity
 data class Mission(
@@ -23,12 +26,11 @@ data class Mission(
     val twitter: String?,
     @ColumnInfo(name = "description")
     val description: String?
-)
-
-fun Mission.links(): Map<String, String> {
-    val links = mutableMapOf<String, String>()
-    if (website != null) { links["Website"] = website }
-    if (wikipedia != null) { links["Wikipedia"] = wikipedia }
-    if (twitter != null) { links["Twitter"] = twitter }
-    return links
+) {
+    @Ignore
+    val linksToPreview: Map<String, String> = buildMap {
+        putIfNotNull("Website", website)
+        putIfNotNull("Wikipedia", wikipedia)
+        putIfNotNull("Twitter", twitter)
+    }
 }

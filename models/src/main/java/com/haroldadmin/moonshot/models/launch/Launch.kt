@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.models.launch
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.haroldadmin.moonshot.models.DatePrecision
 import java.util.Date
@@ -54,7 +55,19 @@ data class Launch(
     val isUpcoming: Boolean?,
     @ColumnInfo(name = "static_fire_date_utc")
     val staticFireDateUtc: Date?
-)
+) {
+    @Ignore
+    val linksToPreview: Map<String, String> = buildMap {
+        links?.let {
+            putIfNotNull("YouTube", links.youtubeKey?.youtubeVideo())
+            putIfNotNull("Reddit Campaign", links.redditCampaign)
+            putIfNotNull("Reddit Launch", links.redditLaunch)
+            putIfNotNull("Reddit Media", links.redditMedia)
+            putIfNotNull("Wikipedia", links.wikipedia)
+        }
+    }
+}
+
 
 data class Rocket(
     @ColumnInfo(name = "rocket_id")
@@ -136,18 +149,18 @@ fun Launch.missionPatch(small: Boolean = false): String? {
     }
 }
 
-fun Launch.relevantLinks(): Map<String, String> {
-    val map = mapOf(
-        "YouTube" to links?.youtubeKey.ifNullThenBlank(),
-        "Reddit Campaign" to links?.redditCampaign.ifNullThenBlank(),
-        "Reddit Launch" to links?.redditLaunch.ifNullThenBlank(),
-        "Reddit Media" to links?.redditMedia.ifNullThenBlank(),
-        "Wikipedia" to links?.wikipedia.ifNullThenBlank()
-    )
-
-    return map.filterValues { it.isNotBlank() }
+private fun String.youtubeVideo(): String {
+    return "https://www.youtube.com/watch?v=$this"
 }
 
-private fun String?.ifNullThenBlank(): String {
-    return this ?: ""
+internal fun <T, R> buildMap(builder: MutableMap<T, R>.() -> Unit): Map<T, R> {
+    val map = mutableMapOf<T, R>()
+    map.apply { builder() }
+    return map
+}
+
+internal fun <T: Any, R: Any?> MutableMap<T, R>.putIfNotNull(key: T, value: R?) {
+    if (value != null) {
+        put(key, value)
+    }
 }

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.airbnb.epoxy.EpoxyController
-import com.haroldadmin.moonshot.R as appR
-import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.carousel
@@ -20,20 +18,22 @@ import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.missions.databinding.FragmentMissionBinding
 import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.moonshot.models.Mission
-import com.haroldadmin.moonshot.models.links
 import com.haroldadmin.moonshot.views.LinkPreviewCardModel_
 import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
+import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
 class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>() {
 
-    @Inject lateinit var viewModelFactory: MissionViewModel.Factory
+    @Inject
+    lateinit var viewModelFactory: MissionViewModel.Factory
     private lateinit var binding: FragmentMissionBinding
 
     override val viewModel: MissionViewModel by fragmentViewModel { initState, _ ->
@@ -62,14 +62,14 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val mission = state.mission) {
-            is Resource.Success -> buildMissionModels(mission(), state.linkPreviews)
+            is Resource.Success -> buildMissionModels(mission())
             is Resource.Error<Mission, *> -> {
                 errorView {
                     id("mission-error")
                     errorText("Error fetching launch details")
                 }
 
-                mission()?.let { buildMissionModels(it, state.linkPreviews) }
+                mission()?.let { buildMissionModels(it) }
             }
             is Resource.Loading -> loadingView {
                 id("mission-loading")
@@ -77,9 +77,28 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
             }
             else -> Unit
         }
+
+        if (state.linkPreviews.isNotEmpty()) {
+            sectionHeaderView {
+                id("mission-links-header")
+                header(getString(R.string.missionLinksSectionHeader))
+            }
+            carousel {
+                id("mission-links")
+                withModelsFromIndexed(state.linkPreviews) { index, linkPreview ->
+                    LinkPreviewCardModel_()
+                        .id(index)
+                        .linkPreview(linkPreview)
+                        .onLinkClick {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkPreview.url))
+                            startActivity(intent)
+                        }
+                }
+            }
+        }
     }
 
-    private fun EpoxyController.buildMissionModels(mission: Mission, linkPreviews: List<LinkPreview>) {
+    private fun EpoxyController.buildMissionModels(mission: Mission) {
         detailCard {
             id("mission-name")
             content(mission.name)
@@ -91,25 +110,6 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
             id("mission-description")
             content(mission.description ?: getString(R.string.noMissionDescriptionText))
             header(R.string.missionDescriptionHeaderText)
-        }
-
-        if (mission.links().isNotEmpty()) {
-            sectionHeaderView {
-                id("mission-links-header")
-                header(getString(R.string.missionLinksSectionHeader))
-            }
-            carousel {
-                id("mission-links")
-                withModelsFromIndexed(linkPreviews) { index, preview ->
-                    LinkPreviewCardModel_()
-                        .id(preview.toString())
-                        .linkPreview(preview)
-                        .onLinkClick { linkPrev ->
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkPrev.url))
-                            startActivity(intent)
-                        }
-                }
-            }
         }
     }
 }

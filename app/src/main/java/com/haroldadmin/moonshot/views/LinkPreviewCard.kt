@@ -31,6 +31,7 @@ class LinkPreviewCard @JvmOverloads constructor(
     private val image: ImageView = findViewById(R.id.image)
     private val title: AppCompatTextView = findViewById(R.id.title)
     private val description: AppCompatTextView = findViewById(R.id.description)
+    private val linkName: AppCompatTextView = findViewById(R.id.linkName)
 
     private lateinit var linkPreview: LinkPreview
     private var onLinkClick: ((LinkPreview) -> Unit)? = null
@@ -50,6 +51,7 @@ class LinkPreviewCard @JvmOverloads constructor(
         image.load(linkPreview.image)
         title.asyncText { linkPreview.title ?: linkPreview.website }
         description.asyncText { linkPreview.description ?: "" }
+        linkName.asyncText { linkPreview.website }
         onLinkClick?.let { onClick ->
             cardRoot.apply {
                 setOnClickListener { onClick(linkPreview) }

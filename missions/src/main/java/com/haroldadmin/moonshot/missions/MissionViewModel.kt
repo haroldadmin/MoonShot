@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.base.safeArgs
 import com.haroldadmin.moonshot.core.invoke
-import com.haroldadmin.moonshot.models.links
 import com.haroldadmin.moonshotRepository.LinkPreviewUseCase
 import com.haroldadmin.moonshotRepository.mission.GetMissionUseCase
 import com.haroldadmin.vector.VectorViewModelFactory
@@ -13,9 +12,6 @@ import com.haroldadmin.vector.ViewModelOwner
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -41,13 +37,14 @@ class MissionViewModel @AssistedInject constructor(
     }
 
     private fun getLinkPreviews() = withState { state ->
-        coroutineScope {
-            state.mission()?.links()
-                ?.map { (website, url) -> async { linkPreviewUseCase.getPreview(website, url) } }
-                ?.awaitAll()
-                ?.let {
-                    setState { copy(linkPreviews = it) }
-                }
+        viewModelScope.launch {
+            state.mission()?.let { mission ->
+                linkPreviewUseCase
+                    .getPreviews(mission.linksToPreview)
+                    .let {
+                        setState { copy(linkPreviews = it) }
+                    }
+            }
         }
     }
 

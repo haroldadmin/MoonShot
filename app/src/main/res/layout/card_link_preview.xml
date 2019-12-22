@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginLarge"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textAppearance="@style/TextAppearance.MoonShot.LinkPreview.Title"
             app:layout_constraintBottom_toTopOf="@+id/description"
             tools:text="@tools:sample/lorem" />
@@ -49,6 +49,19 @@
             android:textAppearance="@style/TextAppearance.MoonShot.LinkPreview.Description"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@tools:sample/lorem/random" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/linkName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginLarge"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MoonShot.LinkPreview.LinkName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/lorem/random"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
