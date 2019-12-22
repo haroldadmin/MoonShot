@@ -93,10 +93,11 @@ class RocketsFragment : ComplexMoonShotFragment<RocketsViewModel, RocketsState>(
                     }
                 }
             }
-            else -> loadingView {
+            is Resource.Loading -> loadingView {
                 id("loading-rockets")
                 loadingText(getString(R.string.fragmentRocketsLoadingMessage))
             }
+            else -> Unit
         }
     }
 }

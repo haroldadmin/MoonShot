@@ -105,10 +105,11 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
                     errorText(getString(R.string.rocketDetailsFragmentRocketDetailsErrorMessage))
                 }
             }
-            else -> loadingView {
+            is Resource.Loading -> loadingView {
                 id("rocket-details-loading")
                 loadingText(getString(R.string.rocketDetailsFragmentRocketLoadingMessage))
             }
+            else -> Unit
         }
 
         when (val launches = state.launches) {

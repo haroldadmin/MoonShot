@@ -93,10 +93,11 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
 
                 launchpad()?.let { buildLaunchPadModels(this, it) }
             }
-            else -> loadingView {
+            is Resource.Loading -> loadingView {
                 id("launchpad-loading")
                 loadingText(getString(R.string.fragmentLaunchPadLaunchPadLoadingMessage))
             }
+            else -> Unit
         }
     }
 

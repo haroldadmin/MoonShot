@@ -96,10 +96,12 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
                     }
                 }
             }
-            else -> loadingView {
+            is Resource.Loading -> loadingView {
                 id("next-launch-loading")
                 loadingText(getString(R.string.fragmentNextLaunchLoadingMessage))
             }
+
+            else -> Unit
         }
     }
 

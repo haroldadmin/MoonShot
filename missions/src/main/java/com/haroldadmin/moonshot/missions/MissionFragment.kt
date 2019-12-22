@@ -71,10 +71,11 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
 
                 mission()?.let { buildMissionModels(it, state.linkPreviews) }
             }
-            else -> loadingView {
+            is Resource.Loading -> loadingView {
                 id("mission-loading")
                 loadingText("Loading mission details")
             }
+            else -> Unit
         }
     }
 

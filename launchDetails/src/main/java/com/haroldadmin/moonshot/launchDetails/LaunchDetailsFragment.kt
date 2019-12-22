@@ -100,11 +100,14 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                     launchModels(this, data)
                 }
             }
-            else -> loadingView {
+
+            is Resource.Loading -> loadingView {
                 id("launch-loading")
                 loadingText(getString(R.string.fragmentLaunchDetailsLoadingMessage))
                 spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
             }
+
+            else -> Unit
         }
 
         when (val pictures = state.launchPictures) {
