@@ -52,7 +52,15 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/showPhoto"
+            app:destination="@id/launchPhoto"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+
     </fragment>
 
     <fragment
@@ -96,8 +104,8 @@
 
     <fragment
         android:id="@+id/settings"
-        android:label="@string/title_settings"
-        android:name="com.haroldadmin.moonshot.settings.SettingsFragment">
+        android:name="com.haroldadmin.moonshot.settings.SettingsFragment"
+        android:label="@string/title_settings">
         <deepLink
             android:id="@+id/settingsDeeplink"
             app:uri="moonshot://settings" />
@@ -195,7 +203,17 @@
         <argument
             android:name="missionId"
             app:argType="string"
-            app:nullable="false"/>
+            app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/launchPhoto"
+        android:name="com.haroldadmin.moonshot.launchDetails.LaunchPhotoFragment"
+        tools:layout="@layout/fragment_launch_photo">
+
+        <argument
+            android:name="photoUrl"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 </navigation>

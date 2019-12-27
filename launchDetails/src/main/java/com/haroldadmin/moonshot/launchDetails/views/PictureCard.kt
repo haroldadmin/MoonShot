@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
 import coil.api.load
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.google.android.material.card.MaterialCardView
@@ -27,5 +28,10 @@ class PictureCard @JvmOverloads constructor(
     @ModelProp
     fun setImageUrl(url: String) {
         image.load(url)
+    }
+
+    @CallbackProp
+    fun setOnPhotoClick(onClick: OnClickListener?) {
+        image.setOnClickListener(onClick)
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
@@ -135,6 +136,14 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                                 PictureCardModel_()
                                     .id(url)
                                     .imageUrl(url)
+                                    .onPhotoClick { imageView ->
+                                        val navExtras = FragmentNavigatorExtras(imageView to "photo-view")
+                                        findNavController()
+                                            .navigate(
+                                                LaunchDetailsFragmentDirections.showPhoto(url),
+                                                navExtras
+                                            )
+                                    }
                             }
                         }
                     }

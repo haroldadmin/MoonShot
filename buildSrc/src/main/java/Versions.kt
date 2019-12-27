@@ -11,7 +11,7 @@ object Versions {
     const val archCore = "2.1.0"
     const val fragmentKtx = "1.1.0"
     const val vmSavedState = "1.0.0-rc03"
-    const val constraintLayout = "2.0.0-beta2"
+    const val constraintLayout = "2.0.0-beta4"
     const val materialComponents = "1.1.0-beta01"
     const val navigation = "2.1.0"
     const val preference = "1.1.0"

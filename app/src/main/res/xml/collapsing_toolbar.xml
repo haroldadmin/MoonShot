@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Transition
+        android:id="@+id/collapsingToolbarTransition"
         app:constraintSetEnd="@id/collapsed"
         app:constraintSetStart="@id/uncollapsed"
         app:duration="200"

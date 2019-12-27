@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
@@ -12,6 +13,9 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.crashlytics.android.Crashlytics
 import com.haroldadmin.moonshot.base.MoonShotActivity
+import com.haroldadmin.moonshot.base.gone
+import com.haroldadmin.moonshot.base.invisible
+import com.haroldadmin.moonshot.base.show
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.vector.viewModel
@@ -55,7 +59,8 @@ class MainActivity : MoonShotActivity() {
 
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
-                val appBarConfig = AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
+                val appBarConfig =
+                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
                 setupWithNavController(navController, appBarConfig)
                 inflateMenu(R.menu.menu_main)
                 setOnMenuItemClickListener { menuItem ->
@@ -82,6 +87,26 @@ class MainActivity : MoonShotActivity() {
         state.toolbarTitle()?.let { title ->
             // If title had already been set, invoking toolbarTitle would return null and this block won't run
             binding.mainToolbar.title = title
+        }
+        state.shouldHideScaffolding()?.let { shouldHideScaffolding ->
+            if (shouldHideScaffolding) {
+                TransitionManager.beginDelayedTransition(binding.motionLayout)
+                binding.mainBottomNav.gone()
+                binding.mainToolbar.gone()
+                binding.motionLayout.apply {
+                    transitionToState(R.id.collapsed)
+                    getTransition(R.id.collapsingToolbarTransition)
+                        .setEnable(false)
+                }
+            } else {
+                binding.mainBottomNav.show()
+                binding.mainToolbar.show()
+                binding.motionLayout.apply {
+                    transitionToState(R.id.uncollapsed)
+                    getTransition(R.id.collapsingToolbarTransition)
+                        .setEnable(true)
+                }
+            }
         }
     }
 

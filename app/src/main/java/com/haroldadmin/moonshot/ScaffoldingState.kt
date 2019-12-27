@@ -7,5 +7,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ScaffoldingState(
-    val toolbarTitle: Consumable<String>
+    val toolbarTitle: Consumable<String>,
+    val shouldHideScaffolding: Consumable<Boolean> = Consumable(false)
 ) : MoonShotState, Parcelable

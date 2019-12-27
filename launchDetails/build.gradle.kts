@@ -63,6 +63,7 @@ dependencies {
 
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
     implementation(Libs.Ui.coil)
 
