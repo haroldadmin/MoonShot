@@ -30,9 +30,9 @@ MoonShot is built using [Vector](https://github.com/haroldadmin/Vector), a Kotli
 
 * [Vector](https://github.com/haroldadmin/Vector), for an MVI architecture pattern and state management.
 * [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for nearly all asynchronous operations
-* [Coroutines Network Response Adapter](https://github.com/haroldadmin/CoroutinesNetworkResponseAdapter) to easily handle error states in network calls.
+* [Network Response Adapter](https://github.com/haroldadmin/CoroutinesNetworkResponseAdapter) to easily handle error states in network calls.
 * [Epoxy](https://github.com/airbnb/Epoxy) to build most of the UI.
-* [Room](https://developer.android.com/topic/libraries/architecture/room) for the local persistence layer, although I want to experiment with [SQLDelight](https://github.com/square/sqldelight) in the future.
+* [Room](https://developer.android.com/topic/libraries/architecture/room) for the local persistence layer
 * [Moshi](https://github.com/square/moshi) for JSON parsing
 * [Dagger](https://github.com/google/dagger) for Dependency Injection.
 * [Navigation Architecture Component](https://developer.android.com/guide/navigation/navigation-getting-started) for in-app navigation
@@ -40,5 +40,6 @@ MoonShot is built using [Vector](https://github.com/haroldadmin/Vector), a Kotli
 
 ### Contribution
 
-The project is in rapid development. Expect bugs.
-Please feel free to open issues and/or make Pull Requests for any issues you might find.
+I am happy to accept contributions from the community. Please file issues before making Pull Requests.
+
+This project uses [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) for crash reporting. To setup your project locally, you will need to create an new Firebase Project on the [Firebase Console](https://console.firebase.google.com). Once the setup process is complete, you will have the opportunity to download the `google-services.json` file. Place it in the `app/` folder and build your project.
