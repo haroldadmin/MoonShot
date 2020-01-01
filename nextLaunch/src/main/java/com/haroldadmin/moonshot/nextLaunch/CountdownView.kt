@@ -73,10 +73,12 @@ class CountdownView @JvmOverloads constructor(
                         post { countdown.text = timeText }
                     },
                     onCountDownFinish = {
-                        countdown.text = if (launchSuccess == true) {
-                            context.getString(R.string.fragmentNextLaunchCountdownSuccessfulText)
-                        } else {
-                            context.getString(R.string.fragmentNextLaunchCountdownFinishText)
+                        post {
+                            countdown.text = if (launchSuccess == true) {
+                                context.getString(R.string.fragmentNextLaunchCountdownSuccessfulText)
+                            } else {
+                                context.getString(R.string.fragmentNextLaunchCountdownFinishText)
+                            }
                         }
                     }
                 )
