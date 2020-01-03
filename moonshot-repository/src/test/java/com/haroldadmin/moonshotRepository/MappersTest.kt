@@ -348,7 +348,7 @@ internal class MappersTest : DescribeSpec({
                 apiMission.manufacturers shouldBe dbMission.manufacturers
                 apiMission.payloadIds shouldBe dbMission.payloadIds
                 apiMission.wikipedia shouldBe dbMission.wikipedia
-                apiMission.website shouldBe dbMission.wikipedia
+                apiMission.website shouldBe dbMission.website
                 apiMission.twitter shouldBe dbMission.twitter
                 apiMission.description shouldBe dbMission.description
             }
