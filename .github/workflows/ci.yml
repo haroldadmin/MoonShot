@@ -11,6 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Pre-CI actions
+        run: cp ./ci/mock-google-services.json ./app/google-services.json
+
       - name: Unit Tests
         run: ./gradlew testDebugUnitTest
 
