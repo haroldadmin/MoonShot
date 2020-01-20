@@ -81,7 +81,7 @@ data class Rocket(
 )
 
 data class Fairings(
-    val reused: Boolean,
+    val reused: Boolean?,
     val recoveryAttempt: Boolean?,
     val recovered: Boolean?,
     val ship: String?
