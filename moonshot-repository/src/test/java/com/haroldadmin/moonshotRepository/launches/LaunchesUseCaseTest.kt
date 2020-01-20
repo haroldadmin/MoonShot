@@ -37,16 +37,10 @@ internal class LaunchesUseCaseTest : AnnotationSpec() {
     }
 
     @Test
-    fun `should emit Loading first`() = runBlocking {
-        val flow = usecase.getLaunches(LaunchType.All)
-        flow.first() shouldBe Resource.Loading
-    }
-
-    @Test
     fun `should emit cached data after loading`() = runBlocking {
         val flow = usecase.getLaunches(LaunchType.All)
 
-        val emittedResource = flow.drop(1).first()
+        val emittedResource = flow.first()
 
         with(emittedResource) {
 

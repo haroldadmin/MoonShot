@@ -36,18 +36,11 @@ internal class LaunchesForLaunchpadUseCaseTest : AnnotationSpec() {
     }
 
     @Test
-    fun `should emit Loading first`() = runBlocking {
-        val siteId = "ccafs_slc_40"
-        val flow = usecase.getLaunchesForLaunchpad(siteId, LaunchType.All)
-        flow.first() shouldBe Resource.Loading
-    }
-
-    @Test
     fun `should emit cached data after loading`() = runBlocking {
         val siteId = "ccafs_slc_40"
         val flow = usecase.getLaunchesForLaunchpad(siteId, LaunchType.All)
 
-        val emittedResource = flow.drop(1).first()
+        val emittedResource = flow.first()
 
         with(emittedResource) {
 

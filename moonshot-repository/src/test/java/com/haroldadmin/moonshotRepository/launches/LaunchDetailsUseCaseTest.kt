@@ -34,18 +34,11 @@ internal class LaunchDetailsUseCaseTest : AnnotationSpec() {
     }
 
     @Test
-    fun emitLoadingFirstTest() = runBlocking {
-        val flightNumber = 1
-        val flow = usecase.getLaunchDetails(flightNumber)
-        flow.first() shouldBe Resource.Loading
-    }
-
-    @Test
     fun shouldEmitCachedDataAfterLoading() = runBlocking {
         val flightNumber = 1
         val flow = usecase.getLaunchDetails(flightNumber)
 
-        val emittedResource = flow.drop(1).first()
+        val emittedResource = flow.first()
 
         with(emittedResource) {
 
