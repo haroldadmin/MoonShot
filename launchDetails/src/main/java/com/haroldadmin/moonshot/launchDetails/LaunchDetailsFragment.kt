@@ -161,7 +161,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
             header(getString(R.string.fragmentLaunchDetailsLaunchSiteHeader))
             content(launch.launchSite?.siteName ?: getString(R.string.fragmentLaunchDetailsNoLaunchSiteMessage))
             icon(appR.drawable.ic_round_place_24px)
-            onDetailClick { _ -> launch.launchSite?.let { showLaunchPadDetails(it.siteId) } }
+            onDetailClick { _ -> launch.launchSite?.siteId?.let { showLaunchPadDetails(it) } }
         }
 
         detailCard {

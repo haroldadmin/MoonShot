@@ -92,9 +92,9 @@ data class Telemetry(
 )
 
 data class LaunchSite(
-    val siteId: String,
-    val siteName: String,
-    val siteNameLong: String
+    val siteId: String?,
+    val siteName: String?,
+    val siteNameLong: String?
 )
 
 data class Links(
