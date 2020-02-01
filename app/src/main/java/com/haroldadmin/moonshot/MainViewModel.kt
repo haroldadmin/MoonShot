@@ -25,11 +25,11 @@ class MainViewModel @AssistedInject constructor(
     }
 
     fun hideScaffolding() = setState {
-        copy(shouldHideScaffolding = Consumable(true))
+        copy(shouldHideScaffolding = true)
     }
 
     fun showScaffolding() = setState {
-        copy(shouldHideScaffolding = Consumable(false))
+        copy(shouldHideScaffolding = false)
     }
 
     @AssistedInject.Factory

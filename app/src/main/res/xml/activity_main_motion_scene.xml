@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/uncollapsedScaffolding" />
+    <ConstraintSet android:id="@+id/collapsedScaffolding">
+        <Constraint
+            android:id="@+id/appBarLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+    <Transition
+        android:id="@+id/collapseScaffolding"
+        app:constraintSetEnd="@+id/collapsedScaffolding"
+        app:constraintSetStart="@+id/uncollapsedScaffolding"
+        app:motionInterpolator="easeIn" >
+
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/nestedScrollView" />
+    </Transition>
+    <ConstraintSet android:id="@+id/noScaffolding" >
+        <Constraint
+            android:id="@+id/appBarLayout"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/mainBottomNav"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+</MotionScene>

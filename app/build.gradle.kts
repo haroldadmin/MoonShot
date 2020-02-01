@@ -111,6 +111,8 @@ dependencies {
 
     implementation(Libs.Ui.lemniscate)
 
+    implementation(Libs.whatTheStack)
+
     testImplementation(Libs.Test.junit4)
     testImplementation(Libs.Test.mockkAndroid)
 

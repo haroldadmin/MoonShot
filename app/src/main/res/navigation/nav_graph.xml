@@ -210,10 +210,13 @@
         android:id="@+id/launchPhoto"
         android:name="com.haroldadmin.moonshot.launchDetails.LaunchPhotoFragment"
         tools:layout="@layout/fragment_launch_photo">
-
         <argument
-            android:name="photoUrl"
-            app:argType="string"
-            app:nullable="false" />
+            android:name="urls"
+            app:argType="string[]"
+            app:nullable="false"/>
+        <argument
+            android:name="startIndex"
+            app:argType="integer"
+            app:nullable="false"/>
     </fragment>
 </navigation>

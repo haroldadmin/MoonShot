@@ -2,20 +2,16 @@ package com.haroldadmin.moonshot
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.crashlytics.android.Crashlytics
 import com.haroldadmin.moonshot.base.MoonShotActivity
-import com.haroldadmin.moonshot.base.gone
-import com.haroldadmin.moonshot.base.invisible
-import com.haroldadmin.moonshot.base.show
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.vector.viewModel
@@ -50,12 +46,15 @@ class MainActivity : MoonShotActivity() {
 
         initPreferences(settings)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        navController = findNavController(R.id.navHostFragment)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
 
         with(binding) {
 
-            root.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 
             mainBottomNav.setupWithNavController(navController)
             mainToolbar.apply {
@@ -88,25 +87,24 @@ class MainActivity : MoonShotActivity() {
             // If title had already been set, invoking toolbarTitle would return null and this block won't run
             binding.mainToolbar.title = title
         }
-        state.shouldHideScaffolding()?.let { shouldHideScaffolding ->
-            if (shouldHideScaffolding) {
-                TransitionManager.beginDelayedTransition(binding.motionLayout)
-                binding.mainBottomNav.gone()
-                binding.mainToolbar.gone()
-                binding.motionLayout.apply {
-                    transitionToState(R.id.collapsed)
-                    getTransition(R.id.collapsingToolbarTransition)
-                        .setEnable(false)
-                }
-            } else {
-                binding.mainBottomNav.show()
-                binding.mainToolbar.show()
-                binding.motionLayout.apply {
-                    transitionToState(R.id.uncollapsed)
-                    getTransition(R.id.collapsingToolbarTransition)
-                        .setEnable(true)
-                }
-            }
+        if (state.shouldHideScaffolding) {
+            hideScaffolding()
+        } else {
+            showScaffolding()
+        }
+    }
+
+    private fun hideScaffolding() {
+        binding.motionLayout.apply {
+            transitionToState(R.id.noScaffolding)
+            getTransition(R.id.collapseScaffolding).setEnable(false)
+        }
+    }
+
+    private fun showScaffolding() {
+        binding.motionLayout.apply {
+            transitionToState(R.id.uncollapsedScaffolding)
+            getTransition(R.id.collapseScaffolding).setEnable(true)
         }
     }
 

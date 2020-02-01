@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface">
 
-        <com.github.chrisbanes.photoview.PhotoView
-            android:id="@+id/photo"
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/carousel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:transitionName="photo-view"
-            tools:src="@tools:sample/backgrounds/scenic"/>
+            tools:listitem="@layout/item_fullscreen_photo" />
+
     </FrameLayout>
 </layout>

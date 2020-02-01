@@ -6,26 +6,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.carousel
-import com.haroldadmin.moonshot.R as appR
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
-import com.haroldadmin.moonshot.base.withModelsFrom
 import com.haroldadmin.moonshot.base.withModelsFromIndexed
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchDetailsBinding
 import com.haroldadmin.moonshot.launchDetails.di.DaggerLaunchDetailsComponent
-import com.haroldadmin.moonshot.launchDetails.views.LinkCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.PictureCardModel_
-import com.haroldadmin.moonshot.launchDetails.views.YouTubeCardModel_
 import com.haroldadmin.moonshot.launchDetails.views.missionSummaryCard
 import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.DatePrecision
@@ -33,10 +28,10 @@ import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.LinkPreviewCardModel_
+import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.expandableTextView
 import com.haroldadmin.moonshot.views.launchCard
-import com.haroldadmin.moonshot.views.detailCard
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshot.views.sectionHeaderView
 import com.haroldadmin.vector.activityViewModel
@@ -44,6 +39,7 @@ import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.Date
 import javax.inject.Inject
+import com.haroldadmin.moonshot.R as appR
 
 @ExperimentalCoroutinesApi
 class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, LaunchDetailsState>() {
@@ -132,17 +128,15 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
                         carousel {
                             id("launch-pictures")
                             spanSizeOverride { totalSpanCount, _, _ -> totalSpanCount }
-                            withModelsFrom(pics) { url ->
+                            withModelsFromIndexed(pics) { index, url ->
                                 PictureCardModel_()
                                     .id(url)
                                     .imageUrl(url)
-                                    .onPhotoClick { imageView ->
-                                        val navExtras = FragmentNavigatorExtras(imageView to "photo-view")
-                                        findNavController()
-                                            .navigate(
-                                                LaunchDetailsFragmentDirections.showPhoto(url),
-                                                navExtras
-                                            )
+                                    .onPhotoClick { _ ->
+                                        val urls = pics.toTypedArray()
+                                        findNavController().navigate(
+                                            LaunchDetailsFragmentDirections.showPhoto(urls, index)
+                                        )
                                     }
                             }
                         }

@@ -13,13 +13,14 @@ object Versions {
     const val vmSavedState = "1.0.0-rc03"
     const val constraintLayout = "2.0.0-beta4"
     const val materialComponents = "1.1.0-beta01"
-    const val navigation = "2.1.0"
+    const val navigation = "2.2.0"
     const val preference = "1.1.0"
     const val workManager = "2.2.0"
     const val swipeRefreshLayout = "1.1.0-alpha03"
 
     const val vector = "master-SNAPSHOT"
     const val openGraphKt = "master-SNAPSHOT"
+    const val whatTheStack = "master-SNAPSHOT"
 
     const val epoxy = "3.8.0"
 
