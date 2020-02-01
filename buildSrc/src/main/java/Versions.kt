@@ -16,6 +16,7 @@ object Versions {
     const val navigation = "2.1.0"
     const val preference = "1.1.0"
     const val workManager = "2.2.0"
+    const val swipeRefreshLayout = "1.1.0-alpha03"
 
     const val vector = "master-SNAPSHOT"
     const val openGraphKt = "master-SNAPSHOT"

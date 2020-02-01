@@ -16,16 +16,14 @@ class NextLaunchViewModel @AssistedInject constructor(
 ) : MoonShotViewModel<NextLaunchState>(initState) {
 
     init {
-        viewModelScope.launch {
-            getNextLaunch()
-        }
+        getNextLaunch()
     }
 
-    suspend fun getNextLaunch() {
+    fun getNextLaunch() = viewModelScope.launch {
         nextLaunchUseCase
             .getNextLaunch()
             .collect { nextLaunchRes ->
-                setState { copy(nextLaunch = nextLaunchRes) }
+                setState { copy(nextLaunchResource = nextLaunchRes) }
             }
     }
 

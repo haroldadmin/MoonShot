@@ -46,5 +46,34 @@ class ResourceTest : DescribeSpec({
                     loadingResource.shouldNotBeTypeOf<Resource.Error<*, *>>()
                 }
             }
+
+            context("Completion property") {
+                val data = Any()
+
+                it("Should not be complete if data is cached and resource is Success") {
+                    val resource = Resource.Success(data, isCached = true)
+                    resource.isComplete shouldBe false
+                }
+
+                it("Should be complete if the data is not cached and resource is Success") {
+                    val resource = Resource.Success(data, isCached = false)
+                    resource.isComplete shouldBe true
+                }
+
+                it("Should be complete if the resource is Error") {
+                    val resource = Resource.Error(null, null)
+                    resource.isComplete shouldBe true
+                }
+
+                it ("Should not be complete if the resource is Uninitialized") {
+                    val resource = Resource.Uninitialized
+                    resource.isComplete shouldBe false
+                }
+
+                it ("Should not be complete if the resource is Loading") {
+                    val resource = Resource.Loading
+                    resource.isComplete shouldBe false
+                }
+            }
         }
 })

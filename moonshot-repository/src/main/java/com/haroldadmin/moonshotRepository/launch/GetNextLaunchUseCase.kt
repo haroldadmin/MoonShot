@@ -5,7 +5,9 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshotRepository.NetworkBoundResource
 import com.haroldadmin.moonshotRepository.SingleFetchNetworkBoundResource
+import com.haroldadmin.moonshotRepository.networkBoundResourceLazy
 import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
@@ -27,7 +29,7 @@ class GetNextLaunchUseCase @Inject constructor(
     private val defaultOffset = 0
 
     @ExperimentalCoroutinesApi
-    private val nextLaunchRes: SingleFetchNetworkBoundResource<Launch, ApiLaunch, ErrorResponse> by singleFetchNetworkBoundResourceLazy(
+    private val nextLaunchRes: NetworkBoundResource<Launch, ApiLaunch, ErrorResponse> by networkBoundResourceLazy(
         dbFetcher = { _, _, _ -> getNextLaunchCached() },
         cacheValidator = { cachedData -> cachedData != null },
         apiFetcher = { getNextLaunchFromService() },

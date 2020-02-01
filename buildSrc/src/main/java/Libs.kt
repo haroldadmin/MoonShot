@@ -31,6 +31,8 @@ object Libs {
 
         const val archCoreCommon = "androidx.arch.core:core-common:${Versions.archCore}"
         const val archCoreRuntime = "androidx.arch.core:core-runtime:${Versions.archCore}"
+
+        const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
     }
 
     object Lifecycle {

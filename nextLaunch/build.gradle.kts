@@ -61,6 +61,7 @@ dependencies {
     implementation(Libs.AndroidX.navigationUi)
     implementation(Libs.AndroidX.preference)
     implementation(Libs.Lifecycle.vmSavedState)
+    implementation(Libs.AndroidX.swipeRefreshLayout)
 
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)

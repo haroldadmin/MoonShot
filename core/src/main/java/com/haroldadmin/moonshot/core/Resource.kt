@@ -9,9 +9,23 @@ sealed class Resource<out T> {
     abstract override fun equals(other: Any?): Boolean
 
     /**
-     * A data class to represent the scenario where the resource is available without any errors
+     * A property to determine whether this Resource has reached a terminal status or not.
+     * A Resource is in a terminal status if it is [Success] or [Error]
      */
-    data class Success <out T>(val data: T, val isCached: Boolean = false) : Resource<T>() {
+    abstract val isComplete: Boolean
+
+    /**
+     * A data class to represent the scenario where the resource is available without any errors
+     *
+     * This is a terminal state, and the Resource object is considered to be completed when it is in this state
+     */
+    data class Success <out T>(
+        val data: T,
+        val isCached: Boolean = false
+    ) : Resource<T>() {
+
+        override val isComplete: Boolean = !isCached
+
         operator fun invoke(): T {
             return data
         }
@@ -19,11 +33,21 @@ sealed class Resource<out T> {
 
     /**
      * A data class to represent the scenario where a resource may or may not be available due to an error
+     *
+     * This is a terminal state, and the Resource object is considered to be completed when it is in this state
      */
-    data class Error <out T, out E> (val data: T?, val error: E?) : Resource<T>()
+    data class Error <out T, out E> (
+        val data: T?,
+        val error: E?
+    ) : Resource<T>() {
+
+        override val isComplete: Boolean = true
+    }
 
     /**
      * A class to represent the loading state of an object
+     *
+     * This is a non-terminal state.
      */
     object Loading : Resource<Nothing>() {
         override fun hashCode(): Int {
@@ -33,6 +57,8 @@ sealed class Resource<out T> {
         override fun equals(other: Any?): Boolean {
             return other is Loading
         }
+
+        override val isComplete: Boolean = false
     }
 
     object Uninitialized : Resource<Nothing>() {
@@ -43,6 +69,8 @@ sealed class Resource<out T> {
         override fun equals(other: Any?): Boolean {
             return other is Uninitialized
         }
+
+        override val isComplete: Boolean = false
     }
 }
 

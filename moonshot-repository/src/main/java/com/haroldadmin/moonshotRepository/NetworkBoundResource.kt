@@ -114,3 +114,14 @@ inline fun <T : Any, U : Any, V : Any> networkBoundFlow(
     val resource = networkBoundResource(initialParams, dbFetcher, apiFetcher, cacheValidator, dataPersister)
     return resource.flow()
 }
+
+@ExperimentalCoroutinesApi
+inline fun <T: Any, U: Any, V: Any> networkBoundResourceLazy(
+    crossinline initialParams: () -> Pair<Int, Int> = { -1 to 0 },
+    crossinline dbFetcher: suspend (Boolean, Int, Int) -> T?,
+    crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,
+    crossinline cacheValidator: suspend (T?) -> Boolean,
+    crossinline dataPersister: suspend (U) -> Unit
+): Lazy<NetworkBoundResource<T, U, V>> {
+    return lazyOf(networkBoundResource(initialParams, dbFetcher, apiFetcher, cacheValidator, dataPersister))
+}

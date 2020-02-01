@@ -55,6 +55,8 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
     }
 
     override fun renderer(state: NextLaunchState) {
+        binding.swipeRefreshLayout.isRefreshing = !state.nextLaunchResource.isComplete
+        // TODO Change this to [com.airbnb.epoxy.EpoxyController.requestModelBuild]
         epoxyController.setData(state)
     }
 
@@ -71,11 +73,16 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
             setController(epoxyController)
             layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getNextLaunch()
+        }
+
         return binding.root
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->
-        when (val launch = state.nextLaunch) {
+        when (val launch = state.nextLaunchResource) {
 
             is Resource.Success -> {
                 buildLaunchModels(launch())
@@ -98,12 +105,6 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
                     }
                 }
             }
-            is Resource.Loading -> loadingView {
-                id("next-launch-loading")
-                loadingText(getString(R.string.fragmentNextLaunchLoadingMessage))
-            }
-
-            else -> Unit
         }
     }
 
