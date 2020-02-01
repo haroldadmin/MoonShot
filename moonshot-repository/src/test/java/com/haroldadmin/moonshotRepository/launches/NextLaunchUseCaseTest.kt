@@ -61,12 +61,12 @@ internal class NextLaunchUseCaseTest : AnnotationSpec() {
     }
 
     @Test
-    fun `should only fetch data from the API once`() = runBlocking {
+    fun `should fetch data from the API as many times as requested or refreshed`() = runBlocking {
         service.expectedResponse = ExpectedResponse.Success
         repeat(5) {
             usecase.getNextLaunch().last()
         }
-        assertTrue(service.requestCount == 1)
+        assertTrue(service.requestCount == 5)
     }
 
     @Test
