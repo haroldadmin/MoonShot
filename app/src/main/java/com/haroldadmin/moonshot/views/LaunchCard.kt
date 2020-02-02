@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
+import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.CallbackProp
@@ -18,7 +19,6 @@ import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.missionPatch
 import com.haroldadmin.moonshot.utils.asyncText
 import com.haroldadmin.moonshot.utils.formatDate
-import com.haroldadmin.moonshot.utils.loadNullable
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LaunchCard @JvmOverloads constructor(
@@ -58,7 +58,7 @@ class LaunchCard @JvmOverloads constructor(
     fun useProps() {
         name.asyncText(launch.missionName)
 
-        missionPatch.loadNullable(launch.missionPatch(), errorRes = R.drawable.ic_rocket) {
+        missionPatch.load(launch.missionPatch()) {
             crossfade(true)
             error(R.drawable.ic_rocket)
             placeholder(R.drawable.ic_rocket)

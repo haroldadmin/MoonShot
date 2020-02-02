@@ -129,4 +129,5 @@ dependencies {
     implementation(Libs.Network.OkHttp.loggingInterceptor)
     implementation(Libs.Network.Retrofit.retrofit)
     implementation(project(":database"))
+    implementation(Libs.Persistence.room)
 }

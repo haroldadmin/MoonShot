@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatTextView
+import coil.api.load
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.OnViewRecycled
 import com.google.android.material.card.MaterialCardView
 import com.haroldadmin.moonshot.launchDetails.R
-import com.haroldadmin.moonshot.utils.loadNullable
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class YouTubeCard @JvmOverloads constructor(
@@ -30,7 +30,10 @@ class YouTubeCard @JvmOverloads constructor(
 
     @ModelProp
     fun setThumbnailUrl(url: String?) {
-        background.loadNullable(url, R.drawable.ic_round_ondemand_video_24px)
+        background.load(url) {
+            error(R.drawable.ic_round_ondemand_video_24px)
+            placeholder(R.drawable.ic_round_ondemand_video_24px)
+        }
     }
 
     @CallbackProp

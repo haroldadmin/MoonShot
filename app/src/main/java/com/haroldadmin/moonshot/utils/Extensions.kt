@@ -77,15 +77,6 @@ inline fun AppCompatTextView.asyncText(executor: Executor? = null, crossinline t
     asyncText(textProducer(), executor)
 }
 
-// https://github.com/coil-kt/coil/issues/61
-inline fun ImageView.loadNullable(url: String?, @DrawableRes errorRes: Int, builder: LoadRequestBuilder.() -> Unit = {}) {
-    if (url == null) {
-        load(errorRes)
-    } else {
-        load(url, builder = builder)
-    }
-}
-
 inline fun <T : MoonShotViewModel<*>> T.launchAfterDelay(delayMs: Long, crossinline action: suspend T.() -> Unit) {
     viewModelScope.launch {
         delay(delayMs)
