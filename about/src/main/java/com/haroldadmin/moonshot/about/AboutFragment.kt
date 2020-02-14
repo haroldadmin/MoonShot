@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.about.databinding.FragmentAboutBinding
+import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.about.views.aboutAppCard
 import com.haroldadmin.moonshot.about.views.aboutDetailCard
 import com.haroldadmin.moonshot.base.MoonShotFragment
@@ -16,11 +16,14 @@ import com.haroldadmin.moonshot.R as appR
 
 class AboutFragment : MoonShotFragment() {
 
-    private lateinit var binding: FragmentAboutBinding
+    private var _binding: FragmentAboutBinding? = null
+    private val binding: FragmentAboutBinding
+        get() = _binding!!
+
     private val initialState = AboutState()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentAboutBinding.inflate(inflater, container, false)
+        _binding = FragmentAboutBinding.inflate(inflater, container, false)
         binding.rvAbout.apply {
             setController(epoxyController)
             layoutAnimation = layoutAnimation(appR.anim.layout_animation_fade_in)
@@ -31,6 +34,11 @@ class AboutFragment : MoonShotFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         epoxyController.requestModelBuild()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private val epoxyController by lazy {

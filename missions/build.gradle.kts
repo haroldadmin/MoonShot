@@ -26,7 +26,7 @@ android {
     kapt {
         correctErrorTypes = true
     }
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
 }
@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.Kotlin.stdLib)
-    implementation (Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
 
     implementation(Libs.vector)

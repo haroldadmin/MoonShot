@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
+import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +15,7 @@ import com.haroldadmin.moonshot.base.MoonShotActivity
 import com.haroldadmin.moonshot.databinding.ActivityMainBinding
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.vector.viewModel
+import dev.chrisbanes.insetter.doOnApplyWindowInsets
 import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,7 +33,11 @@ val THEME_MAPPINGS = mapOf(
 
 class MainActivity : MoonShotActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+
+    private val binding: ActivityMainBinding
+        get() = _binding!!
+
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModel()
 
@@ -45,39 +50,86 @@ class MainActivity : MoonShotActivity() {
         super.onCreate(savedInstanceState)
 
         initPreferences(settings)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        navController = navHostFragment.navController
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        with(binding) {
+        initUi()
 
-            root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-
-            mainBottomNav.setupWithNavController(navController)
-            mainToolbar.apply {
-                val appBarConfig =
-                    AppBarConfiguration(setOf(R.id.nextLaunch, R.id.launchesFlow, R.id.rockets, R.id.search))
-                setupWithNavController(navController, appBarConfig)
-                inflateMenu(R.menu.menu_main)
-                setOnMenuItemClickListener { menuItem ->
-                    when (menuItem.itemId) {
-                        R.id.menuSearch -> {
-                            // Navigating to Search as a menu item navigation destination resets the
-                            //  backstack, so we handle it separately here
-                            navController.navigate(R.id.search)
-                            true
-                        }
-                        else -> menuItem.onNavDestinationSelected(navController)
-                    }
-                }
-            }
-        }
         launch {
             viewModel.state.collect { state ->
                 renderState(state)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun initUi() {
+        setSystemUiFlags()
+        initNavController()
+        initToolbar()
+        initBottomNav()
+    }
+
+    private fun initNavController() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
+    }
+
+    private fun setSystemUiFlags() {
+        binding.root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+    }
+
+    private fun initToolbar() {
+        binding.mainToolbar.apply {
+            setupWithNavController(
+                navController, AppBarConfiguration(
+                    topLevelDestinationIds = setOf(
+                        R.id.nextLaunch,
+                        R.id.launchesFlow,
+                        R.id.rockets,
+                        R.id.search
+                    )
+                )
+            )
+
+            inflateMenu(R.menu.menu_main)
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.menuSearch -> {
+                        // Navigating to Search as a menu item navigation destination resets the
+                        //  backstack, so we handle it separately here
+                        navController.navigate(R.id.search)
+                        true
+                    }
+                    else -> menuItem.onNavDestinationSelected(navController)
+                }
+            }
+            doOnApplyWindowInsets { view, insets, initialState ->
+                view.updatePadding(
+                    top = initialState.paddings.top + insets.systemWindowInsetTop,
+                    left = initialState.paddings.left + insets.systemWindowInsetLeft,
+                    right = initialState.paddings.right + insets.systemWindowInsetRight
+                )
+            }
+        }
+    }
+
+    private fun initBottomNav() {
+        binding.mainBottomNav.apply {
+            setupWithNavController(navController)
+            doOnApplyWindowInsets { view, insets, initialState ->
+                view.updatePadding(
+                    bottom = initialState.paddings.bottom + insets.systemWindowInsetBottom,
+                    left = initialState.paddings.left + insets.systemWindowInsetLeft,
+                    right = initialState.paddings.right + insets.systemWindowInsetRight
+                )
             }
         }
     }

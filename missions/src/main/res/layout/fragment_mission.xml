@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <FrameLayout
-        android:id="@+id/rootContainer"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface">
+
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/rvMission"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorSurface">
-        <com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/rvMission"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </FrameLayout>
-</layout>
+        android:layout_height="match_parent" />
+</FrameLayout>

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
 
-    <FrameLayout
-        android:id="@+id/root"
+    <com.airbnb.epoxy.EpoxyRecyclerView
+        android:id="@+id/carousel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface">
+        tools:listitem="@layout/item_fullscreen_photo" />
 
-        <com.airbnb.epoxy.EpoxyRecyclerView
-            android:id="@+id/carousel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_fullscreen_photo" />
-
-    </FrameLayout>
-</layout>
+</FrameLayout>

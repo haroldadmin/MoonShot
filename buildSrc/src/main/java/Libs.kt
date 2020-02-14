@@ -49,6 +49,7 @@ object Libs {
         const val lemniscate = "com.github.VladimirWrites:Lemniscate:${Versions.lemniscate}"
         const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
         const val openGraphKt = "com.github.haroldadmin:opengraphKt:${Versions.openGraphKt}"
+        const val insetter = "dev.chrisbanes:insetter-ktx:${Versions.insetter}"
     }
 
 

@@ -28,6 +28,7 @@ object Versions {
 
     const val lemniscate = "2.0.2"
     const val lottie = "3.0.7"
+    const val insetter = "0.2.0"
 
     const val room = "2.2.2"
 

@@ -35,7 +35,9 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, RocketDetailsState>() {
 
-    private lateinit var binding: FragmentRocketDetailsBinding
+    private var _binding: FragmentRocketDetailsBinding? = null
+    private val binding: FragmentRocketDetailsBinding
+        get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: RocketDetailsViewModel.Factory
@@ -57,17 +59,12 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
             .inject(this)
     }
 
-    override fun renderer(state: RocketDetailsState) {
-        epoxyController.setData(state)
-        state.rocket()?.let { mainViewModel.setTitle(it.rocketName) }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentRocketDetailsBinding.inflate(inflater, container, false)
 
         mainViewModel.setTitle(getString(appR.string.title_rocket_details))
 
@@ -77,6 +74,16 @@ class RocketDetailsFragment : ComplexMoonShotFragment<RocketDetailsViewModel, Ro
         }
 
         return binding.root
+    }
+
+    override fun renderer(state: RocketDetailsState) {
+        epoxyController.setData(state)
+        state.rocket()?.let { mainViewModel.setTitle(it.rocketName) }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->

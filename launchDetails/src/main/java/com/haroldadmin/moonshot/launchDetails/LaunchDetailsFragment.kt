@@ -44,7 +44,9 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, LaunchDetailsState>() {
 
-    private lateinit var binding: FragmentLaunchDetailsBinding
+    private var _binding: FragmentLaunchDetailsBinding? = null
+    private val binding: FragmentLaunchDetailsBinding
+        get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: LaunchDetailsViewModel.Factory
@@ -74,7 +76,7 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentLaunchDetailsBinding.inflate(inflater, container, false)
 
         mainViewModel.setTitle(getString(appR.string.title_launch_details))
 
@@ -85,6 +87,11 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->

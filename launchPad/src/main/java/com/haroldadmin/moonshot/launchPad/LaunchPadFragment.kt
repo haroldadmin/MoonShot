@@ -37,7 +37,10 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadState>() {
 
-    private lateinit var binding: FragmentLaunchpadBinding
+    private var _binding: FragmentLaunchpadBinding? = null
+    private val binding: FragmentLaunchpadBinding
+        get() = _binding!!
+
     @Inject
     lateinit var viewModelFactory: LaunchPadViewModel.Factory
     @Inject
@@ -58,19 +61,12 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
             .inject(this)
     }
 
-    override fun renderer(state: LaunchPadState) {
-        epoxyController.setData(state)
-        if (state.launchPad is Resource.Success) {
-            mainViewModel.setTitle(state.launchPad.data.siteNameLong)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
+        _binding = FragmentLaunchpadBinding.inflate(inflater, container, false)
 
         mainViewModel.setTitle(getString(appR.string.title_launchpad))
 
@@ -81,6 +77,18 @@ class LaunchPadFragment : ComplexMoonShotFragment<LaunchPadViewModel, LaunchPadS
         }
 
         return binding.root
+    }
+
+    override fun renderer(state: LaunchPadState) {
+        epoxyController.setData(state)
+        if (state.launchPad is Resource.Success) {
+            mainViewModel.setTitle(state.launchPad.data.siteNameLong)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->

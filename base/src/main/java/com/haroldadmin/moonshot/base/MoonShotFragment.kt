@@ -42,7 +42,9 @@ abstract class ComplexMoonShotFragment<VM : MoonShotViewModel<S>, S : MoonShotSt
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        renderState(viewModel, ::renderer)
+        renderState(viewModel) { state ->
+            renderer(state)
+        }
     }
 
     override fun onDestroyView() {

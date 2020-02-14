@@ -32,9 +32,12 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>() {
 
+    private var _binding: FragmentMissionBinding? = null
+    private val binding: FragmentMissionBinding
+        get() = _binding!!
+
     @Inject
     lateinit var viewModelFactory: MissionViewModel.Factory
-    private lateinit var binding: FragmentMissionBinding
 
     override val viewModel: MissionViewModel by fragmentViewModel { initState, _ ->
         viewModelFactory.create(initState)
@@ -48,7 +51,7 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentMissionBinding.inflate(inflater, container, false)
+        _binding = FragmentMissionBinding.inflate(inflater, container, false)
 
         binding.rvMission.apply {
             setController(epoxyController)
@@ -59,6 +62,11 @@ class MissionFragment : ComplexMoonShotFragment<MissionViewModel, MissionState>(
     }
 
     override fun renderer(state: MissionState) = epoxyController.setData(state)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun epoxyController() = asyncController(viewModel) { state ->
         when (val mission = state.mission) {

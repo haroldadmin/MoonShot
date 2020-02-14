@@ -4,7 +4,8 @@
     style="@style/Widget.MoonShot.Error.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/marginMedium">
+    android:layout_margin="@dimen/marginMedium"
+    tools:viewBindingIgnore="true">
 
     <LinearLayout
         android:layout_width="match_parent"

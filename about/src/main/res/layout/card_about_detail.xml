@@ -8,7 +8,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginMedium"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/colorSurfaceLight">
+    app:cardBackgroundColor="@color/colorSurfaceLight"
+    tools:viewBindingIgnore="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

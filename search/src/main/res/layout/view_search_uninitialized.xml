@@ -11,4 +11,5 @@
     app:lottie_autoPlay="true"
     app:lottie_loop="true"
     app:lottie_rawRes="@raw/search_anim"
-    tools:src="@drawable/ic_round_search_24px" />
+    tools:src="@drawable/ic_round_search_24px"
+    tools:viewBindingIgnore="true"/>

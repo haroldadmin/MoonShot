@@ -11,5 +11,6 @@
     android:textAppearance="@style/TextAppearance.MoonShot.Overline1"
     android:textSize="12sp"
     android:textStyle="bold"
-    tools:text="Rocket Summary" />
+    tools:text="Rocket Summary"
+    tools:viewBindingIgnore="true"/>
 

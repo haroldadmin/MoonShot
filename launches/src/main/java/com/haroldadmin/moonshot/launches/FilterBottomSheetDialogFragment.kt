@@ -16,7 +16,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentFilterBottomSheetDialogBinding
+    private var _binding: FragmentFilterBottomSheetDialogBinding? = null
+    private val binding: FragmentFilterBottomSheetDialogBinding
+        get() = _binding!!
+
     private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow)
 
     private val onFilterClick: (LaunchType) -> Unit = { filter ->
@@ -29,11 +32,16 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFilterBottomSheetDialogBinding.inflate(inflater, container, false)
+        _binding = FragmentFilterBottomSheetDialogBinding.inflate(inflater, container, false)
         binding.rvFilter.apply {
             setControllerAndBuildModels(epoxyController)
         }
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private val epoxyController = simpleController {

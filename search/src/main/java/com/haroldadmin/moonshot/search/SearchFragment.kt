@@ -46,7 +46,10 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class SearchFragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding: FragmentSearchBinding
+        get() = _binding!!
+
     @Inject lateinit var viewModelFactory: SearchViewModel.Factory
 
     private val viewModel: SearchViewModel by fragmentViewModel { initState, _ ->
@@ -66,7 +69,7 @@ class SearchFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.rvSearchResults.apply {
             setController(controller)
@@ -102,6 +105,7 @@ class SearchFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         controller.cancelPendingModelBuild()
+        _binding = null
     }
 
     private val controller by lazy {

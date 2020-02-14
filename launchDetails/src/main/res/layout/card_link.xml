@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/cardHeightDefault"
     android:layout_margin="@dimen/marginMedium"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    tools:viewBindingIgnore="true">
 
     <FrameLayout
         android:id="@+id/gradient"

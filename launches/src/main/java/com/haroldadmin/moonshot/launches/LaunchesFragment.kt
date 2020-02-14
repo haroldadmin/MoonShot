@@ -33,9 +33,15 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesState>() {
 
-    private lateinit var binding: FragmentLaunchesBinding
-    @Inject lateinit var viewModelFactory: LaunchesViewModel.Factory
-    @Inject lateinit var mainViewModelFactory: MainViewModel.Factory
+    private var _binding: FragmentLaunchesBinding? = null
+    private val binding: FragmentLaunchesBinding
+        get() = _binding!!
+
+    @Inject
+    lateinit var viewModelFactory: LaunchesViewModel.Factory
+
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModel.Factory
 
     private val safeArgs by navArgs<LaunchesFragmentArgs>()
 
@@ -64,7 +70,7 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLaunchesBinding.inflate(inflater, container, false)
+        _binding = FragmentLaunchesBinding.inflate(inflater, container, false)
 
         mainViewModel.setTitle(getString(appR.string.title_launches))
 
@@ -80,6 +86,11 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun renderer(state: LaunchesState) {
@@ -106,7 +117,7 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
                     errorText(getString(R.string.fragmentLaunchesErrorMessage))
                 }
                 buildLaunches(state)
-           }
+            }
             else -> loadingView {
                 id("launches-loading")
                 loadingText(

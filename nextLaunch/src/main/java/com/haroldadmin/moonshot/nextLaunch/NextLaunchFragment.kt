@@ -32,7 +32,9 @@ import com.haroldadmin.moonshot.R as appR
 @ExperimentalCoroutinesApi
 class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaunchState>() {
 
-    private lateinit var binding: FragmentNextLaunchBinding
+    private var _binding: FragmentNextLaunchBinding? = null
+    private val binding: FragmentNextLaunchBinding
+        get() = _binding!!
 
     @Inject
     lateinit var viewModelFactory: NextLaunchViewModel.Factory
@@ -54,18 +56,12 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
             .inject(this)
     }
 
-    override fun renderer(state: NextLaunchState) {
-        binding.swipeRefreshLayout.isRefreshing = !state.nextLaunchResource.isComplete
-        // TODO Change this to [com.airbnb.epoxy.EpoxyController.requestModelBuild]
-        epoxyController.setData(state)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
+        _binding = FragmentNextLaunchBinding.inflate(inflater, container, false)
 
         mainViewModel.setTitle(getString(appR.string.title_next_launch))
 
@@ -79,6 +75,17 @@ class NextLaunchFragment : ComplexMoonShotFragment<NextLaunchViewModel, NextLaun
         }
 
         return binding.root
+    }
+
+    override fun renderer(state: NextLaunchState) {
+        binding.swipeRefreshLayout.isRefreshing = !state.nextLaunchResource.isComplete
+        // TODO Change this to [com.airbnb.epoxy.EpoxyController.requestModelBuild]
+        epoxyController.setData(state)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun epoxyController() = asyncController(viewModel) { state ->

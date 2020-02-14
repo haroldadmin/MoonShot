@@ -27,7 +27,7 @@ android {
                 isOptimizeCode = true
                 isRemoveUnusedCode = true
                 proguardFiles("proguard-rules.pro")
-           }
+            }
         }
     }
     compileOptions {
@@ -37,7 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
     packagingOptions {
@@ -108,8 +108,8 @@ dependencies {
     kapt(Libs.Ui.epoxyProcessor)
 
     implementation(Libs.Ui.coil)
-
     implementation(Libs.Ui.lemniscate)
+    implementation(Libs.Ui.insetter)
 
     implementation(Libs.whatTheStack)
 

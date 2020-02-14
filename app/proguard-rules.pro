@@ -122,17 +122,6 @@
     *;
 }
 
-# ---- Databinding in feature modules rule --------- #
--keep class com.haroldadmin.moonshot.about.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.rockets.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.launchDetails.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.launches.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.nextLaunch.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.launchPad.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.rocketDetails.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.search.DataBinderMapperImpl { *; }
--keep class com.haroldadmin.moonshot.missions.DataBinderMapperImpl { *; }
-
 # ---- Fragment Names rule ---- #
 # Adding this here because some crash reports point to ClassNotFound exception for some fragments
 -keepnames class * extends androidx.fragment.app.Fragment

@@ -23,7 +23,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
     kapt {
@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.Kotlin.stdLib)
-    implementation (Libs.Kotlin.coroutines)
+    implementation(Libs.Kotlin.coroutines)
     implementation(Libs.Kotlin.coroutinesAndroid)
 
     implementation(Libs.vector)
