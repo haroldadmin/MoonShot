@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.base
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.epoxy.TypedEpoxyController
 import com.haroldadmin.vector.VectorFragment
 import kotlinx.coroutines.delay
@@ -15,7 +16,7 @@ abstract class MoonShotFragment : VectorFragment() {
 
     protected fun schedulePostponedTransition() {
         postponeEnterTransition()
-        viewScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             delay(transitionWaitTime)
             if (isTransitionPostponed && isActive) {
                 startPostponedEnterTransition()
