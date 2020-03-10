@@ -4,6 +4,7 @@ import com.haroldadmin.moonshot.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.append
+import com.haroldadmin.moonshot.core.appendUnique
 import com.haroldadmin.moonshot.core.hasAtLeastSize
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.utils.launchAfterDelay
@@ -38,7 +39,7 @@ class LaunchesViewModel @AssistedInject constructor(
                 setState {
                     copy(
                         launchesRes = launchesResource,
-                        launches = launches.append(launchesRes()),
+                        launches = launches.appendUnique(launchesResource()),
                         hasMoreToFetch = launchesResource().hasAtLeastSize(fetchLimit)
                     )
                 }

@@ -29,6 +29,17 @@ fun <T> List<T>.append(other: List<T>?): List<T> {
     return this + other
 }
 
+fun <T> List<T>.appendUnique(other: List<T>?): List<T> {
+    if (other.isNullOrEmpty()) return this
+    val newElements = mutableListOf<T>()
+    for (item in other) {
+        if (item !in this) {
+            newElements.add(item)
+        }
+    }
+    return this.append(newElements)
+}
+
 fun <T> List<T>?.hasAtLeastSize(minSize: Int): Boolean {
     if (this.isNullOrEmpty()) return false
     return this.size >= minSize
