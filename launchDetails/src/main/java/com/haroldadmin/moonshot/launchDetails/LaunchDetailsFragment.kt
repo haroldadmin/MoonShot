@@ -26,6 +26,7 @@ import com.haroldadmin.moonshot.launchDetails.views.rocketSummaryCard
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.models.launch.missionPatch
 import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.LinkPreviewCardModel_
 import com.haroldadmin.moonshot.views.detailCard
@@ -157,6 +158,13 @@ class LaunchDetailsFragment : ComplexMoonShotFragment<LaunchDetailsViewModel, La
         launchCard {
             id("header")
             launch(launch)
+            onMissionPatchClick { _ ->
+                launch.missionPatch()?.let { url ->
+                    findNavController().navigate(
+                        LaunchDetailsFragmentDirections.showPhoto(arrayOf(url), 0)
+                    )
+                }
+            }
         }
 
         detailCard {

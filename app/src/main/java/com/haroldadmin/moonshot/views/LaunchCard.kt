@@ -39,6 +39,7 @@ class LaunchCard @JvmOverloads constructor(
     private val site: AppCompatTextView = findViewById(R.id.launchSite)
 
     private var onLaunchClick: OnClickListener? = null
+    private var onMissionPatchClick: OnClickListener? = null
     private lateinit var launch: Launch
 
     @TextProp
@@ -54,15 +55,25 @@ class LaunchCard @JvmOverloads constructor(
         this.onLaunchClick = onLaunchClick
     }
 
+    @CallbackProp
+    fun setOnMissionPatchClick(onMissionPatchClick: OnClickListener?) {
+        this.onMissionPatchClick = onMissionPatchClick
+    }
+
     @AfterPropsSet
     fun useProps() {
         name.asyncText(launch.missionName)
 
-        missionPatch.load(launch.missionPatch()) {
-            crossfade(true)
-            error(R.drawable.ic_rocket)
-            placeholder(R.drawable.ic_rocket)
-            transformations(CircleCropTransformation())
+        missionPatch.apply {
+            load(launch.missionPatch()) {
+                crossfade(true)
+                error(R.drawable.ic_rocket)
+                placeholder(R.drawable.ic_rocket)
+                transformations(CircleCropTransformation())
+            }
+            onMissionPatchClick?.let { onClick ->
+                setOnClickListener(onClick)
+            }
         }
 
         date.asyncText {
@@ -87,6 +98,8 @@ class LaunchCard @JvmOverloads constructor(
             setOnClickListener(null)
             isClickable = false
         }
+        missionPatch.setOnClickListener(null)
         onLaunchClick = null
+        onMissionPatchClick = null
     }
 }

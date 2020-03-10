@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -44,12 +46,17 @@ class LaunchPhotoFragment : MoonShotFragment() {
 
         goFullScreen()
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            mainViewModel.showScaffolding()
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mainViewModel.showScaffolding()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun goFullScreen() {
