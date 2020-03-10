@@ -7,22 +7,25 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.MoonShotFragment
+import com.haroldadmin.moonshot.launchDetails.databinding.FragmentLaunchPhotoBinding
 import com.haroldadmin.moonshot.launchDetails.views.fullscreenPhotoView
 import com.haroldadmin.vector.activityViewModel
 
 class LaunchPhotoFragment : MoonShotFragment() {
 
+    private var _binding: FragmentLaunchPhotoBinding? = null
+    private val binding: FragmentLaunchPhotoBinding
+        get() = _binding!!
+
     private val mainViewModel: MainViewModel by activityViewModel()
     private val args by navArgs<LaunchPhotoFragmentArgs>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_launch_photo, container, false)
-        val carousel: EpoxyRecyclerView = root.findViewById(R.id.carousel)
+        _binding = FragmentLaunchPhotoBinding.inflate(inflater, container, false)
 
-        carousel.apply {
+        binding.carousel.apply {
 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -41,7 +44,7 @@ class LaunchPhotoFragment : MoonShotFragment() {
 
         goFullScreen()
 
-        return root
+        return binding.root
     }
 
     override fun onDestroy() {
