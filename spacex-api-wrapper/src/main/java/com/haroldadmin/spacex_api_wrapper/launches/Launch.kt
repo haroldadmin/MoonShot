@@ -12,7 +12,7 @@ data class Launch(
     @Json(name = "launch_year") val launchYear: String,
     @Json(name = "launch_date_utc") val launchDate: Date,
     @Json(name = "is_tentative") val isTentative: Boolean,
-    @Json(name = "tentative_max_precision") val tentativeMaxPrecision: String,
+    @Json(name = "tentative_max_precision") val tentativeMaxPrecision: String?,
     @Json(name = "tbd") val tbd: Boolean,
     @Json(name = "launch_window") val launchWindow: Int?,
     @Json(name = "rocket") val rocket: RocketSummary,

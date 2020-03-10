@@ -11,7 +11,8 @@ enum class DatePrecision(val dateFormat: String) {
     unknown("'Unknown'")
 }
 
-fun String.toDatePrecision(): DatePrecision {
+fun String?.toDatePrecision(): DatePrecision {
+    this ?: return DatePrecision.unknown
     return try {
         DatePrecision.valueOf(this)
     } catch (ex: IllegalArgumentException) {
