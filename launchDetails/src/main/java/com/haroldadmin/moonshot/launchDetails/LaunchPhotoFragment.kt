@@ -44,7 +44,7 @@ class LaunchPhotoFragment : MoonShotFragment() {
             post { smoothScrollToPosition(args.startIndex) }
         }
 
-        goFullScreen()
+        mainViewModel.hideScaffolding()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             mainViewModel.showScaffolding()
@@ -58,10 +58,4 @@ class LaunchPhotoFragment : MoonShotFragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun goFullScreen() {
-        view?.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        mainViewModel.hideScaffolding()
-    }
-
 }

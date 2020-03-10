@@ -147,6 +147,11 @@ class MainActivity : MoonShotActivity() {
     }
 
     private fun hideScaffolding() {
+        binding.root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_IMMERSIVE
         binding.motionLayout.apply {
             transitionToState(R.id.noScaffolding)
             getTransition(R.id.collapseScaffolding).setEnable(false)
@@ -154,6 +159,9 @@ class MainActivity : MoonShotActivity() {
     }
 
     private fun showScaffolding() {
+        binding.root.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         binding.motionLayout.apply {
             transitionToState(R.id.uncollapsedScaffolding)
             getTransition(R.id.collapseScaffolding).setEnable(true)
