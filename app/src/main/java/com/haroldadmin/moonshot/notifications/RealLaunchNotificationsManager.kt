@@ -31,6 +31,7 @@ class RealLaunchNotificationsManager @Inject constructor(private val appContext:
     override fun disable(type: LaunchNotification) {
         log("Disabling notifications")
         cancelIntents(type)
+        // TODO Investigate if disabling a single notification also disables the other type
         WorkManager.getInstance(appContext).cancelAllWorkByTag(ScheduleWorker.name)
     }
 
@@ -52,7 +53,7 @@ class RealLaunchNotificationsManager @Inject constructor(private val appContext:
             .build()
 
     private val schedulingWorkRequest: PeriodicWorkRequest
-        get() = PeriodicWorkRequestBuilder<ScheduleWorker>(1, TimeUnit.DAYS)
+        get() = PeriodicWorkRequestBuilder<ScheduleWorker>(6, TimeUnit.HOURS)
             .setConstraints(constraints)
             .addTag(ScheduleWorker.name)
             .build()

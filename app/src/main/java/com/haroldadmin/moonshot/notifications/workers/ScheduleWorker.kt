@@ -35,13 +35,13 @@ class ScheduleWorker(
         val now = DateTime()
         val dayFromNow = now.plusDays(1).millis
 
-        val nextLaunch = nextLaunchUseCase.getNextLaunch().last()
-        val launchesUntilTomorrow = nextLaunchUseCase.getNextLaunchesUntilDate(dayFromNow).last()
+        val nextLaunchRes = nextLaunchUseCase.getNextLaunch().last()
+        val launchesUntilTomorrowRes = nextLaunchUseCase.getNextLaunchesUntilDate(dayFromNow).last()
 
-        if (nextLaunch() == null || launchesUntilTomorrow() == null) {
+        if (nextLaunchRes is Resource.Error<*, *> || launchesUntilTomorrowRes is Resource.Error<*, *>) {
             Result.retry()
         } else {
-            scheduleNotifications(nextLaunch()!!, launchesUntilTomorrow()!!)
+            scheduleNotifications(nextLaunchRes()!!, launchesUntilTomorrowRes()!!)
             Result.success()
         }
     }
