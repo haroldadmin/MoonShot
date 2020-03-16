@@ -35,12 +35,19 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideApplicationInfoDao(db: MoonShotDb): ApplicationInfoDao {
         return db.applicationInfoDao()
     }
 
     @Provides
+    @Singleton
     fun missionDao(db: MoonShotDb): MissionDao {
         return db.missionDao()
+    }
+
+    @Provides
+    fun notificationRecordsDao(db: MoonShotDb): NotificationRecordDao {
+        return db.notificationRecordDao()
     }
 }

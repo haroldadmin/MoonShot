@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.database
 
 import androidx.room.TypeConverter
 import com.haroldadmin.moonshot.models.DatePrecision
+import com.haroldadmin.moonshot.models.NotificationType
 import java.util.Date
 
 class Converters {
@@ -56,6 +57,20 @@ class Converters {
             DatePrecision.valueOf(s)
         } catch (ex: IllegalArgumentException) {
             null
+        }
+    }
+
+    @TypeConverter
+    fun notificationTypeToString(notificationType: NotificationType): String {
+        return notificationType.name
+    }
+
+    @TypeConverter
+    fun stringToNotificationType(notificationType: String): NotificationType? {
+        return try {
+            NotificationType.valueOf(notificationType)
+        } catch(ex: IllegalArgumentException) {
+            NotificationType.Unknown
         }
     }
 }

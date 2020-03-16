@@ -12,6 +12,7 @@ import com.haroldadmin.moonshot.models.HistoricalEvent
 import com.haroldadmin.moonshot.models.LandingPad
 import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshot.models.Mission
+import com.haroldadmin.moonshot.models.NotificationRecord
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.Rocket
 
@@ -27,8 +28,9 @@ import com.haroldadmin.moonshot.models.Rocket
         LaunchPad::class,
         Rocket::class,
         ApplicationInfo::class,
-        Mission::class
-    ], version = 4, exportSchema = false
+        Mission::class,
+        NotificationRecord::class
+    ], version = 5, exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class MoonShotDb : RoomDatabase() {
@@ -38,4 +40,5 @@ abstract class MoonShotDb : RoomDatabase() {
     abstract fun launchPadDao(): LaunchPadDao
     abstract fun applicationInfoDao(): ApplicationInfoDao
     abstract fun missionDao(): MissionDao
+    abstract fun notificationRecordDao(): NotificationRecordDao
 }
