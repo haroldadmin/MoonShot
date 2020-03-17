@@ -148,7 +148,7 @@
         <argument
             android:name="type"
             android:defaultValue="NORMAL"
-            app:argType="com.haroldadmin.moonshot.LaunchTypes" />
+            app:argType="com.haroldadmin.moonshot.navigation.LaunchTypes" />
         <argument
             android:name="siteId"
             android:defaultValue="@null"
@@ -167,7 +167,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="NORMAL"
-                app:argType="com.haroldadmin.moonshot.LaunchTypes" />
+                app:argType="com.haroldadmin.moonshot.navigation.LaunchTypes" />
             <argument
                 android:name="siteId"
                 android:defaultValue="@null"

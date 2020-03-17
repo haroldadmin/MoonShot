@@ -1,6 +1,6 @@
 package com.haroldadmin.moonshot.launches
 
-import com.haroldadmin.moonshot.LaunchTypes
+import com.haroldadmin.moonshot.navigation.LaunchTypes
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.append

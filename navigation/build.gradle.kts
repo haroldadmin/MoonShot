@@ -7,6 +7,7 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -37,22 +38,11 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(":base"))
-    implementation(project(":core"))
-    implementation(project(":moonshot-repository"))
 
     implementation(Libs.Kotlin.stdLib)
-    implementation(Libs.Kotlin.coroutines)
-    implementation(Libs.Kotlin.coroutinesAndroid)
-
-    implementation(Libs.Dagger.dagger)
-    kapt(Libs.Dagger.compiler)
-
-    implementation(Libs.AndroidX.workManager)
     implementation(Libs.AndroidX.ktxCore)
-    implementation(Libs.Ui.coil)
     implementation(Libs.AndroidX.navigation)
-    implementation(Libs.jodaTime)
+    implementation(Libs.AndroidX.navigationUi)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.coroutinesTest)

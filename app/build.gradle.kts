@@ -79,6 +79,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":base"))
+    implementation(project(":navigation"))
     implementation(project(":moonshot-repository"))
 
     implementation(Libs.Kotlin.stdLib)

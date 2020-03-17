@@ -31,6 +31,7 @@ dependencies {
     implementation(project(":app"))
     implementation(project(":base"))
     implementation(project(":core"))
+    implementation(project( ":navigation"))
 
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
