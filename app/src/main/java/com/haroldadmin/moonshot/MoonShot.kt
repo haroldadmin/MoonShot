@@ -5,6 +5,7 @@ import android.os.Handler
 import androidx.work.Configuration
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.EpoxyController
+import com.haroldadmin.logger.Logger
 import com.haroldadmin.moonshot.di.AppComponentHolder
 import com.haroldadmin.moonshot.di.DaggerAppComponent
 import com.haroldadmin.moonshot.di.appComponent
@@ -39,6 +40,7 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
     override fun onCreate() {
         initDi()
         super.onCreate()
+        initLogger()
         initWhatTheStack()
         initEpoxy()
         launch {
@@ -65,6 +67,12 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
     private fun initWhatTheStack() {
         if (BuildConfig.DEBUG) {
             WhatTheStack(this).init()
+        }
+    }
+
+    private fun initLogger() {
+        if (BuildConfig.DEBUG) {
+            Logger.enable()
         }
     }
 }

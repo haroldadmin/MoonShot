@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="justBeforeLaunchChannelName">Channel for reminders just before a launch</string>
+    <string name="justBeforeLaunchChannelDescription">Reminder notifications just before a launch takes place</string>
+    <string name="weekBeforeLaunchChannelName">Channel for reminders about launches this week</string>
+    <string name="weekBeforeLaunchChannelDescription">Reminder notifications for launches taking place this week</string>
+    <string name="dayBeforeLaunchChannelName">Channel for reminders a day before the launch</string>
+    <string name="dayBeforeLaunchChannelDescription">Reminder notifications for launches taking place on that day</string>
+    <string name="launchNotificationContentTitle">%1$s Launch</string>
+    <string name="dayBeforeLaunchNotificationContentText">Launches tomorrow at %1$s</string>
+    <string name="justBeforeLaunchNotificationContentText">Launches today at %1$s</string>
+</resources>

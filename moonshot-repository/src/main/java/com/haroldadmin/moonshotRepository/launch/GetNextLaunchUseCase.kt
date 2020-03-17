@@ -51,6 +51,7 @@ class GetNextLaunchUseCase @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
+    @Deprecated("Notifications for multiple launches a day before is kinda stupid, and causes problems")
     fun getNextLaunchesUntilDate(
         until: Long,
         limit: Int = defaultLimit,

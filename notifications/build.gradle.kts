@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 apply(from="../ktlint.gradle")
 
 plugins {
@@ -16,6 +18,11 @@ android {
         versionName = ProjectProperties.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = mapOf("room.incremental" to "true")
+            }
+        }
     }
 
     buildTypes {
@@ -33,11 +40,11 @@ android {
     }
 }
 
-
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":base"))
     implementation(project(":core"))
+    implementation(project(":moonshot-repository"))
 
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
@@ -45,21 +52,16 @@ dependencies {
 
     implementation(Libs.Dagger.dagger)
     kapt(Libs.Dagger.compiler)
-    implementation(Libs.Dagger.AssistedInject.annotations)
-    kapt(Libs.Dagger.AssistedInject.compiler)
 
-    implementation(Libs.vector)
-    implementation(Libs.AndroidX.appCompat)
-    implementation(Libs.Lifecycle.vmSavedState)
+    implementation(Libs.AndroidX.workManager)
     implementation(Libs.AndroidX.ktxCore)
+    implementation(Libs.Ui.coil)
     implementation(Libs.AndroidX.navigation)
-    implementation(Libs.AndroidX.navigationUi)
-
-    implementation(Libs.Ui.epoxy)
+    implementation(Libs.jodaTime)
 
     testImplementation(Libs.Test.junit4)
-    androidTestImplementation(Libs.Test.mockkAndroid)
+    androidTestImplementation(Libs.Test.coroutinesTest)
     androidTestImplementation(Libs.Test.androidxJunitExt)
     androidTestImplementation(Libs.Test.espressoCore)
-    androidTestImplementation(Libs.Test.androidxTestCore)
+    androidTestImplementation(Libs.Test.archCoreTesting)
 }

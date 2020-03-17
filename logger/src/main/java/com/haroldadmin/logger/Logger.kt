@@ -39,14 +39,24 @@ fun Any.logV(message: String) {
     }
 }
 
-fun Any.logD(messageProducer: () -> String) {
+fun Any.logW(message: String) {
+    if (Logger.isEnabled) {
+        Logger.output.write("${this::class.simpleName}: $message\n".toByteArray())
+    }
+}
+
+inline fun Any.logD(crossinline messageProducer: () -> String) {
     logD(messageProducer())
 }
 
-fun Any.logE(messageProducer: () -> String) {
+inline fun Any.logE(crossinline messageProducer: () -> String) {
     logE(messageProducer())
 }
 
-fun Any.logV(messageProducer: () -> String) {
+inline fun Any.logV(crossinline messageProducer: () -> String) {
     logV(messageProducer())
+}
+
+inline fun Any.logW(crossinline messageProducer: () -> String) {
+    logW(messageProducer())
 }
