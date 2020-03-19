@@ -69,7 +69,7 @@ class Converters {
     fun stringToNotificationType(notificationType: String): NotificationType? {
         return try {
             NotificationType.valueOf(notificationType)
-        } catch(ex: IllegalArgumentException) {
+        } catch (ex: IllegalArgumentException) {
             NotificationType.Unknown
         }
     }

@@ -21,7 +21,6 @@ import com.haroldadmin.moonshot.utils.formatDate
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.detailCard
-import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.vector.activityViewModel
 import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

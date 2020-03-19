@@ -169,7 +169,6 @@ class Notifier @Inject constructor(
                 )
             }
         }
-
     }
 
     private suspend fun processDayBeforeLaunchBroadcast() {

@@ -94,5 +94,4 @@ internal class PersistMissionUseCaseTest {
 
         assertEquals(expected, actual)
     }
-
 }

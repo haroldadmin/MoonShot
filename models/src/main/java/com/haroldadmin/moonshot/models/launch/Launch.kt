@@ -68,7 +68,6 @@ data class Launch(
     }
 }
 
-
 data class Rocket(
     @ColumnInfo(name = "rocket_id")
     val rocketId: String,
@@ -159,7 +158,7 @@ internal fun <T, R> buildMap(builder: MutableMap<T, R>.() -> Unit): Map<T, R> {
     return map
 }
 
-internal fun <T: Any, R: Any?> MutableMap<T, R>.putIfNotNull(key: T, value: R?) {
+internal fun <T : Any, R : Any?> MutableMap<T, R>.putIfNotNull(key: T, value: R?) {
     if (value != null) {
         put(key, value)
     }

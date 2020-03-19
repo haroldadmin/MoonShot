@@ -2,7 +2,7 @@ package com.haroldadmin.moonshotRepository
 
 import com.haroldadmin.moonshot.database.BaseDao
 
-internal interface FakeStatefulDao<T>: BaseDao<T> {
+internal interface FakeStatefulDao<T> : BaseDao<T> {
 
     val items: MutableList<T>
 

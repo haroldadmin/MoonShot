@@ -3,7 +3,6 @@ package com.haroldadmin.moonshotRepository.notifications
 import com.haroldadmin.moonshot.database.NotificationRecordDao
 import com.haroldadmin.moonshot.models.NotificationRecord
 import com.haroldadmin.moonshot.models.NotificationType
-import com.haroldadmin.moonshot.models.NotificationType.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Date

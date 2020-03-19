@@ -8,7 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class MissionDaoTest: DaoTest() {
+internal class MissionDaoTest : DaoTest() {
 
     private val dao: MissionDao by dbRule.dao()
 

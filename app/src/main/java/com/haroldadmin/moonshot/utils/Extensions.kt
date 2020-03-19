@@ -2,15 +2,11 @@ package com.haroldadmin.moonshot.utils
 
 import android.content.Context
 import android.util.Log
-import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.os.ConfigurationCompat
 import androidx.core.text.PrecomputedTextCompat
 import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.viewModelScope
-import coil.api.load
-import coil.request.LoadRequestBuilder
 import com.haroldadmin.moonshot.BuildConfig
 import com.haroldadmin.moonshot.base.MoonShotViewModel
 import com.haroldadmin.moonshot.models.DatePrecision

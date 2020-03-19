@@ -4,7 +4,7 @@ import com.haroldadmin.moonshot.database.NotificationRecordDao
 import com.haroldadmin.moonshot.models.NotificationRecord
 import com.haroldadmin.moonshotRepository.FakeStatefulDao
 
-internal class FakeNotificationRecordsDao: NotificationRecordDao(), FakeStatefulDao<NotificationRecord> {
+internal class FakeNotificationRecordsDao : NotificationRecordDao(), FakeStatefulDao<NotificationRecord> {
 
     override val items: MutableList<NotificationRecord> = mutableListOf()
 
@@ -20,5 +20,4 @@ internal class FakeNotificationRecordsDao: NotificationRecordDao(), FakeStateful
             0
         }
     }
-
 }

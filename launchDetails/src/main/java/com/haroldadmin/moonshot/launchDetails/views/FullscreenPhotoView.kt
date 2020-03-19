@@ -30,5 +30,4 @@ class FullscreenPhotoView @JvmOverloads constructor(
             crossfade(true)
         }
     }
-
 }

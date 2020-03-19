@@ -7,7 +7,7 @@ import com.haroldadmin.moonshot.models.Mission
 import kotlinx.coroutines.runBlocking
 
 @Dao
-abstract class MissionDao: BaseDao<Mission> {
+abstract class MissionDao : BaseDao<Mission> {
 
     @Query("""
         SELECT *
@@ -35,5 +35,4 @@ abstract class MissionDao: BaseDao<Mission> {
         clearTable()
         saveAll(allMissions)
     }
-
 }

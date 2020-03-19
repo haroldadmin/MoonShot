@@ -37,5 +37,4 @@ internal class NotificationRecordsUseCaseTest {
             "Expected notification to have been posted, but it wasn't"
         }
     }
-
 }

@@ -19,5 +19,4 @@ class DayBeforeLaunchAlarmReceiver : BroadcastReceiver() {
         appComponent().broadcastReceiversComponent().create().inject(this)
         notifier.processBroadcast(NotificationType.DayBeforeLaunch)
     }
-
 }

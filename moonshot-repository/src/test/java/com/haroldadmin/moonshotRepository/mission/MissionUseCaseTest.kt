@@ -44,5 +44,4 @@ internal class MissionUseCaseTest {
             assertEquals(missionId, this().id)
         }
     }
-
 }

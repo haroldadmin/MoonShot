@@ -5,7 +5,6 @@ import com.haroldadmin.moonshot.core.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onStart
 
 /**
  * Represents a resource which needs to be loaded from the network and persisted to the Database
@@ -116,7 +115,7 @@ inline fun <T : Any, U : Any, V : Any> networkBoundFlow(
 }
 
 @ExperimentalCoroutinesApi
-inline fun <T: Any, U: Any, V: Any> networkBoundResourceLazy(
+inline fun <T : Any, U : Any, V : Any> networkBoundResourceLazy(
     crossinline initialParams: () -> Pair<Int, Int> = { -1 to 0 },
     crossinline dbFetcher: suspend (Boolean, Int, Int) -> T?,
     crossinline apiFetcher: suspend () -> NetworkResponse<U, V>,

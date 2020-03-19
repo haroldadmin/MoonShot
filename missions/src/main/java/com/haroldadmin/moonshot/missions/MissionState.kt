@@ -9,4 +9,4 @@ data class MissionState(
     val missionId: String? = null,
     val mission: Resource<Mission> = Resource.Uninitialized,
     val linkPreviews: List<LinkPreview> = emptyList()
-): MoonShotState
+) : MoonShotState

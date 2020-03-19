@@ -4,7 +4,7 @@ object NotificationConstants {
 
     object SchedulingWorker {
         const val repeatIntervalHours: Long = 6
-        const val flexIntervalMinutes: Long = 6 * 60 - 5  // 6 Hours minus 5 minutes
+        const val flexIntervalMinutes: Long = 6 * 60 - 5 // 6 Hours minus 5 minutes
     }
 
     object JustBeforeLaunch {

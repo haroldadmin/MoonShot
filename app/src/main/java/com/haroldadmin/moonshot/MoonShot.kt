@@ -3,7 +3,6 @@ package com.haroldadmin.moonshot
 import android.app.Application
 import android.os.Handler
 import androidx.work.Configuration
-import androidx.work.WorkManager
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.logger.Logger

@@ -16,7 +16,6 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.missions.databinding.FragmentMissionBinding
-import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.moonshot.models.Mission
 import com.haroldadmin.moonshot.views.LinkPreviewCardModel_
 import com.haroldadmin.moonshot.views.detailCard

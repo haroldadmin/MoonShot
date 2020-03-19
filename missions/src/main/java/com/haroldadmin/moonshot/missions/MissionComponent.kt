@@ -9,5 +9,4 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Component(modules = [MissionModule::class], dependencies = [AppComponent::class])
 @FeatureScope
-interface MissionComponent: MoonShotFragmentComponent<MissionFragment>
-
+interface MissionComponent : MoonShotFragmentComponent<MissionFragment>

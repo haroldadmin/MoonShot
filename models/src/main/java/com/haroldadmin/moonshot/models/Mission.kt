@@ -14,9 +14,9 @@ data class Mission(
     @PrimaryKey
     @ColumnInfo(name = "mission_id")
     val id: String,
-    @ColumnInfo(name="manufacturers")
+    @ColumnInfo(name = "manufacturers")
     val manufacturers: List<String>,
-    @ColumnInfo(name="payload_ids")
+    @ColumnInfo(name = "payload_ids")
     val payloadIds: List<String>,
     @ColumnInfo(name = "wikipedia")
     val wikipedia: String?,
