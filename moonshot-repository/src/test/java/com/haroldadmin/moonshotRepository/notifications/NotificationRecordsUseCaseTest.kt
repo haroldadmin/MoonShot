@@ -32,9 +32,12 @@ internal class NotificationRecordsUseCaseTest {
 
     @Test
     fun `should return whether a notification has been posted or not correctly`() = runBlocking {
-        val hasNotified = usecase.hasNotifiedForLaunch(1)
-        assert(hasNotified) {
-            "Expected notification to have been posted, but it wasn't"
+        assert(usecase.hasNotifiedForLaunch(1, NotificationType.JustBeforeLaunch)) {
+            "Expected JustBeforeLaunch notification to have been posted, but it wasn't"
+        }
+
+        assert(!usecase.hasNotifiedForLaunch(1, NotificationType.DayBeforeLaunch)) {
+            "Expected no DayBeforeLaunch notification, but got one"
         }
     }
 }

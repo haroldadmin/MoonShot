@@ -20,4 +20,8 @@ internal class FakeNotificationRecordsDao : NotificationRecordDao(), FakeStatefu
             0
         }
     }
+
+    override suspend fun getLastNotificationRecordForLaunch(flightNumber: Int): NotificationRecord? {
+        return items.last { it.launchFlightNumber == flightNumber }
+    }
 }
