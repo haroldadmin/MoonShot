@@ -21,4 +21,12 @@ abstract class NotificationRecordDao : BaseDao<NotificationRecord> {
         )
     """)
     abstract suspend fun hasNotifiedForLaunch(launchFlightNumber: Int): Int
+
+    @Query("""
+        SELECT * FROM notification_records
+        WHERE launch_flight_number = :flightNumber
+        ORDER BY notification_date DESC
+        LIMIT 1
+    """)
+    abstract suspend fun getLastNotificationRecordForLaunch(flightNumber: Int): NotificationRecord?
 }

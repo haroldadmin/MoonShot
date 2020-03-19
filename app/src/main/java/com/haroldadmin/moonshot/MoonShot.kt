@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot
 import android.app.Application
 import android.os.Handler
 import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.logger.Logger
@@ -11,7 +12,7 @@ import com.haroldadmin.moonshot.di.DaggerAppComponent
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.models.ApplicationInfo
 import com.haroldadmin.moonshot.models.isFirstLaunch
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
+import com.haroldadmin.moonshot.notifications.MoonShotNotificationManager
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
 import com.haroldadmin.whatthestack.WhatTheStack
@@ -28,7 +29,7 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
 
     @Inject lateinit var appInfoUseCase: ApplicationInfoUseCase
     @Inject lateinit var syncManager: SyncManager
-    @Inject lateinit var notificationsManager: LaunchNotificationsManager
+    @Inject lateinit var notificationsManager: MoonShotNotificationManager
     @Inject @Named("epoxy-differ") lateinit var epoxyDiffer: Handler
     @Inject @Named("epoxy-builder") lateinit var epoxyBuilder: Handler
 
@@ -46,14 +47,14 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
         launch {
             if (appInfoUseCase.getApplicationInfo().isFirstLaunch()) {
                 syncManager.enableSync()
-                notificationsManager.enable()
+                notificationsManager.enableNotifications()
                 appInfoUseCase.save(ApplicationInfo(isFirstLaunch = false))
             }
         }
     }
 
     private fun initDi() {
-        val appComponent = DaggerAppComponent.factory().create(this)
+        val appComponent = DaggerAppComponent.factory().create(context = this)
         AppComponentHolder.init(appComponent)
         appComponent.inject(this)
     }

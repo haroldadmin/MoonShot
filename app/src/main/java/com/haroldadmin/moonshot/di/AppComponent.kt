@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.work.WorkManager
 import com.haroldadmin.moonshot.MainActivity
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.MoonShot
@@ -11,7 +12,6 @@ import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.database.LaunchPadDao
 import com.haroldadmin.moonshot.database.MissionDao
 import com.haroldadmin.moonshot.database.RocketsDao
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.RepositoryModule
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
@@ -33,10 +33,10 @@ interface AppComponent : MoonShotActivityComponent<MainActivity> {
     fun workerFactory(): MoonShotWorkerFactory
     fun appInfoUseCase(): ApplicationInfoUseCase
     fun syncManager(): SyncManager
-    fun launchNotificationsManager(): LaunchNotificationsManager
 
     @Named("settings")
     fun settings(): SharedPreferences
+    fun workManager(): WorkManager
 
     fun mainViewModelFactory(): MainViewModel.Factory
 
@@ -54,6 +54,8 @@ interface AppComponent : MoonShotActivityComponent<MainActivity> {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): AppComponent
+        fun create(
+            @BindsInstance context: Context
+        ): AppComponent
     }
 }

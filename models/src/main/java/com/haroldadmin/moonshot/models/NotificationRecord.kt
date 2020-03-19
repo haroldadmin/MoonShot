@@ -8,6 +8,7 @@ import java.util.Date
 enum class NotificationType {
     JustBeforeLaunch,
     DayBeforeLaunch,
+    ScheduleChange,
     Unknown
 }
 

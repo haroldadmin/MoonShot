@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Handler
 import android.os.HandlerThread
 import androidx.preference.PreferenceManager
+import androidx.work.WorkManager
 import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Module
 import dagger.Provides
@@ -33,5 +34,10 @@ object AppModule {
         val handlerThread = HandlerThread("epoxy-differ")
         handlerThread.start()
         return Handler(handlerThread.looper)
+    }
+
+    @Provides
+    fun workManager(context: Context): WorkManager {
+        return WorkManager.getInstance(context)
     }
 }

@@ -1,21 +1,25 @@
 package com.haroldadmin.moonshot
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshot.notifications.workers.ScheduleWorker
+import com.haroldadmin.moonshot.notifications.AlarmScheduler
+import com.haroldadmin.moonshot.notifications.AlarmSchedulingWorker
 import com.haroldadmin.moonshot.sync.SyncWorker
 import com.haroldadmin.moonshot.utils.log
 import com.haroldadmin.moonshotRepository.SyncResourcesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import javax.inject.Inject
+import javax.inject.Named
 
 class MoonShotWorkerFactory @Inject constructor(
     private val syncResourcesUseCase: SyncResourcesUseCase,
     private val nextLaunchUseCase: GetNextLaunchUseCase,
-    private val launchNotificationsManager: LaunchNotificationsManager
+    @Named("settings")
+    private val settings: SharedPreferences,
+    private val alarmScheduler: AlarmScheduler
 ) : WorkerFactory() {
 
     override fun createWorker(
@@ -31,11 +35,12 @@ class MoonShotWorkerFactory @Inject constructor(
                     workerParameters,
                     syncResourcesUseCase
                 )
-                ScheduleWorker::class.java -> ScheduleWorker(
+                AlarmSchedulingWorker::class.java -> AlarmSchedulingWorker(
                     appContext,
                     workerParameters,
                     nextLaunchUseCase,
-                    launchNotificationsManager
+                    settings,
+                    alarmScheduler
                 )
                 else -> {
                     log(

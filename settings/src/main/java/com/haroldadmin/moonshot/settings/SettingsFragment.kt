@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.settings
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
@@ -8,17 +9,15 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreferenceCompat
+import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.THEME_MAPPINGS
 import com.haroldadmin.moonshot.di.appComponent
-import com.haroldadmin.moonshot.notifications.DayBeforeLaunch
-import com.haroldadmin.moonshot.notifications.JustBeforeLaunch
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING
-import com.haroldadmin.moonshot.notifications.LaunchNotificationsManager.Companion.KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING
+import com.haroldadmin.moonshot.notifications.MoonShotNotificationManager
+import com.haroldadmin.moonshot.notifications.NotificationConstants.JustBeforeLaunch
+import com.haroldadmin.moonshot.notifications.NotificationConstants.DayBeforeLaunch
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.CoroutineScope
@@ -26,6 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.coroutines.CoroutineContext
 import com.haroldadmin.moonshot.R as appR
 
@@ -34,13 +34,19 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
-    @Inject lateinit var launchNotificationsManager: LaunchNotificationsManager
-    @Inject lateinit var syncManager: SyncManager
+    @Inject
+    lateinit var launchNotificationsManager: MoonShotNotificationManager
+
+    @Inject
+    lateinit var syncManager: SyncManager
+
+    @Inject
+    @Named("settings")
+    lateinit var settings: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerSettingsComponent.builder()
-            .appComponent(appComponent())
-            .build()
+        DaggerSettingsComponent.factory()
+            .create(appComponent(), requireContext())
             .inject(this)
         super.onCreate(savedInstanceState)
     }
@@ -53,32 +59,36 @@ class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        findPreference<SwitchPreferenceCompat>(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
+        findPreference<SwitchPreferenceCompat>(JustBeforeLaunch.settingsKey)?.setOnPreferenceChangeListener { _, isEnabled ->
             if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
 
             if (isEnabled) {
-                launchNotificationsManager.enable()
+                launchNotificationsManager.enableNotifications()
             } else {
-                log("Disabling just before launch notifications")
-                launchNotificationsManager.disable(JustBeforeLaunch())
+                val dayBeforeLaunchNotificationsEnabled = settings.getBoolean(DayBeforeLaunch.settingsKey, true)
+                if (!dayBeforeLaunchNotificationsEnabled) {
+                    launchNotificationsManager.disableAllNotifications()
+                }
             }
             true
         }
 
-        findPreference<SeekBarPreference>(KEY_JUST_BEFORE_LAUNCH_NOTIFICATIONS_PADDING_SETTING)?.setOnPreferenceChangeListener { _, newValue ->
+        findPreference<SeekBarPreference>(JustBeforeLaunch.paddingKey)?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue !is Int) return@setOnPreferenceChangeListener false
             log("Setting launch notification padding to $newValue minutes")
             true
         }
 
-        findPreference<SwitchPreferenceCompat>(KEY_DAY_BEFORE_LAUNCH_NOTIFICATIONS_SETTING)?.setOnPreferenceChangeListener { _, isEnabled ->
+        findPreference<SwitchPreferenceCompat>(DayBeforeLaunch.settingsKey)?.setOnPreferenceChangeListener { _, isEnabled ->
             if (isEnabled !is Boolean) return@setOnPreferenceChangeListener false
 
             if (isEnabled) {
-                launchNotificationsManager.enable()
+                launchNotificationsManager.enableNotifications()
             } else {
-                log("Disabling day before launch notifications")
-                launchNotificationsManager.disable(DayBeforeLaunch())
+                val justBeforeLaunchNotificationsEnabled = settings.getBoolean(JustBeforeLaunch.settingsKey, true)
+                if (!justBeforeLaunchNotificationsEnabled) {
+                    launchNotificationsManager.disableAllNotifications()
+                }
             }
             true
         }

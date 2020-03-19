@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot.notifications.new
+package com.haroldadmin.moonshot.notifications
 
 import com.haroldadmin.moonshot.core.Resource
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
  * A data class to represent cached and newly refreshed parts of a
  * Resource Flow.
  */
-data class SegregatedResource<T>(
+internal data class SegregatedResource<T>(
     val cached: T?,
     val new: T?
 )
@@ -17,7 +17,7 @@ data class SegregatedResource<T>(
  * Collects the given resource flow and returns a [SegregatedResource]
  * with properly separated cached and newly refreshed values.
  */
-suspend fun <T> Flow<Resource<T>>.segregate(): SegregatedResource<T> {
+internal suspend fun <T> Flow<Resource<T>>.segregate(): SegregatedResource<T> {
     var cached: T? = null
     var new: T? = null
     collect { res ->

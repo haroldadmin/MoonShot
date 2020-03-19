@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot.notifications.new
+package com.haroldadmin.moonshot.notifications
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,8 +8,8 @@ import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.NotificationType
 import com.haroldadmin.moonshot.models.launch.Launch
-import com.haroldadmin.moonshot.notifications.new.NotificationConstants.DayBeforeLaunch
-import com.haroldadmin.moonshot.notifications.new.NotificationConstants.JustBeforeLaunch
+import com.haroldadmin.moonshot.notifications.NotificationConstants.DayBeforeLaunch
+import com.haroldadmin.moonshot.notifications.NotificationConstants.JustBeforeLaunch
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.joda.time.DateTime

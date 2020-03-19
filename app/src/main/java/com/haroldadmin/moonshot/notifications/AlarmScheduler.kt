@@ -1,12 +1,13 @@
-package com.haroldadmin.moonshot.notifications.new
+package com.haroldadmin.moonshot.notifications
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.haroldadmin.logger.logW
 import com.haroldadmin.moonshot.base.broadcastPendingIntent
 import com.haroldadmin.moonshot.base.exactAlarmAt
 import com.haroldadmin.moonshot.base.intent
 import com.haroldadmin.moonshot.models.NotificationType
+import com.haroldadmin.moonshot.notifications.receivers.DayBeforeLaunchAlarmReceiver
+import com.haroldadmin.moonshot.notifications.receivers.JustBeforeLaunchAlarmReceiver
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -26,7 +27,7 @@ class AlarmScheduler @Inject constructor(
         when (notificationType) {
             NotificationType.JustBeforeLaunch -> scheduleJustBeforeLaunchNotification(timeUTC)
             NotificationType.DayBeforeLaunch -> scheduleDayBeforeLaunchNotification(timeUTC)
-            else -> logW { "Unknown notification type provided for scheduling: $notificationType" }
+            else -> Unit
         }
     }
 

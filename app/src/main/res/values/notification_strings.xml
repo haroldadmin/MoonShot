@@ -9,4 +9,7 @@
     <string name="launchNotificationContentTitle">%1$s Launch</string>
     <string name="dayBeforeLaunchNotificationContentText">Launches tomorrow at %1$s</string>
     <string name="justBeforeLaunchNotificationContentText">Launches today at %1$s</string>
+    <string name="scheduleChangeChannelDescription">Notifications about schedule changes of launches</string>
+    <string name="scheduleChangeContentTitle">Launch schedule changed</string>
+    <string name="scheduleChangeContentText">%1$s launch moved to %2$s</string>
 </resources>
