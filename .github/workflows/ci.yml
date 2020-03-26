@@ -3,8 +3,9 @@ on:
   push:
     branches:
       - master
-      - ci-instrumentation-tests
   pull_request:
+    branches:
+      - master
 jobs:
   ci:
     name: Build + Test
@@ -14,6 +15,9 @@ jobs:
 
       - name: Pre-CI actions
         run: cp ./ci/mock-google-services.json ./app/google-services.json
+
+      - name: KtLint check
+        run: ./gradlew ktlint
 
       - name: Unit Tests
         run: ./gradlew testDebugUnitTest
