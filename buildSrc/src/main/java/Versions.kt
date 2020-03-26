@@ -48,7 +48,9 @@ object Versions {
     const val espressoCore = "3.1.1"
     const val kotlinTest = "3.3.2"
     const val androidxTestCore = "2.1.0"
-    const val mockk = "1.9.3"
+
+    //https://github.com/mockk/mockk/issues/281
+    const val mockk = "1.9.2"
 
     const val firebaseCore = "17.0.1"
     const val crashlytics = "2.10.1"
