@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.notifications.AlarmScheduler
 import com.haroldadmin.moonshot.notifications.AlarmSchedulingWorker
 import com.haroldadmin.moonshot.sync.SyncWorker
@@ -13,13 +14,15 @@ import com.haroldadmin.moonshotRepository.SyncResourcesUseCase
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Provider
 
 class MoonShotWorkerFactory @Inject constructor(
-    private val syncResourcesUseCase: SyncResourcesUseCase,
-    private val nextLaunchUseCase: GetNextLaunchUseCase,
+    private val syncResourcesUseCaseProvider: Provider<SyncResourcesUseCase>,
+    private val nextLaunchUseCaseProvider: Provider<GetNextLaunchUseCase>,
     @Named("settings")
-    private val settings: SharedPreferences,
-    private val alarmScheduler: AlarmScheduler
+    private val settingsProvider: Provider<SharedPreferences>,
+    private val alarmSchedulerProvider: Provider<AlarmScheduler>,
+    private val appDispatchersProvider: Provider<AppDispatchers>
 ) : WorkerFactory() {
 
     override fun createWorker(
@@ -33,14 +36,15 @@ class MoonShotWorkerFactory @Inject constructor(
                 SyncWorker::class.java -> SyncWorker(
                     appContext,
                     workerParameters,
-                    syncResourcesUseCase
+                    syncResourcesUseCaseProvider.get(),
+                    appDispatchersProvider.get()
                 )
                 AlarmSchedulingWorker::class.java -> AlarmSchedulingWorker(
                     appContext,
                     workerParameters,
-                    nextLaunchUseCase,
-                    settings,
-                    alarmScheduler
+                    nextLaunchUseCaseProvider.get(),
+                    settingsProvider.get(),
+                    alarmSchedulerProvider.get()
                 )
                 else -> {
                     log(

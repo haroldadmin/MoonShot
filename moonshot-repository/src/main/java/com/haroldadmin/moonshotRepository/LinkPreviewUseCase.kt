@@ -2,10 +2,10 @@ package com.haroldadmin.moonshotRepository
 
 import android.os.Build
 import android.util.Log
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.models.LinkPreview
 import com.haroldadmin.opengraphKt.Tags
 import com.haroldadmin.opengraphKt.getOpenGraphTags
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
@@ -14,11 +14,13 @@ import java.net.MalformedURLException
 import java.net.URL
 import javax.inject.Inject
 
-class LinkPreviewUseCase @Inject constructor() {
+class LinkPreviewUseCase @Inject constructor(
+    private val appDispatchers: AppDispatchers
+) {
 
     private val TAG = "LinkPreviewUseCase"
 
-    suspend fun getPreview(website: String, link: String): LinkPreview = withContext(Dispatchers.IO) {
+    suspend fun getPreview(website: String, link: String): LinkPreview = withContext(appDispatchers.IO) {
         try {
             val url = URL(link)
             val tags = url.getOpenGraphTags()
@@ -37,7 +39,7 @@ class LinkPreviewUseCase @Inject constructor() {
 
     suspend fun getPreviews(
         websiteNamesAndLinks: Map<String, String>
-    ): List<LinkPreview> = withContext(Dispatchers.IO) {
+    ): List<LinkPreview> = withContext(appDispatchers.IO) {
         websiteNamesAndLinks
             .map { (websiteName, link) -> async { getPreview(websiteName, link) } }
             .awaitAll()

@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import com.airbnb.epoxy.Carousel
 import com.airbnb.epoxy.EpoxyController
 import com.haroldadmin.logger.Logger
+import com.haroldadmin.moonshot.core.MoonShotDispatchers
 import com.haroldadmin.moonshot.di.AppComponentHolder
 import com.haroldadmin.moonshot.di.DaggerAppComponent
 import com.haroldadmin.moonshot.di.appComponent
@@ -16,7 +17,6 @@ import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
 import com.haroldadmin.whatthestack.WhatTheStack
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
@@ -24,7 +24,8 @@ import kotlin.coroutines.CoroutineContext
 
 class MoonShot : Application(), Configuration.Provider, CoroutineScope {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+    private val appDispatchers = MoonShotDispatchers()
+    override val coroutineContext: CoroutineContext = appDispatchers.Main
 
     @Inject lateinit var appInfoUseCase: ApplicationInfoUseCase
     @Inject lateinit var syncManager: SyncManager

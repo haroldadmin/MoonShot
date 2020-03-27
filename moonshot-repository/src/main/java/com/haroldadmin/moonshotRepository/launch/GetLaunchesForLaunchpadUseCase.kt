@@ -2,6 +2,7 @@ package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
@@ -11,7 +12,6 @@ import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -20,7 +20,8 @@ import javax.inject.Inject
 class GetLaunchesForLaunchpadUseCase @Inject constructor(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
-    private val persistLaunchesUseCase: PersistLaunchesUseCase
+    private val persistLaunchesUseCase: PersistLaunchesUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private val defaultLimit = 15
@@ -89,7 +90,7 @@ class GetLaunchesForLaunchpadUseCase @Inject constructor(
         siteId: String,
         limit: Int,
         offset: Int
-    ): List<Launch> = withContext(Dispatchers.IO) {
+    ): List<Launch> = withContext(appDispatchers.IO) {
         launchesDao.forLaunchPad(siteId, limit, offset)
     }
 
@@ -97,7 +98,7 @@ class GetLaunchesForLaunchpadUseCase @Inject constructor(
         siteId: String,
         limit: Int,
         offset: Int
-    ): List<Launch> = withContext(Dispatchers.IO) {
+    ): List<Launch> = withContext(appDispatchers.IO) {
         launchesDao.forLaunchPad(siteId, false, limit, offset)
     }
 
@@ -105,13 +106,13 @@ class GetLaunchesForLaunchpadUseCase @Inject constructor(
         siteId: String,
         limit: Int,
         offset: Int
-    ): List<Launch> = withContext(Dispatchers.IO) {
+    ): List<Launch> = withContext(appDispatchers.IO) {
         launchesDao.forLaunchPad(siteId, true, limit, offset)
     }
 
     private suspend fun getAllLaunchesFromService(
         siteId: String
-    ): NetworkResponse<List<ApiLaunch>, ErrorResponse> = withContext(Dispatchers.IO) {
+    ): NetworkResponse<List<ApiLaunch>, ErrorResponse> = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getAllLaunches(siteId = siteId).await()
         }
@@ -119,13 +120,13 @@ class GetLaunchesForLaunchpadUseCase @Inject constructor(
 
     private suspend fun getUpcomingLaunchesFromService(
         siteId: String
-    ): NetworkResponse<List<ApiLaunch>, ErrorResponse> = withContext(Dispatchers.IO) {
+    ): NetworkResponse<List<ApiLaunch>, ErrorResponse> = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getUpcomingLaunches(siteId = siteId).await()
         }
     }
 
-    private suspend fun getPastLaunchesFromService(siteId: String) = withContext(Dispatchers.IO) {
+    private suspend fun getPastLaunchesFromService(siteId: String) = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getPastLaunches(siteId = siteId).await()
         }

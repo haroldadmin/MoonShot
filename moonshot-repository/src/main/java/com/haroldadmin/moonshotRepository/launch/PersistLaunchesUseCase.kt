@@ -1,29 +1,32 @@
 package com.haroldadmin.moonshotRepository.launch
 
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshotRepository.mappers.toDbLaunch
 import com.haroldadmin.spacex_api_wrapper.launches.Launch
 import com.haroldadmin.moonshot.models.launch.Launch as DbLaunch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PersistLaunchesUseCase @Inject constructor(private val launchesDao: LaunchDao) {
+class PersistLaunchesUseCase @Inject constructor(
+    private val launchesDao: LaunchDao,
+    private val appDispatchers: AppDispatchers
+) {
 
-    suspend fun persistLaunch(apiLaunch: Launch) = withContext(Dispatchers.IO) {
+    suspend fun persistLaunch(apiLaunch: Launch) = withContext(appDispatchers.IO) {
         launchesDao.save(apiLaunch.toDbLaunch())
     }
 
-    suspend fun persistLaunch(dbLaunch: DbLaunch) = withContext(Dispatchers.IO) {
+    suspend fun persistLaunch(dbLaunch: DbLaunch) = withContext(appDispatchers.IO) {
         launchesDao.save(dbLaunch)
     }
 
     suspend fun persistLaunches(apiLaunches: List<Launch>, shouldSynchronize: Boolean = false) {
-        withContext(Dispatchers.Default) {
+        withContext(appDispatchers.Default) {
 
             val dbLaunches = apiLaunches.map { it.toDbLaunch() }
 
-            withContext(Dispatchers.IO) {
+            withContext(appDispatchers.IO) {
                 if (shouldSynchronize) {
                     launchesDao.synchronizeBlocking(dbLaunches)
                 } else {
@@ -37,7 +40,7 @@ class PersistLaunchesUseCase @Inject constructor(private val launchesDao: Launch
     suspend fun persistLaunches(
         dbLaunches: List<DbLaunch>,
         shouldSynchronize: Boolean = false
-    ) = withContext(Dispatchers.IO) {
+    ) = withContext(appDispatchers.IO) {
         if (shouldSynchronize) {
             launchesDao.synchronizeBlocking(dbLaunches)
         } else {

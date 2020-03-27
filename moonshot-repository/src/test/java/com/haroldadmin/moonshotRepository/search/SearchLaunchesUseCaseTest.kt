@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.search
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -16,10 +17,12 @@ import kotlinx.coroutines.runBlocking
 @ExperimentalCoroutinesApi
 internal class SearchLaunchesUseCaseTest : AnnotationSpec() {
 
+    private val dispatchers = TestDispatchers()
+
     private val dao = FakeLaunchesDao()
     private val service = FakeLaunchesService()
-    private val persister = PersistLaunchesUseCase(dao)
-    private val usecase = SearchLaunchesUseCase(dao, service, persister)
+    private val persister = PersistLaunchesUseCase(dao, dispatchers)
+    private val usecase = SearchLaunchesUseCase(dao, service, persister, dispatchers)
 
     @Test
     fun `should search for launches with given query`() = runBlocking {

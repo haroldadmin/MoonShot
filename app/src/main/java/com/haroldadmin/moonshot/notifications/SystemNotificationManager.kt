@@ -9,12 +9,11 @@ interface SystemNotificationManager {
     fun notify(notificationId: Int, notification: Notification)
 
     fun createNotificationChannel(channel: NotificationChannel)
-
 }
 
 class RealSystemNotificationManager(
     private val delegate: NotificationManagerCompat
-): SystemNotificationManager {
+) : SystemNotificationManager {
 
     override fun notify(notificationId: Int, notification: Notification) {
         delegate.notify(notificationId, notification)
@@ -23,5 +22,4 @@ class RealSystemNotificationManager(
     override fun createNotificationChannel(channel: NotificationChannel) {
         delegate.createNotificationChannel(channel)
     }
-
 }

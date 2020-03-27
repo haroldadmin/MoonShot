@@ -1,6 +1,5 @@
 package com.haroldadmin.moonshot.di
 
-import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
@@ -8,9 +7,12 @@ import android.os.HandlerThread
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import androidx.work.WorkManager
+import com.haroldadmin.moonshot.core.AppDispatchers
+import com.haroldadmin.moonshot.core.MoonShotDispatchers
 import com.haroldadmin.moonshot.notifications.RealSystemNotificationManager
 import com.haroldadmin.moonshot.notifications.SystemNotificationManager
 import com.squareup.inject.assisted.dagger2.AssistedModule
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -49,4 +51,10 @@ object AppModule {
     fun notificationManager(context: Context): SystemNotificationManager {
         return RealSystemNotificationManager(NotificationManagerCompat.from(context))
     }
+}
+
+@Module
+interface DispatchersModule {
+    @Binds
+    fun dispatchers(moonShotDispatchers: MoonShotDispatchers): AppDispatchers
 }

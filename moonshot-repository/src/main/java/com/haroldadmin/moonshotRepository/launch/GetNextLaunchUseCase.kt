@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
@@ -12,7 +13,6 @@ import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -21,7 +21,8 @@ import javax.inject.Inject
 class GetNextLaunchUseCase @Inject constructor(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
-    private val persistLaunchesUseCase: PersistLaunchesUseCase
+    private val persistLaunchesUseCase: PersistLaunchesUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private var untilTime: Long = Long.MAX_VALUE
@@ -62,22 +63,22 @@ class GetNextLaunchUseCase @Inject constructor(
         return nextLaunchesUntilDateRes.flow()
     }
 
-    private suspend fun getNextLaunchCached() = withContext(Dispatchers.IO) {
+    private suspend fun getNextLaunchCached() = withContext(appDispatchers.IO) {
         launchesDao.next()
     }
 
-    private suspend fun getNextLaunchFromService() = withContext(Dispatchers.IO) {
+    private suspend fun getNextLaunchFromService() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getNextLaunch().await()
         }
     }
 
     private suspend fun getNextLaunchesUntilDateCached(until: Long, limit: Int, offset: Int) =
-        withContext(Dispatchers.IO) {
+        withContext(appDispatchers.IO) {
             launchesDao.upcoming(until, limit, offset)
         }
 
-    private suspend fun getAllUpcomingLaunchesFromApi() = withContext(Dispatchers.IO) {
+    private suspend fun getAllUpcomingLaunchesFromApi() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getUpcomingLaunches().await()
         }

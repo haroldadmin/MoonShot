@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.launchPad
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshotRepository.ExpectedResponse
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad
@@ -20,12 +21,14 @@ internal class LaunchPadUseCaseTest : AnnotationSpec() {
     private lateinit var usecase: GetLaunchPadUseCase
     private lateinit var persister: PersistLaunchPadUseCase
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeLaunchPadDao()
         service = FakeLaunchPadService()
-        persister = PersistLaunchPadUseCase(dao)
-        usecase = GetLaunchPadUseCase(dao, service, persister)
+        persister = PersistLaunchPadUseCase(dao, dispatchers)
+        usecase = GetLaunchPadUseCase(dao, service, persister, dispatchers)
     }
 
     @Test

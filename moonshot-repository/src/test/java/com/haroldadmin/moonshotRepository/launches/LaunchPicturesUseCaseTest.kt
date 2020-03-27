@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.launches
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.launch.LaunchPictures
 import com.haroldadmin.moonshotRepository.launch.GetLaunchPicturesUseCase
@@ -16,10 +17,12 @@ internal class LaunchPicturesUseCaseTest : AnnotationSpec() {
     private lateinit var dao: FakeLaunchesDao
     private lateinit var usecase: GetLaunchPicturesUseCase
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeLaunchesDao()
-        usecase = GetLaunchPicturesUseCase(dao)
+        usecase = GetLaunchPicturesUseCase(dao, dispatchers)
     }
 
     @Test

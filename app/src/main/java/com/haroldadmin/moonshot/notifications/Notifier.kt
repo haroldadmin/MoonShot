@@ -9,7 +9,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.os.ConfigurationCompat
 import androidx.core.os.bundleOf
@@ -17,7 +16,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import coil.Coil
 import coil.api.get
 import com.haroldadmin.moonshot.R
-import com.haroldadmin.moonshot.core.unsyncedLazy
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.NotificationType
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -28,7 +27,6 @@ import com.haroldadmin.moonshot.notifications.NotificationConstants.ScheduleChan
 import com.haroldadmin.moonshotRepository.launch.GetNextLaunchUseCase
 import com.haroldadmin.moonshotRepository.notifications.NotificationRecordsUseCase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -51,10 +49,11 @@ class Notifier @Inject constructor(
     private val nextLaunchUseCase: GetNextLaunchUseCase,
     private val notifRecordsUseCase: NotificationRecordsUseCase,
     @Named("settings") private val settings: SharedPreferences,
-    private val notificationManager: SystemNotificationManager
+    private val notificationManager: SystemNotificationManager,
+    private val appDispatchers: AppDispatchers
 ) : CoroutineScope {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main + Job()
+    override val coroutineContext: CoroutineContext = appDispatchers.Main + Job()
 
     fun processBroadcast(notificationType: NotificationType) {
         launch {

@@ -6,24 +6,27 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.utils.log
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SyncManager @Inject constructor(private val context: Context) {
+class SyncManager @Inject constructor(
+    private val context: Context,
+    private val appDispatchers: AppDispatchers
+) {
 
     companion object {
         const val KEY_BACKGROUND_SYNC = "background-sync"
     }
 
-    suspend fun enableSync() = withContext(Dispatchers.Default) {
+    suspend fun enableSync() = withContext(appDispatchers.Default) {
         log("Enqueing sync work")
         enqueueSyncWork()
     }
 
-    private suspend fun enqueueSyncWork() = withContext(Dispatchers.Default) {
+    private suspend fun enqueueSyncWork() = withContext(appDispatchers.Default) {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -38,7 +41,7 @@ class SyncManager @Inject constructor(private val context: Context) {
             .enqueueUniquePeriodicWork(SyncWorker.NAME, ExistingPeriodicWorkPolicy.REPLACE, workRequest)
     }
 
-    suspend fun disableSync() = withContext(Dispatchers.Default) {
+    suspend fun disableSync() = withContext(appDispatchers.Default) {
 
         log("Disabling sync")
 

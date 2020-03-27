@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.applicationInfo
 
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.models.ApplicationInfo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -12,7 +13,7 @@ import java.util.Date
 internal class ApplicationInfoUseCaseTest {
 
     private val dao = FakeApplicationInfoDao()
-    private val usecase = ApplicationInfoUseCase(dao)
+    private val usecase = ApplicationInfoUseCase(dao, TestDispatchers())
 
     @Test
     fun `should return application info when requested`() = runBlocking {

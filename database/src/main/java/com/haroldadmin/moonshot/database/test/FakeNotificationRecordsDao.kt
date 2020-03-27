@@ -4,7 +4,7 @@ import com.haroldadmin.moonshot.database.NotificationRecordDao
 import com.haroldadmin.moonshot.models.NotificationRecord
 import javax.inject.Inject
 
-class FakeNotificationRecordsDao @Inject constructor(): NotificationRecordDao() {
+class FakeNotificationRecordsDao @Inject constructor() : NotificationRecordDao() {
 
     private val notifRecords = mutableListOf<NotificationRecord>()
 
@@ -22,7 +22,7 @@ class FakeNotificationRecordsDao @Inject constructor(): NotificationRecordDao() 
 
     override suspend fun hasNotifiedForLaunch(launchFlightNumber: Int): Int {
         val hasNotified = notifRecords.find { it.launchFlightNumber == launchFlightNumber } != null
-        return if (hasNotified) 1  else 0
+        return if (hasNotified) 1 else 0
     }
 
     override suspend fun getLastNotificationRecordForLaunch(flightNumber: Int): NotificationRecord? {
@@ -53,5 +53,4 @@ class FakeNotificationRecordsDao @Inject constructor(): NotificationRecordDao() 
     override suspend fun deleteAll(objs: List<NotificationRecord>) {
         notifRecords.removeAll(objs)
     }
-
 }

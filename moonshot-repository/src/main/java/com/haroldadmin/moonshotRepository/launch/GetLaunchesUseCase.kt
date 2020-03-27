@@ -2,6 +2,7 @@ package com.haroldadmin.moonshotRepository.launch
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchDao
@@ -11,7 +12,6 @@ import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import com.haroldadmin.spacex_api_wrapper.launches.Launch as ApiLaunch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -20,7 +20,8 @@ import javax.inject.Inject
 class GetLaunchesUseCase @Inject constructor(
     private val launchesDao: LaunchDao,
     private val launchesService: LaunchesService,
-    private val persistLaunchesUseCase: PersistLaunchesUseCase
+    private val persistLaunchesUseCase: PersistLaunchesUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private val defaultLimit = 15
@@ -95,31 +96,31 @@ class GetLaunchesUseCase @Inject constructor(
         return allLaunchesRes.flow()
     }
 
-    private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getPastCachedLaunches(limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         launchesDao.recent(limit, offset)
     }
 
-    private suspend fun getPastApiLaunches() = withContext(Dispatchers.IO) {
+    private suspend fun getPastApiLaunches() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getPastLaunches().await()
         }
     }
 
-    private suspend fun getUpcomingCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getUpcomingCachedLaunches(limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         launchesDao.upcoming(limit, offset)
     }
 
-    private suspend fun getUpcomingApiLaunches() = withContext(Dispatchers.IO) {
+    private suspend fun getUpcomingApiLaunches() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getUpcomingLaunches().await()
         }
     }
 
-    private suspend fun getAllCachedLaunches(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getAllCachedLaunches(limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         launchesDao.all(limit, offset)
     }
 
-    private suspend fun getAllApiLaunches() = withContext(Dispatchers.IO) {
+    private suspend fun getAllApiLaunches() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchesService.getAllLaunches().await()
         }

@@ -5,7 +5,7 @@ import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshot.models.launch.LaunchPictures
 import javax.inject.Inject
 
-class FakeLaunchDao @Inject constructor(): LaunchDao() {
+class FakeLaunchDao @Inject constructor() : LaunchDao() {
 
     private val launches = mutableListOf<Launch>()
 

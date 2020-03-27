@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.mission
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.Mission
 import com.haroldadmin.moonshot.models.SampleDbData
@@ -21,12 +22,14 @@ internal class MissionUseCaseTest {
     private lateinit var usecase: GetMissionUseCase
     private var missionId = "F3364BF"
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeMissionDao()
         service = FakeMissionService()
-        persister = PersistMissionUseCase(dao)
-        usecase = GetMissionUseCase(dao, service, persister)
+        persister = PersistMissionUseCase(dao, dispatchers)
+        usecase = GetMissionUseCase(dao, service, persister, dispatchers)
     }
 
     @Test

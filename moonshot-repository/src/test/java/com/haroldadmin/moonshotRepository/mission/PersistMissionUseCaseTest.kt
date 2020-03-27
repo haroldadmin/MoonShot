@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.mission
 
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.models.SampleDbData
 import com.haroldadmin.moonshotRepository.mappers.toDbMission
 import com.haroldadmin.spacex_api_wrapper.SampleApiData
@@ -13,10 +14,12 @@ internal class PersistMissionUseCaseTest {
     private lateinit var usecase: PersistMissionUseCase
     private lateinit var dao: FakeMissionDao
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeMissionDao()
-        usecase = PersistMissionUseCase(dao)
+        usecase = PersistMissionUseCase(dao, dispatchers)
     }
 
     @Test

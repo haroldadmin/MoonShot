@@ -3,7 +3,6 @@ package com.haroldadmin.moonshot
 import android.app.Notification
 import android.app.NotificationChannel
 import com.haroldadmin.moonshot.notifications.SystemNotificationManager
-import java.nio.channels.Channel
 import javax.inject.Inject
 
 class FakeNotificationManager @Inject constructor() : SystemNotificationManager {
@@ -23,5 +22,4 @@ class FakeNotificationManager @Inject constructor() : SystemNotificationManager 
         channels.clear()
         notifications.clear()
     }
-
 }

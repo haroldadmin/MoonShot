@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.haroldadmin.moonshot.KEY_CRASH_REPORTS
 import com.haroldadmin.moonshot.KEY_THEME_MODE
 import com.haroldadmin.moonshot.THEME_MAPPINGS
+import com.haroldadmin.moonshot.core.MoonShotDispatchers
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.notifications.MoonShotNotificationManager
 import com.haroldadmin.moonshot.notifications.NotificationConstants.JustBeforeLaunch
@@ -20,7 +21,6 @@ import com.haroldadmin.moonshot.notifications.NotificationConstants.DayBeforeLau
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshot.utils.log
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +31,7 @@ import com.haroldadmin.moonshot.R as appR
 class SettingsFragment : PreferenceFragmentCompat(), CoroutineScope {
 
     private val job = Job()
-    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
+    override val coroutineContext: CoroutineContext = MoonShotDispatchers().Main + job
 
     @Inject
     lateinit var launchNotificationsManager: MoonShotNotificationManager

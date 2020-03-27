@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshotRepository.notifications
 
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.database.NotificationRecordDao
 import com.haroldadmin.moonshot.models.NotificationRecord
 import com.haroldadmin.moonshot.models.NotificationType
@@ -10,7 +11,8 @@ import java.util.Date
 internal class NotificationRecordsUseCaseTest {
 
     private val dao: NotificationRecordDao = FakeNotificationRecordsDao()
-    private val usecase = NotificationRecordsUseCase(dao)
+    private val dispatchers = TestDispatchers()
+    private val usecase = NotificationRecordsUseCase(dao, dispatchers)
 
     init {
         runBlocking {

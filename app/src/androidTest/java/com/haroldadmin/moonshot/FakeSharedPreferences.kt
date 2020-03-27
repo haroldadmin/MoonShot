@@ -58,7 +58,7 @@ class FakeSharedPreferences @Inject constructor() : SharedPreferences {
         return prefs[key] as? String ?: defValue
     }
 
-    class FakeEditor (preferences: FakeSharedPreferences): SharedPreferences.Editor {
+    class FakeEditor(preferences: FakeSharedPreferences) : SharedPreferences.Editor {
 
         private val prefs = preferences.prefs
 
@@ -113,6 +113,5 @@ class FakeSharedPreferences @Inject constructor() : SharedPreferences {
         private fun putValue(key: String, value: Any?) {
             prefs[key] = value
         }
-
     }
 }

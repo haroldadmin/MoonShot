@@ -2,6 +2,7 @@ package com.haroldadmin.moonshotRepository.rocket
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.RocketsDao
 import com.haroldadmin.moonshot.models.Rocket
@@ -10,7 +11,6 @@ import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
 import com.haroldadmin.spacex_api_wrapper.rocket.Rocket as ApiRocket
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class GetAllRocketsUseCase @Inject constructor(
     private val rocketsDao: RocketsDao,
     private val rocketsService: RocketsService,
-    private val persistRocketsUseCase: PersistRocketsUseCase
+    private val persistRocketsUseCase: PersistRocketsUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private val defaultLimit = 10
@@ -51,11 +52,11 @@ class GetAllRocketsUseCase @Inject constructor(
         else -> Resource.Error(Unit, null)
     }
 
-    private suspend fun getAllRocketsCached(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getAllRocketsCached(limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         rocketsDao.all(limit, offset)
     }
 
-    private suspend fun getAllRocketsFromApi() = withContext(Dispatchers.IO) {
+    private suspend fun getAllRocketsFromApi() = withContext(appDispatchers.IO) {
         executeWithRetry {
             rocketsService.getAllRockets().await()
         }

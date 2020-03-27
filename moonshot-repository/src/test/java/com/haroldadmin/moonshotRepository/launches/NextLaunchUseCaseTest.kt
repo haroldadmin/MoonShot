@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.launches
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.launch.Launch
 import com.haroldadmin.moonshotRepository.ExpectedResponse
@@ -24,12 +25,14 @@ internal class NextLaunchUseCaseTest : AnnotationSpec() {
     private lateinit var persister: PersistLaunchesUseCase
     private lateinit var usecase: GetNextLaunchUseCase
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeLaunchesDao()
         service = FakeLaunchesService()
-        persister = PersistLaunchesUseCase(dao)
-        usecase = GetNextLaunchUseCase(dao, service, persister)
+        persister = PersistLaunchesUseCase(dao, dispatchers)
+        usecase = GetNextLaunchUseCase(dao, service, persister, dispatchers)
     }
 
     @Test

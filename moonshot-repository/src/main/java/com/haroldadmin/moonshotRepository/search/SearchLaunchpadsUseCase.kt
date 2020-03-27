@@ -1,13 +1,13 @@
 package com.haroldadmin.moonshotRepository.search
 
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.database.LaunchPadDao
 import com.haroldadmin.moonshot.models.SearchQuery
 import com.haroldadmin.moonshot.models.LaunchPad
 import com.haroldadmin.moonshotRepository.launchPad.PersistLaunchPadUseCase
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -16,7 +16,8 @@ import javax.inject.Inject
 class SearchLaunchpadsUseCase @Inject constructor(
     private val launchPadDao: LaunchPadDao,
     private val launchPadService: LaunchPadService,
-    persistLaunchPadUseCase: PersistLaunchPadUseCase
+    persistLaunchPadUseCase: PersistLaunchPadUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private val res by searchResourceLazy(
@@ -32,11 +33,11 @@ class SearchLaunchpadsUseCase @Inject constructor(
         return res.flow()
     }
 
-    private suspend fun getSearchResultsCached(query: String, limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getSearchResultsCached(query: String, limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         launchPadDao.forQuery(query, limit)
     }
 
-    private suspend fun getAllLaunchPadsFromApi() = withContext(Dispatchers.IO) {
+    private suspend fun getAllLaunchPadsFromApi() = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchPadService.getAllLaunchPads().await()
         }

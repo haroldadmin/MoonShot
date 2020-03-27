@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshotRepository.rockets
 
 import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.TestDispatchers
 import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.Rocket
 import com.haroldadmin.moonshotRepository.ExpectedResponse
@@ -24,12 +25,14 @@ internal class AllRocketsUseCaseTest : AnnotationSpec() {
     private lateinit var persister: PersistRocketsUseCase
     private lateinit var usecase: GetAllRocketsUseCase
 
+    private val dispatchers = TestDispatchers()
+
     @Before
     fun setup() {
         dao = FakeRocketsDao()
         service = FakeRocketsService()
-        persister = PersistRocketsUseCase(dao)
-        usecase = GetAllRocketsUseCase(dao, service, persister)
+        persister = PersistRocketsUseCase(dao, dispatchers)
+        usecase = GetAllRocketsUseCase(dao, service, persister, dispatchers)
     }
 
     @Test

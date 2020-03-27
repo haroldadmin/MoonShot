@@ -2,6 +2,7 @@ package com.haroldadmin.moonshotRepository.launchPad
 
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.executeWithRetry
+import com.haroldadmin.moonshot.core.AppDispatchers
 import com.haroldadmin.moonshot.core.Resource
 import com.haroldadmin.moonshot.core.pairOf
 import com.haroldadmin.moonshot.database.LaunchPadDao
@@ -11,7 +12,6 @@ import com.haroldadmin.moonshotRepository.singleFetchNetworkBoundResourceLazy
 import com.haroldadmin.spacex_api_wrapper.common.ErrorResponse
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPad as ApiLaunchPad
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -20,7 +20,8 @@ import javax.inject.Inject
 class GetLaunchPadUseCase @Inject constructor(
     private val launchPadDao: LaunchPadDao,
     private val launchPadService: LaunchPadService,
-    private val persistLaunchPadUseCase: PersistLaunchPadUseCase
+    private val persistLaunchPadUseCase: PersistLaunchPadUseCase,
+    private val appDispatchers: AppDispatchers
 ) {
 
     private val defaultLimit = 15
@@ -66,21 +67,21 @@ class GetLaunchPadUseCase @Inject constructor(
         else -> Resource.Error(Unit, null)
     }
 
-    private suspend fun getLaunchPadFromApi(siteId: String) = withContext(Dispatchers.IO) {
+    private suspend fun getLaunchPadFromApi(siteId: String) = withContext(appDispatchers.IO) {
         executeWithRetry {
             launchPadService.getLaunchPad(siteId).await()
         }
     }
 
-    private suspend fun getLaunchPadCached(siteId: String) = withContext(Dispatchers.IO) {
+    private suspend fun getLaunchPadCached(siteId: String) = withContext(appDispatchers.IO) {
         launchPadDao.one(siteId)
     }
 
-    private suspend fun getLaunchPadsFromApi() = withContext(Dispatchers.IO) {
+    private suspend fun getLaunchPadsFromApi() = withContext(appDispatchers.IO) {
         executeWithRetry { launchPadService.getAllLaunchPads().await() }
     }
 
-    private suspend fun getLaunchPadsCached(limit: Int, offset: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getLaunchPadsCached(limit: Int, offset: Int) = withContext(appDispatchers.IO) {
         launchPadDao.all(limit, offset)
     }
 
