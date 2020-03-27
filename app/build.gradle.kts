@@ -121,6 +121,8 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.workManagerTestHelpers)
     androidTestImplementation(Libs.Test.androidxJunitExt)
     androidTestImplementation(Libs.Test.espressoCore)
+    androidTestImplementation(Libs.Dagger.dagger)
+    kaptAndroidTest(Libs.Dagger.compiler)
 
     implementation(Libs.Firebase.core)
     implementation(Libs.Firebase.crashlytics)
