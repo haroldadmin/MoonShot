@@ -7,6 +7,10 @@ class FakeSharedPreferences @Inject constructor() : SharedPreferences {
 
     private val prefs = mutableMapOf<String, Any?>()
 
+    fun clear() {
+        prefs.clear()
+    }
+
     override fun contains(key: String?): Boolean {
         return key in prefs
     }

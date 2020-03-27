@@ -50,14 +50,11 @@ class Notifier @Inject constructor(
     private val context: Context,
     private val nextLaunchUseCase: GetNextLaunchUseCase,
     private val notifRecordsUseCase: NotificationRecordsUseCase,
-    @Named("settings") val settings: SharedPreferences
+    @Named("settings") private val settings: SharedPreferences,
+    private val notificationManager: SystemNotificationManager
 ) : CoroutineScope {
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main + Job()
-
-    private val notificationManager: NotificationManagerCompat by unsyncedLazy {
-        NotificationManagerCompat.from(context)
-    }
 
     fun processBroadcast(notificationType: NotificationType) {
         launch {

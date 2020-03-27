@@ -18,6 +18,11 @@ class FakeLaunchesService @Inject constructor() : LaunchesService {
         launches.addAll(launch)
     }
 
+    fun clear() {
+        launches.clear()
+        expectedResponseType = FakeResponseType.Success
+    }
+
     fun expect(responseType: FakeResponseType) {
         expectedResponseType = responseType
     }
@@ -80,16 +85,20 @@ class FakeLaunchesService @Inject constructor() : LaunchesService {
     }
 
     override fun getLatestLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>> {
-        val responseData = launches.filter { it.upcoming == false }.maxBy { it.flightNumber } ?: error {
-            "FakeLaunchesService not seeded with an upcoming launch"
-        }
+        val responseData =
+            launches.filter { it.upcoming == false }.maxBy { it.flightNumber } ?: error {
+                "FakeLaunchesService not seeded with an upcoming launch"
+            }
         return CompletableDeferred(expectedResponseType.toNetworkResponse(responseData))
     }
 
     override fun getNextLaunch(): Deferred<NetworkResponse<Launch, ErrorResponse>> {
-        val responseData = launches.filter { it.upcoming == true }.minBy { it.flightNumber } ?: error {
-            "FakeLaunchesService not seeded with an upcoming launch"
-        }
+        val responseData = launches
+                .filter { it.upcoming == true }
+                .minBy { it.flightNumber }
+                ?: error(
+                    "FakeLaunchesService not seeded with an upcoming launch"
+                )
         return CompletableDeferred(expectedResponseType.toNetworkResponse(responseData))
     }
 }

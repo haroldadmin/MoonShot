@@ -2,13 +2,18 @@ package com.haroldadmin.moonshot.database.test
 
 import com.haroldadmin.moonshot.database.NotificationRecordDao
 import com.haroldadmin.moonshot.models.NotificationRecord
+import javax.inject.Inject
 
-class FakeNotificationRecordsDao: NotificationRecordDao() {
+class FakeNotificationRecordsDao @Inject constructor(): NotificationRecordDao() {
 
     private val notifRecords = mutableListOf<NotificationRecord>()
 
     fun seedWith(vararg record: NotificationRecord) {
         notifRecords.addAll(record)
+    }
+
+    fun clear() {
+        notifRecords.clear()
     }
 
     override suspend fun getLastNotificationRecord(): NotificationRecord? {

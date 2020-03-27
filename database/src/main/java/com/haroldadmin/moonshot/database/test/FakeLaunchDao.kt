@@ -13,6 +13,10 @@ class FakeLaunchDao @Inject constructor(): LaunchDao() {
         launches.addAll(seedData)
     }
 
+    fun clear() {
+        launches.clear()
+    }
+
     override suspend fun details(flightNumber: Int): Launch? {
         return launches.find { it.flightNumber == flightNumber }
     }
