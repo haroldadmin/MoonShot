@@ -1,11 +1,27 @@
 package com.haroldadmin.moonshot
 
+import android.app.Notification
 import android.app.NotificationChannel
 import com.haroldadmin.moonshot.notifications.SystemNotificationManager
+import java.nio.channels.Channel
+import javax.inject.Inject
 
-class FakeNotificationManager : SystemNotificationManager {
+class FakeNotificationManager @Inject constructor() : SystemNotificationManager {
 
-    private val channels = mutableListOf<NotificationChannel>()
-    private val notifications = mutableListOf<Pair<Int, NotificationChannel>>()
+    val channels = mutableListOf<NotificationChannel>()
+    val notifications = mutableListOf<Pair<Int, Notification>>()
+
+    override fun notify(notificationId: Int, notification: Notification) {
+        notifications.add(notificationId to notification)
+    }
+
+    override fun createNotificationChannel(channel: NotificationChannel) {
+        channels.add(channel)
+    }
+
+    fun clear() {
+        channels.clear()
+        notifications.clear()
+    }
 
 }

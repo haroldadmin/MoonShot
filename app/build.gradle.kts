@@ -29,6 +29,15 @@ android {
                 proguardFiles("proguard-rules.pro")
             }
         }
+        getByName("debug") {
+            extra["enableCrashlytics"] = false
+            postprocessing {
+                isObfuscate = false
+                isOptimizeCode = false
+                isRemoveUnusedCode = false
+                proguardFiles("proguard-rules.pro")
+            }
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

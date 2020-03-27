@@ -7,11 +7,12 @@ import com.haroldadmin.spacex_api_wrapper.launches.LaunchesService
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import java.io.IOException
+import java.util.Collections
 import javax.inject.Inject
 
 class FakeLaunchesService @Inject constructor() : LaunchesService {
 
-    private val launches = mutableListOf<Launch>()
+    private val launches = Collections.synchronizedList(mutableListOf<Launch>())
     private var expectedResponseType: FakeResponseType = FakeResponseType.Success
 
     fun seedWith(vararg launch: Launch) {

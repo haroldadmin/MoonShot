@@ -1,7 +1,5 @@
 package com.haroldadmin.moonshot
 
-import android.app.NotificationManager
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.edit
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -17,8 +15,6 @@ import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.notifications.NotificationRecordsUseCase
 import com.haroldadmin.spacex_api_wrapper.SampleApiData
 import com.haroldadmin.spacex_api_wrapper.test.FakeLaunchesService
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -32,13 +28,14 @@ internal class NotifierTest {
     @Inject lateinit var fakeLaunchesService: FakeLaunchesService
     @Inject lateinit var fakeLaunchesDao: FakeLaunchDao
     @Inject lateinit var fakeNotifRecordsDao: FakeNotificationRecordsDao
+    @Inject lateinit var fakeNotifManager: FakeNotificationManager
 
-    private lateinit var notifer: Notifier
+    private lateinit var notifier: Notifier
 
     @Before
     fun setup() {
         DaggerTestComponent.create().inject(this)
-        notifer = Notifier(
+        notifier = Notifier(
             context = ApplicationProvider.getApplicationContext(),
             nextLaunchUseCase = GetNextLaunchUseCase(
                 fakeLaunchesDao,
@@ -47,7 +44,7 @@ internal class NotifierTest {
             ),
             notifRecordsUseCase = NotificationRecordsUseCase(fakeNotifRecordsDao),
             settings = fakeSharedPreferences,
-            notificationManager = NotificationManagerCompat.from(ApplicationProvider.getApplicationContext())
+            notificationManager = fakeNotifManager
         )
     }
 
@@ -63,11 +60,61 @@ internal class NotifierTest {
             tentativeMaxPrecision = DatePrecision.year,
             isUpcoming = true
         ))
+
         fakeSharedPreferences.edit {
             putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
         }
 
-        notifer.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+
+        assert(fakeNotifManager.notifications.isEmpty()) {
+            "Expected no notifications to be posted, got ${fakeNotifManager.notifications.size}"
+        }
+    }
+
+    @Test
+    fun shouldPostNotificationsForLaunchesWithAccurateDates() {
+        fakeLaunchesService.seedWith(SampleApiData.Launches.one().copy(
+            tentativeMaxPrecision = DatePrecision.hour.name,
+            upcoming = true
+        ))
+
+        fakeLaunchesDao.seedWith(SampleDbData.Launches.one().copy(
+            tentativeMaxPrecision = DatePrecision.hour,
+            isUpcoming = true
+        ))
+
+        fakeSharedPreferences.edit {
+            putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
+        }
+
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+
+        assert(fakeNotifManager.notifications.size == 1) {
+            "Expected JustBeforeLaunch notification to be posted, but got ${fakeNotifManager.notifications}"
+        }
+    }
+
+    @Test
+    fun shouldNotPostNotificationsIfDisabledInSettings() {
+        fakeLaunchesService.seedWith(SampleApiData.Launches.one().copy(
+            tentativeMaxPrecision = DatePrecision.hour.name,
+            upcoming = true
+        ))
+
+        fakeLaunchesDao.seedWith(SampleDbData.Launches.one().copy(
+            tentativeMaxPrecision = DatePrecision.hour,
+            isUpcoming = true
+        ))
+        fakeSharedPreferences.edit {
+            putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
+        }
+
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+
+        assert(fakeNotifManager.notifications.size == 0) {
+            "Expected no notifications to be posted, got ${fakeNotifManager.notifications.size}"
+        }
     }
 
     @After
@@ -76,6 +123,7 @@ internal class NotifierTest {
         fakeLaunchesDao.clear()
         fakeLaunchesService.clear()
         fakeNotifRecordsDao.clear()
+        fakeNotifManager.clear()
     }
 
 }

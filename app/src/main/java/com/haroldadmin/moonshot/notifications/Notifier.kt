@@ -77,6 +77,7 @@ class Notifier @Inject constructor(
      */
     private suspend fun processJustBeforeLaunchBroadcast() {
         val isNotifEnabled = settings.getBoolean(JustBeforeLaunch.settingsKey, true)
+
         if (!isNotifEnabled) {
             return
         }
@@ -120,6 +121,14 @@ class Notifier @Inject constructor(
             cachedLaunch != newlyFetchedLaunch -> {
                 // Launch Schedule has changed, notify about changed schedule
                 if (cachedLaunch.flightNumber == newlyFetchedLaunch.flightNumber) {
+                    if (newlyFetchedLaunch.tentativeMaxPrecision != DatePrecision.hour) {
+                        return
+                    }
+
+                    if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                        return
+                    }
+
                     notifyForScheduleChange(cachedLaunch, newlyFetchedLaunch)
                     notifRecordsUseCase.recordNotification(
                         newlyFetchedLaunch.flightNumber,
@@ -141,6 +150,15 @@ class Notifier @Inject constructor(
                     }
                 } else {
                     // A new launch has been made the next launch. If it is within notification range, notify about it.
+
+                    if (newlyFetchedLaunch.tentativeMaxPrecision != DatePrecision.hour) {
+                        return
+                    }
+
+                    if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                        return
+                    }
+
                     val paddingTimeMins = settings.getInt(JustBeforeLaunch.paddingKey, 30)
                     val isWithinNotificationRange = LocalDateTime(newlyFetchedLaunch.launchDateUtc).isBefore(
                         LocalDateTime.now().plusMinutes(paddingTimeMins)
@@ -158,6 +176,14 @@ class Notifier @Inject constructor(
             }
             else -> {
                 // Launch schedule is unchanged, notify about it
+
+                if (newlyFetchedLaunch.tentativeMaxPrecision != DatePrecision.hour) {
+                    return
+                }
+
+                if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                    return
+                }
                 notifyForLaunch(newlyFetchedLaunch, NotificationType.JustBeforeLaunch)
                 notifRecordsUseCase.recordNotification(
                     newlyFetchedLaunch.flightNumber,
