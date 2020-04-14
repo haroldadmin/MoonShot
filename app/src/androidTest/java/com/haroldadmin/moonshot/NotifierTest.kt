@@ -16,9 +16,10 @@ import com.haroldadmin.moonshotRepository.launch.PersistLaunchesUseCase
 import com.haroldadmin.moonshotRepository.notifications.NotificationRecordsUseCase
 import com.haroldadmin.spacex_api_wrapper.SampleApiData
 import com.haroldadmin.spacex_api_wrapper.test.FakeLaunchesService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
@@ -29,8 +30,8 @@ internal class NotifierTest {
     @Inject lateinit var fakeSharedPreferences: FakeSharedPreferences
     @Inject lateinit var fakeLaunchesService: FakeLaunchesService
     @Inject lateinit var fakeLaunchesDao: FakeLaunchDao
-    @Inject lateinit var fakeNotifRecordsDao: FakeNotificationRecordsDao
-    @Inject lateinit var fakeNotifManager: FakeNotificationManager
+    @Inject lateinit var fakeNotificationRecordsDao: FakeNotificationRecordsDao
+    @Inject lateinit var fakeNotificationManager: FakeNotificationManager
     @Inject lateinit var testDispatchers: AppDispatchers
 
     private lateinit var notifier: Notifier
@@ -46,17 +47,15 @@ internal class NotifierTest {
                 PersistLaunchesUseCase(fakeLaunchesDao, testDispatchers),
                 testDispatchers
             ),
-            notifRecordsUseCase = NotificationRecordsUseCase(fakeNotifRecordsDao, testDispatchers),
+            notifRecordsUseCase = NotificationRecordsUseCase(fakeNotificationRecordsDao, testDispatchers),
             settings = fakeSharedPreferences,
-            notificationManager = fakeNotifManager,
+            notificationManager = fakeNotificationManager,
             appDispatchers = testDispatchers
         )
     }
 
     @Test
-    @Ignore
-    fun shouldNotPostNotificationsForLaunchesWithInaccurateDates() {
-
+    fun shouldNotPostNotificationsForLaunchesWithInaccurateDates() = runBlocking {
         fakeLaunchesService.seedWith(SampleApiData.Launches.one().copy(
             tentativeMaxPrecision = DatePrecision.year.name,
             upcoming = true
@@ -71,16 +70,15 @@ internal class NotifierTest {
             putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
         }
 
-        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch).join()
 
-        assert(fakeNotifManager.notifications.isEmpty()) {
-            "Expected no notifications to be posted, got ${fakeNotifManager.notifications.size}"
+        assert(fakeNotificationManager.notifications.isEmpty()) {
+            "Expected no notifications to be posted, got ${fakeNotificationManager.notifications.size}"
         }
     }
 
     @Test
-    @Ignore
-    fun shouldPostNotificationsForLaunchesWithAccurateDates() {
+    fun shouldPostNotificationsForLaunchesWithAccurateDates() = runBlocking {
         fakeLaunchesService.seedWith(SampleApiData.Launches.one().copy(
             tentativeMaxPrecision = DatePrecision.hour.name,
             upcoming = true
@@ -95,16 +93,15 @@ internal class NotifierTest {
             putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
         }
 
-        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch).join()
 
-        assert(fakeNotifManager.notifications.size == 1) {
-            "Expected JustBeforeLaunch notification to be posted, but got ${fakeNotifManager.notifications}"
+        assert(fakeNotificationManager.notifications.size == 1) {
+            "Expected JustBeforeLaunch notification to be posted, but got ${fakeNotificationManager.notifications}"
         }
     }
 
     @Test
-    @Ignore
-    fun shouldNotPostNotificationsIfDisabledInSettings() {
+    fun shouldNotPostNotificationsIfDisabledInSettings() = runBlocking {
         fakeLaunchesService.seedWith(SampleApiData.Launches.one().copy(
             tentativeMaxPrecision = DatePrecision.hour.name,
             upcoming = true
@@ -114,14 +111,15 @@ internal class NotifierTest {
             tentativeMaxPrecision = DatePrecision.hour,
             isUpcoming = true
         ))
+
         fakeSharedPreferences.edit {
-            putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, true)
+            putBoolean(NotificationConstants.JustBeforeLaunch.settingsKey, false)
         }
 
-        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch)
+        notifier.processBroadcast(notificationType = NotificationType.JustBeforeLaunch).join()
 
-        assert(fakeNotifManager.notifications.size == 0) {
-            "Expected no notifications to be posted, got ${fakeNotifManager.notifications.size}"
+        assert(fakeNotificationManager.notifications.size == 0) {
+            "Expected no notifications to be posted, got ${fakeNotificationManager.notifications.size}"
         }
     }
 
@@ -130,7 +128,7 @@ internal class NotifierTest {
         fakeSharedPreferences.clear()
         fakeLaunchesDao.clear()
         fakeLaunchesService.clear()
-        fakeNotifRecordsDao.clear()
-        fakeNotifManager.clear()
+        fakeNotificationRecordsDao.clear()
+        fakeNotificationManager.clear()
     }
 }

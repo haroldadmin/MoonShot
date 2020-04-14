@@ -36,9 +36,9 @@ class MoonShotNotificationManager @Inject constructor(
      */
     fun enableNotifications() {
         val workRequest = PeriodicWorkRequestBuilder<AlarmSchedulingWorker>(
-            repeatInterval = NotificationConstants.SchedulingWorker.repeatIntervalHours,
-            repeatIntervalTimeUnit = TimeUnit.HOURS,
-            flexTimeInterval = NotificationConstants.SchedulingWorker.flexIntervalMinutes,
+            repeatInterval = 30,
+            repeatIntervalTimeUnit = TimeUnit.MINUTES,
+            flexTimeInterval = 25,
             flexTimeIntervalUnit = TimeUnit.MINUTES
         )
 

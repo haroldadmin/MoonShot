@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class FakeLaunchesService @Inject constructor() : LaunchesService {
 
-    private val launches = Collections.synchronizedList(mutableListOf<Launch>())
+    private val launches = mutableListOf<Launch>()
     private var expectedResponseType: FakeResponseType = FakeResponseType.Success
 
     fun seedWith(vararg launch: Launch) {
@@ -98,7 +98,7 @@ class FakeLaunchesService @Inject constructor() : LaunchesService {
                 .filter { it.upcoming == true }
                 .minBy { it.flightNumber }
                 ?: error(
-                    "FakeLaunchesService not seeded with an upcoming launch"
+                    "FakeLaunchesService not seeded with an upcoming launch: $launches"
                 )
         return CompletableDeferred(expectedResponseType.toNetworkResponse(responseData))
     }

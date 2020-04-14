@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshot
 
 import com.haroldadmin.moonshot.core.AppDispatchers
+import com.haroldadmin.moonshot.core.ImmediateDispatchers
 import com.haroldadmin.moonshot.core.TestDispatchers
 import dagger.Binds
 import dagger.Component
@@ -17,5 +18,5 @@ internal interface TestComponent {
 @Module
 interface TestDispatchersModule {
     @Binds
-    fun testDispatchers(testDispatchers: TestDispatchers): AppDispatchers
+    fun testDispatchers(testDispatchers: ImmediateDispatchers): AppDispatchers
 }

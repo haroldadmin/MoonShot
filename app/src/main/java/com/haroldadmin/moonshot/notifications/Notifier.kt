@@ -17,6 +17,8 @@ import coil.Coil
 import coil.api.get
 import com.haroldadmin.moonshot.R
 import com.haroldadmin.moonshot.core.AppDispatchers
+import com.haroldadmin.moonshot.core.Resource
+import com.haroldadmin.moonshot.core.last
 import com.haroldadmin.moonshot.models.DatePrecision
 import com.haroldadmin.moonshot.models.NotificationType
 import com.haroldadmin.moonshot.models.launch.Launch
@@ -55,13 +57,81 @@ class Notifier @Inject constructor(
 
     override val coroutineContext: CoroutineContext = appDispatchers.Main + Job()
 
-    fun processBroadcast(notificationType: NotificationType) {
-        launch {
-            when (notificationType) {
-                NotificationType.JustBeforeLaunch -> processJustBeforeLaunchBroadcast()
-                NotificationType.DayBeforeLaunch -> processDayBeforeLaunchBroadcast()
-                NotificationType.ScheduleChange, NotificationType.Unknown -> Unit
+    fun processBroadcast(notificationType: NotificationType): Job = launch {
+        when (notificationType) {
+            NotificationType.JustBeforeLaunch -> processJblBroadcast()
+            NotificationType.DayBeforeLaunch -> processDblBroadcast()
+            NotificationType.ScheduleChange, NotificationType.Unknown -> Unit
+        }
+    }
+
+    private suspend fun processJblBroadcast() {
+        val isNotificationEnabled = settings.getBoolean(JustBeforeLaunch.settingsKey, true)
+        if (!isNotificationEnabled) {
+            return
+        }
+
+        val nextLaunch = nextLaunchUseCase.getNextLaunch().last().let { res ->
+            when (res) {
+                is Resource.Success -> res.data
+                is Resource.Error<Launch, *> -> res.data
+                else -> null
             }
+        } ?: return
+
+        if (nextLaunch.tentativeMaxPrecision != DatePrecision.hour) {
+            return
+        }
+
+        val hasNotifiedForLaunch = notifRecordsUseCase.hasNotifiedForLaunch(
+            nextLaunch.flightNumber,
+            NotificationType.JustBeforeLaunch
+        )
+        if (hasNotifiedForLaunch) {
+            return
+        }
+
+        notifyForLaunch(nextLaunch, NotificationType.JustBeforeLaunch).also {
+            notifRecordsUseCase.recordNotification(
+                nextLaunch.flightNumber,
+                Date(),
+                NotificationType.JustBeforeLaunch
+            )
+        }
+    }
+
+    private suspend fun processDblBroadcast() {
+        val isNotificationEnabled = settings.getBoolean(JustBeforeLaunch.settingsKey, true)
+        if (!isNotificationEnabled) {
+            return
+        }
+
+        val nextLaunch = nextLaunchUseCase.getNextLaunch().last().let { res ->
+            when (res) {
+                is Resource.Success -> res.data
+                is Resource.Error<Launch, *> -> res.data
+                else -> null
+            }
+        } ?: return
+
+        if (nextLaunch.tentativeMaxPrecision != DatePrecision.hour) {
+            return
+        }
+
+        val hasNotifiedForLaunch = notifRecordsUseCase.hasNotifiedForLaunch(
+            nextLaunch.flightNumber,
+            NotificationType.DayBeforeLaunch
+        )
+        if (hasNotifiedForLaunch) {
+            return
+        }
+
+        notifyForLaunch(nextLaunch, NotificationType.DayBeforeLaunch).also {
+            notifRecordsUseCase.recordNotification(
+                nextLaunch.flightNumber,
+                Date(),
+                NotificationType.DayBeforeLaunch
+            )
         }
     }
 
@@ -74,6 +144,10 @@ class Notifier @Inject constructor(
      * When retrieving the next launch, the data should be divided into a segregated data type consisting of
      * both cached and refreshed launches. If the cached and refreshed launches are different launches,
      */
+    @Deprecated(
+        "Filled with a lot of bugs and too complicated",
+        ReplaceWith("processJblBroadcast()")
+    )
     private suspend fun processJustBeforeLaunchBroadcast() {
         val isNotifEnabled = settings.getBoolean(JustBeforeLaunch.settingsKey, true)
 
@@ -124,7 +198,11 @@ class Notifier @Inject constructor(
                         return
                     }
 
-                    if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                    if (notifRecordsUseCase.hasNotifiedForLaunch(
+                            newlyFetchedLaunch.flightNumber,
+                            NotificationType.JustBeforeLaunch
+                        )
+                    ) {
                         return
                     }
 
@@ -154,7 +232,11 @@ class Notifier @Inject constructor(
                         return
                     }
 
-                    if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                    if (notifRecordsUseCase.hasNotifiedForLaunch(
+                            newlyFetchedLaunch.flightNumber,
+                            NotificationType.JustBeforeLaunch
+                        )
+                    ) {
                         return
                     }
 
@@ -180,7 +262,11 @@ class Notifier @Inject constructor(
                     return
                 }
 
-                if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.JustBeforeLaunch)) {
+                if (notifRecordsUseCase.hasNotifiedForLaunch(
+                        newlyFetchedLaunch.flightNumber,
+                        NotificationType.JustBeforeLaunch
+                    )
+                ) {
                     return
                 }
                 notifyForLaunch(newlyFetchedLaunch, NotificationType.JustBeforeLaunch)
@@ -193,6 +279,10 @@ class Notifier @Inject constructor(
         }
     }
 
+    @Deprecated(
+        "Filled with a lot of bugs and too complicated",
+        ReplaceWith("processDblBroadcast()")
+    )
     private suspend fun processDayBeforeLaunchBroadcast() {
         val isNotifEnabled = settings.getBoolean(DayBeforeLaunch.settingsKey, true)
         if (!isNotifEnabled) {
@@ -211,7 +301,11 @@ class Notifier @Inject constructor(
                 if (newlyFetchedLaunch.tentativeMaxPrecision != DatePrecision.hour) {
                     return
                 }
-                if (notifRecordsUseCase.hasNotifiedForLaunch(newlyFetchedLaunch.flightNumber, NotificationType.DayBeforeLaunch)) {
+                if (notifRecordsUseCase.hasNotifiedForLaunch(
+                        newlyFetchedLaunch.flightNumber,
+                        NotificationType.DayBeforeLaunch
+                    )
+                ) {
                     return
                 }
                 notifyForLaunch(newlyFetchedLaunch, NotificationType.DayBeforeLaunch)

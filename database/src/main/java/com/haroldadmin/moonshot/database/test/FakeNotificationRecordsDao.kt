@@ -26,7 +26,7 @@ class FakeNotificationRecordsDao @Inject constructor() : NotificationRecordDao()
     }
 
     override suspend fun getLastNotificationRecordForLaunch(flightNumber: Int): NotificationRecord? {
-        return notifRecords.last { it.launchFlightNumber == flightNumber }
+        return notifRecords.lastOrNull { it.launchFlightNumber == flightNumber }
     }
 
     override suspend fun save(obj: NotificationRecord) {

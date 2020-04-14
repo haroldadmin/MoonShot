@@ -44,3 +44,20 @@ data class TestDispatchers(
     )
 
 }
+
+data class ImmediateDispatchers(
+    override val Default: CoroutineDispatcher,
+    override val IO: CoroutineDispatcher,
+    override val Unconfined: CoroutineDispatcher,
+    override val Main: CoroutineDispatcher
+) : AppDispatchers() {
+
+    @Inject
+    constructor() : this(
+        Default = Dispatchers.Main.immediate,
+        IO = Dispatchers.Main.immediate,
+        Unconfined = Dispatchers.Main.immediate,
+        Main = Dispatchers.Main.immediate
+    )
+
+}
