@@ -12,6 +12,7 @@
         <item name="colorOnSurface">@color/colorOnSurfaceHighEmp</item>
         <item name="colorError">@color/colorError</item>
         <item name="colorOnError">@color/colorOnSurfaceHighEmp</item>
+        <item name="popupMenuBackground">?attr/colorSurface</item>
         <item name="textAppearanceHeadline1">@style/TextAppearance.MoonShot.Headline1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.MoonShot.Headline2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.MoonShot.Headline3</item>
