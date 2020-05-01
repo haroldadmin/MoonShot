@@ -37,9 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    viewBinding {
-        isEnabled = true
-    }
+    buildFeatures.viewBinding = true
     packagingOptions {
         exclude("META-INF/DEPENDENCIES")
         exclude("META-INF/LICENSE")
