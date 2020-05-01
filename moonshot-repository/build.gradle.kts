@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 apply(from="../ktlint.gradle")
 
@@ -37,16 +38,15 @@ android {
         exclude("META-INF/LICENSE*")
     }
     testOptions {
-        unitTests.apply {
-            all(KotlinClosure1<Test, Test>({
-                useJUnitPlatform { }
-                testLogging {
+        unitTests {
+            all {
+                it.useJUnitPlatform()
+                it.testLogging {
                     exceptionFormat = TestExceptionFormat.FULL
-                    events("started", "skipped", "passed", "failed")
+                    events = mutableSetOf(STARTED, SKIPPED, PASSED, FAILED)
                     showStandardStreams = true
                 }
-                this
-            }, this))
+            }
         }
     }
 }
