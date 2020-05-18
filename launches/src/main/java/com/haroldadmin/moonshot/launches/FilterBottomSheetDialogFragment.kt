@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.navGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.haroldadmin.moonshot.R as appR
+import com.haroldadmin.logger.logD
+import com.haroldadmin.moonshot.navigation.R as navR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
 import com.haroldadmin.moonshot.launches.views.filterOptionView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+
+const val LaunchFilterKey = "com.haroldadmin.moonshot.launches.LaunchFilterKey"
 
 @ExperimentalCoroutinesApi
 class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
@@ -20,11 +23,19 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private val binding: FragmentFilterBottomSheetDialogBinding
         get() = _binding!!
 
-    private val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow)
-
     private val onFilterClick: (LaunchType) -> Unit = { filter ->
-        viewModel.setFilter(filter)
-        dismiss()
+        val launchesBackstackEntry = findNavController().previousBackStackEntry ?: error(
+            "Can not find LaunchesFragment on the backstack"
+        )
+
+        logD { "Previous entry: ${launchesBackstackEntry.destination}" }
+
+        launchesBackstackEntry
+            .savedStateHandle
+            .set(LaunchFilterKey, filter.name)
+            .also {
+                dismiss()
+            }
     }
 
     override fun onCreateView(
