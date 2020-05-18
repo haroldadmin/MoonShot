@@ -20,7 +20,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mapOf("room.incremental" to "true")
+                arguments = mutableMapOf("room.incremental" to "true")
             }
         }
     }
