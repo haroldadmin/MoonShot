@@ -4,28 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import com.airbnb.epoxy.EpoxyController
+import com.haroldadmin.logger.logD
 import com.haroldadmin.moonshot.MainViewModel
 import com.haroldadmin.moonshot.base.ComplexMoonShotFragment
 import com.haroldadmin.moonshot.base.asyncController
 import com.haroldadmin.moonshot.base.layoutAnimation
 import com.haroldadmin.moonshot.core.Resource
-import com.haroldadmin.moonshot.core.invoke
 import com.haroldadmin.moonshot.di.appComponent
 import com.haroldadmin.moonshot.launches.databinding.FragmentLaunchesBinding
 import com.haroldadmin.moonshot.launches.di.DaggerLaunchesComponent
 import com.haroldadmin.moonshot.models.launch.Launch
+import com.haroldadmin.moonshot.navigation.R as navR
 import com.haroldadmin.moonshot.views.errorView
 import com.haroldadmin.moonshot.views.launchCard
 import com.haroldadmin.moonshot.views.loadMoreView
 import com.haroldadmin.moonshot.views.loadingView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
 import com.haroldadmin.vector.activityViewModel
+import com.haroldadmin.vector.fragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import com.haroldadmin.moonshot.R as appR
@@ -43,15 +42,8 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
     @Inject
     lateinit var mainViewModelFactory: MainViewModel.Factory
 
-    private val safeArgs by navArgs<LaunchesFragmentArgs>()
-
-    override val viewModel by navGraphViewModels<LaunchesViewModel>(appR.id.launchesFlow) {
-        object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return viewModelFactory.create(LaunchesState(type = safeArgs.type, siteId = safeArgs.siteId)) as T
-            }
-        }
+    override val viewModel: LaunchesViewModel by fragmentViewModel { initialState, _ ->
+        viewModelFactory.create(initialState)
     }
 
     private val mainViewModel: MainViewModel by activityViewModel { initState, savedStateHandle ->
@@ -71,6 +63,16 @@ class LaunchesFragment : ComplexMoonShotFragment<LaunchesViewModel, LaunchesStat
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLaunchesBinding.inflate(inflater, container, false)
+
+        val currentBackStackEntry = findNavController().getBackStackEntry(navR.id.launches)
+        logD { "Current entry: ${currentBackStackEntry?.destination}" }
+        currentBackStackEntry?.savedStateHandle?.let { savedStateHandle ->
+            savedStateHandle
+                .getLiveData<String>(LaunchFilterKey)
+                .observe(this) { filterName ->
+                    viewModel.setFilter(LaunchType.valueOf(filterName))
+                }
+        }
 
         mainViewModel.setTitle(getString(appR.string.title_launches))
 
