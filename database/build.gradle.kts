@@ -20,7 +20,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = mutableMapOf("room.incremental" to "true")
+                arguments += mutableMapOf("room.incremental" to "true")
             }
         }
     }
@@ -34,6 +34,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -62,6 +63,7 @@ dependencies {
     implementation(Libs.Persistence.roomKtx)
 
     implementation(Libs.jodaTime)
+    coreLibraryDesugaring(Libs.coreDesugaring)
 
     testImplementation(Libs.Test.junit4)
     androidTestImplementation(Libs.Test.coroutinesTest)
