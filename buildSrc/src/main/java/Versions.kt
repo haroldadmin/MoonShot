@@ -54,4 +54,6 @@ object Versions {
 
     const val firebaseCore = "17.0.1"
     const val crashlytics = "2.10.1"
+
+    const val coreDesugaring = "1.0.5"
 }

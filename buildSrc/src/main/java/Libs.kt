@@ -97,4 +97,5 @@ object Libs {
     const val vector = "com.github.haroldadmin:Vector:${Versions.vector}"
     const val whatTheStack = "com.github.haroldadmin:WhatTheStack:${Versions.whatTheStack}"
     const val jodaTime = "joda-time:joda-time:${Versions.jodaTime}"
+    const val coreDesugaring = "com.android.tools:desugar_jdk_libs:${Versions.coreDesugaring}"
 }
