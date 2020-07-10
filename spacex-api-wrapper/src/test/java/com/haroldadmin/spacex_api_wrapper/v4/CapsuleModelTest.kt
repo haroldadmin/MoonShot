@@ -25,13 +25,13 @@ internal class CapsuleModelTest {
 
         with(capsule) {
             this.shouldNotBeNull()
-            reuseCount.shouldBe(1)
-            waterLandings.shouldBe(1)
-            landLandings.shouldBe(0)
-            launchIDs.shouldHaveSize(1)
-            serial.shouldBe("C101")
-            status.shouldBe("retired")
-            id.shouldBe("5e9e2c5bf35918ed873b2664")
+            reuseCount shouldBe 1
+            waterLandings shouldBe 1
+            landLandings shouldBe 0
+            launchIDs shouldHaveSize 1
+            serial shouldBe "C101"
+            status shouldBe "retired"
+            id shouldBe "5e9e2c5bf35918ed873b2664"
         }
     }
 }
