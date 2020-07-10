@@ -5,10 +5,9 @@ import com.squareup.moshi.Moshi
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
-import org.junit.Before
-import org.junit.Test
+import io.kotlintest.specs.AnnotationSpec
 
-internal class CapsuleModelTest {
+internal class CapsuleModelTest: AnnotationSpec() {
 
     private lateinit var moshi: Moshi
 
@@ -30,7 +29,7 @@ internal class CapsuleModelTest {
             landLandings shouldBe 0
             launchIDs shouldHaveSize 1
             serial shouldBe "C101"
-            status shouldBe "retired"
+            status shouldBe CapsuleStatus.retired
             id shouldBe "5e9e2c5bf35918ed873b2664"
         }
     }
