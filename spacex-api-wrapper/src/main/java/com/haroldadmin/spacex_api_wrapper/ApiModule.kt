@@ -34,8 +34,8 @@ object ApiModule {
     fun retrofit(cache: Cache, logger: HttpLoggingInterceptor): Retrofit {
         val moshi = Moshi.Builder()
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-            .add(ZonedDateTimeAdapter::class.java)
-            .add(LocalDateAdapter::class.java)
+            .add(ZonedDateTimeAdapter())
+            .add(LocalDateAdapter())
             .build()
 
         val okHttp = OkHttpClient.Builder()
