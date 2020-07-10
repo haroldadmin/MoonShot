@@ -4,10 +4,9 @@ import com.haroldadmin.spacex_api_wrapper.getResource
 import com.squareup.moshi.Moshi
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
-import org.junit.Before
-import org.junit.Test
+import io.kotlintest.specs.AnnotationSpec
 
-internal class CompanyInfoModelTest {
+internal class CompanyInfoModelTest: AnnotationSpec() {
 
     private lateinit var moshi: Moshi
 

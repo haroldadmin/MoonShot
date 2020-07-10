@@ -12,12 +12,11 @@ internal class ZonedDateTimeAdapter {
 
     @Suppress("NewApi")
     @FromJson
-    fun fromJson(json: String): ZonedDateTime {
+    fun fromJson(json: String): ZonedDateTime? {
         return try {
             ZonedDateTime.parse(json)
         } catch(ex: DateTimeParseException) {
-            LocalDateTime.ofEpochSecond(0, 0, ZoneOffset.UTC)
-                .atZone(ZoneId.of("UTC"))
+            return null
         }
     }
 

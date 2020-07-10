@@ -5,10 +5,11 @@ import com.squareup.moshi.Moshi
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
+import io.kotlintest.specs.AnnotationSpec
 import org.junit.Before
 import org.junit.Test
 
-internal class LaunchesModelTest {
+internal class LaunchesModelTest: AnnotationSpec() {
 
     private lateinit var moshi: Moshi
 
