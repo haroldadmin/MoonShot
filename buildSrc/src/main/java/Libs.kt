@@ -71,8 +71,8 @@ object Libs {
             const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}"
         }
         object Moshi {
-            const val moshi = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
-            const val codegen = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
+            const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
+            const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
             const val adapters = "com.squareup.moshi:moshi-adapters:${Versions.moshiAdapters}"
         }
     }

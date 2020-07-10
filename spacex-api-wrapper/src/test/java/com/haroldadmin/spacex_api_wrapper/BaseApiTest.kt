@@ -3,7 +3,6 @@ package com.haroldadmin.spacex_api_wrapper
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.kotlintest.Spec
 import io.kotlintest.specs.DescribeSpec
 import okhttp3.mockwebserver.MockWebServer
@@ -22,7 +21,6 @@ internal abstract class BaseApiTest : DescribeSpec() {
         server = MockWebServer()
         moshi = Moshi.Builder()
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-            .add(KotlinJsonAdapterFactory())
             .build()
         retrofit = Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create(moshi))
