@@ -6,6 +6,7 @@ import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
 data class RoadsterInfo(
+    @Json(name = "id") val id: String,
     @Json(name = "name") val name: String?,
     @Json(name = "launch_date_utc") val launchDateUTC: ZonedDateTime?,
     @Json(name = "launch_date_unix") val launchDateUnix: Long?,
