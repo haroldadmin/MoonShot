@@ -12,8 +12,6 @@ import com.haroldadmin.spacex_api_wrapper.launchpad.LaunchPadService
 import com.haroldadmin.spacex_api_wrapper.mission.MissionService
 import com.haroldadmin.spacex_api_wrapper.payload.PayloadsService
 import com.haroldadmin.spacex_api_wrapper.rocket.RocketsService
-import com.haroldadmin.spacex_api_wrapper.v4.LocalDateAdapter
-import com.haroldadmin.spacex_api_wrapper.v4.ZonedDateTimeAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import dagger.Module
@@ -34,8 +32,6 @@ object ApiModule {
     fun retrofit(cache: Cache, logger: HttpLoggingInterceptor): Retrofit {
         val moshi = Moshi.Builder()
             .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-            .add(ZonedDateTimeAdapter())
-            .add(LocalDateAdapter())
             .build()
 
         val okHttp = OkHttpClient.Builder()
