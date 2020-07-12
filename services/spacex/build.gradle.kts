@@ -22,18 +22,14 @@ tasks.withType<KotlinCompile> {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(project(":core"))
-
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
 
     implementation(Libs.Network.Retrofit.retrofit)
-    implementation(Libs.Network.OkHttp.loggingInterceptor)
     implementation(Libs.Network.Retrofit.networkResponseAdapter4)
     implementation(Libs.Network.Retrofit.scalarsConverter)
     implementation(Libs.Network.Moshi.moshi)
     implementation(Libs.Network.Retrofit.moshiConverter)
-    implementation(Libs.Network.Moshi.adapters)
     kapt(Libs.Network.Moshi.codegen)
 
     testImplementation(Libs.Network.OkHttp.mockWebServer)
