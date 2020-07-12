@@ -1,7 +1,10 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 enum class CoreStatus {
     active, inactive, unknown, expended, lost, retired
@@ -21,3 +24,13 @@ data class Core(
     @Json(name = "last_update") val lastUpdate: String?,
     @Json(name = "launches") val launchIDs: List<String>
 )
+
+interface CoreService {
+    @GET("cores/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<Core, String>
+
+    @GET("cores")
+    suspend fun all(): NetworkResponse<List<Core>, String>
+}

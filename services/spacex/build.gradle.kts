@@ -29,7 +29,8 @@ dependencies {
 
     implementation(Libs.Network.Retrofit.retrofit)
     implementation(Libs.Network.OkHttp.loggingInterceptor)
-    implementation(Libs.Network.Retrofit.networkResponseAdapter)
+    implementation(Libs.Network.Retrofit.networkResponseAdapter4)
+    implementation(Libs.Network.Retrofit.scalarsConverter)
     implementation(Libs.Network.Moshi.moshi)
     implementation(Libs.Network.Retrofit.moshiConverter)
     implementation(Libs.Network.Moshi.adapters)

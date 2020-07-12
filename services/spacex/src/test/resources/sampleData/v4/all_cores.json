@@ -1,0 +1,1029 @@
+[
+  {
+    "block": null,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Engine failure at T+33 seconds resulted in loss of vehicle",
+    "launches": [
+      "5eb87cd9ffd86e000604b32a"
+    ],
+    "serial": "Merlin1A",
+    "status": "lost",
+    "id": "5e9e289df35918033d3b2623"
+  },
+  {
+    "block": null,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Successful first-stage burn and transition to second stage, maximal altitude 289 km. Harmonic oscillation at T+5 minutes Premature engine shutdown at T+7 min 30 s. Failed to reach orbit.",
+    "launches": [
+      "5eb87cdaffd86e000604b32b"
+    ],
+    "serial": "Merlin2A",
+    "status": "lost",
+    "id": "5e9e289ef35918416a3b2624"
+  },
+  {
+    "block": null,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Residual stage-1 thrust led to collision between stage 1 and stage 2.",
+    "launches": [
+      "5eb87cdbffd86e000604b32c"
+    ],
+    "serial": "Merlin1C",
+    "status": "lost",
+    "id": "5e9e289ef3591814873b2625"
+  },
+  {
+    "block": null,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Initially scheduled for 23–25 Sep, carried dummy payload – mass simulator, 165 kg (originally intended to be RazakSAT.",
+    "launches": [
+      "5eb87cdbffd86e000604b32d"
+    ],
+    "serial": "Merlin2C",
+    "status": "lost",
+    "id": "5e9e289ef3591855dc3b2626"
+  },
+  {
+    "block": null,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cdcffd86e000604b32e"
+    ],
+    "serial": "Merlin3C",
+    "status": "lost",
+    "id": "5e9e289ef359184f103b2627"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87cddffd86e000604b32f"
+    ],
+    "serial": "B0003",
+    "status": "expended",
+    "id": "5e9e289ef359185f2b3b2628"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "First flight of Dragon",
+    "launches": [
+      "5eb87cdeffd86e000604b330"
+    ],
+    "serial": "B0004",
+    "status": "lost",
+    "id": "5e9e289ef35918187c3b2629"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cdfffd86e000604b331"
+    ],
+    "serial": "B0005",
+    "status": "lost",
+    "id": "5e9e289ef35918f39c3b262a"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Suffered engine out at T+1:19 but primary mission successful",
+    "launches": [
+      "5eb87ce0ffd86e000604b332"
+    ],
+    "serial": "B0006",
+    "status": "lost",
+    "id": "5e9e289ff3591821a73b262b"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce1ffd86e000604b333"
+    ],
+    "serial": "B0007",
+    "status": "lost",
+    "id": "5e9e289ff3591884e03b262c"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "First flight of Falcon 9 v1.1 upgrade, first Spacex flight from Vandenberg",
+    "launches": [
+      "5eb87ce1ffd86e000604b334"
+    ],
+    "serial": "B1003",
+    "status": "lost",
+    "id": "5e9e289ff359180ae23b262d"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce2ffd86e000604b335"
+    ],
+    "serial": "B1004",
+    "status": "lost",
+    "id": "5e9e289ff35918862c3b262e"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce3ffd86e000604b336"
+    ],
+    "serial": "B1005",
+    "status": "lost",
+    "id": "5e9e289ff3591878603b262f"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Broke up after sucessful water landing",
+    "launches": [
+      "5eb87ce4ffd86e000604b337"
+    ],
+    "serial": "B1006",
+    "status": "lost",
+    "id": "5e9e289ff3591829343b2630"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Broke up after sucessful water landing",
+    "launches": [
+      "5eb87ce4ffd86e000604b338"
+    ],
+    "serial": "B1007",
+    "status": "lost",
+    "id": "5e9e28a0f3591870a63b2631"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce5ffd86e000604b339"
+    ],
+    "serial": "B1008",
+    "status": "lost",
+    "id": "5e9e28a0f359186e2e3b2632"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce6ffd86e000604b33a"
+    ],
+    "serial": "B1011",
+    "status": "lost",
+    "id": "5e9e28a0f35918b1bc3b2633"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Broke up after sucessful water landing",
+    "launches": [
+      "5eb87ce7ffd86e000604b33b"
+    ],
+    "serial": "B1010",
+    "status": "lost",
+    "id": "5e9e28a0f359184a683b2634"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Destroyed on impact with droneship, grid fin hydraulic fluid depleted",
+    "launches": [
+      "5eb87ce8ffd86e000604b33c"
+    ],
+    "serial": "B1012",
+    "status": "lost",
+    "id": "5e9e28a0f359187a3c3b2635"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Broke up after sucessful water landing",
+    "launches": [
+      "5eb87ceaffd86e000604b33d"
+    ],
+    "serial": "B1013",
+    "status": "lost",
+    "id": "5e9e28a0f3591885be3b2636"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ceaffd86e000604b33e"
+    ],
+    "serial": "B1014",
+    "status": "lost",
+    "id": "5e9e28a0f35918c0893b2637"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Destroyed on impact with droneship due to excess lateral velocity - throttle stiction",
+    "launches": [
+      "5eb87cecffd86e000604b33f"
+    ],
+    "serial": "B1015",
+    "status": "lost",
+    "id": "5e9e28a1f359186d533b2638"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cedffd86e000604b340"
+    ],
+    "serial": "B1016",
+    "status": "lost",
+    "id": "5e9e28a1f35918233f3b2639"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "RUD at T + 139s - second stage overpressure event due to defective COPV strut heim joint",
+    "launches": [
+      "5eb87ceeffd86e000604b341"
+    ],
+    "serial": "B1018",
+    "status": "lost",
+    "id": "5e9e28a1f35918683c3b263a"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Retired; permanently displayed at Hawthorne headquarters. ",
+    "launches": [
+      "5eb87cefffd86e000604b342"
+    ],
+    "serial": "B1019",
+    "status": "inactive",
+    "id": "5e9e28a1f3591867753b263b"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Destroyed after drone ship landing due to landing leg failure",
+    "launches": [
+      "5eb87cf0ffd86e000604b343"
+    ],
+    "serial": "B1017",
+    "status": "lost",
+    "id": "5e9e28a1f3591842fa3b263c"
+  },
+  {
+    "block": 1,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Destroyed on Impact with DroneShip (OCISLY) - Excess Velocity, Possible Fuel Exhaustion",
+    "launches": [
+      "5eb87cf2ffd86e000604b344"
+    ],
+    "serial": "B1020",
+    "status": "lost",
+    "id": "5e9e28a1f359188def3b263d"
+  },
+  {
+    "block": 2,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 2,
+    "asds_landings": 2,
+    "last_update": "Core will be given as a gift to the Cape.  ",
+    "launches": [
+      "5eb87cf3ffd86e000604b345",
+      "5eb87d00ffd86e000604b34f"
+    ],
+    "serial": "B1021",
+    "status": "inactive",
+    "id": "5e9e28a2f359182d0b3b263e"
+  },
+  {
+    "block": 2,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Removed from active fleet for Δ Qualification Testing. Retired after eight to ten test cycles.  Currently partially disassembled at McGregor.",
+    "launches": [
+      "5eb87cf5ffd86e000604b346"
+    ],
+    "serial": "B1022",
+    "status": "inactive",
+    "id": "5e9e28a2f35918077b3b263f"
+  },
+  {
+    "block": 2,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "*At LZ1 as 2018/02/06 ",
+    "launches": [
+      "5eb87cf6ffd86e000604b347",
+      "5eb87d13ffd86e000604b360"
+    ],
+    "serial": "B1023",
+    "status": "inactive",
+    "id": "5e9e28a2f3591845c73b2640"
+  },
+  {
+    "block": 2,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "RUD on deck of droneship (OCISLY)",
+    "launches": [
+      "5eb87cf8ffd86e000604b348"
+    ],
+    "serial": "B1024",
+    "status": "lost",
+    "id": "5e9e28a2f359184f403b2641"
+  },
+  {
+    "block": 2,
+    "reuse_count": 1,
+    "rtls_attempts": 2,
+    "rtls_landings": 2,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "*At LZ2 as 2018/02/06 ",
+    "launches": [
+      "5eb87cf9ffd86e000604b349",
+      "5eb87d13ffd86e000604b360"
+    ],
+    "serial": "B1025",
+    "status": "inactive",
+    "id": "5e9e28a2f359187f273b2642"
+  },
+  {
+    "block": 2,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Permanently scrapped.  ",
+    "launches": [
+      "5eb87cfaffd86e000604b34a"
+    ],
+    "serial": "B1026",
+    "status": "inactive",
+    "id": "5e9e28a2f35918b8243b2643"
+  },
+  {
+    "block": 3,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "---",
+    "launches": [
+      "5eb87cfbffd86e000604b34b"
+    ],
+    "serial": "B1028",
+    "status": "lost",
+    "id": "5e9e28a2f359187ee83b2644"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 2,
+    "asds_landings": 2,
+    "last_update": "Will be given to KSC Visitors Center. ",
+    "launches": [
+      "5eb87cfdffd86e000604b34c",
+      "5eb87d04ffd86e000604b353"
+    ],
+    "serial": "B1029",
+    "status": "inactive",
+    "id": "5e9e28a3f359189e3a3b2645"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Stored outside at McGregor, partially disassembled (missing engines). ",
+    "launches": [
+      "5eb87cfeffd86e000604b34d",
+      "5eb87d0cffd86e000604b35a"
+    ],
+    "serial": "B1031",
+    "status": "inactive",
+    "id": "5e9e28a3f3591829dc3b2646"
+  },
+  {
+    "block": 3,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87cfeffd86e000604b34e"
+    ],
+    "serial": "B1030",
+    "status": "expended",
+    "id": "5e9e28a3f3591878473b2647"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Survived water landing, SpaceX couldn't tug it back to port, so they hired a company to destroy it.  ",
+    "launches": [
+      "5eb87d01ffd86e000604b350",
+      "5eb87d11ffd86e000604b35f"
+    ],
+    "serial": "B1032",
+    "status": "lost",
+    "id": "5e9e28a3f3591811f83b2648"
+  },
+  {
+    "block": 3,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d01ffd86e000604b351"
+    ],
+    "serial": "B1034",
+    "status": "expended",
+    "id": "5e9e28a3f359186f3f3b2649"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 2,
+    "rtls_landings": 2,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "To be moved to Space Center Houston for display this summer.",
+    "launches": [
+      "5eb87d03ffd86e000604b352",
+      "5eb87d0effd86e000604b35c"
+    ],
+    "serial": "B1035",
+    "status": "inactive",
+    "id": "5e9e28a3f3591856803b264a"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Broke Up After Successful Water Landing",
+    "launches": [
+      "5eb87d05ffd86e000604b354",
+      "5eb87d0fffd86e000604b35d"
+    ],
+    "serial": "B1036",
+    "status": "lost",
+    "id": "5e9e28a3f3591801cf3b264b"
+  },
+  {
+    "block": 3,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d06ffd86e000604b355"
+    ],
+    "serial": "B1037",
+    "status": "expended",
+    "id": "5e9e28a4f3591850cc3b264c"
+  },
+  {
+    "block": 4,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d07ffd86e000604b356",
+      "5eb87d16ffd86e000604b364"
+    ],
+    "serial": "B1039",
+    "status": "expended",
+    "id": "5e9e28a4f3591884ee3b264d"
+  },
+  {
+    "block": 3,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d08ffd86e000604b357",
+      "5eb87d14ffd86e000604b361"
+    ],
+    "serial": "B1038",
+    "status": "expended",
+    "id": "5e9e28a4f359182d843b264e"
+  },
+  {
+    "block": 4,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d09ffd86e000604b358",
+      "5eb87d1bffd86e000604b368"
+    ],
+    "serial": "B1040",
+    "status": "expended",
+    "id": "5e9e28a4f3591845123b264f"
+  },
+  {
+    "block": 4,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d0affd86e000604b359",
+      "5eb87d16ffd86e000604b363"
+    ],
+    "serial": "B1041",
+    "status": "expended",
+    "id": "5e9e28a4f3591843103b2650"
+  },
+  {
+    "block": 4,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Retired. ",
+    "launches": [
+      "5eb87d0dffd86e000604b35b"
+    ],
+    "serial": "B1042",
+    "status": "inactive",
+    "id": "5e9e28a4f359185cc03b2651"
+  },
+  {
+    "block": 4,
+    "reuse_count": 1,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d10ffd86e000604b35e",
+      "5eb87d1affd86e000604b367"
+    ],
+    "serial": "B1043",
+    "status": "expended",
+    "id": "5e9e28a4f35918345e3b2652"
+  },
+  {
+    "block": 3,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Two of the outer engines didn't re-ignite for the landing burn, ran out of TEA/TEB igniters. ",
+    "launches": [
+      "5eb87d13ffd86e000604b360"
+    ],
+    "serial": "B1033",
+    "status": "lost",
+    "id": "5e9e28a5f359187f703b2653"
+  },
+  {
+    "block": 4,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d15ffd86e000604b362"
+    ],
+    "serial": "B1044",
+    "status": "expended",
+    "id": "5e9e28a5f359186cb73b2654"
+  },
+  {
+    "block": 4,
+    "reuse_count": 1,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d18ffd86e000604b365",
+      "5eb87d1cffd86e000604b369"
+    ],
+    "serial": "B1045",
+    "status": "expended",
+    "id": "5e9e28a5f35918863d3b2655"
+  },
+  {
+    "block": 5,
+    "reuse_count": 3,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 3,
+    "asds_landings": 3,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d19ffd86e000604b366",
+      "5eb87d20ffd86e000604b36c",
+      "5eb87d25ffd86e000604b370",
+      "5eb87d3dffd86e000604b381"
+    ],
+    "serial": "B1046",
+    "status": "expended",
+    "id": "5e9e28a5f359182b023b2656"
+  },
+  {
+    "block": 5,
+    "reuse_count": 2,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 2,
+    "asds_landings": 2,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d1effd86e000604b36a",
+      "5eb87d24ffd86e000604b36f",
+      "5eb87d37ffd86e000604b37c"
+    ],
+    "serial": "B1047",
+    "status": "expended",
+    "id": "5e9e28a5f359181eed3b2657"
+  },
+  {
+    "block": 5,
+    "reuse_count": 4,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 3,
+    "asds_landings": 3,
+    "last_update": "---",
+    "launches": [
+      "5eb87d1fffd86e000604b36b",
+      "5eb87d23ffd86e000604b36e",
+      "5eb87d2affd86e000604b374",
+      "5eb87d39ffd86e000604b37d",
+      "5eb87d43ffd86e000604b385"
+    ],
+    "serial": "B1048",
+    "status": "lost",
+    "id": "5e9e28a5f3591809c03b2658"
+  },
+  {
+    "block": 5,
+    "reuse_count": 4,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 5,
+    "asds_landings": 5,
+    "last_update": "Landed on OCISLY as of Jan 7, 2020. ",
+    "launches": [
+      "5eb87d22ffd86e000604b36d",
+      "5eb87d28ffd86e000604b373",
+      "5eb87d30ffd86e000604b378",
+      "5eb87d3cffd86e000604b380",
+      "5eb87d45ffd86e000604b387"
+    ],
+    "serial": "B1049",
+    "status": "unknown",
+    "id": "5e9e28a5f3591833b13b2659"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 1,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Towed to Port of Canaveral; cannibalized for parts to build Starhopper. ",
+    "launches": [
+      "5eb87d26ffd86e000604b371"
+    ],
+    "serial": "B1050",
+    "status": "inactive",
+    "id": "5e9e28a6f359185c603b265a"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Stage Expended",
+    "launches": [
+      "5eb87d27ffd86e000604b372"
+    ],
+    "serial": "B1054",
+    "status": "expended",
+    "id": "5e9e28a6f35918513b3b265b"
+  },
+  {
+    "block": 5,
+    "reuse_count": 3,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 3,
+    "asds_landings": 3,
+    "last_update": "Landed on OCISLY as of Jan 29, 2020. ",
+    "launches": [
+      "5eb87d2bffd86e000604b375",
+      "5eb87d31ffd86e000604b379",
+      "5eb87d3fffd86e000604b382",
+      "5eb87d44ffd86e000604b386"
+    ],
+    "serial": "B1051",
+    "status": "active",
+    "id": "5e9e28a6f35918c0803b265c"
+  },
+  {
+    "block": 5,
+    "reuse_count": 1,
+    "rtls_attempts": 2,
+    "rtls_landings": 2,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Landed at LZ-1 as of Jun 25, 2019. ",
+    "launches": [
+      "5eb87d2dffd86e000604b376",
+      "5eb87d35ffd86e000604b37a"
+    ],
+    "serial": "B1052",
+    "status": "unknown",
+    "id": "5e9e28a6f359183c413b265d"
+  },
+  {
+    "block": 5,
+    "reuse_count": 1,
+    "rtls_attempts": 2,
+    "rtls_landings": 2,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Landed at LZ-2 as of Jun 25, 2019. ",
+    "launches": [
+      "5eb87d2dffd86e000604b376",
+      "5eb87d35ffd86e000604b37a"
+    ],
+    "serial": "B1053",
+    "status": "unknown",
+    "id": "5e9e28a6f359188fd53b265e"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "Toppled by rough seas and broken in two after safely landing aboard OCISLY",
+    "launches": [
+      "5eb87d2dffd86e000604b376"
+    ],
+    "serial": "B1055",
+    "status": "lost",
+    "id": "5e9e28a6f3591897453b265f"
+  },
+  {
+    "block": 5,
+    "reuse_count": 3,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 2,
+    "asds_landings": 2,
+    "last_update": "Missed the droneship and made successful water landing; apparently scuttled at sea afterward. ",
+    "launches": [
+      "5eb87d2effd86e000604b377",
+      "5eb87d36ffd86e000604b37b",
+      "5eb87d3bffd86e000604b37f",
+      "5eb87d41ffd86e000604b383"
+    ],
+    "serial": "B1056",
+    "status": "lost",
+    "id": "5e9e28a7f3591809313b2660"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 0,
+    "asds_landings": 0,
+    "last_update": "Exploded upon ocean impact a safe distance from OCISLY",
+    "launches": [
+      "5eb87d35ffd86e000604b37a"
+    ],
+    "serial": "B1057",
+    "status": "lost",
+    "id": "5e9e28a7f3591878063b2661"
+  },
+  {
+    "block": 5,
+    "reuse_count": 2,
+    "rtls_attempts": 1,
+    "rtls_landings": 1,
+    "asds_attempts": 2,
+    "asds_landings": 2,
+    "last_update": "Landed at LZ-1 as of Mar 7, 2020. ",
+    "launches": [
+      "5eb87d39ffd86e000604b37e",
+      "5eb87d42ffd86e000604b384",
+      "5eb87d46ffd86e000604b389"
+    ],
+    "serial": "B1059",
+    "status": "unknown",
+    "id": "5e9e28a7f359187afd3b2662"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": "At LC-39A awaiting launch.",
+    "launches": [
+      "5eb87d46ffd86e000604b388"
+    ],
+    "serial": "B1058",
+    "status": "active",
+    "id": "5e9e28a7f3591817f23b2663"
+  },
+  {
+    "block": 5,
+    "reuse_count": 0,
+    "rtls_attempts": 0,
+    "rtls_landings": 0,
+    "asds_attempts": 1,
+    "asds_landings": 1,
+    "last_update": null,
+    "launches": [
+      "5eb87d4affd86e000604b38b"
+    ],
+    "serial": "B1060",
+    "status": "unknown",
+    "id": "5ef670f10059c33cee4a826c"
+  }
+]

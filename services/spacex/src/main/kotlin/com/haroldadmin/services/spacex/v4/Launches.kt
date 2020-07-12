@@ -1,7 +1,9 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
 import java.time.ZonedDateTime
 
 enum class DatePrecision {
@@ -91,4 +93,26 @@ data class Launch(
             @Json(name="original") val original: List<String>
         )
     }
+}
+
+interface LaunchesService {
+
+    @GET("launches")
+    suspend fun all(): NetworkResponse<List<Launch>, String>
+
+    @GET("launches/{id}")
+    suspend fun one(id: String): NetworkResponse<Launch, String>
+
+    @GET("launches/past")
+    suspend fun past(): NetworkResponse<List<Launch>, String>
+
+    @GET("launches/upcoming")
+    suspend fun upcoming(): NetworkResponse<List<Launch>, String>
+
+    @GET("launches/latest")
+    suspend fun latest(): NetworkResponse<Launch, String>
+
+    @GET("launches/next")
+    suspend fun next(): NetworkResponse<Launch, String>
+
 }

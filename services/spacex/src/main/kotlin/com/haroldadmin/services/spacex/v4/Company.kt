@@ -1,7 +1,9 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
 
 @JsonClass(generateAdapter = true)
 data class CompanyInfo(
@@ -37,4 +39,10 @@ data class CompanyInfo(
         @Json(name = "twitter") val twitter: String,
         @Json(name = "elon_twitter") val elonTwitter: String
     )
+}
+
+interface CompanyInfoService {
+
+    @GET("company")
+    suspend fun info(): NetworkResponse<CompanyInfo, String>
 }

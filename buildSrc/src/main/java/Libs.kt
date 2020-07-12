@@ -63,7 +63,9 @@ object Libs {
         object Retrofit {
             const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
             const val networkResponseAdapter = "com.github.haroldadmin:NetworkResponseAdapter:${Versions.cnrAdapter}"
+            const val networkResponseAdapter4 = "com.github.haroldadmin:NetworkResponseAdapter:${Versions.networkResponseAdapter}"
             const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshiConverter}"
+            const val scalarsConverter = "com.squareup.retrofit2:converter-scalars:${Versions.retrofit}"
         }
         object OkHttp {
             const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"

@@ -1,7 +1,10 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 @JsonClass(generateAdapter = true)
 data class Ship(
@@ -29,3 +32,14 @@ data class Ship(
     @Json(name = "image") val image: String?,
     @Json(name = "launches") val launchIDs: List<String>
 )
+
+interface ShipsService {
+
+    @GET("ships")
+    suspend fun all(): NetworkResponse<List<Ship>, String>
+
+    @GET("ships/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<Ship, String>
+}

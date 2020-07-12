@@ -38,6 +38,7 @@ object Versions {
     const val okHttp = "4.6.0"
     const val loggingInterceptor = okHttp
     const val cnrAdapter = "3.0.1"
+    const val networkResponseAdapter = "4.0.1"
     const val moshi = "1.9.2"
     const val moshiConverter = retrofit
     const val moshiAdapters = moshi

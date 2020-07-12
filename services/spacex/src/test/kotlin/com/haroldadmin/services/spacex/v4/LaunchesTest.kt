@@ -1,26 +1,20 @@
 package com.haroldadmin.services.spacex.v4
 
-import com.squareup.moshi.Moshi
+import com.haroldadmin.cnradapter.NetworkResponse
+import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldBeNull
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
+import kotlinx.coroutines.runBlocking
 
-internal class LaunchesModelTest: AnnotationSpec() {
-
-    private lateinit var moshi: Moshi
-
-    @Before
-    fun setup() {
-        moshi = Moshi.Builder()
-            .add(ZonedDateTimeAdapter())
-            .build()
-    }
+internal class LaunchesTest: AnnotationSpec() {
 
     @Test
     fun testLaunchModel() {
-        val launchJson = this::class.getResource("/sampleData/v4/one_launch.json").readText()
-        val jsonAdapter = moshi.adapter(Launch::class.java)
+        val launchJson = useJSON("/sampleData/v4/one_launch.json")
+        val jsonAdapter = useJSONAdapter<Launch>()
         val launch = jsonAdapter.fromJson(launchJson)
 
         with(launch) {
@@ -44,5 +38,20 @@ internal class LaunchesModelTest: AnnotationSpec() {
                 .epochSecond
                 .shouldBe(launchDateUnix)
         }
+    }
+
+    @Test
+    fun testAllLaunchesResponse() {
+        val (service, cleanup) = useMockService<LaunchesService> {
+            setBody(useJSON("/sampleData/v4/all_launches.json"))
+        }
+
+        val response = runBlocking { service.all() }
+        response.shouldBeInstanceOf<NetworkResponse.Success<List<Launch>>>()
+        response as NetworkResponse.Success
+
+        response.body shouldHaveSize 1
+
+        cleanup()
     }
 }

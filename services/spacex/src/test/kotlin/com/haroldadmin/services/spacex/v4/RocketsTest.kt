@@ -1,24 +1,21 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Moshi
 import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
+import kotlinx.coroutines.runBlocking
 
-internal class RocketModelTest: AnnotationSpec() {
-
-    private lateinit var moshi: Moshi
-
-    @Before
-    fun setup() {
-        moshi = Moshi.Builder().build()
-    }
+internal class RocketsTest: AnnotationSpec() {
 
     @Test
     fun testRocketModel() {
-        val rocketJson = getResource("/sampleData/v4/one_rocket.json").readText()
-        val rocketAdapter = moshi.adapter(Rocket::class.java)
+        val rocketJson = useJSON("/sampleData/v4/one_rocket.json")
+        val rocketAdapter = useJSONAdapter<Rocket>()
+
         val rocket = rocketAdapter.fromJson(rocketJson)
 
         with(rocket) {
@@ -48,6 +45,22 @@ internal class RocketModelTest: AnnotationSpec() {
 
             id shouldBe "5e9d0d95eda69974db09d1ed"
         }
+    }
+
+    @Test
+    fun testOneRocketResponse() {
+        val (service, cleanup) = useMockService<RocketsService> {
+            setBody(useJSON("/sampleData/v4/one_rocket.json"))
+        }
+
+        val id = "5e9d0d95eda69974db09d1ed"
+        val response = runBlocking { service.one(id) }
+        response.shouldBeInstanceOf<NetworkResponse.Success<Rocket>>()
+        response as NetworkResponse.Success
+
+        response.body.id shouldBe id
+
+        cleanup()
     }
 
 }

@@ -1,7 +1,10 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
@@ -44,4 +47,16 @@ data class Payload(
         @Json(name = "water_landing") val waterLanding: Boolean?,
         @Json(name = "land_landing") val landLanding: Boolean?
     )
+}
+
+interface PayloadService {
+
+    @GET("payloads")
+    suspend fun all(): NetworkResponse<List<Payload>, String>
+
+    @GET("payloads/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<Payload, String>
+
 }

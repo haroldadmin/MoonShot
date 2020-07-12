@@ -1,4 +1,4 @@
-package com.haroldadmin.services.spacex.v4
+package com.haroldadmin.services.spacex.v4.adapters
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
