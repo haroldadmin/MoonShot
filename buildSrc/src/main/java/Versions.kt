@@ -20,7 +20,7 @@ object Versions {
 
     const val vector = "master-SNAPSHOT"
     const val openGraphKt = "master-SNAPSHOT"
-    const val whatTheStack = "master-SNAPSHOT"
+    const val whatTheStack = "0.0.4"
 
     const val epoxy = "3.9.0"
 
@@ -56,5 +56,5 @@ object Versions {
     const val firebaseCore = "17.0.1"
     const val crashlytics = "2.10.1"
 
-    const val coreDesugaring = "1.0.5"
+    const val coreDesugaring = "1.0.9"
 }
