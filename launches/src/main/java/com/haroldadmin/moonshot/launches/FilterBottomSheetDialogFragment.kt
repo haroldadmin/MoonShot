@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.haroldadmin.logger.logD
-import com.haroldadmin.moonshot.navigation.R as navR
 import com.haroldadmin.moonshot.launches.databinding.FragmentFilterBottomSheetDialogBinding
 import com.haroldadmin.moonshot.launches.views.filterOptionView
 import com.haroldadmin.moonshotRepository.launch.LaunchType
