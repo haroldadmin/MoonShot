@@ -14,7 +14,6 @@ import com.haroldadmin.moonshot.models.isFirstLaunch
 import com.haroldadmin.moonshot.notifications.MoonShotNotificationManager
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
-import com.haroldadmin.whatthestack.WhatTheStack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +40,6 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
         initDi()
         super.onCreate()
         initLogger()
-        initWhatTheStack()
         initEpoxy()
         launch {
             if (appInfoUseCase.getApplicationInfo().isFirstLaunch()) {
@@ -62,12 +60,6 @@ class MoonShot : Application(), Configuration.Provider, CoroutineScope {
         EpoxyController.defaultDiffingHandler = epoxyDiffer
         EpoxyController.defaultModelBuildingHandler = epoxyBuilder
         Carousel.setDefaultGlobalSnapHelperFactory(null)
-    }
-
-    private fun initWhatTheStack() {
-        if (BuildConfig.DEBUG) {
-            WhatTheStack(this).init()
-        }
     }
 
     private fun initLogger() {
