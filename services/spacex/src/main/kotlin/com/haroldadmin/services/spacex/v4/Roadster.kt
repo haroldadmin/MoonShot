@@ -1,7 +1,9 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
 import java.time.ZonedDateTime
 
 @JsonClass(generateAdapter = true)
@@ -34,3 +36,8 @@ data class RoadsterInfo(
     @Json(name = "video") val video: String?,
     @Json(name = "details") val details: String?
 )
+
+interface RoadsterService {
+    @GET("roadster")
+    suspend fun info(): NetworkResponse<RoadsterInfo, String>
+}

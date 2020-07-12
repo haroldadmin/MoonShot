@@ -1,10 +1,14 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 @JsonClass(generateAdapter = true)
 data class LaunchPad (
+    @Json(name = "id") val id: String,
     @Json(name = "name") val name: String?,
     @Json(name = "full_name") val fullName: String?,
     @Json(name = "status") val status: String,
@@ -18,3 +22,14 @@ data class LaunchPad (
     @Json(name = "rockets") val rocketIDs: List<String>,
     @Json(name = "launches") val launchIDs: List<String>
 )
+
+interface LaunchPadsService {
+
+    @GET("launchpads")
+    suspend fun all(): NetworkResponse<List<LaunchPad>, String>
+
+    @GET("launchpads/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<LaunchPad, String>
+}

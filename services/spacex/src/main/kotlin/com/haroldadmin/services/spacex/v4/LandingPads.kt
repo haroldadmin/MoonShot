@@ -1,7 +1,10 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 @JsonClass(generateAdapter = true)
 data class LandingPad(
@@ -20,3 +23,12 @@ data class LandingPad(
     @Json(name = "launches") val launchIDs: List<String>
 )
 
+interface LandingPadService {
+    @GET("landpads")
+    suspend fun all(): NetworkResponse<List<LandingPad>, String>
+
+    @GET("landpads/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<LandingPad, String>
+}

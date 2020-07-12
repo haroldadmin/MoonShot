@@ -1,27 +1,19 @@
 package com.haroldadmin.services.spacex.v4
 
-import com.squareup.moshi.JsonClass
-import com.squareup.moshi.Moshi
+import com.haroldadmin.cnradapter.NetworkResponse
 import io.kotlintest.matchers.collections.shouldHaveSize
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
+import kotlinx.coroutines.runBlocking
 
-internal class DragonModelTest: AnnotationSpec() {
-
-    private lateinit var moshi: Moshi
-
-    @Before
-    fun setup() {
-        moshi = Moshi.Builder()
-            .add(LocalDateAdapter())
-            .build()
-    }
+internal class DragonTest: AnnotationSpec() {
 
     @Test
     fun testDragonModel() {
-        val dragonJson = getResource("/sampleData/v4/one_dragon.json").readText()
-        val dragonAdapter = moshi.adapter(Dragon::class.java)
+        val dragonJson = useJSON("/sampleData/v4/one_dragon.json")
+        val dragonAdapter = useJSONAdapter<Dragon>()
         val dragon = dragonAdapter.fromJson(dragonJson)
 
         with(dragon) {
@@ -49,6 +41,35 @@ internal class DragonModelTest: AnnotationSpec() {
             thrusters.first().type shouldBe "Draco"
 
         }
+    }
+
+    @Test
+    fun testAllDragonsResponse() {
+        val (service, cleanup) = useMockService<DragonsService> {
+            setBody(useJSON("/sampleData/v4/all_dragons.json"))
+        }
+
+        val response = runBlocking { service.all() }
+        response.shouldBeInstanceOf<NetworkResponse.Success<List<Dragon>>>()
+        response as NetworkResponse.Success
+
+        response.body shouldHaveSize 1
+
+        cleanup()
+    }
+
+    @Test
+    fun testOneDragonResponse() {
+        val (service, cleanup) = useMockService<DragonsService> {
+            setBody(useJSON("/sampleData/v4/one_dragon.json"))
+        }
+
+        val id = "5e9d058759b1ff74a7ad5f8f"
+        val response = runBlocking { service.one(id) }
+        response.shouldBeInstanceOf<NetworkResponse.Success<Dragon>>()
+        response as NetworkResponse.Success
+
+        response.body.id shouldBe id
     }
 
 }

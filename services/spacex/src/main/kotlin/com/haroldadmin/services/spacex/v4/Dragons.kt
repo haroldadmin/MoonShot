@@ -1,11 +1,15 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 import java.time.LocalDate
 
 @JsonClass(generateAdapter = true)
 data class Dragon(
+    @Json(name = "id") val id: String,
     @Json(name = "name") val name: String,
     @Json(name = "type") val type: String,
     @Json(name = "active") val active: Boolean,
@@ -89,4 +93,15 @@ data class Dragon(
         @Json(name = "meters") val metres: Double?,
         @Json(name = "feet") val feet: Double?
     )
+}
+
+interface DragonsService {
+
+    @GET("dragons")
+    suspend fun all(): NetworkResponse<List<Dragon>, String>
+
+    @GET("dragons/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<Dragon, String>
 }

@@ -1,7 +1,10 @@
 package com.haroldadmin.services.spacex.v4
 
+import com.haroldadmin.cnradapter.NetworkResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 @JsonClass(generateAdapter = true)
 data class Rocket(
@@ -116,4 +119,15 @@ data class Rocket(
         @Json(name = "number") val number: Int?,
         @Json(name = "material") val material: String?
     )
+}
+
+interface RocketsService {
+
+    @GET("rockets")
+    suspend fun all(): NetworkResponse<List<Rocket>, String>
+
+    @GET("rockets/{id}")
+    suspend fun one(
+        @Path("id") id: String
+    ): NetworkResponse<Rocket, String>
 }

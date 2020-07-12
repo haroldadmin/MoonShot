@@ -1,0 +1,233 @@
+[
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "Reentered after three weeks in orbit",
+    "launches": [
+      "5eb87cdeffd86e000604b330"
+    ],
+    "serial": "C101",
+    "status": "retired",
+    "id": "5e9e2c5bf35918ed873b2664"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "First Dragon spacecraft",
+    "launches": [
+      "5eb87cdfffd86e000604b331"
+    ],
+    "serial": "C102",
+    "status": "retired",
+    "id": "5e9e2c5bf3591882af3b2665"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "First of twenty missions flown under the CRS1 contract",
+    "launches": [
+      "5eb87ce0ffd86e000604b332"
+    ],
+    "serial": "C103",
+    "status": "unknown",
+    "id": "5e9e2c5bf3591835983b2666"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce1ffd86e000604b333"
+    ],
+    "serial": "C104",
+    "status": "unknown",
+    "id": "5e9e2c5bf359189ef23b2667"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "First Dragon v1.1 capsule",
+    "launches": [
+      "5eb87ce4ffd86e000604b337"
+    ],
+    "serial": "C105",
+    "status": "unknown",
+    "id": "5e9e2c5bf3591859a63b2668"
+  },
+  {
+    "reuse_count": 3,
+    "water_landings": 3,
+    "land_landings": 0,
+    "last_update": "First Dragon capsule to be reused",
+    "launches": [
+      "5eb87ce7ffd86e000604b33b",
+      "5eb87d03ffd86e000604b352",
+      "5eb87d39ffd86e000604b37e"
+    ],
+    "serial": "C106",
+    "status": "active",
+    "id": "5e9e2c5bf3591880643b2669"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87ce8ffd86e000604b33c"
+    ],
+    "serial": "C107",
+    "status": "unknown",
+    "id": "5e9e2c5bf35918165f3b266a"
+  },
+  {
+    "reuse_count": 3,
+    "water_landings": 3,
+    "land_landings": 0,
+    "last_update": "Second Dragon capsule to be reused",
+    "launches": [
+      "5eb87cecffd86e000604b33f",
+      "5eb87d0effd86e000604b35c",
+      "5eb87d36ffd86e000604b37b"
+    ],
+    "serial": "C108",
+    "status": "active",
+    "id": "5e9e2c5cf359188bfb3b266b"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "Destroyed on impact after F9 launch failure",
+    "launches": [
+      "5eb87ceeffd86e000604b341"
+    ],
+    "serial": "C109",
+    "status": "destroyed",
+    "id": "5e9e2c5cf35918407d3b266c"
+  },
+  {
+    "reuse_count": 2,
+    "water_landings": 2,
+    "land_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cf3ffd86e000604b345",
+      "5eb87d16ffd86e000604b364"
+    ],
+    "serial": "C110",
+    "status": "active",
+    "id": "5e9e2c5cf3591885d43b266d"
+  },
+  {
+    "reuse_count": 2,
+    "water_landings": 2,
+    "land_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cf9ffd86e000604b349",
+      "5eb87d1cffd86e000604b369"
+    ],
+    "serial": "C111",
+    "status": "active",
+    "id": "5e9e2c5cf359183bb73b266e"
+  },
+  {
+    "reuse_count": 3,
+    "water_landings": 3,
+    "land_landings": 0,
+    "last_update": null,
+    "launches": [
+      "5eb87cfeffd86e000604b34d",
+      "5eb87d26ffd86e000604b371",
+      "5eb87d42ffd86e000604b384"
+    ],
+    "serial": "C112",
+    "status": "active",
+    "id": "5e9e2c5cf359185d753b266f"
+  },
+  {
+    "reuse_count": 2,
+    "water_landings": 2,
+    "land_landings": 0,
+    "last_update": "The last newly manufactured Dragon 1",
+    "launches": [
+      "5eb87d07ffd86e000604b356",
+      "5eb87d2effd86e000604b377"
+    ],
+    "serial": "C113",
+    "status": "active",
+    "id": "5e9e2c5cf3591869b63b2670"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "Destroyed in a test anomaly at LZ-1 on April 20, 2019",
+    "launches": [
+      "5eb87d2bffd86e000604b375"
+    ],
+    "serial": "C201",
+    "status": "active",
+    "id": "5e9e2c5df35918b1063b2671"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 1,
+    "land_landings": 0,
+    "last_update": "In construction for use in first mission in contract under the CCtCap contract",
+    "launches": [
+      "5eb87d3dffd86e000604b381"
+    ],
+    "serial": "C205",
+    "status": "active",
+    "id": "5e9e2c5df359184c9a3b2672"
+  },
+  {
+    "reuse_count": 0,
+    "water_landings": 0,
+    "land_landings": 0,
+    "last_update": "Capsule used to qualify Dragon 2's environmental control and life support systems.",
+    "launches": [],
+    "serial": "C202",
+    "status": "active",
+    "id": "5e9e2c5df3591849f93b2673"
+  },
+  {
+    "reuse_count": 0,
+    "water_landings": 0,
+    "land_landings": 0,
+    "last_update": "Rumored to be used for Inflight Abort Test after DM-1",
+    "launches": [],
+    "serial": "C203",
+    "status": "active",
+    "id": "5e9e2c5df359184b793b2674"
+  },
+  {
+    "reuse_count": 0,
+    "water_landings": 0,
+    "land_landings": 0,
+    "last_update": "Currently in construction for use in DM-2",
+    "launches": [],
+    "serial": "C204",
+    "status": "active",
+    "id": "5e9e2c5df359185f973b2675"
+  },
+  {
+    "reuse_count": 1,
+    "water_landings": 0,
+    "land_landings": 0,
+    "last_update": "In Hawthorne, CA as of October 11, 2019. Seen in background during Musk/Bridenstine press conference.",
+    "launches": [
+      "5eb87d46ffd86e000604b388"
+    ],
+    "serial": "C206",
+    "status": "active",
+    "id": "5e9e2c5df359188aba3b2676"
+  }
+]
