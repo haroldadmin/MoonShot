@@ -4,6 +4,8 @@ import com.haroldadmin.moonshot.services.spacex.v4.Capsule as APICapsule
 import com.haroldadmin.moonshot.services.spacex.v4.CompanyInfo as APICompanyInfo
 import com.haroldadmin.moonshot.services.spacex.v4.Core as APICore
 import com.haroldadmin.moonshot.services.spacex.v4.Crew as APICrew
+import com.haroldadmin.moonshot.services.spacex.v4.Dragon as APIDragon
+import com.haroldadmin.moonshot.services.spacex.v4.Dragon.Thruster as APIThruster
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -69,5 +71,59 @@ fun APICrew.toDBModel(): Crew {
         image = this.image,
         wikipedia = this.wikipedia,
         launchIDs = this.launchIDs.map { it }
+    )
+}
+
+fun APIDragon.toDBModel(): Dragon {
+    return Dragon(
+        id = this.id,
+        name = this.name,
+        type = this.type,
+        active = this.active,
+        crewCapacity = this.crewCapacity,
+        sidewallAngleDeg = this.sidewallAngleDegrees,
+        orbitDurationYears = this.orbitDurationYears,
+        dryMassKg = this.dryMassKg,
+        dryMassLb = this.dryMassLb,
+        firstFlight = this.firstFlight,
+        heatShield_material = this.heatShield?.material,
+        heatShield_sizeMetres = this.heatShield?.sizeMetre,
+        heatShield_devPartner = this.heatShield?.devPartner,
+        heatShield_tempDegrees = this.heatShield?.tempDegree,
+        launchPayloadMass_kg = this.launchPayloadMass?.kg,
+        launchPayloadMass_lb = this.launchPayloadMass?.lb,
+        launchPayloadVol_cubicFeet = this.launchPayloadVolume?.cubicFeet,
+        launchPayloadVol_cubicMetres = this.launchPayloadVolume?.cubicMetres,
+        returnPayloadMass_kg = this.returnPayloadMass?.kg,
+        returnPayloadMass_lb = this.returnPayloadMass?.lb,
+        returnPayloadVol_cubicMetres = this.returnPayloadVolume?.cubicMetres,
+        returnPayloadVol_cubicFeet = this.returnPayloadVolume?.cubicFeet,
+        pressurizedCapsule_payloadVolume_cubicMetres = this.pressurizedCapsule?.payloadVolume?.cubicMetres,
+        pressurizedCapsule_payloadVolume_cubicFeet = this.pressurizedCapsule?.payloadVolume?.cubicFeet,
+        trunk_trunkVolume_cubicMetres = this.trunk?.trunkVolume?.cubicMetres,
+        trunk_trunkVolume_cubicFeet = this.trunk?.trunkVolume?.cubicFeet,
+        trunk_cargo_solarArray = this.trunk?.cargo?.solarArray,
+        trunk_cargo_unpressurizedCargo = this.trunk?.cargo?.unpressurizedCargo,
+        heightWithTrunk_metres = this.heightWithTrunk?.metres,
+        heightWithTrunk_feet = this.heightWithTrunk?.feet,
+        diameter_metres = this.diameter?.metres,
+        diameter_feet = this.diameter?.feet,
+        wikipedia = this.wikipedia,
+        description = this.description,
+        flickrImages = this.flickrImages.map { it }
+    )
+}
+
+fun APIThruster.toDBModel(dragonID: String): Thruster {
+    return Thruster(
+        type = this.type,
+        amount = this.amount,
+        pods = this.pods,
+        fuelOne = this.fuelOne,
+        fuelTwo = this.fuelTwo,
+        isp = this.isp,
+        thrust_kN = this.thrust?.kN,
+        thrust_lbf = this.thrust?.lbf,
+        dragonID = dragonID
     )
 }

@@ -3,11 +3,13 @@ package com.haroldadmin.moonshot.db
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
+import java.time.LocalDate
+import java.time.Month
 
 internal class AdaptersTest : AnnotationSpec() {
     @Test
     fun `launchID adapter encoding test`() {
-        val adapter = LaunchIDAdapter()
+        val adapter = ListToStringAdapter()
         val launchIDs = listOf(
             "5eb87cdeffd86e000604b330",
             "5eb87cdeffd86e000604b330",
@@ -20,7 +22,7 @@ internal class AdaptersTest : AnnotationSpec() {
 
     @Test
     fun `launchID adapter encoding test for empty lists`() {
-        val adapter = LaunchIDAdapter()
+        val adapter = ListToStringAdapter()
         val launchIDs = listOf<String>()
         val encodedValue = adapter.encode(launchIDs)
 
@@ -29,7 +31,7 @@ internal class AdaptersTest : AnnotationSpec() {
 
     @Test
     fun `launchID adapter decoding test`() {
-        val adapter = LaunchIDAdapter()
+        val adapter = ListToStringAdapter()
         val ids = "5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330"
         val launchIDs = adapter.decode(ids)
 
@@ -39,10 +41,37 @@ internal class AdaptersTest : AnnotationSpec() {
 
     @Test
     fun `launchID adapter decoding test for empty string`() {
-        val adapter = LaunchIDAdapter()
+        val adapter = ListToStringAdapter()
         val ids = ""
         val encodedValue = adapter.decode(ids)
 
         encodedValue shouldBe listOf()
+    }
+
+    @Test
+    fun `local date adapter encoding test`() {
+        val adapter = LocalDateAdapter()
+        val expectedDate = LocalDate.parse("2010-12-08")
+        val encodedValue = adapter.encode(expectedDate)
+
+        encodedValue shouldBe expectedDate.toString()
+    }
+
+    @Test
+    fun `local date adapter decoding test`() {
+        val adapter = LocalDateAdapter()
+        val expectedDate = "2010-12-08"
+        val decodedValue = adapter.decode(expectedDate)
+
+        decodedValue shouldBe LocalDate.parse(expectedDate)
+    }
+
+    @Test
+    fun `should decode empty string as 1970-01-01`() {
+        val adapter = LocalDateAdapter()
+        val date = adapter.decode("")
+        date.year shouldBe 1970
+        date.month shouldBe Month.JANUARY
+        date.dayOfMonth shouldBe 1
     }
 }

@@ -1,0 +1,57 @@
+import kotlin.collections.List;
+import kotlin.Boolean;
+import kotlin.Int;
+import java.time.LocalDate;
+
+CREATE TABLE dragon (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    active INTEGER as Boolean NOT NULL,
+    crewCapacity INTEGER as Int NOT NULL,
+    sidewallAngleDeg REAL NOT NULL,
+    orbitDurationYears REAL NOT NULL,
+    dryMassKg REAL NOT NULL,
+    dryMassLb REAL NOT NULL,
+    firstFlight TEXT as LocalDate,
+    heatShield_material TEXT,
+    heatShield_sizeMetres REAL,
+    heatShield_tempDegrees REAL,
+    heatShield_devPartner TEXT,
+    launchPayloadMass_kg REAL,
+    launchPayloadMass_lb REAL,
+    launchPayloadVol_cubicMetres REAL,
+    launchPayloadVol_cubicFeet REAL,
+    returnPayloadMass_kg REAL,
+    returnPayloadMass_lb REAL,
+    returnPayloadVol_cubicMetres REAL,
+    returnPayloadVol_cubicFeet REAL,
+    pressurizedCapsule_payloadVolume_cubicMetres REAL,
+    pressurizedCapsule_payloadVolume_cubicFeet REAL,
+    trunk_trunkVolume_cubicMetres REAL,
+    trunk_trunkVolume_cubicFeet REAL,
+    trunk_cargo_solarArray INTEGER as Int,
+    trunk_cargo_unpressurizedCargo INTEGER as Boolean,
+    heightWithTrunk_metres REAL,
+    heightWithTrunk_feet REAL,
+    diameter_metres REAL,
+    diameter_feet REAL,
+    flickrImages TEXT as List<String> NOT NULL,
+    wikipedia TEXT,
+    description TEXT
+);
+
+CREATE TABLE thruster(
+    type TEXT,
+    amount INTEGER as Int,
+    pods INTEGER as Int,
+    fuelOne TEXT,
+    fuelTwo TEXT,
+    isp INTEGER as Int,
+    thrust_kN REAL,
+    thrust_lbf REAL,
+    dragonID TEXT NOT NULL,
+    FOREIGN KEY (dragonID)
+        REFERENCES dragon(id)
+            ON DELETE CASCADE
+);
