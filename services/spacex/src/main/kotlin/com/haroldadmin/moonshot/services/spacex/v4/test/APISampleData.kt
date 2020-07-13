@@ -2,6 +2,8 @@ package com.haroldadmin.moonshot.services.spacex.v4.test
 
 import com.haroldadmin.moonshot.services.spacex.v4.Capsule
 import com.haroldadmin.moonshot.services.spacex.v4.CompanyInfo
+import com.haroldadmin.moonshot.services.spacex.v4.Core
+import com.haroldadmin.moonshot.services.spacex.v4.CoreStatus
 
 object APISampleData {
 
@@ -25,7 +27,7 @@ object APISampleData {
 
     object Company {
         fun samples(): Sequence<CompanyInfo> {
-           return generateSequence {
+            return generateSequence {
                 CompanyInfo(
                     headquarters = CompanyInfo.Headquarters(
                         address = "Rocket Road",
@@ -52,6 +54,31 @@ object APISampleData {
                     valuation = 52000000000.0,
                     summary = "SpaceX designs, manufactures and launches advanced rockets and spacecraft. The company was founded in 2002 to revolutionize space technology, with the ultimate goal of enabling people to live on other planets.",
                     id = "5eb75edc42fea42237d7f3ed"
+                )
+            }
+        }
+    }
+
+    object Cores {
+        fun samples(): Sequence<Core> {
+            return generateSequence {
+                Core(
+                    block = 5,
+                    reuseCount = 3,
+                    rtlsAttempts = 1,
+                    rtlsLandings = 1,
+                    asdsAttempts = 3,
+                    asdsLandings = 3,
+                    lastUpdate = "Landed on OCISLY as of Jan 29, 2020. ",
+                    launchIDs = listOf(
+                        "5eb87d2bffd86e000604b375",
+                        "5eb87d31ffd86e000604b379",
+                        "5eb87d3fffd86e000604b382",
+                        "5eb87d44ffd86e000604b386"
+                    ),
+                    serial = "B1051",
+                    status = CoreStatus.active,
+                    id = "5e9e28a6f35918c0803b265c"
                 )
             }
         }

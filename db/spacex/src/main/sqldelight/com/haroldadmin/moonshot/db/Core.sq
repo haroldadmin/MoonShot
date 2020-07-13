@@ -1,0 +1,18 @@
+import kotlin.Int;
+import kotlin.String;
+import kotlin.collections.List;
+import com.haroldadmin.moonshot.services.spacex.v4.CoreStatus;
+
+CREATE TABLE core (
+    id TEXT PRIMARY KEY NOT NULL,
+    serial TEXT NOT NULL,
+    block INTEGER as Int,
+    status TEXT as CoreStatus NOT NULL,
+    reuseCount INTEGER as Int,
+    rtlsAttempts INTEGER as Int,
+    rtlsLandings INTEGER as Int,
+    asdsAttempts INTEGER as Int,
+    asdsLandings INTEGER as Int,
+    lastUpdate TEXT,
+    launchIDs TEXT as List<String> NOT NULL
+);

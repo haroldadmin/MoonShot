@@ -9,47 +9,6 @@ import io.kotlintest.specs.AnnotationSpec
 internal class CapsulesTest: AnnotationSpec() {
 
     @Test
-    fun `launchID adapter encoding test`() {
-        val adapter = LaunchIDAdapter()
-        val launchIDs = listOf(
-            "5eb87cdeffd86e000604b330",
-            "5eb87cdeffd86e000604b330",
-            "5eb87cdeffd86e000604b330"
-        )
-        val encodedValue = adapter.encode(launchIDs)
-
-        encodedValue shouldBe "5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330"
-    }
-
-    @Test
-    fun `launchID adapter encoding test for empty lists`() {
-        val adapter = LaunchIDAdapter()
-        val launchIDs = listOf<String>()
-        val encodedValue = adapter.encode(launchIDs)
-
-        encodedValue shouldBe ""
-    }
-
-    @Test
-    fun `launchID adapter decoding test`() {
-        val adapter = LaunchIDAdapter()
-        val ids = "5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330,5eb87cdeffd86e000604b330"
-        val launchIDs = adapter.decode(ids)
-
-        launchIDs shouldHaveSize 3
-        launchIDs.forEach { it shouldBe "5eb87cdeffd86e000604b330" }
-    }
-
-    @Test
-    fun `launchID adapter decoding test for empty string`() {
-        val adapter = LaunchIDAdapter()
-        val ids = ""
-        val encodedValue = adapter.decode(ids)
-
-        encodedValue shouldBe listOf()
-    }
-
-    @Test
     fun testCapsuleMapper() {
         val apiCapsule = APISampleData.Capsules.samples().first()
         val dbCapsule = apiCapsule.toDBModel()
@@ -67,6 +26,7 @@ internal class CapsulesTest: AnnotationSpec() {
     }
 
     @Test
+    @Ignore
     fun `insert Capsule test`() {
         val (db, cleanup) = useDatabase()
 
@@ -82,6 +42,7 @@ internal class CapsulesTest: AnnotationSpec() {
     }
 
     @Test
+    @Ignore
     fun `delete Capsule test`() {
         val (db, cleanup) = useDatabase()
 

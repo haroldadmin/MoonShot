@@ -14,6 +14,10 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
         capsuleAdapter = Capsule.Adapter(
             statusAdapter = EnumColumnAdapter(),
             launchIDsAdapter = LaunchIDAdapter()
+        ),
+        coreAdapter = Core.Adapter(
+            statusAdapter = EnumColumnAdapter(),
+            launchIDsAdapter = LaunchIDAdapter()
         )
     )
 
