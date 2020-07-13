@@ -1,0 +1,36 @@
+import kotlin.Int;
+
+CREATE TABLE companyInfo  (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    founder TEXT,
+    founded INTEGER as Int,
+    employees INTEGER as Int,
+    vehicles INTEGER as Int,
+    launchSites INTEGER as Int,
+    testSites INTEGER as Int,
+    ceo TEXT,
+    coo TEXT,
+    cto TEXT,
+    ctoPropulsion TEXT,
+    valuation REAL,
+    headquarters_address TEXT,
+    headquarters_city TEXT,
+    headquarters_state TEXT,
+    links_website TEXT,
+    links_flickr TEXT,
+    links_twitter TEXT,
+    links_elonTwitter TEXT
+);
+
+info:
+SELECT * FROM companyInfo
+LIMIT 1;
+
+save:
+INSERT OR REPLACE INTO companyInfo
+VALUES ?;
+
+delete:
+DELETE FROM companyInfo;
+

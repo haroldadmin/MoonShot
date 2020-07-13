@@ -18,4 +18,5 @@ include ':missions'
 include ":logger"
 include ":navigation"
 include ":services:spacex"
+include ":db:spacex"
 rootProject.name="MoonShot"

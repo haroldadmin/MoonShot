@@ -57,4 +57,6 @@ object Versions {
     const val crashlytics = "2.10.1"
 
     const val coreDesugaring = "1.0.9"
+
+    const val sqlDelight = "1.4.0"
 }
