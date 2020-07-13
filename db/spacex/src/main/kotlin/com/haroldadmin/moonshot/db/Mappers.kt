@@ -3,6 +3,7 @@ package com.haroldadmin.moonshot.db
 import com.haroldadmin.moonshot.services.spacex.v4.Capsule as APICapsule
 import com.haroldadmin.moonshot.services.spacex.v4.CompanyInfo as APICompanyInfo
 import com.haroldadmin.moonshot.services.spacex.v4.Core as APICore
+import com.haroldadmin.moonshot.services.spacex.v4.Crew as APICrew
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -55,6 +56,18 @@ fun APICore.toDBModel(): Core {
         asdsAttempts = this.asdsAttempts,
         asdsLandings = this.asdsLandings,
         lastUpdate = this.lastUpdate,
+        launchIDs = this.launchIDs.map { it }
+    )
+}
+
+fun APICrew.toDBModel(): Crew {
+    return Crew(
+        id = this.id,
+        name = this.name,
+        status = this.status,
+        agency = this.agency,
+        image = this.image,
+        wikipedia = this.wikipedia,
         launchIDs = this.launchIDs.map { it }
     )
 }

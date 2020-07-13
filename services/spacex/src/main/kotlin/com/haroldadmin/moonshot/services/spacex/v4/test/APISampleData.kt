@@ -1,9 +1,6 @@
 package com.haroldadmin.moonshot.services.spacex.v4.test
 
-import com.haroldadmin.moonshot.services.spacex.v4.Capsule
-import com.haroldadmin.moonshot.services.spacex.v4.CompanyInfo
-import com.haroldadmin.moonshot.services.spacex.v4.Core
-import com.haroldadmin.moonshot.services.spacex.v4.CoreStatus
+import com.haroldadmin.moonshot.services.spacex.v4.*
 
 object APISampleData {
 
@@ -79,6 +76,22 @@ object APISampleData {
                     serial = "B1051",
                     status = CoreStatus.active,
                     id = "5e9e28a6f35918c0803b265c"
+                )
+            }
+        }
+    }
+
+    object Crews {
+        fun samples(): Sequence<Crew> {
+            return generateSequence {
+                Crew(
+                    name = "Douglas Hurley",
+                    agency = "NASA",
+                    image = "https://i.imgur.com/ooaayWf.png",
+                    wikipedia = "https://en.wikipedia.org/wiki/Douglas_G._Hurley",
+                    launchIDs = listOf("5eb87d46ffd86e000604b388"),
+                    status = CrewStatus.active,
+                    id = "5ebf1b7323a9a60006e03a7b"
                 )
             }
         }
