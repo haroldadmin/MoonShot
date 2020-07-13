@@ -13,6 +13,7 @@ data class LandingPad(
     @Json(name = "full_name") val fullName: String?,
     @Json(name = "status") val status: String?,
     @Json(name = "type") val type: String?,
+    @Json(name = "region") val region: String?,
     @Json(name = "locality") val locality: String?,
     @Json(name = "latitude") val latitude: Double?,
     @Json(name = "longitude") val longitude: Double?,

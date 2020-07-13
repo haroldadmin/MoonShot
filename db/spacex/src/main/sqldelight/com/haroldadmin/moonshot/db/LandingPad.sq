@@ -1,0 +1,20 @@
+import kotlin.Int;
+import kotlin.String;
+import kotlin.collections.List;
+
+CREATE TABLE landingPad (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    fullName TEXT,
+    status TEXT,
+    type TEXT,
+    region TEXT,
+    locality TEXT,
+    latitude REAL,
+    longitude REAL,
+    landingAttempts INTEGER as Int,
+    landingSuccesses INTEGER as Int,
+    wikipedia TEXT,
+    details TEXT,
+    launchIDs TEXT as List<String>
+);
