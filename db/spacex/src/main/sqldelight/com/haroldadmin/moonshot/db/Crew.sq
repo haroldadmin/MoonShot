@@ -1,0 +1,13 @@
+import kotlin.String;
+import kotlin.collections.List;
+import com.haroldadmin.moonshot.services.spacex.v4.CrewStatus;
+
+CREATE TABLE crew (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    status TEXT as CrewStatus,
+    agency TEXT,
+    image TEXT,
+    wikipedia TEXT,
+    launchIDs TEXT as List<String> NOT NULL
+);
