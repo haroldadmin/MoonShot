@@ -18,7 +18,7 @@ internal class DragonTest: AnnotationSpec() {
 
         with(dragon) {
             this.shouldNotBeNull()
-            heatShield.material.shouldBe("PICA-X")
+            heatShield?.material.shouldBe("PICA-X")
 
             launchPayloadMass?.kg shouldBe 6000.0
             launchPayloadVolume?.cubicMetres shouldBe 25.0

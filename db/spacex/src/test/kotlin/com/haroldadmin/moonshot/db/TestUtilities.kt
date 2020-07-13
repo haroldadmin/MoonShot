@@ -26,6 +26,9 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
         dragonAdapter = Dragon.Adapter(
             flickrImagesAdapter = ListToStringAdapter(),
             firstFlightAdapter = LocalDateAdapter()
+        ),
+        landingPadAdapter = LandingPad.Adapter(
+            launchIDsAdapter = ListToStringAdapter()
         )
     )
 
