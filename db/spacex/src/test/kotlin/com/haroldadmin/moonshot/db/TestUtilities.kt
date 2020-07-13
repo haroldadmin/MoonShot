@@ -13,15 +13,19 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
         driver = driver,
         capsuleAdapter = Capsule.Adapter(
             statusAdapter = EnumColumnAdapter(),
-            launchIDsAdapter = LaunchIDAdapter()
+            launchIDsAdapter = ListToStringAdapter()
         ),
         coreAdapter = Core.Adapter(
             statusAdapter = EnumColumnAdapter(),
-            launchIDsAdapter = LaunchIDAdapter()
+            launchIDsAdapter = ListToStringAdapter()
         ),
         crewAdapter = Crew.Adapter(
-            launchIDsAdapter = LaunchIDAdapter(),
+            launchIDsAdapter = ListToStringAdapter(),
             statusAdapter = EnumColumnAdapter()
+        ),
+        dragonAdapter = Dragon.Adapter(
+            flickrImagesAdapter = ListToStringAdapter(),
+            firstFlightAdapter = LocalDateAdapter()
         )
     )
 

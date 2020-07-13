@@ -1,6 +1,7 @@
 package com.haroldadmin.moonshot.services.spacex.v4.test
 
 import com.haroldadmin.moonshot.services.spacex.v4.*
+import java.time.LocalDate
 
 object APISampleData {
 
@@ -92,6 +93,93 @@ object APISampleData {
                     launchIDs = listOf("5eb87d46ffd86e000604b388"),
                     status = CrewStatus.active,
                     id = "5ebf1b7323a9a60006e03a7b"
+                )
+            }
+        }
+    }
+
+    object Dragons {
+        fun samples(): Sequence<Dragon> {
+            return generateSequence {
+                Dragon(
+                    heatShield = Dragon.HeatShield(
+                        material = "PICA-X",
+                        sizeMetre = 3.6,
+                        tempDegree = 3000.0,
+                        devPartner = "NASA"
+                    ),
+                    launchPayloadMass = Dragon.Mass(
+                        kg = 6000.0,
+                        lb = 13228.0
+                    ),
+                    launchPayloadVolume = Dragon.Volume(
+                        cubicMetres = 25.0,
+                        cubicFeet = 883.0
+                    ),
+                    returnPayloadMass = Dragon.Mass(
+                        kg = 3000.0,
+                        lb = 6614.0
+                    ),
+                    returnPayloadVolume = Dragon.Volume(
+                        cubicMetres = 11.0,
+                        cubicFeet = 388.0
+                    ),
+                    pressurizedCapsule = Dragon.PressurizedCapsule(
+                        payloadVolume = Dragon.Volume(
+                            cubicMetres = 11.0,
+                            cubicFeet = 388.0
+                        )
+                    ),
+                    trunk = Dragon.Trunk(
+                        trunkVolume = Dragon.Volume(
+                            cubicMetres = 14.0,
+                            cubicFeet = 494.0
+                        ),
+                        cargo = Dragon.Trunk.Cargo(
+                            solarArray = 2,
+                            unpressurizedCargo = true
+                        )
+                    ),
+                    heightWithTrunk = Dragon.Length(
+                        metres = 7.2,
+                        feet = 23.6
+                    ),
+                    diameter = Dragon.Length(
+                        metres = 3.7,
+                        feet = 12.0
+                    ),
+                    firstFlight = LocalDate.parse("2010-12-08"),
+                    flickrImages = listOf(
+                        "https://www.spacex.com/sites/spacex/files/styles/media_gallery_large/public/2015_-_04_crs5_dragon_orbit13.jpg?itok=9p8_l7UP",
+                        "https://www.spacex.com/sites/spacex/files/styles/media_gallery_large/public/2012_-_4_dragon_grapple_cots2-1.jpg?itok=R2-SeuMX",
+                        "https://farm3.staticflickr.com/2815/32761844973_4b55b27d3c_b.jpg",
+                        "https://farm9.staticflickr.com/8618/16649075267_d18cbb4342_b.jpg"
+                    ),
+                    name = "Dragon 1",
+                    type = "capsule",
+                    active = true,
+                    crewCapacity = 0,
+                    sidewallAngleDegrees = 15.0,
+                    orbitDurationYears = 2.0,
+                    dryMassKg = 4200.0,
+                    dryMassLb = 9300.0,
+                    thrusters = listOf(
+                        Dragon.Thruster(
+                            type = "Draco",
+                            amount = 18,
+                            pods = 4,
+                            fuelOne = "nitrogen tetroxide",
+                            fuelTwo = "monomethylhydrazine",
+                            isp = 300,
+                            thrust = Dragon.Thrust(
+                                kN = 0.4,
+                                lbf = 90.0
+                            )
+                        )
+                    ),
+                    wikipedia = "https://en.wikipedia.org/wiki/SpaceX_Dragon",
+                    description = "Dragon is a reusable spacecraft developed by SpaceX, an American private space transportation company based in Hawthorne, California. Dragon is launched into space by the SpaceX Falcon 9 two-stage-to-orbit launch vehicle. The Dragon spacecraft was originally designed for human travel, but so far has only been used to deliver cargo to the International Space Station (ISS).",
+                    id = "5e9d058759b1ff74a7ad5f8f"
                 )
             }
         }
