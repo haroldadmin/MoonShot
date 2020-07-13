@@ -10,6 +10,7 @@ buildscript {
         classpath(Libs.AndroidX.safeArgs)
         classpath("com.google.gms:google-services:${ProjectProperties.gmsVersion}")
         classpath("io.fabric.tools:gradle:${ProjectProperties.fabricVersion}")
+        classpath(Libs.Persistence.SQLDelight.gradlePlugin)
     }
 }
 

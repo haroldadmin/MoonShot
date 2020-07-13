@@ -57,6 +57,12 @@ object Libs {
         const val room = "androidx.room:room-runtime:${Versions.room}"
         const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+
+        object SQLDelight {
+            const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
+            const val androidDriver = "com.squareup.sqldelight:android-driver${Versions.sqlDelight}"
+            const val jvmDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
+        }
     }
 
     object Network {

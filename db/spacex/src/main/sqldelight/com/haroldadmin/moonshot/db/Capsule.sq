@@ -1,0 +1,32 @@
+import com.haroldadmin.moonshot.services.spacex.v4.Capsule.CapsuleStatus;
+import kotlin.collections.List;
+import kotlin.Int;
+
+CREATE TABLE capsule (
+    id TEXT PRIMARY KEY NOT NULL,
+    serial TEXT NOT NULL,
+    status TEXT as CapsuleStatus NOT NULL,
+    dragon TEXT,
+    reuseCount INTEGER as Int,
+    waterLandings INTEGER as Int,
+    landLandings INTEGER as Int,
+    lastUpdate TEXT,
+    launchIDs TEXT as List<String>
+);
+
+all:
+SELECT *
+FROM capsule;
+
+one:
+SELECT *
+FROM capsule
+WHERE id = :capsuleID;
+
+save:
+INSERT INTO capsule
+VALUES :apiCapsule;
+
+delete:
+DELETE FROM capsule
+WHERE id = :capsuleID;
