@@ -43,6 +43,10 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
             launchDateLocalAdapter = ZonedDateTimeAdapter(),
             launchDateUTCAdapter = ZonedDateTimeAdapter(),
             staticFireDateUTCAdapter = ZonedDateTimeAdapter()
+        ),
+        launchPadAdapter = LaunchPad.Adapter(
+            launchIDsAdapter = ListToStringAdapter(),
+            rocketIDsAdapter = ListToStringAdapter()
         )
     )
 
