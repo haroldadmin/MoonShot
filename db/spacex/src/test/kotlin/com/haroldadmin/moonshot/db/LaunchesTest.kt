@@ -56,4 +56,22 @@ internal class LaunchesTest: AnnotationSpec() {
         dbModel.links_wikipedia shouldBe apiModel.links?.wikipedia
         dbModel.autoUpdate shouldBe apiModel.autoUpdate
     }
+
+    @Test
+    fun testLaunchCoreMapper() {
+        val launch = APISampleData.Launches.samples().first()
+        val apiModel = launch.cores.first()
+        val dbModel = apiModel.toDBModel(launch.id)
+
+        dbModel.id shouldBe apiModel.id
+        dbModel.flight shouldBe apiModel.flight
+        dbModel.gridfins shouldBe apiModel.gridfins
+        dbModel.legs shouldBe apiModel.legs
+        dbModel.reused shouldBe apiModel.reused
+        dbModel.landingAttempt shouldBe apiModel.landingAttempt
+        dbModel.landingSuccess shouldBe apiModel.landingSuccess
+        dbModel.landingType shouldBe apiModel.landingType
+        dbModel.landPadID shouldBe apiModel.landpadID
+        dbModel.launchID shouldBe launch.id
+    }
 }
