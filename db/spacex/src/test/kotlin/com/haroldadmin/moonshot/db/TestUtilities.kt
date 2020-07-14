@@ -54,6 +54,10 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
             nationalitiesAdapter = ListToStringAdapter(),
             epochAdapter = ZonedDateTimeAdapter(),
             noradIDsAdapter = ListToIntAdapter()
+        ),
+        roadsterInfoAdapter = RoadsterInfo.Adapter(
+            flickrImagesAdapter = ListToStringAdapter(),
+            launchDateUTCAdapter = ZonedDateTimeAdapter()
         )
     )
 
