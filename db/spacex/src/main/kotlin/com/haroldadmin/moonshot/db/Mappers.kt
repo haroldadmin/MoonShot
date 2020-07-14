@@ -8,6 +8,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.Dragon as APIDragon
 import com.haroldadmin.moonshot.services.spacex.v4.Dragon.Thruster as APIThruster
 import com.haroldadmin.moonshot.services.spacex.v4.LandingPad as APILandingPad
 import com.haroldadmin.moonshot.services.spacex.v4.Launch as APILaunch
+import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad as APILaunchPad
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -190,5 +191,23 @@ fun APILaunch.toDBModel(): Launch {
         links_article = this.links?.article,
         links_wikipedia = this.links?.wikipedia,
         autoUpdate = this.autoUpdate
+    )
+}
+
+fun APILaunchPad.toDBModel(): LaunchPad {
+    return LaunchPad(
+        id = this.id,
+        name = this.name,
+        fullName = this.fullName,
+        status = this.status,
+        locality = this.locality,
+        region = this.region,
+        timezone = this.timezone,
+        latitude = this.latitude,
+        longitude = this.longitude,
+        launchAttempts = this.launchAttempts,
+        launchSuccesses = this.launchSuccesses,
+        rocketIDs = this.rocketIDs.map { it },
+        launchIDs = this.launchIDs.map { it }
     )
 }

@@ -1,0 +1,17 @@
+import kotlin.collections.List;
+
+CREATE TABLE launchPad (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    fullName TEXT,
+    status TEXT NOT NULL,
+    locality TEXT,
+    region TEXT,
+    timezone TEXT,
+    latitude REAL,
+    longitude REAL,
+    launchAttempts INTEGER as Int,
+    launchSuccesses INTEGER as Int,
+    rocketIDs TEXT as List<String> NOT NULL,
+    launchIDs TEXT as List<String> NOT NULL
+);
