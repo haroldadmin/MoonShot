@@ -29,6 +29,20 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
         ),
         landingPadAdapter = LandingPad.Adapter(
             launchIDsAdapter = ListToStringAdapter()
+        ),
+        launchAdapter = Launch.Adapter(
+            capsuleIDsAdapter = ListToStringAdapter(),
+            crewIDsAdapter = ListToStringAdapter(),
+            datePrecisionAdapter = EnumColumnAdapter(),
+            failuresAdapter = ListToStringAdapter(),
+            fairings_shipIDsAdapter = ListToStringAdapter(),
+            links_flickr_originalAdapter = ListToStringAdapter(),
+            links_flickr_smallAdapter = ListToStringAdapter(),
+            payloadIDsAdapter = ListToStringAdapter(),
+            shipIDsAdapter = ListToStringAdapter(),
+            launchDateLocalAdapter = ZonedDateTimeAdapter(),
+            launchDateUTCAdapter = ZonedDateTimeAdapter(),
+            staticFireDateUTCAdapter = ZonedDateTimeAdapter()
         )
     )
 

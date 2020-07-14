@@ -2,6 +2,7 @@ package com.haroldadmin.moonshot.db
 
 import com.squareup.sqldelight.ColumnAdapter
 import java.time.LocalDate
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 internal class ListToStringAdapter : ColumnAdapter<List<String>, String> {
@@ -30,4 +31,15 @@ internal class LocalDateAdapter: ColumnAdapter<LocalDate, String> {
         return value.toString()
     }
 
+}
+
+internal class ZonedDateTimeAdapter: ColumnAdapter<ZonedDateTime, String> {
+
+    override fun decode(databaseValue: String): ZonedDateTime {
+        return ZonedDateTime.parse(databaseValue)
+    }
+
+    override fun encode(value: ZonedDateTime): String {
+        return value.toString()
+    }
 }

@@ -1,0 +1,65 @@
+import kotlin.Int;
+import kotlin.Boolean;
+import kotlin.String;
+import kotlin.collections.List;
+import java.time.ZonedDateTime;
+import com.haroldadmin.moonshot.services.spacex.v4.DatePrecision;
+
+CREATE TABLE launch (
+    id TEXT PRIMARY KEY NOT NULL,
+    flightNumber INTEGER as Int,
+    name TEXT,
+    launchDateUTC TEXT as ZonedDateTime NOT NULL,
+    launchDateLocal TEXT as ZonedDateTime NOT NULL,
+    launchDateUnix INTEGER NOT NULL,
+    datePrecision TEXT as DatePrecision NOT NULL,
+    staticFireDateUTC TEXT as ZonedDateTime,
+    staticFireDateUnix INTEGER,
+    tbd INTEGER as Boolean,
+    net INTEGER as Boolean,
+    window INTEGER as Int,
+    rocketID TEXT,
+    success INTEGER as Boolean,
+    failures TEXT as List<String> NOT NULL,
+    upcoming INTEGER as Boolean,
+    details TEXT,
+    fairings_reused INTEGER as Boolean,
+    fairings_recoveryAttempt INTEGER as Boolean,
+    fairings_recovered INTEGER as Boolean,
+    fairings_shipIDs TEXT as List<String> NOT NULL,
+    crewIDs TEXT as List<String> NOT NULL,
+    shipIDs TEXT as List<String> NOT NULL,
+    capsuleIDs TEXT as List<String> NOT NULL,
+    payloadIDs TEXT as List<String> NOT NULL,
+    launchPadID TEXT,
+    links_patch_small TEXT,
+    links_patch_large TEXT,
+    links_reddit_campaign TEXT,
+    links_reddit_launch TEXT,
+    links_reddit_media TEXT,
+    links_media_recovery TEXT,
+    links_flickr_small TEXT as List<String> NOT NULL,
+    links_flickr_original TEXT as List<String> NOT NULL,
+    links_presskit TEXT,
+    links_webcast TEXT,
+    links_youtubeID TEXT,
+    links_article TEXT,
+    links_wikipedia TEXT,
+    autoUpdate INTEGER as Boolean
+);
+
+CREATE TABLE launchCore (
+    id TEXT,
+    flight INTEGER as Int,
+    gridfins INTEGER as Boolean,
+    legs INTEGER as Boolean,
+    reused INTEGER as Boolean,
+    landingAttempt INTEGER as Boolean,
+    landingSuccess INTEGER as Boolean,
+    landingType TEXT,
+    landPadID TEXT,
+    launchID TEXT NOT NULL,
+    FOREIGN KEY (launchID)
+        REFERENCES launch(id)
+        ON DELETE CASCADE
+);

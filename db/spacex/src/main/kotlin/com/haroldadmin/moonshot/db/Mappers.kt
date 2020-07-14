@@ -7,6 +7,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.Crew as APICrew
 import com.haroldadmin.moonshot.services.spacex.v4.Dragon as APIDragon
 import com.haroldadmin.moonshot.services.spacex.v4.Dragon.Thruster as APIThruster
 import com.haroldadmin.moonshot.services.spacex.v4.LandingPad as APILandingPad
+import com.haroldadmin.moonshot.services.spacex.v4.Launch as APILaunch
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -131,23 +132,56 @@ fun APIThruster.toDBModel(dragonID: String): Thruster {
 
 fun APILandingPad.toDBModel(): LandingPad {
     return LandingPad(
-        name = "LZ-2",
-        fullName = "Landing Zone 2",
-        status = "active",
-        type = "RTLS",
-        locality = "Cape Canaveral",
-        region = "Florida",
-        latitude = 28.485833,
-        longitude = -80.544444,
-        landingAttempts = 3,
-        landingSuccesses = 3,
-        wikipedia = "https://en.wikipedia.org/wiki/Landing_Zones_1_and_2",
-        details = "SpaceX's first east coast landing pad is Landing Zone 1, where the historic first Falcon 9 landing occurred in December 2015. LC-13 was originally used as a launch pad for early Atlas missiles and rockets from Lockheed Martin. LC-1 was later expanded to include Landing Zone 2 for side booster RTLS Falcon Heavy missions, and it was first used in February 2018 for that purpose.",
-        launchIDs = listOf(
-            "5eb87d13ffd86e000604b360",
-            "5eb87d2dffd86e000604b376",
-            "5eb87d35ffd86e000604b37a"
-        ),
-        id = "5e9e3032383ecb90a834e7c8"
+        name = this.name,
+        fullName = this.fullName,
+        status = this.status,
+        type = this.type,
+        locality = this.locality,
+        region = this.region,
+        latitude = this.latitude,
+        longitude = this.longitude,
+        landingAttempts = this.landingAttempts,
+        landingSuccesses = this.landingSuccesses,
+        wikipedia = this.wikipedia,
+        details = this.details,
+        launchIDs = this.launchIDs.map { it },
+        id = this.id
+    )
+}
+
+fun APILaunch.toDBModel(): Launch {
+    return Launch(
+        id = this.id,
+        flightNumber = this.flightNumber,
+        name = this.name,
+        launchDateUTC = this.launchDateUTC,
+        launchDateLocal = this.launchDateLocal,
+        launchDateUnix = this.launchDateUnix,
+        datePrecision = this.datePrecision,
+        staticFireDateUTC = this.staticFireDateUtc,
+        staticFireDateUnix = this.staticFireDateUnix,
+        tbd = this.tbd,
+        net = this.net,
+        window = this.window,
+        rocketID = this.rocketID,
+        success = this.success,
+        failures = this.failures.map { it },
+        upcoming = this.upcoming,
+        details = this.details,
+        fairings_recovered = this.fairings?.recovered,
+        fairings_reused = this.fairings?.reused,
+        fairings_recoveryAttempt = this.fairings?.recoveryAttempted,
+        fairings_shipIDs = this.fairings?.shipIDs?.map { it } ?: emptyList(),
+        crewIDs = this.crewIDs.map { it },
+        shipIDs = this.shipIDs.map { it },
+        capsuleIDs = this.capsuleIDs.map { it },
+        payloadIDs = this.payloadIDs.map { it },
+        launchPadID = this.launchpadID,
+        links_patch_small = this.links?.patch?.small,
+        links_patch_large = this.links?.patch?.large,
+        links_reddit_campaign = this.links?.reddit?.campaign,
+        links_reddit_launch = this.links?.reddit?.launch,
+        links_reddit_media = this.links?.reddit?.media,
+        links_media_recovery = this.links?.
     )
 }
