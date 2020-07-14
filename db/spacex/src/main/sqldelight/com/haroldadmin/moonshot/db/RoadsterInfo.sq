@@ -1,0 +1,32 @@
+import java.time.ZonedDateTime;
+import kotlin.collections.List;
+
+CREATE TABLE roadsterInfo (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT,
+    launchDateUTC TEXT as ZonedDateTime,
+    launchDateUnix INTEGER,
+    launchMassKg REAL,
+    launchMassLbs REAL,
+    noradID INTEGER as Int,
+    epochJD REAL,
+    orbitType TEXT,
+    apoapsisAu REAL,
+    periapsisAu REAL,
+    semiMajorAxisAu REAL,
+    eccentricity REAL,
+    inclination REAL,
+    longitude REAL,
+    periapsisArg REAL,
+    periodDays REAL,
+    speedKph REAL,
+    speedMph REAL,
+    earthDistanceKm REAL,
+    earthDistanceMi REAL,
+    marsDistanceKm REAL,
+    marsDistanceMi REAL,
+    flickrImages TEXT as List<String> NOT NULL,
+    wikipedia TEXT,
+    video TEXT,
+    details TEXT
+);

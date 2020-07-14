@@ -10,6 +10,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.LandingPad as APILandingPad
 import com.haroldadmin.moonshot.services.spacex.v4.Launch as APILaunch
 import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad as APILaunchPad
 import com.haroldadmin.moonshot.services.spacex.v4.Payload as APIPayload
+import com.haroldadmin.moonshot.services.spacex.v4.RoadsterInfo as APIRoadster
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -264,5 +265,37 @@ fun APIPayload.toDBModel(): Payload {
         dragon_manifest = this.dragon?.manifest,
         dragon_landLanding = this.dragon?.landLanding,
         dragon_waterLanding = this.dragon?.waterLanding
+    )
+}
+
+fun APIRoadster.toDBModel(): RoadsterInfo {
+    return RoadsterInfo(
+        id = this.id,
+        name = this.name,
+        launchDateUTC = this.launchDateUTC,
+        launchDateUnix = this.launchDateUnix,
+        launchMassLbs = this.launchMassLbs,
+        launchMassKg = this.launchMassKg,
+        noradID = this.noradID,
+        epochJD = this.epochJd,
+        orbitType = this.orbitType,
+        apoapsisAu = this.apoapsisAu,
+        periapsisAu = this.periapsisAu,
+        semiMajorAxisAu = this.semiMajorAxisAu,
+        eccentricity = this.eccentricity,
+        inclination = this.inclination,
+        longitude = this.longitude,
+        periapsisArg = this.periapsisArg,
+        periodDays = this.periodDays,
+        speedKph = this.speedKph,
+        speedMph = this.speedMph,
+        earthDistanceKm = this.earthDistanceKm,
+        earthDistanceMi = this.earthDistanceMiles,
+        marsDistanceKm = this.marsDistanceKm,
+        marsDistanceMi = this.marsDistanceMiles,
+        flickrImages = this.flickrImages.map { it },
+        wikipedia = this.wikipedia,
+        video = this.video,
+        details = this.details
     )
 }
