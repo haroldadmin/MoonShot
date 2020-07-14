@@ -5,6 +5,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.AnnotationSpec
 import java.time.LocalDate
 import java.time.Month
+import java.time.ZonedDateTime
 
 internal class AdaptersTest : AnnotationSpec() {
     @Test
@@ -73,5 +74,25 @@ internal class AdaptersTest : AnnotationSpec() {
         date.year shouldBe 1970
         date.month shouldBe Month.JANUARY
         date.dayOfMonth shouldBe 1
+    }
+
+    @Test
+    fun `zoned date time adapter encoding test`() {
+        val adapter = ZonedDateTimeAdapter()
+        val isoVal = "2020-03-06T23:50:31-05:00"
+
+        val zonedDateTime = ZonedDateTime.parse(isoVal)
+        val encodedValue = adapter.encode(zonedDateTime)
+
+        encodedValue shouldBe isoVal
+    }
+
+    @Test
+    fun `zoned date time adapter decoding test`() {
+        val adapter = ZonedDateTimeAdapter()
+        val isoVal = "2020-03-06T23:50:31-05:00"
+        val zonedDateTime = ZonedDateTime.parse(isoVal)
+
+        zonedDateTime.toString() shouldBe isoVal
     }
 }

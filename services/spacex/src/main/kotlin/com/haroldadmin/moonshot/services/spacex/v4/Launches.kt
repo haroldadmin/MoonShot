@@ -65,7 +65,7 @@ data class Launch(
     data class Links(
         @Json(name="patch") val patch: Patch?,
         @Json(name="reddit") val reddit: Reddit?,
-        @Json(name="flickr") val flickr: Flickr,
+        @Json(name="flickr") val flickr: Flickr?,
         @Json(name="presskit") val presskit: String?,
         @Json(name="webcast") val webcast: String?,
         @Json(name="youtube_id") val youtubeID: String?,
