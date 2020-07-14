@@ -11,6 +11,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.Dragon
 import com.haroldadmin.moonshot.services.spacex.v4.LandingPad
 import com.haroldadmin.moonshot.services.spacex.v4.Launch
 import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad
+import com.haroldadmin.moonshot.services.spacex.v4.Payload
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -332,6 +333,51 @@ object APISampleData {
                     ),
                     status = "active",
                     id = "5e9e4502f509092b78566f87"
+                )
+            }
+        }
+    }
+
+    object Payloads {
+        fun samples(): Sequence<Payload> {
+            return generateSequence {
+                Payload(
+                    dragon = Payload.Dragon(
+                        capsuleID = null,
+                        massReturnedKg = null,
+                        massReturnedLbs = null,
+                        flightTimeSec = null,
+                        manifest = null,
+                        waterLanding = null,
+                        landLanding = null
+                    ),
+                    name = "Tintin A & B",
+                    type = "Satellite",
+                    reused = false,
+                    launchID = "5eb87d14ffd86e000604b361",
+                    customers = listOf("SpaceX"),
+                    noradIDs = listOf(43216, 43217),
+                    nationalities = listOf("United States"),
+                    manufacturers = listOf("SpaceX"),
+                    massKg = 800.0,
+                    massLbs = 1763.7,
+                    orbit = "SSO",
+                    referenceSystem = "geocentric",
+                    regime = "low-earth",
+                    longitude = null,
+                    semiMajorAxisKm = 6737.42,
+                    eccentricity = 0.0012995,
+                    periapsisKm = 350.53,
+                    apoapsisKm = 368.04,
+                    inclinationDeg = 97.4444,
+                    periodMin = 91.727,
+                    lifespanYears = 1.0,
+                    epoch = ZonedDateTime.parse("2020-06-13T13:46:31.000Z"),
+                    meanMotion = 15.69864906,
+                    raan = 176.6734,
+                    argOfPericentre = 174.2326,
+                    meanAnomaly = 185.9087,
+                    id = "5eb0e4c6b6c3bb0006eeb21e"
                 )
             }
         }
