@@ -211,3 +211,18 @@ fun APILaunchPad.toDBModel(): LaunchPad {
         launchIDs = this.launchIDs.map { it }
     )
 }
+
+fun APILaunch.Core.toDBModel(launchID: String): LaunchCore {
+    return LaunchCore(
+        id = this.id,
+        flight = this.flight,
+        gridfins = this.gridfins,
+        legs = this.legs,
+        reused = this.reused,
+        landingAttempt = this.landingAttempt,
+        landingSuccess = this.landingSuccess,
+        landingType = this.landingType,
+        landPadID = this.landpadID,
+        launchID = launchID
+    )
+}
