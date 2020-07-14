@@ -19,7 +19,7 @@ data class Launch(
     @Json(name="date_local") val launchDateLocal: ZonedDateTime,
     @Json(name="date_unix") val launchDateUnix: Long,
     @Json(name="date_precision") val datePrecision: DatePrecision,
-    @Json(name="static_fire_date_utc") val staticFireDateUtc: ZonedDateTime?,
+    @Json(name="static_fire_date_utc") val staticFireDateUTC: ZonedDateTime?,
     @Json(name="static_fire_date_unix") val staticFireDateUnix: Long?,
     @Json(name="tdb") val tbd: Boolean?,
     @Json(name="net") val net: Boolean?,

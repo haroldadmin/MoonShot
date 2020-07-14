@@ -158,7 +158,7 @@ fun APILaunch.toDBModel(): Launch {
         launchDateLocal = this.launchDateLocal,
         launchDateUnix = this.launchDateUnix,
         datePrecision = this.datePrecision,
-        staticFireDateUTC = this.staticFireDateUtc,
+        staticFireDateUTC = this.staticFireDateUTC,
         staticFireDateUnix = this.staticFireDateUnix,
         tbd = this.tbd,
         net = this.net,
@@ -171,7 +171,7 @@ fun APILaunch.toDBModel(): Launch {
         fairings_recovered = this.fairings?.recovered,
         fairings_reused = this.fairings?.reused,
         fairings_recoveryAttempt = this.fairings?.recoveryAttempted,
-        fairings_shipIDs = this.fairings?.shipIDs?.map { it } ?: emptyList(),
+        fairings_shipIDs = this.fairings?.shipIDs?.map { it },
         crewIDs = this.crewIDs.map { it },
         shipIDs = this.shipIDs.map { it },
         capsuleIDs = this.capsuleIDs.map { it },
@@ -182,6 +182,13 @@ fun APILaunch.toDBModel(): Launch {
         links_reddit_campaign = this.links?.reddit?.campaign,
         links_reddit_launch = this.links?.reddit?.launch,
         links_reddit_media = this.links?.reddit?.media,
-        links_media_recovery = this.links?.
+        links_flickr_small = this.links?.flickr?.small,
+        links_flickr_original = this.links?.flickr?.original,
+        links_presskit = this.links?.presskit,
+        links_webcast = this.links?.webcast,
+        links_youtubeID = this.links?.youtubeID,
+        links_article = this.links?.article,
+        links_wikipedia = this.links?.wikipedia,
+        autoUpdate = this.autoUpdate
     )
 }
