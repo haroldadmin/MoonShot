@@ -43,3 +43,16 @@ internal class ZonedDateTimeAdapter: ColumnAdapter<ZonedDateTime, String> {
         return value.toString()
     }
 }
+
+internal class ListToIntAdapter: ColumnAdapter<List<Int>, String> {
+    override fun decode(databaseValue: String): List<Int> {
+        if (databaseValue == "") {
+            return emptyList()
+        }
+        return databaseValue.split(',').map { i -> i.toInt() }
+    }
+
+    override fun encode(value: List<Int>): String {
+        return value.joinToString(",")
+    }
+}

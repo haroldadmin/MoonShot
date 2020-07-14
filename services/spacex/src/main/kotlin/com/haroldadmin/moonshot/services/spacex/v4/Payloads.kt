@@ -35,7 +35,8 @@ data class Payload(
     @Json(name = "raan") val raan: Double?,
     @Json(name = "arg_of_pericenter") val argOfPericentre: Double?,
     @Json(name = "mean_anomaly") val meanAnomaly: Double?,
-    @Json(name = "dragon") val dragon: Dragon
+    @Json(name = "reused") val reused: Boolean,
+    @Json(name = "dragon") val dragon: Dragon?
 ) {
     @JsonClass(generateAdapter = true)
     data class Dragon(

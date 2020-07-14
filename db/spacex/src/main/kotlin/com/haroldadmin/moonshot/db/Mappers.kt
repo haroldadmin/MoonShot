@@ -9,6 +9,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.Dragon.Thruster as APIThruste
 import com.haroldadmin.moonshot.services.spacex.v4.LandingPad as APILandingPad
 import com.haroldadmin.moonshot.services.spacex.v4.Launch as APILaunch
 import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad as APILaunchPad
+import com.haroldadmin.moonshot.services.spacex.v4.Payload as APIPayload
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -224,5 +225,44 @@ fun APILaunch.Core.toDBModel(launchID: String): LaunchCore {
         landingType = this.landingType,
         landPadID = this.landpadID,
         launchID = launchID
+    )
+}
+
+fun APIPayload.toDBModel(): Payload {
+    return Payload(
+        id = this.id,
+        name = this.name,
+        type = this.type,
+        launchID = this.launchID,
+        customers = this.customers.map { it },
+        noradIDs = this.noradIDs.map { it },
+        nationalities = this.nationalities.map { it },
+        manufacturers = this.manufacturers.map { it },
+        massKg = this.massKg,
+        massLbs = this.massLbs,
+        orbit = this.orbit,
+        referenceSystem = this.referenceSystem,
+        regime = this.regime,
+        longitude = this.longitude,
+        semiMajorAxisKm = this.semiMajorAxisKm,
+        eccentricity = this.eccentricity,
+        periapsisKm = this.periapsisKm,
+        apoapsisKm = this.apoapsisKm,
+        inclinationDeg = this.inclinationDeg,
+        periodMin = this.periodMin,
+        lifespanYears = this.lifespanYears,
+        epoch = this.epoch,
+        meanMotion = this.meanMotion,
+        raan = this.raan,
+        argOfPericentre = this.argOfPericentre,
+        meanAnomaly = this.meanAnomaly,
+        reused = this.reused,
+        dragon_capsuleID = this.dragon?.capsuleID,
+        dragon_massReturnedKg = this.dragon?.massReturnedKg,
+        dragon_massReturnedLbs = this.dragon?.massReturnedLbs,
+        dragon_flightTimeSec = this.dragon?.flightTimeSec,
+        dragon_manifest = this.dragon?.manifest,
+        dragon_landLanding = this.dragon?.landLanding,
+        dragon_waterLanding = this.dragon?.waterLanding
     )
 }

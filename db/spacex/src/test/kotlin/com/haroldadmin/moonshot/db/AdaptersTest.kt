@@ -95,4 +95,37 @@ internal class AdaptersTest : AnnotationSpec() {
 
         zonedDateTime.toString() shouldBe isoVal
     }
+
+    @Test
+    fun `list to int adapter encoding test`() {
+        val adapter = ListToIntAdapter()
+        val ints = (1..100).toList()
+        val encodedValue = adapter.encode(ints)
+        encodedValue.split(",")
+            .forEachIndexed { index, s -> s.toInt() shouldBe ints[index] }
+    }
+
+    @Test
+    fun `list to int adapter decoding test`() {
+        val adapter = ListToIntAdapter()
+        val list = (1..100).toList()
+        val string = list.joinToString(",")
+        val ints = adapter.decode(string)
+
+        ints shouldBe list
+    }
+
+    @Test
+    fun `list to int adapter encoding with empty list`() {
+        val adapter =  ListToIntAdapter()
+        val ints = emptyList<Int>()
+        adapter.encode(ints) shouldBe ""
+    }
+
+    @Test
+    fun `list to int adapter decoding with empty string`() {
+        val adapter =  ListToIntAdapter()
+        val string = ""
+        adapter.decode(string) shouldBe emptyList()
+    }
 }
