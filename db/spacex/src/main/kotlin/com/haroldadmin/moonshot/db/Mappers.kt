@@ -12,6 +12,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad as APILaunchPad
 import com.haroldadmin.moonshot.services.spacex.v4.Payload as APIPayload
 import com.haroldadmin.moonshot.services.spacex.v4.RoadsterInfo as APIRoadster
 import com.haroldadmin.moonshot.services.spacex.v4.Rocket as APIRocket
+import com.haroldadmin.moonshot.services.spacex.v4.Ship as APIShip
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -366,5 +367,33 @@ fun APIRocket.PayloadWeight.toDBModel(rocketID: String): RocketPayloadWeight {
         kg = this.kg,
         lb = this.lb,
         rocketID = rocketID
+    )
+}
+
+fun APIShip.toDBModel(): Ship {
+    return Ship(
+        id = this.id,
+        name = this.name,
+        model = this.model,
+        type = this.type,
+        roles = this.roles.map { it },
+        isActive = this.isActive,
+        imo = this.imo,
+        mmsi = this.mmsi,
+        abs = this.abs,
+        clazz = this.clazz,
+        massKg = this.massKg,
+        massLbs = this.massLbs,
+        yearBuilt = this.yearBuilt,
+        homePort = this.homePort,
+        status = this.status,
+        speedKn = this.speedKn,
+        courseDeg = this.courseDeg,
+        latitude = this.latitude,
+        longitude = this.longitude,
+        lastAisUpdate = this.lastAisUpdate,
+        link = this.link,
+        image = this.image,
+        launchIDs = this.launchIDs.map { it }
     )
 }

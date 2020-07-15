@@ -1,0 +1,27 @@
+import kotlin.collections.List;
+
+CREATE TABLE ship (
+   id TEXT PRIMARY KEY NOT NULL,
+   name TEXT NOT NULL,
+   model TEXT,
+   type TEXT,
+   roles TEXT as List<String> NOT NULL,
+   isActive INTEGER as Boolean NOT NULL,
+   imo REAL,
+   mmsi REAL,
+   abs REAL,
+   clazz REAL,
+   massKg REAL,
+   massLbs REAL,
+   yearBuilt REAL,
+   homePort TEXT,
+   status TEXT,
+   speedKn REAL,
+   courseDeg REAL,
+   latitude REAL,
+   longitude REAL,
+   lastAisUpdate TEXT,
+   link TEXT,
+   image TEXT,
+   launchIDs TEXT as List<String> NOT NULL
+);
