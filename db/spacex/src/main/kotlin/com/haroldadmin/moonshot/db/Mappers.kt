@@ -11,6 +11,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.Launch as APILaunch
 import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad as APILaunchPad
 import com.haroldadmin.moonshot.services.spacex.v4.Payload as APIPayload
 import com.haroldadmin.moonshot.services.spacex.v4.RoadsterInfo as APIRoadster
+import com.haroldadmin.moonshot.services.spacex.v4.Rocket as APIRocket
 
 fun APICapsule.toDBModel(): Capsule {
     return Capsule(
@@ -297,5 +298,73 @@ fun APIRoadster.toDBModel(): RoadsterInfo {
         wikipedia = this.wikipedia,
         video = this.video,
         details = this.details
+    )
+}
+
+fun APIRocket.toDBModel(): Rocket {
+    return Rocket(
+        id = this.id,
+        name = this.name,
+        type = this.type,
+        active = this.active,
+        stages = this.stages,
+        boosters = this.boosters,
+        costPerLaunch = this.costPerLaunch,
+        successRatePercentage = this.successRatePercentage,
+        firstFlight = this.firstFlight,
+        country = this.country,
+        company = this.company,
+        height_feet = this.height?.feet,
+        height_metres = this.height?.metres,
+        diameter_feet = this.diameter?.feet,
+        diameter_metres = this.diameter?.metres,
+        mass_kg = this.mass?.kg,
+        mass_lb = this.mass?.lb,
+        firstStage_reusable = this.firstStage?.reusable,
+        firstStage_engines = this.firstStage?.engines,
+        firstStage_fuelAmountTons = this.firstStage?.fuelAmountTons,
+        firstStage_burnTimeSec = this.firstStage?.burnTimeSec,
+        firstStage_thrustSeaLevel_kN = this.firstStage?.thrustSeaLevel?.kN,
+        firstStage_thrustSeaLevel_lbf = this.firstStage?.thrustSeaLevel?.lbf,
+        firstStage_thrustVacuum_kN = this.firstStage?.thrustVacuum?.kN,
+        firstStage_thrustVacuum_lbf = this.firstStage?.thrustVacuum?.lbf,
+        secondStage_reusable = this.secondStage?.reusable,
+        secondStage_engines = this.secondStage?.engines,
+        secondStage_fuelAmountTons = this.secondStage?.fuelAmountTons,
+        secondStage_thrust_kN = this.secondStage?.thrust?.kN,
+        secondStage_thrust_lbf = this.secondStage?.thrust?.lbf,
+        secondStage_burnTimeSec = this.secondStage?.burnTimeSec,
+        secondStage_payloads_optionOne = this.secondStage?.payloads?.optionOne,
+        secondStage_payloads_compositeFairing_height_feet = this.secondStage?.payloads?.compositeFairing?.height?.feet,
+        secondStage_payloads_compositeFairing_height_metres = this.secondStage?.payloads?.compositeFairing?.height?.metres,
+        engines_number = this.engines?.number,
+        engines_type = this.engines?.type,
+        engines_version = this.engines?.version,
+        engines_layout = this.engines?.layout,
+        engines_isp_seaLevel = this.engines?.isp?.seaLevel,
+        engines_isp_vacuum = this.engines?.isp?.vacuum,
+        engines_engineLossMax = this.engines?.engineLossMax,
+        engines_propellantOne = this.engines?.propellantOne,
+        engines_propellantTwo = this.engines?.propellantTwo,
+        engines_thrustSeaLevel_kN = this.engines?.thrustSeaLevel?.kN,
+        engines_thrustSeaLevel_lbf = this.engines?.thrustSeaLevel?.lbf,
+        engines_thrustVacuum_kN = this.engines?.thrustVacuum?.kN,
+        engines_thrustVacuum_lbf = this.engines?.thrustVacuum?.lbf,
+        engines_thrustToWeight = this.engines?.thrustToWeight,
+        landingLegs_material = this.landingLegs?.material,
+        landingLegs_number = this.landingLegs?.number,
+        flickrImages = this.flickrImages.map { it },
+        wikipedia = this.wikipedia,
+        description = this.description
+    )
+}
+
+fun APIRocket.PayloadWeight.toDBModel(rocketID: String): RocketPayloadWeight {
+    return RocketPayloadWeight(
+        id = this.id,
+        name = this.name,
+        kg = this.kg,
+        lb = this.lb,
+        rocketID = rocketID
     )
 }
