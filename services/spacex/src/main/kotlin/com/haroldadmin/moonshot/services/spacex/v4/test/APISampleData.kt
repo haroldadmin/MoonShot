@@ -14,6 +14,7 @@ import com.haroldadmin.moonshot.services.spacex.v4.LaunchPad
 import com.haroldadmin.moonshot.services.spacex.v4.Payload
 import com.haroldadmin.moonshot.services.spacex.v4.RoadsterInfo
 import com.haroldadmin.moonshot.services.spacex.v4.Rocket
+import com.haroldadmin.moonshot.services.spacex.v4.Ship
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -551,6 +552,46 @@ object APISampleData {
                     description =
                     "With the ability to lift into orbit over 54 metric tons (119,000 lb)--a mass equivalent to a 737 jetliner loaded with passengers, crew, luggage and fuel--Falcon Heavy can lift more than twice the payload of the next closest operational vehicle, the Delta IV Heavy, at one-third the cost.",
                     id = "5e9d0d95eda69974db09d1ed"
+                )
+            }
+        }
+    }
+
+    object Ships {
+        fun samples(): Sequence<Ship> {
+            return generateSequence {
+                Ship(
+                    model = null,
+                    type = "Cargo",
+                    roles = listOf(
+                        "Support Ship",
+                        "Fairing Recovery"
+                    ),
+                    imo = 9458884.0,
+                    mmsi = 367191410.0,
+                    abs = 1201189.0,
+                    clazz = 7174230.0,
+                    massKg = 502999.0,
+                    massLbs = 1108925.0,
+                    yearBuilt = 2007.0,
+                    homePort = "Port Canaveral",
+                    status = "",
+                    speedKn = null,
+                    courseDeg = null,
+                    latitude = null,
+                    longitude = null,
+                    lastAisUpdate = null,
+                    link = "https://www.marinetraffic.com/en/ais/details/ships/shipid:439594/mmsi:367191410/imo:9458884/vessel:GO_PURSUIT",
+                    image = "https://i.imgur.com/5w1ZWre.jpg",
+                    launchIDs = listOf(
+                        "5eb87d18ffd86e000604b365",
+                        "5eb87d19ffd86e000604b366",
+                        "5eb87d1bffd86e000604b368",
+                        "5eb87d1effd86e000604b36a"
+                    ),
+                    name = "GO Pursuit",
+                    isActive = false,
+                    id = "5ea6ed2e080df4000697c90a"
                 )
             }
         }

@@ -61,6 +61,10 @@ internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
         ),
         rocketAdapter = Rocket.Adapter(
             flickrImagesAdapter = ListToStringAdapter()
+        ),
+        shipAdapter = Ship.Adapter(
+            launchIDsAdapter = ListToStringAdapter(),
+            rolesAdapter = ListToStringAdapter()
         )
     )
 
