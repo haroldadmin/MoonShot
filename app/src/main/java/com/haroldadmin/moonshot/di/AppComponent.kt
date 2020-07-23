@@ -12,6 +12,7 @@ import com.haroldadmin.moonshot.database.LaunchDao
 import com.haroldadmin.moonshot.database.LaunchPadDao
 import com.haroldadmin.moonshot.database.MissionDao
 import com.haroldadmin.moonshot.database.RocketsDao
+import com.haroldadmin.moonshot.db.LaunchQueries
 import com.haroldadmin.moonshot.sync.SyncManager
 import com.haroldadmin.moonshotRepository.RepositoryModule
 import com.haroldadmin.moonshotRepository.applicationInfo.ApplicationInfoUseCase
@@ -24,7 +25,14 @@ import dagger.Component
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Component(modules = [AppModule::class, NotificationModule::class, RepositoryModule::class])
+@Component(
+    modules = [
+        AppModule::class,
+        NotificationModule::class,
+        RepositoryModule::class,
+        DatabaseModule::class,
+        NetworkModule::class
+    ])
 @Singleton
 interface AppComponent : MoonShotActivityComponent<MainActivity> {
 
@@ -51,6 +59,8 @@ interface AppComponent : MoonShotActivityComponent<MainActivity> {
     fun missionService(): MissionService
 
     fun broadcastReceiversComponent(): BroadcastReceiversComponent.Factory
+
+    fun launchQueries(): LaunchQueries
 
     @Component.Factory
     interface Factory {

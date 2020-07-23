@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-internal class ListToStringAdapter : ColumnAdapter<List<String>, String> {
+class ListToStringAdapter : ColumnAdapter<List<String>, String> {
     override fun decode(databaseValue: String): List<String> {
         if (databaseValue == "") {
             return emptyList()
@@ -18,7 +18,7 @@ internal class ListToStringAdapter : ColumnAdapter<List<String>, String> {
     }
 }
 
-internal class LocalDateAdapter: ColumnAdapter<LocalDate, String> {
+class LocalDateAdapter: ColumnAdapter<LocalDate, String> {
     override fun decode(databaseValue: String): LocalDate {
         if (databaseValue.isBlank()) {
             return LocalDate.of(1970, 1, 1)
@@ -33,7 +33,7 @@ internal class LocalDateAdapter: ColumnAdapter<LocalDate, String> {
 
 }
 
-internal class ZonedDateTimeAdapter: ColumnAdapter<ZonedDateTime, String> {
+class ZonedDateTimeAdapter: ColumnAdapter<ZonedDateTime, String> {
 
     override fun decode(databaseValue: String): ZonedDateTime {
         return ZonedDateTime.parse(databaseValue)
@@ -44,7 +44,7 @@ internal class ZonedDateTimeAdapter: ColumnAdapter<ZonedDateTime, String> {
     }
 }
 
-internal class ListToIntAdapter: ColumnAdapter<List<Int>, String> {
+class ListToIntAdapter: ColumnAdapter<List<Int>, String> {
     override fun decode(databaseValue: String): List<Int> {
         if (databaseValue == "") {
             return emptyList()

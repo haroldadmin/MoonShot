@@ -60,7 +60,7 @@ object Libs {
 
         object SQLDelight {
             const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
-            const val androidDriver = "com.squareup.sqldelight:android-driver${Versions.sqlDelight}"
+            const val androidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
             const val jvmDriver = "com.squareup.sqldelight:sqlite-driver:${Versions.sqlDelight}"
         }
     }

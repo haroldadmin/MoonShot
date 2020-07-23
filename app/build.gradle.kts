@@ -80,6 +80,8 @@ dependencies {
     implementation(project(":base"))
     implementation(project(":navigation"))
     implementation(project(":moonshot-repository"))
+    implementation(project(":db:spacex"))
+    implementation(project(":services:spacex"))
 
     implementation(Libs.Kotlin.stdLib)
 
@@ -104,6 +106,13 @@ dependencies {
 
     implementation(Libs.jodaTime)
     coreLibraryDesugaring(Libs.coreDesugaring)
+
+    implementation(Libs.Persistence.SQLDelight.androidDriver)
+    implementation(Libs.Network.Moshi.moshi)
+    implementation(Libs.Network.Moshi.adapters)
+    implementation(Libs.Network.Retrofit.moshiConverter)
+    implementation(Libs.Network.Retrofit.networkResponseAdapter4)
+    implementation(Libs.Network.Retrofit.scalarsConverter)
 
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)

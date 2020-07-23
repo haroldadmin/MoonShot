@@ -35,7 +35,9 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":models"))
     implementation(project(":moonshot-repository"))
-    implementation(project( ":navigation"))
+    implementation(project(":navigation"))
+    implementation(project(":db:spacex"))
+    implementation(project(":services:spacex"))
 
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
