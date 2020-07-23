@@ -56,16 +56,16 @@ android {
         isExperimental = true
     }
     dynamicFeatures = mutableSetOf(
-        ":about",
-        ":settings",
-        ":rockets",
-        ":launchDetails",
-        ":launches",
-        ":nextLaunch",
-        ":launchPad",
-        ":rocketDetails",
-        ":search",
-        ":missions"
+        ":features:about",
+        ":features:settings",
+        ":features:rockets",
+        ":features:launchDetails",
+        ":features:launches",
+        ":features:nextLaunch",
+        ":features:launchPad",
+        ":features:rocketDetails",
+        ":features:search",
+        ":features:missions"
     )
     googleServices {
         disableVersionCheck = true
