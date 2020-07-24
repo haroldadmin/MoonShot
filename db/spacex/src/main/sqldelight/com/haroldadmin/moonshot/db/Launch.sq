@@ -62,3 +62,26 @@ CREATE TABLE launchCore (
         REFERENCES launch(id)
         ON DELETE CASCADE
 );
+
+allAscending:
+SELECT *
+FROM launch
+ORDER BY flightNumber ASC
+LIMIT :limit
+OFFSET :offset;
+
+allDescending:
+SELECT *
+FROM launch
+ORDER BY flightNumber DESC
+LIMIT :limit
+OFFSET :offset;
+
+one:
+SELECT *
+FROM launch
+WHERE id = :id;
+
+save:
+INSERT OR REPLACE INTO launch
+VALUES :launch;

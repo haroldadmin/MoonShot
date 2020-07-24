@@ -59,6 +59,9 @@ dependencies {
     implementation(Libs.AndroidX.navigation)
     implementation(Libs.AndroidX.navigationUi)
 
+    implementation(Libs.Persistence.SQLDelight.coroutinesExt)
+    implementation(Libs.Network.Retrofit.networkResponseAdapter4)
+
     implementation(Libs.Ui.epoxy)
     kapt(Libs.Ui.epoxyProcessor)
 
