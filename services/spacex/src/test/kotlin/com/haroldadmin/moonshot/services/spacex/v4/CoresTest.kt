@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeTypeOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class CoresTest: AnnotationSpec() {
 
     @Test
     fun testCoreModel() {
-        val coreJson = useJSON("/sampleData/v4/one_core.json")
-        val coreAdapter = useJSONAdapter<Core>()
+        val coreJson =
+            useJSON("/sampleData/v4/one_core.json")
+        val coreAdapter =
+            useJSONAdapter<Core>()
 
         val core = coreAdapter.fromJson(coreJson)
 
@@ -27,7 +32,7 @@ internal class CoresTest: AnnotationSpec() {
     @Test
     fun testAllCoresResponse() {
         val (service, cleanup) = useMockService<CoreService> {
-            setBody(useJSON("/sampleData/v4/all_cores.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_cores.json"))
         }
 
         val response = runBlocking { service.all() }
@@ -42,7 +47,7 @@ internal class CoresTest: AnnotationSpec() {
     @Test
     fun testOneCoreResponse() {
         val (service, cleanup) = useMockService<CoreService> {
-            setBody(useJSON("/sampleData/v4/one_core.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_core.json"))
         }
 
         val id = "5e9e28a6f35918c0803b265c"

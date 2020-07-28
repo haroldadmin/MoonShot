@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
@@ -12,8 +15,10 @@ internal class PayloadTest: AnnotationSpec() {
 
     @Test
     fun testPayloadModel() {
-        val payloadJson = useJSON("/sampleData/v4/one_payload.json")
-        val payloadAdapter = useJSONAdapter<Payload>()
+        val payloadJson =
+            useJSON("/sampleData/v4/one_payload.json")
+        val payloadAdapter =
+            useJSONAdapter<Payload>()
         val payload = payloadAdapter.fromJson(payloadJson)
 
         with(payload) {
@@ -29,7 +34,7 @@ internal class PayloadTest: AnnotationSpec() {
     @Test
     fun testOnePayloadResponse() {
         val (service, cleanup) = useMockService<PayloadService> {
-            setBody(useJSON("/sampleData/v4/one_payload.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_payload.json"))
         }
 
         val id = "5eb0e4c6b6c3bb0006eeb21e"

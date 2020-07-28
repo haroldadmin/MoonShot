@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class LandingPadTest: AnnotationSpec() {
 
     @Test
     fun testLandingPadModel() {
-        val landingPadJson = useJSON("/sampleData/v4/one_landingpad.json")
-        val landingPadAdapter = useJSONAdapter<LandingPad>()
+        val landingPadJson =
+            useJSON("/sampleData/v4/one_landingpad.json")
+        val landingPadAdapter =
+            useJSONAdapter<LandingPad>()
 
         val landingPad = landingPadAdapter.fromJson(landingPadJson)
 
@@ -28,7 +33,7 @@ internal class LandingPadTest: AnnotationSpec() {
     @Test
     fun testOneLandingPadResponse() {
         val (service, cleanup) = useMockService<LandingPadService> {
-            setBody(useJSON("/sampleData/v4/one_landingpad.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_landingpad.json"))
         }
 
         val id = "5e9e3032383ecb90a834e7c8"
@@ -44,7 +49,7 @@ internal class LandingPadTest: AnnotationSpec() {
     @Test
     fun testAllLandingPadsResponse() {
         val (service, cleanup) = useMockService<LandingPadService> {
-            setBody(useJSON("/sampleData/v4/all_landingpads.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_landingpads.json"))
         }
 
         val response = runBlocking { service.all() }

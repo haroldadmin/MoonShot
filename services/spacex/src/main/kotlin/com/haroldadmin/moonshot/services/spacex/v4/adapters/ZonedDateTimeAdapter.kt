@@ -5,7 +5,7 @@ import com.squareup.moshi.ToJson
 import java.time.ZonedDateTime
 import java.time.format.DateTimeParseException
 
-internal class ZonedDateTimeAdapter {
+class ZonedDateTimeAdapter {
 
     @Suppress("NewApi")
     @FromJson

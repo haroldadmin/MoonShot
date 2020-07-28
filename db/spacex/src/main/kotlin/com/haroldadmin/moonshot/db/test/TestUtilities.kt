@@ -1,10 +1,11 @@
-package com.haroldadmin.moonshot.db
+package com.haroldadmin.moonshot.db.test
 
+import com.haroldadmin.moonshot.db.*
 import com.haroldadmin.moonshot.db.spacex.SpacexDatabase
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 
-internal fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
+fun useDatabase(): Pair<SpacexDatabase, () -> Unit> {
     val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
 
     SpacexDatabase.Schema.create(driver)

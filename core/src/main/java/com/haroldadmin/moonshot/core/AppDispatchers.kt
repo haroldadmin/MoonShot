@@ -6,13 +6,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-data class AppDispatchers(
+open class AppDispatchers(
     val main: CoroutineDispatcher,
     val io: CoroutineDispatcher,
     val cpu: CoroutineDispatcher,
     val unconfined: CoroutineDispatcher
 ) {
-
     @Inject
     constructor(): this(
         main = Dispatchers.Main,
@@ -20,5 +19,11 @@ data class AppDispatchers(
         cpu = Dispatchers.Default,
         unconfined = Dispatchers.Unconfined
     )
-
 }
+
+class TestDispatchers: AppDispatchers(
+    main = Dispatchers.Unconfined,
+    io = Dispatchers.Unconfined,
+    cpu = Dispatchers.Default,
+    unconfined = Dispatchers.Unconfined
+)

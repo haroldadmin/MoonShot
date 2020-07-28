@@ -25,15 +25,16 @@ dependencies {
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
 
+    api(Libs.Network.Retrofit.networkResponseAdapter4)
+    api(Libs.Network.OkHttp.mockWebServer)
+    api(Libs.Network.OkHttp.okHttp)
+    api(Libs.Network.Moshi.moshi)
+
     implementation(Libs.Network.Retrofit.retrofit)
-    implementation(Libs.Network.Retrofit.networkResponseAdapter4)
     implementation(Libs.Network.Retrofit.scalarsConverter)
-    implementation(Libs.Network.OkHttp.okHttp)
-    implementation(Libs.Network.Moshi.moshi)
     implementation(Libs.Network.Retrofit.moshiConverter)
     kapt(Libs.Network.Moshi.codegen)
 
-    testImplementation(Libs.Network.OkHttp.mockWebServer)
     testImplementation(Libs.Test.kotlinTest)
 }
 

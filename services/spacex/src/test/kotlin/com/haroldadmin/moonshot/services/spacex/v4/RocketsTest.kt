@@ -1,7 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import com.squareup.moshi.Moshi
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -13,8 +15,10 @@ internal class RocketsTest: AnnotationSpec() {
 
     @Test
     fun testRocketModel() {
-        val rocketJson = useJSON("/sampleData/v4/one_rocket.json")
-        val rocketAdapter = useJSONAdapter<Rocket>()
+        val rocketJson =
+            useJSON("/sampleData/v4/one_rocket.json")
+        val rocketAdapter =
+            useJSONAdapter<Rocket>()
 
         val rocket = rocketAdapter.fromJson(rocketJson)
 
@@ -50,7 +54,7 @@ internal class RocketsTest: AnnotationSpec() {
     @Test
     fun testOneRocketResponse() {
         val (service, cleanup) = useMockService<RocketsService> {
-            setBody(useJSON("/sampleData/v4/one_rocket.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_rocket.json"))
         }
 
         val id = "5e9d0d95eda69974db09d1ed"

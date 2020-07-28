@@ -32,8 +32,8 @@ dependencies {
 
     implementation(Libs.Kotlin.stdLib)
     implementation(Libs.Kotlin.coroutines)
+    implementation(Libs.Persistence.SQLDelight.jvmDriver)
 
-    testImplementation(Libs.Persistence.SQLDelight.jvmDriver)
     testImplementation(Libs.Test.kotlinTest)
 }
 

@@ -85,3 +85,10 @@ WHERE id = :id;
 save:
 INSERT OR REPLACE INTO launch
 VALUES :launch;
+
+next:
+SELECT *
+FROM launch
+WHERE upcoming = 1
+ORDER BY flightNumber ASC
+LIMIT 1;

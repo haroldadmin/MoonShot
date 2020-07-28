@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class LaunchPadTest: AnnotationSpec() {
 
     @Test
     fun testLaunchPadModel() {
-        val launchPadJson = useJSON("/sampleData/v4/one_launchpad.json")
-        val launchPadAdapter = useJSONAdapter<LaunchPad>()
+        val launchPadJson =
+            useJSON("/sampleData/v4/one_launchpad.json")
+        val launchPadAdapter =
+            useJSONAdapter<LaunchPad>()
 
         val launchPad = launchPadAdapter.fromJson(launchPadJson)
 
@@ -27,7 +32,7 @@ internal class LaunchPadTest: AnnotationSpec() {
     @Test
     fun testOneLaunchPadResponse() {
         val (service, cleanup) = useMockService<LaunchPadsService> {
-            setBody(useJSON("/sampleData/v4/one_launchpad.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_launchpad.json"))
         }
 
         val id = "5e9e4502f509092b78566f87"
@@ -43,7 +48,7 @@ internal class LaunchPadTest: AnnotationSpec() {
     @Test
     fun testAllLaunchPadsResponse() {
         val (service, cleanup) = useMockService<LaunchPadsService> {
-            setBody(useJSON("/sampleData/v4/all_launchpads.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_launchpads.json"))
         }
 
         val response = runBlocking { service.all() }

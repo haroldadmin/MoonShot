@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class CapsulesTest: AnnotationSpec() {
 
     @Test
     fun testCapsuleModel() {
-        val capsuleAdapter = useJSONAdapter<Capsule>()
-        val capsuleJSON = useJSON("/sampleData/v4/one_capsule.json")
+        val capsuleAdapter =
+            useJSONAdapter<Capsule>()
+        val capsuleJSON =
+            useJSON("/sampleData/v4/one_capsule.json")
 
         val capsule = capsuleAdapter.fromJson(capsuleJSON)
         with(capsule) {
@@ -31,7 +36,7 @@ internal class CapsulesTest: AnnotationSpec() {
     @Test
     fun testOneCapsuleResponse() {
         val (service, cleanup) = useMockService<CapsuleService> {
-            setBody(useJSON("/sampleData/v4/one_capsule.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_capsule.json"))
         }
 
         val id = "5e9e2c5bf35918ed873b2664"
@@ -48,7 +53,7 @@ internal class CapsulesTest: AnnotationSpec() {
     @Test
     fun testAllCapsulesResponse() {
         val (service, cleanup) = useMockService<CapsuleService> {
-            setBody(useJSON("/sampleData/v4/all_capsules.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_capsules.json"))
         }
 
         val response = runBlocking { service.all() }

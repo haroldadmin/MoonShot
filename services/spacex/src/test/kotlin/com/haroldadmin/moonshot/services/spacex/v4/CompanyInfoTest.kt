@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
 import io.kotlintest.shouldBe
@@ -11,8 +14,10 @@ internal class CompanyInfoTest: AnnotationSpec() {
 
     @Test
     fun testCompanyInfoModel() {
-        val companyInfoAdapter = useJSONAdapter<CompanyInfo>()
-        val companyInfoJson = useJSON("/sampleData/v4/company_info.json")
+        val companyInfoAdapter =
+            useJSONAdapter<CompanyInfo>()
+        val companyInfoJson =
+            useJSON("/sampleData/v4/company_info.json")
         val companyInfo = companyInfoAdapter.fromJson(companyInfoJson)
 
         with(companyInfo) {
@@ -28,7 +33,7 @@ internal class CompanyInfoTest: AnnotationSpec() {
     fun testCompanyInfoResponse() {
 
         val (service, cleanup) = useMockService<CompanyInfoService> {
-            setBody(useJSON("/sampleData/v4/company_info.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/company_info.json"))
         }
 
         val response = runBlocking { service.info() }

@@ -1,5 +1,6 @@
 package com.haroldadmin.moonshot.db
 
+import com.haroldadmin.moonshot.db.test.useDatabase
 import com.haroldadmin.moonshot.services.spacex.v4.test.APISampleData
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldNotBeSameInstanceAs

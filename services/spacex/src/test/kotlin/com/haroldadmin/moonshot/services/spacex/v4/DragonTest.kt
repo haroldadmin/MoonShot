@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class DragonTest: AnnotationSpec() {
 
     @Test
     fun testDragonModel() {
-        val dragonJson = useJSON("/sampleData/v4/one_dragon.json")
-        val dragonAdapter = useJSONAdapter<Dragon>()
+        val dragonJson =
+            useJSON("/sampleData/v4/one_dragon.json")
+        val dragonAdapter =
+            useJSONAdapter<Dragon>()
         val dragon = dragonAdapter.fromJson(dragonJson)
 
         with(dragon) {
@@ -46,7 +51,7 @@ internal class DragonTest: AnnotationSpec() {
     @Test
     fun testAllDragonsResponse() {
         val (service, cleanup) = useMockService<DragonsService> {
-            setBody(useJSON("/sampleData/v4/all_dragons.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_dragons.json"))
         }
 
         val response = runBlocking { service.all() }
@@ -61,7 +66,7 @@ internal class DragonTest: AnnotationSpec() {
     @Test
     fun testOneDragonResponse() {
         val (service, cleanup) = useMockService<DragonsService> {
-            setBody(useJSON("/sampleData/v4/one_dragon.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_dragon.json"))
         }
 
         val id = "5e9d058759b1ff74a7ad5f8f"

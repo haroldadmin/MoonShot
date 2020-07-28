@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldNotBeNull
@@ -12,8 +15,10 @@ internal class CrewTest: AnnotationSpec() {
 
     @Test
     fun testCrewModel() {
-        val crewJson = useJSON("/sampleData/v4/one_crew.json")
-        val crewAdapter = useJSONAdapter<Crew>()
+        val crewJson =
+            useJSON("/sampleData/v4/one_crew.json")
+        val crewAdapter =
+            useJSONAdapter<Crew>()
         val crew = crewAdapter.fromJson(crewJson)
 
         with(crew) {
@@ -26,7 +31,7 @@ internal class CrewTest: AnnotationSpec() {
     @Test
     fun testAllCrewResponse() {
         val (service, cleanup) = useMockService<CrewService> {
-            setBody(useJSON("/sampleData/v4/all_crew.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_crew.json"))
         }
 
         val response = runBlocking { service.all() }
@@ -41,7 +46,7 @@ internal class CrewTest: AnnotationSpec() {
     @Test
     fun testOneCrewResponse() {
         val (service, cleanup) = useMockService<CrewService> {
-            setBody(useJSON("/sampleData/v4/one_crew.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/one_crew.json"))
         }
 
         val id = "5ebf1b7323a9a60006e03a7b"

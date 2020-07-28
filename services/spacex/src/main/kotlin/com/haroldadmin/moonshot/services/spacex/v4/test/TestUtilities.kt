@@ -1,4 +1,4 @@
-package com.haroldadmin.moonshot.services.spacex.v4
+package com.haroldadmin.moonshot.services.spacex.v4.test
 
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import com.haroldadmin.moonshot.services.spacex.v4.adapters.LocalDateAdapter
@@ -11,8 +11,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-internal inline fun <reified T> useMockService(responseBuilder: MockResponse.() -> Unit): Pair<T, () -> Unit> {
-    val mockServer = MockWebServer()
+inline fun <reified T> useMockService(
+    server: MockWebServer? = null,
+    noinline responseBuilder: (MockResponse.() -> Unit)? = null
+): Pair<T, () -> Unit> {
+    val mockServer = server ?: MockWebServer()
     val moshi = Moshi.Builder()
         .add(LocalDateAdapter())
         .add(ZonedDateTimeAdapter())
@@ -26,13 +29,15 @@ internal inline fun <reified T> useMockService(responseBuilder: MockResponse.() 
 
     val service = retrofit.create(T::class.java)
 
-    val response = MockResponse().apply(responseBuilder)
-    mockServer.enqueue(response)
+    responseBuilder?.let {
+        val response = MockResponse().apply(it)
+        mockServer.enqueue(response)
+    }
 
     return service to { mockServer.shutdown() }
 }
 
-internal inline fun <reified T> useJSONAdapter(): JsonAdapter<T> {
+inline fun <reified T> useJSONAdapter(): JsonAdapter<T> {
     val moshi = Moshi.Builder()
         .add(LocalDateAdapter())
         .add(ZonedDateTimeAdapter())
@@ -41,6 +46,6 @@ internal inline fun <reified T> useJSONAdapter(): JsonAdapter<T> {
     return moshi.adapter(T::class.java)
 }
 
-internal fun useJSON(path: String): String {
+fun useJSON(path: String): String {
     return Any::class.java.getResource(path).readText()
 }

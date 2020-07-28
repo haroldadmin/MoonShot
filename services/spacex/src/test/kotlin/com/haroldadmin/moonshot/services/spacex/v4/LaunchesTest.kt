@@ -1,6 +1,9 @@
 package com.haroldadmin.moonshot.services.spacex.v4
 
 import com.haroldadmin.cnradapter.NetworkResponse
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSON
+import com.haroldadmin.moonshot.services.spacex.v4.test.useJSONAdapter
+import com.haroldadmin.moonshot.services.spacex.v4.test.useMockService
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.matchers.types.shouldBeNull
@@ -13,8 +16,10 @@ internal class LaunchesTest: AnnotationSpec() {
 
     @Test
     fun testLaunchModel() {
-        val launchJson = useJSON("/sampleData/v4/one_launch.json")
-        val jsonAdapter = useJSONAdapter<Launch>()
+        val launchJson =
+            useJSON("/sampleData/v4/one_launch.json")
+        val jsonAdapter =
+            useJSONAdapter<Launch>()
         val launch = jsonAdapter.fromJson(launchJson)
 
         with(launch) {
@@ -43,7 +48,7 @@ internal class LaunchesTest: AnnotationSpec() {
     @Test
     fun testAllLaunchesResponse() {
         val (service, cleanup) = useMockService<LaunchesService> {
-            setBody(useJSON("/sampleData/v4/all_launches.json"))
+            setBody(com.haroldadmin.moonshot.services.spacex.v4.test.useJSON("/sampleData/v4/all_launches.json"))
         }
 
         val response = runBlocking { service.all() }
