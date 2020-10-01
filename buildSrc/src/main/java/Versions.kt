@@ -22,7 +22,7 @@ object Versions {
     const val openGraphKt = "master-SNAPSHOT"
     const val whatTheStack = "0.0.4"
 
-    const val epoxy = "3.9.0"
+    const val epoxy = "4.0.0"
 
     const val coil = "0.9.2"
 
